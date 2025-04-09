@@ -1,103 +1,179 @@
-import Image from "next/image";
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { getAnimeById } from '@/lib/api';
+// import { AddToListButton } from '@/components/add-to-list-button';
+import { Star, Calendar, Clock, Film } from 'lucide-react';
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+export async function generateMetadata({ params }: { params: { id: number } }) {
+    const anime = await getAnimeById(params.id);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    if (!anime) {
+        return {
+            title: 'Anime Not Found',
+        };
+    }
+
+    return {
+        title: `${anime.title} | AniTrack`,
+        description: anime.synopsis,
+    };
+}
+
+export default async function AnimePage({
+    params,
+}: {
+    params: { id: number };
+}) {
+    const anime = await getAnimeById(params.id);
+
+    if (!anime) {
+        notFound();
+    }
+
+    return (
+        <div className='container mx-auto px-4 py-8'>
+            <div className='mb-8 grid gap-8 md:grid-cols-[300px_1fr]'>
+                <div className='space-y-4'>
+                    <div className='overflow-hidden rounded-lg'>
+                        <Image
+                            src={
+                                anime.images.jpg.large_image_url ||
+                                anime.images.jpg.image_url
+                            }
+                            alt={anime.title}
+                            width={300}
+                            height={450}
+                            className='h-auto w-full object-cover'
+                        />
+                    </div>
+                    {/* <AddToListButton animeId={anime.mal_id} /> */}
+                </div>
+
+                <div className='space-y-6'>
+                    <div>
+                        <h1 className='text-3xl font-bold'>{anime.title}</h1>
+                        {!!anime.score && (
+                            <div className='mt-2 flex items-center'>
+                                <Star className='mr-1 h-5 w-5 fill-yellow-500 text-yellow-500' />
+                                <span className='font-medium'>
+                                    {anime.score.toFixed(1)}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className='space-y-2'>
+                        <div className='flex flex-wrap gap-2'>
+                            <div className='text-foreground'>{anime.type}</div>
+                            {anime.rating && (
+                                <div className='text-foreground'>
+                                    {anime.rating}
+                                </div>
+                            )}
+                            {anime.status && (
+                                <div className='text-foreground'>
+                                    {anime.status}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className='flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground'>
+                            {anime.aired?.from && (
+                                <div className='flex items-center'>
+                                    <Calendar className='mr-1 h-4 w-4' />
+                                    <span>
+                                        {new Date(
+                                            anime.aired.from
+                                        ).getFullYear()}
+                                        {anime.aired.to &&
+                                            ` - ${new Date(
+                                                anime.aired.to
+                                            ).getFullYear()}`}
+                                    </span>
+                                </div>
+                            )}
+
+                            {!!anime.episodes && (
+                                <div className='flex items-center'>
+                                    <Film className='mr-1 h-4 w-4' />
+                                    <span>{anime.episodes} episodes</span>
+                                </div>
+                            )}
+
+                            {anime.duration && (
+                                <div className='flex items-center'>
+                                    <Clock className='mr-1 h-4 w-4' />
+                                    <span>{anime.duration}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {anime.synopsis && (
+                        <div>
+                            <h2 className='mb-2 text-xl font-semibold'>
+                                Synopsis
+                            </h2>
+                            <p className='text-muted-foreground'>
+                                {anime.synopsis}
+                            </p>
+                        </div>
+                    )}
+
+                    {anime.genres && anime.genres.length > 0 && (
+                        <div>
+                            <h2 className='mb-2 text-xl font-semibold'>
+                                Genres
+                            </h2>
+                            <div className='flex flex-wrap gap-2'>
+                                {anime.genres.map((genre) => (
+                                    <div
+                                        key={genre.mal_id}
+                                        className='border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                                    >
+                                        {genre.name}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {anime.studios && anime.studios.length > 0 && (
+                        <div>
+                            <h2 className='mb-2 text-xl font-semibold'>
+                                Studios
+                            </h2>
+                            <div className='flex flex-wrap gap-2'>
+                                {anime.studios.map((studio) => (
+                                    <div
+                                        key={studio.mal_id}
+                                        className='text-foreground'
+                                    >
+                                        {studio.name}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    {anime.streaming && anime.streaming.length > 0 && (
+                        <div>
+                            <h2 className='mb-2 text-xl font-semibold'>
+                                Streaming
+                            </h2>
+                            <div className='flex flex-wrap gap-2'>
+                                {anime.streaming.map((streaming) => (
+                                    <div
+                                        key={streaming.name}
+                                        className='text-foreground'
+                                    >
+                                        {streaming.name}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
