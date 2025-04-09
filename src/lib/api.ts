@@ -45,7 +45,7 @@ export async function getSeasonalAnime(limit = 6) {
 }
 
 // Get anime by ID
-export async function getAnimeById(id: number): Promise<Anime> {
+export async function getAnimeById(id: number) {
     const data = await fetchWithRateLimit(`${API_BASE_URL}/anime/${id}/full`);
     return data.data;
 }

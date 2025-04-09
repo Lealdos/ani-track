@@ -4,6 +4,11 @@ import { getAnimeById } from '@/lib/api';
 // import { AddToListButton } from '@/components/add-to-list-button';
 import { Star, Calendar, Clock, Film } from 'lucide-react';
 
+interface Gnre {
+    mal_id: number;
+    name: string;
+}
+
 export async function generateMetadata({ params }: { params: { id: number } }) {
     const anime = await getAnimeById(params.id);
 
@@ -126,7 +131,7 @@ export default async function AnimePage({
                                 Genres
                             </h2>
                             <div className='flex flex-wrap gap-2'>
-                                {anime.genres.map((genre) => (
+                                {anime.genres.map((genre: Gnre) => (
                                     <div
                                         key={genre.mal_id}
                                         className='border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80'
@@ -144,7 +149,7 @@ export default async function AnimePage({
                                 Studios
                             </h2>
                             <div className='flex flex-wrap gap-2'>
-                                {anime.studios.map((studio) => (
+                                {anime.studios.map((studio: Gnre) => (
                                     <div
                                         key={studio.mal_id}
                                         className='text-foreground'
@@ -161,14 +166,16 @@ export default async function AnimePage({
                                 Streaming
                             </h2>
                             <div className='flex flex-wrap gap-2'>
-                                {anime.streaming.map((streaming) => (
-                                    <div
-                                        key={streaming.name}
-                                        className='text-foreground'
-                                    >
-                                        {streaming.name}
-                                    </div>
-                                ))}
+                                {anime.streaming.map(
+                                    (streaming: { name: string }) => (
+                                        <div
+                                            key={streaming.name}
+                                            className='text-foreground'
+                                        >
+                                            {streaming.name}
+                                        </div>
+                                    )
+                                )}
                             </div>
                         </div>
                     )}
