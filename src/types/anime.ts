@@ -1,11 +1,11 @@
 export type Anime = {
     mal_id: number;
     title: string;
-    type: string;
-    episodes: number;
-    status: string;
-    score: number;
-    images: {
+    type?: string;
+    episodes?: number;
+    status?: string;
+    score?: number;
+    images?: {
         jpg: {
             image_url: string;
             large_image_url: string;
