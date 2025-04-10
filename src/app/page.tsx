@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { CurrentSeason } from '@/components/current-season';
 import { TopAnime } from '@/components/top-anime';
-import { AnimeByGenre } from '@/components/anime-by-genre';
+import { AnimeByGenre } from '@/components/GenreAnime';
 import { SearchBar } from '@/components/search-bar';
 import { Skeleton } from '@/components/ui/skeleton';
 
