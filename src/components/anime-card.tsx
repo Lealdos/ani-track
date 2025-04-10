@@ -10,8 +10,11 @@ interface AnimeCardProps {
 
 export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
     return (
-        <Card className='overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-md'>
-            <Link href={`/anime/${anime.mal_id}`} className='block'>
+        <Card className='overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-full '>
+            <Link
+                href={`/anime/${anime.mal_id}`}
+                className='flex flex-col justify-center items-center'
+            >
                 <div className='relative aspect-[2/3] w-full overflow-hidden'>
                     <img
                         src={
@@ -21,10 +24,9 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                         }
                         alt={anime.title}
                         className='object-cover'
-                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                     />
                     {showBadge && anime.score && (
-                        <div className='absolute right-2 top-2 bg-primary/90 text-primary-foreground'>
+                        <div className='absolute right-2 top-2 bg-yellow-400/90 p-1 rounded-md text-primary-foreground'>
                             ★ {anime.score.toFixed(1)}
                         </div>
                     )}
