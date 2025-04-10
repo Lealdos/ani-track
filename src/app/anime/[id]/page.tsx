@@ -43,7 +43,7 @@ export default async function AnimePage({
     }
 
     return (
-        <div className='container mx-auto px-4 py-8'>
+        <main className='container mx-auto px-4 py-8 text-white'>
             <div className='mb-8 grid gap-8 md:grid-cols-[300px_1fr]'>
                 <div className='space-y-4'>
                     <div className='overflow-hidden rounded-lg'>
@@ -189,6 +189,6 @@ export default async function AnimePage({
                     )}
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
