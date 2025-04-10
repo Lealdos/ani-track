@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 // import { Button } from "@/components/ui/button"
-// import { SearchBar } from "@/components/search-bar"
+import { SearchBar } from '@/components/search-bar';
 import { Menu, X, User, LogOut } from 'lucide-react';
 // import {
 //   DropdownMenu,
@@ -55,7 +55,7 @@ export default function Header() {
                 </div>
 
                 <div className='hidden flex-1 md:flex md:justify-center'>
-                    {/* <SearchBar /> */}{' '}
+                    {/* <SearchBar /> */}
                     <input type='text' placeholder='Search...' />
                 </div>
 
