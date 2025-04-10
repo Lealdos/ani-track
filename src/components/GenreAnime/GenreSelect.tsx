@@ -2,9 +2,9 @@
 
 import { getAnimeByGenre } from '@/lib/api';
 import { AnimeList } from '@/components/anime-list';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Anime } from '@/types/anime';
-
+import { AnimeListSkeleton } from '@/components/ui/AnimeSkeleton/AnimeSkeleton';
 export function GenreSelect({ genreId }: { genreId: number }) {
     const [animes, setAnimes] = useState<Anime[]>([]);
 
@@ -16,5 +16,9 @@ export function GenreSelect({ genreId }: { genreId: number }) {
         fetchAnimes();
     }, [genreId]);
 
-    return <AnimeList animes={animes} />;
+    return animes.length === 0 ? (
+        <AnimeListSkeleton />
+    ) : (
+        <AnimeList animes={animes} />
+    );
 }
