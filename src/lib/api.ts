@@ -70,12 +70,11 @@ export async function getTopAnime(): Promise<Anime[]> {
 export async function getAnimeByGenre(genreId: number): Promise<Anime[]> {
     try {
         const AnimeByGenre = await fetchWithRetry(
-            `${API_BASE_URL}/anime?genres=${genreId}&limit=15`
+            `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
         );
-        console.log(AnimeByGenre.data);
         return await AnimeByGenre.data;
     } catch (error) {
-        //console.error(`Error fetching anime for genre ${genreId}:`, error);
+        console.error(`Error fetching anime for genre ${genreId}:`, error);
         return [];
     }
 }
