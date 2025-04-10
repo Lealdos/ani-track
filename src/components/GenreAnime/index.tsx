@@ -18,7 +18,7 @@ export async function AnimeByGenre() {
 
     return (
         <Tabs defaultValue={genres[0].id.toString()} className='space-y-4'>
-            <TabsList className='flex h-auto flex-wrap justify-start gap-2'>
+            <TabsList className='flex h-auto justify-between sm:overflow-x-scroll md:overflow-x-hidden md:justify-around gap-2 p-1 md:p-2'>
                 {genres.map((genre) => (
                     <TabsTrigger
                         key={genre.id}
