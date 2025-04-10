@@ -7,9 +7,16 @@ interface Gnre {
     mal_id: number;
     name: string;
 }
-
-export async function generateMetadata({ params }: { params: { id: number } }) {
-    const anime = await getAnimeById(params.id);
+interface Params {
+    id: number;
+}
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<Params>;
+}) {
+    const { id } = await params;
+    const anime = await getAnimeById(id);
 
     if (!anime) {
         return {
@@ -26,9 +33,10 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
 export default async function AnimePage({
     params,
 }: {
-    params: { id: number };
+    params: Promise<Params>;
 }) {
-    const anime = await getAnimeById(params.id);
+    const { id } = await params;
+    const anime = await getAnimeById(id);
 
     if (!anime) {
         notFound();
