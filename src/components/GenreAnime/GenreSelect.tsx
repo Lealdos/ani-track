@@ -2,7 +2,7 @@
 
 import { getAnimeByGenre } from '@/lib/api';
 import { AnimeList } from '@/components/anime-list';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { Anime } from '@/types/anime';
 import { AnimeListSkeleton } from '@/components/ui/AnimeSkeleton/AnimeSkeleton';
 export function GenreSelect({ genreId }: { genreId: number }) {
