@@ -32,9 +32,9 @@ const fetchWithRetry = async (url: string, retries = 3, delay = 1000) => {
     }
 };
 
-export async function getAllAnimes() {
+export async function getAllAnimes(page: number = 1) {
     try {
-        const data = await fetchWithRetry(`${API_BASE_URL}/anime`);
+        const data = await fetchWithRetry(`${API_BASE_URL}/anime?page=${page}`);
         const animes = data;
         return animes;
     } catch (error) {
