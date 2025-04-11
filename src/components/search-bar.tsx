@@ -25,7 +25,7 @@ export function SearchBar() {
                 <input
                     type='search'
                     placeholder='Search anime...'
-                    className='w-full bg-background pl-8 pr-10'
+                    className='w-full bg-background h-auto p-3 pl-10 text-sm text-black rounded-lg'
                     value={query}
                     onChange={(e: {
                         target: { value: React.SetStateAction<string> };

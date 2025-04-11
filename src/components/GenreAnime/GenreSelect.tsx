@@ -19,6 +19,6 @@ export function GenreSelect({ genreId }: { genreId: number }) {
     return animes.length === 0 ? (
         <AnimeListSkeleton />
     ) : (
-        <AnimeList animes={animes} />
+        <AnimeList animes={animes} showBadge />
     );
 }

@@ -3,7 +3,7 @@ import { getAnimeById } from '@/lib/api';
 // import { AddToListButton } from '@/components/add-to-list-button';
 import { Star, Calendar, Clock, Film } from 'lucide-react';
 
-interface Gnre {
+interface Genre {
     mal_id: number;
     name: string;
 }
@@ -43,7 +43,7 @@ export default async function AnimePage({
     }
 
     return (
-        <main className='container mx-auto px-4 py-8 text-white'>
+        <main className='container mx-auto px-4 py-8 text-white min-h-screen w-full'>
             <div className='mb-8 grid gap-8 md:grid-cols-[300px_1fr]'>
                 <div className='space-y-4'>
                     <div className='overflow-hidden rounded-lg'>
@@ -139,7 +139,7 @@ export default async function AnimePage({
                                 Genres
                             </h2>
                             <div className='flex flex-wrap gap-2'>
-                                {anime.genres.map((genre: Gnre) => (
+                                {anime.genres.map((genre: Genre) => (
                                     <div
                                         key={genre.mal_id}
                                         className='border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80'
@@ -157,7 +157,7 @@ export default async function AnimePage({
                                 Studios
                             </h2>
                             <div className='flex flex-wrap gap-2'>
-                                {anime.studios.map((studio: Gnre) => (
+                                {anime.studios.map((studio: Genre) => (
                                     <div
                                         key={studio.mal_id}
                                         className='text-foreground'

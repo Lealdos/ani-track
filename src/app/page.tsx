@@ -7,7 +7,7 @@ import { AnimeListSkeleton } from '@/components/ui/AnimeSkeleton/AnimeSkeleton';
 
 export default function Home() {
     return (
-        <div className='container mx-auto px-4 py-8'>
+        <div className=' mx-auto px-4 py-8 text-white min-h-screen w-full'>
             <div className='mb-8 md:hidden'>
                 <SearchBar />
             </div>
