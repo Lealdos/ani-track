@@ -10,12 +10,9 @@ interface AnimeCardProps {
 
 export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
     return (
-        <Card className='overflow-hidden transition-all duration-400 hover:scale-105 hover:shadow-xl'>
-            <Link
-                href={`/anime/${anime.mal_id}`}
-                className='flex flex-col justify-center items-center'
-            >
-                <div className='relative aspect-[2/3] w-full overflow-hidden'>
+        <Card className='overflow-hidden transition-all duration-400 hover:scale-105 hover:shadow-xl flex flex-col justify-between items-center'>
+            <Link href={`/anime/${anime.mal_id}`}>
+                <div className='relative '>
                     <img
                         src={
                             anime.images?.jpg.large_image_url ||
@@ -23,7 +20,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                             '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className='object-contain rounded'
+                        className='object-cover rounded'
                     />
                     {showBadge && anime.score && (
                         <div className='absolute right-2 top-2 bg-yellow-400/90 p-1 rounded-md text-primary-foreground'>
@@ -42,7 +39,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                     </p>
                 </CardContent>
             </Link>
-            <div className='px-3 pb-3'>
+            <div className='pb-3'>
                 {/* <AddToListButton animeId={anime.mal_id} /> */}
                 <button className='bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium'>
                     Add to list
