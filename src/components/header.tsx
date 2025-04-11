@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 // import { Button } from "@/components/ui/button"
-import { SearchBar } from '@/components/search-bar';
-import { Menu, X, User, LogOut } from 'lucide-react';
+// import { SearchBar } from '@/components/search-bar';
+import { Menu, X } from 'lucide-react';
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
