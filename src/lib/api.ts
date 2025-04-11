@@ -7,7 +7,7 @@ const API_BASE_URL = 'https://api.jikan.moe/v4';
 // This simple delay helps prevent rate limit errors
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function removeDuplicates(array: any[]) {
+function removeDuplicates(array: Anime[]) {
     const uniqueSet = new Set();
 
     return array.filter((obj) => {
