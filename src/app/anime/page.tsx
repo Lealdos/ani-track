@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { getAllAnimes } from '@/lib/api';
 import { AnimeList } from '@/components/anime-list';
 
