@@ -1,4 +1,5 @@
-import { Anime, streaming } from '../types/anime';
+import { Anime, streaming } from '@/types/anime';
+import { removeDuplicates } from './utils';
 
 // Jikan API v4 base URL
 const API_BASE_URL = 'https://api.jikan.moe/v4';
@@ -6,19 +7,6 @@ const API_BASE_URL = 'https://api.jikan.moe/v4';
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
 // This simple delay helps prevent rate limit errors
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-function removeDuplicates(array: Anime[]) {
-    const uniqueSet = new Set();
-
-    return array.filter((obj) => {
-        const objString = JSON.stringify(obj);
-        if (!uniqueSet.has(objString)) {
-            uniqueSet.add(objString);
-            return true;
-        }
-        return false;
-    });
-}
 
 // Helper function to handle API rate limiting
 const fetchWithRetry = async (url: string, retries = 3, delay = 1000) => {
@@ -44,6 +32,16 @@ const fetchWithRetry = async (url: string, retries = 3, delay = 1000) => {
     }
 };
 
+export async function getAllAnimes() {
+    try {
+        const data = await fetchWithRetry(`${API_BASE_URL}/anime`);
+        const animes = data;
+        return animes;
+    } catch (error) {
+        console.error('Error fetching animes:', error);
+        return [];
+    }
+}
 export async function getSeasonalAnime(): Promise<Anime[]> {
     try {
         const data = await fetchWithRetry(`${API_BASE_URL}/seasons/now`);
