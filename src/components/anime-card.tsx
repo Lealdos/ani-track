@@ -10,7 +10,7 @@ interface AnimeCardProps {
 
 export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
     return (
-        <Card className='overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-full '>
+        <Card className='overflow-hidden transition-all duration-400 hover:scale-105 hover:shadow-xl'>
             <Link
                 href={`/anime/${anime.mal_id}`}
                 className='flex flex-col justify-center items-center'
@@ -23,7 +23,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                             '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className='object-cover'
+                        className='object-contain rounded'
                     />
                     {showBadge && anime.score && (
                         <div className='absolute right-2 top-2 bg-yellow-400/90 p-1 rounded-md text-primary-foreground'>
