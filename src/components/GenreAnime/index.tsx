@@ -18,12 +18,12 @@ export async function AnimeByGenre() {
 
     return (
         <Tabs defaultValue={genres[0].id.toString()} className="space-y-8">
-            <TabsList className="flex h-auto max-w-full justify-between gap-2 overflow-x-auto py-2 md:justify-around md:p-2">
+            <TabsList className="flex h-auto max-w-full justify-between gap-2 overflow-x-auto bg-gray-400 py-2 md:justify-around md:p-2">
                 {genres.map((genre) => (
                     <TabsTrigger
                         key={genre.id}
                         value={genre.id.toString()}
-                        className="rounded-full py-2"
+                        className="rounded-full py-2 text-black"
                     >
                         {genre.name}
                     </TabsTrigger>

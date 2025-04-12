@@ -21,6 +21,7 @@ export default function Home() {
                         <AnimeListSkeleton sectionName="current-season" />
                     }
                 >
+                    <AnimeListSkeleton />
                     <CurrentSeason />
                 </Suspense>
             </section>
