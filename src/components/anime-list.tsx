@@ -4,7 +4,7 @@ import type { Anime } from '@/types/anime'
 interface AnimeListProps {
     animes: Anime[]
     showBadge?: boolean
-    SectionName: string
+    SectionName?: string
 }
 
 export function AnimeList({
