@@ -1,52 +1,52 @@
-import { notFound } from 'next/navigation';
-import { getAnimeById } from '@/lib/api';
+import { notFound } from 'next/navigation'
+import { getAnimeById } from '@/lib/api'
 // import { AddToListButton } from '@/components/add-to-list-button';
-import { Star, Calendar, Clock, Film } from 'lucide-react';
+import { Star, Calendar, Clock, Film } from 'lucide-react'
 
 interface Genre {
-    mal_id: number;
-    name: string;
+    mal_id: number
+    name: string
 }
 interface Params {
-    id: number;
+    id: number
 }
 export async function generateMetadata({
     params,
 }: {
-    params: Promise<Params>;
+    params: Promise<Params>
 }) {
-    const { id } = await params;
-    const anime = await getAnimeById(id);
+    const { id } = await params
+    const anime = await getAnimeById(id)
 
     if (!anime) {
         return {
             title: 'Anime Not Found',
-        };
+        }
     }
 
     return {
         title: `${anime.title} | AniTrack`,
         description: anime.synopsis,
-    };
+    }
 }
 
 export default async function AnimePage({
     params,
 }: {
-    params: Promise<Params>;
+    params: Promise<Params>
 }) {
-    const { id } = await params;
-    const anime = await getAnimeById(id);
+    const { id } = await params
+    const anime = await getAnimeById(id)
 
     if (!anime) {
-        notFound();
+        notFound()
     }
 
     return (
-        <main className='container mx-auto px-4 py-8 text-white min-h-screen w-full'>
-            <div className='mb-8 grid gap-8 md:grid-cols-[300px_1fr]'>
-                <div className='space-y-4'>
-                    <div className='overflow-hidden rounded-lg'>
+        <main className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
+            <div className="mb-8 grid gap-8 md:grid-cols-[300px_1fr]">
+                <div className="space-y-4">
+                    <div className="overflow-hidden rounded-lg">
                         <img
                             src={
                                 anime.images?.jpg.large_image_url ||
@@ -56,44 +56,44 @@ export default async function AnimePage({
                             alt={anime.title}
                             width={300}
                             height={450}
-                            className='h-auto w-full object-cover'
+                            className="h-auto w-full object-cover"
                         />
                     </div>
                     {/* <AddToListButton animeId={anime.mal_id} /> */}
                 </div>
 
-                <div className='space-y-6'>
+                <div className="space-y-6">
                     <div>
-                        <h1 className='text-3xl font-bold'>{anime.title}</h1>
+                        <h1 className="text-3xl font-bold">{anime.title}</h1>
                         {!!anime.score && (
-                            <div className='mt-2 flex items-center'>
-                                <Star className='mr-1 h-5 w-5 fill-yellow-500 text-yellow-500' />
-                                <span className='font-medium'>
+                            <div className="mt-2 flex items-center">
+                                <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
+                                <span className="font-medium">
                                     {anime.score.toFixed(1)}
                                 </span>
                             </div>
                         )}
                     </div>
 
-                    <div className='space-y-2'>
-                        <div className='flex flex-wrap gap-2'>
-                            <div className='text-foreground'>{anime.type}</div>
+                    <div className="space-y-2">
+                        <div className="flex flex-wrap gap-2">
+                            <div className="text-foreground">{anime.type}</div>
                             {anime.rating && (
-                                <div className='text-foreground'>
+                                <div className="text-foreground">
                                     {anime.rating}
                                 </div>
                             )}
                             {anime.status && (
-                                <div className='text-foreground'>
+                                <div className="text-foreground">
                                     {anime.status}
                                 </div>
                             )}
                         </div>
 
-                        <div className='flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground'>
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
                             {anime.aired?.from && (
-                                <div className='flex items-center'>
-                                    <Calendar className='mr-1 h-4 w-4' />
+                                <div className="flex items-center">
+                                    <Calendar className="mr-1 h-4 w-4" />
                                     <span>
                                         {new Date(
                                             anime.aired.from
@@ -107,15 +107,15 @@ export default async function AnimePage({
                             )}
 
                             {!!anime.episodes && (
-                                <div className='flex items-center'>
-                                    <Film className='mr-1 h-4 w-4' />
+                                <div className="flex items-center">
+                                    <Film className="mr-1 h-4 w-4" />
                                     <span>{anime.episodes} episodes</span>
                                 </div>
                             )}
 
                             {anime.duration && (
-                                <div className='flex items-center'>
-                                    <Clock className='mr-1 h-4 w-4' />
+                                <div className="flex items-center">
+                                    <Clock className="mr-1 h-4 w-4" />
                                     <span>{anime.duration}</span>
                                 </div>
                             )}
@@ -124,10 +124,10 @@ export default async function AnimePage({
 
                     {anime.synopsis && (
                         <div>
-                            <h2 className='mb-2 text-xl font-semibold'>
+                            <h2 className="mb-2 text-xl font-semibold">
                                 Synopsis
                             </h2>
-                            <p className='text-muted-foreground'>
+                            <p className="text-muted-foreground">
                                 {anime.synopsis}
                             </p>
                         </div>
@@ -135,14 +135,14 @@ export default async function AnimePage({
 
                     {anime.genres && anime.genres.length > 0 && (
                         <div>
-                            <h2 className='mb-2 text-xl font-semibold'>
+                            <h2 className="mb-2 text-xl font-semibold">
                                 Genres
                             </h2>
-                            <div className='flex flex-wrap gap-2'>
+                            <div className="flex flex-wrap gap-2">
                                 {anime.genres.map((genre: Genre) => (
                                     <div
                                         key={genre.mal_id}
-                                        className='border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                                        className="border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80"
                                     >
                                         {genre.name}
                                     </div>
@@ -153,14 +153,14 @@ export default async function AnimePage({
 
                     {anime.studios && anime.studios.length > 0 && (
                         <div>
-                            <h2 className='mb-2 text-xl font-semibold'>
+                            <h2 className="mb-2 text-xl font-semibold">
                                 Studios
                             </h2>
-                            <div className='flex flex-wrap gap-2'>
+                            <div className="flex flex-wrap gap-2">
                                 {anime.studios.map((studio: Genre) => (
                                     <div
                                         key={studio.mal_id}
-                                        className='text-foreground'
+                                        className="text-foreground"
                                     >
                                         {studio.name}
                                     </div>
@@ -170,15 +170,15 @@ export default async function AnimePage({
                     )}
                     {anime.streaming && anime.streaming.length > 0 && (
                         <div>
-                            <h2 className='mb-2 text-xl font-semibold'>
+                            <h2 className="mb-2 text-xl font-semibold">
                                 Streaming
                             </h2>
-                            <div className='flex flex-wrap gap-2'>
+                            <div className="flex flex-wrap gap-2">
                                 {anime.streaming.map(
                                     (streaming: { name: string }) => (
                                         <div
                                             key={streaming.name}
-                                            className='text-foreground'
+                                            className="text-foreground"
                                         >
                                             {streaming.name}
                                         </div>
@@ -190,5 +190,5 @@ export default async function AnimePage({
                 </div>
             </div>
         </main>
-    );
+    )
 }
