@@ -3,7 +3,7 @@ import { CurrentSeason } from '@/components/current-season'
 import { TopAnime } from '@/components/top-anime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { SearchBar } from '@/components/search-bar'
-import { AnimeListSkeleton } from '@/components/ui/AnimeSkeleton/AnimeSkeleton'
+import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeleton'
 
 export default function Home() {
     return (
