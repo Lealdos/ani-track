@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Card, CardContent } from '@/components/ui/card'
 import type { Anime } from '@/types/anime'
 // import { AddToListButton } from '@/components/add-to-list-button';
 
