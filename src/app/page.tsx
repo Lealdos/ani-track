@@ -3,7 +3,7 @@ import { CurrentSeason } from '@/components/current-season'
 import { TopAnime } from '@/components/top-anime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { SearchBar } from '@/components/search-bar'
-import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeleton'
+import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 
 export default function Home() {
     return (
@@ -21,7 +21,8 @@ export default function Home() {
                         <AnimeListSkeleton sectionName="current-season" />
                     }
                 >
-                    <CurrentSeason />
+                    {/* <CurrentSeason /> */}
+                    <AnimeListSkeleton sectionName="current-season" />
                 </Suspense>
             </section>
 
@@ -31,7 +32,9 @@ export default function Home() {
                 </h2>
                 <Suspense
                     fallback={<AnimeListSkeleton sectionName="top-anime" />}
-                ></Suspense>
+                >
+                    <TopAnime />
+                </Suspense>
             </section>
 
             <section className="mb-12">
