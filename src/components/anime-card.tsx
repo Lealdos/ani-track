@@ -19,7 +19,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                             '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className="max-h-[360px] w-full rounded object-cover"
+                        className="max-h-[360px] w-full rounded sm:object-fill md:object-cover"
                     />
                     {showBadge && anime.score && (
                         <div className="absolute top-2 right-2 m-auto rounded-md bg-yellow-500 p-1 text-primary-foreground">

@@ -4,17 +4,25 @@ import type { Anime } from '@/types/anime'
 interface AnimeListProps {
     animes: Anime[]
     showBadge?: boolean
+    SectionName: string
 }
 
-export function AnimeList({ animes, showBadge = false }: AnimeListProps) {
+export function AnimeList({
+    animes,
+    showBadge = false,
+    SectionName,
+}: AnimeListProps) {
     if (!animes) return null
     return (
-        <div className="scrollbar-hide flex justify-between justify-items-stretch gap-4 overflow-x-auto rounded-md border-b-2 border-b-background/10 p-4 pb-4 md:grid md:grid-cols-3 md:flex-wrap md:gap-8 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
-            {animes.map((anime) => (
-                <div key={`${anime.title}-${anime.mal_id}`}>
-                    <AnimeCard anime={anime} showBadge={showBadge} />
+        <main className="scrollbar-hide flex snap-x gap-4 overflow-x-auto px-4 pb-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
+            {animes.map((animeItem) => (
+                <div
+                    key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
+                    className="w-[70%] shrink-0 snap-start sm:w-[50%] md:w-auto"
+                >
+                    <AnimeCard anime={animeItem} showBadge={showBadge} />
                 </div>
             ))}
-        </div>
+        </main>
     )
 }
