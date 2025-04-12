@@ -4,7 +4,7 @@ import { getAnimeByGenre } from '@/lib/api'
 import { AnimeList } from '@/components/anime-list'
 import { useState, useEffect } from 'react'
 import { Anime } from '@/types/anime'
-import { AnimeListSkeleton } from '@/components/ui/AnimeSkeleton/AnimeSkeleton'
+import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeleton'
 export function GenreSelect({ genreId }: { genreId: number }) {
     const [animes, setAnimes] = useState<Anime[]>([])
 
