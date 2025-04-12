@@ -16,7 +16,11 @@ export default function Home() {
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
                     Current Season
                 </h2>
-                <Suspense fallback={<AnimeListSkeleton />}>
+                <Suspense
+                    fallback={
+                        <AnimeListSkeleton sectionName="current-season" />
+                    }
+                >
                     <CurrentSeason />
                 </Suspense>
             </section>
@@ -25,16 +29,20 @@ export default function Home() {
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
                     Top Anime
                 </h2>
-                <Suspense fallback={<AnimeListSkeleton />}>
-                    <TopAnime />
-                </Suspense>
+                <Suspense
+                    fallback={<AnimeListSkeleton sectionName="top-anime" />}
+                ></Suspense>
             </section>
 
             <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
                     Anime by Genre
                 </h2>
-                <Suspense fallback={<AnimeListSkeleton />}>
+                <Suspense
+                    fallback={
+                        <AnimeListSkeleton sectionName="anime-by-genre" />
+                    }
+                >
                     <AnimeByGenre />
                 </Suspense>
             </section>
