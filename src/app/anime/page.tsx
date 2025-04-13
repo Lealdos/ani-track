@@ -2,7 +2,7 @@ import { getAllAnimes } from '@/lib/api'
 import { AnimeList } from '@/components/anime-list'
 
 export default async function BrowseAnime() {
-    const { data: anime, pagination } = await getAllAnimes(8)
+    const { data: anime, pagination } = await getAllAnimes(2)
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <AnimeList animes={anime} showBadge />

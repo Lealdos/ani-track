@@ -21,7 +21,10 @@ export default function Home() {
                         <AnimeListSkeleton sectionName="current-season" />
                     }
                 >
-                    <AnimeListSkeleton />
+                    <AnimeListSkeleton
+                        sectionName="current-season"
+                        skeletonItemCount={18}
+                    />
                     <CurrentSeason />
                 </Suspense>
             </section>
