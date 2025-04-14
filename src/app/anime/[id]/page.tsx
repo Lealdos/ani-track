@@ -61,7 +61,6 @@ export default async function AnimePage({
 
     // Fetch recommendations
     const recommendations = await getAnimeRecommendations(id)
-    console.log(recommendations)
 
     // Format streaming platforms
     const platforms = formatStreamingPlatforms(anime?.streaming)
