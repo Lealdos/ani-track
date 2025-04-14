@@ -193,42 +193,49 @@ export default async function AnimePage({
 
                 <br className="my-8 bg-gray-800" />
 
-                <section>
-                    <h2 className="mb-6 text-2xl font-bold">
-                        {' '}
-                        Recommendations{' '}
-                    </h2>
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-                        {recommendations
-                            .slice(0, 6)
-                            .map((recommendedAnime: Recommendations) => (
-                                <Link
-                                    key={recommendedAnime.entry.mal_id}
-                                    href={`/anime/${recommendedAnime.entry.mal_id}`}
-                                    className="group"
-                                >
-                                    <div className="relative overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-                                        <Image
-                                            src={
-                                                recommendedAnime.entry.images
-                                                    ?.jpg?.image_url ||
-                                                '/placeholder.svg'
-                                            }
-                                            alt={recommendedAnime.entry.title}
-                                            width={200}
-                                            height={300}
-                                            className="aspect-[2/3] w-full object-cover"
-                                        />
-                                        <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                                            <h3 className="line-clamp-2 text-sm font-medium">
-                                                {recommendedAnime.entry.title}
-                                            </h3>
+                {recommendations.length > 0 && (
+                    <section>
+                        <h2 className="mb-6 text-2xl font-bold">
+                            Anime Recommendations based in this anime
+                        </h2>
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+                            {recommendations
+                                .slice(0, 6)
+                                .map((recommendedAnime: Recommendations) => (
+                                    <Link
+                                        key={recommendedAnime.entry.mal_id}
+                                        href={`/anime/${recommendedAnime.entry.mal_id}`}
+                                        className="group"
+                                    >
+                                        <div className="relative overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+                                            <Image
+                                                src={
+                                                    recommendedAnime.entry
+                                                        .images?.jpg
+                                                        ?.image_url ||
+                                                    '/placeholder.svg'
+                                                }
+                                                alt={
+                                                    recommendedAnime.entry.title
+                                                }
+                                                width={200}
+                                                height={300}
+                                                className="aspect-[2/3] w-full object-cover"
+                                            />
+                                            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                                <h3 className="line-clamp-2 text-sm font-medium">
+                                                    {
+                                                        recommendedAnime.entry
+                                                            .title
+                                                    }
+                                                </h3>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            ))}
-                    </div>
-                </section>
+                                    </Link>
+                                ))}
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     )
