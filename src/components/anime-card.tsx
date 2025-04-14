@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Anime } from '@/types/anime'
+import Image from 'next/image'
 // import { AddToListButton } from '@/components/add-to-list-button';
 
 interface AnimeCardProps {
@@ -12,7 +13,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
         <article className="flex h-full flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl">
             <Link href={`/anime/${anime.mal_id}`} className="w-full">
                 <div className="relative">
-                    <img
+                    <Image
                         src={
                             anime.images?.jpg.large_image_url ||
                             anime.images?.jpg.image_url ||

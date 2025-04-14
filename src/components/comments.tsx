@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { ThumbsUp, MessageSquare, Flag } from 'lucide-react'
 
@@ -75,7 +76,7 @@ export function Comments() {
 
                 <div className="flex gap-4">
                     <div className="h-10 w-10">
-                        <img
+                        <Image
                             src="/placeholder.svg?height=40&width=40"
                             alt="Your avatar"
                         />
@@ -105,7 +106,7 @@ export function Comments() {
                 {comments.map((comment) => (
                     <div key={comment.id} className="flex gap-4">
                         <div className="h-10 w-10">
-                            <img
+                            <Image
                                 src={comment.user.avatar}
                                 alt={comment.user.name}
                             />
