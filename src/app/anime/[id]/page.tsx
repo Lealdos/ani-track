@@ -1,6 +1,24 @@
 import { notFound } from 'next/navigation'
 
-interface Genre {
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
+import { StreamingPlatforms } from '@/components/streaming-platforms'
+import { EpisodeList } from '@/components/episode-list'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Comments } from '@/components/comments'
+import {
+    getAnimeById,
+    getAnimeEpisodes,
+    getAnimeRecommendations,
+    formatStreamingPlatforms,
+} from '@/lib/api'
+import { Anime } from '@/types/anime'
+
+interface Recommendations {
+    entry: Anime
+}
+interface Genres {
     mal_id: number
     name: string
 }
@@ -27,20 +45,6 @@ export async function generateMetadata({
     }
 }
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
-import { StreamingPlatforms } from '@/components/streaming-platforms'
-import { EpisodeList } from '@/components/episode-list'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Comments } from '@/components/comments'
-import {
-    getAnimeById,
-    getAnimeEpisodes,
-    getAnimeRecommendations,
-    formatStreamingPlatforms,
-} from '@/lib/api'
-
 export default async function AnimePage({
     params,
 }: {
@@ -57,6 +61,7 @@ export default async function AnimePage({
 
     // Fetch recommendations
     const recommendations = await getAnimeRecommendations(id)
+    console.log(recommendations)
 
     // Format streaming platforms
     const platforms = formatStreamingPlatforms(anime?.streaming)
@@ -113,7 +118,7 @@ export default async function AnimePage({
                         )}
 
                         <div className="mb-4 flex flex-wrap gap-2">
-                            {anime.genres?.map((genre: any) => (
+                            {anime.genres?.map((genre: Genres) => (
                                 <div
                                     key={genre.mal_id}
                                     className="border-gray-600"
@@ -190,33 +195,39 @@ export default async function AnimePage({
                 <br className="my-8 bg-gray-800" />
 
                 <section>
-                    <h2 className="mb-6 text-2xl font-bold">Recomendaciones</h2>
+                    <h2 className="mb-6 text-2xl font-bold">
+                        {' '}
+                        Recommendations{' '}
+                    </h2>
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-                        {recommendations.slice(0, 6).map((item: any) => (
-                            <Link
-                                key={item.entry.mal_id}
-                                href={`/anime/${item.entry.mal_id}`}
-                                className="group"
-                            >
-                                <div className="relative overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-                                    <Image
-                                        src={
-                                            item.entry.images?.jpg?.image_url ||
-                                            '/placeholder.svg'
-                                        }
-                                        alt={item.entry.title}
-                                        width={200}
-                                        height={300}
-                                        className="aspect-[2/3] w-full object-cover"
-                                    />
-                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                                        <h3 className="line-clamp-2 text-sm font-medium">
-                                            {item.entry.title}
-                                        </h3>
+                        {recommendations
+                            .slice(0, 6)
+                            .map((recommendedAnime: Recommendations) => (
+                                <Link
+                                    key={recommendedAnime.entry.mal_id}
+                                    href={`/anime/${recommendedAnime.entry.mal_id}`}
+                                    className="group"
+                                >
+                                    <div className="relative overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+                                        <Image
+                                            src={
+                                                recommendedAnime.entry.images
+                                                    ?.jpg?.image_url ||
+                                                '/placeholder.svg'
+                                            }
+                                            alt={recommendedAnime.entry.title}
+                                            width={200}
+                                            height={300}
+                                            className="aspect-[2/3] w-full object-cover"
+                                        />
+                                        <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                            <h3 className="line-clamp-2 text-sm font-medium">
+                                                {recommendedAnime.entry.title}
+                                            </h3>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            ))}
                     </div>
                 </section>
             </div>
