@@ -23,6 +23,7 @@ export type Anime = {
     season?: string
     year?: number
     streaming?: streaming[]
+    title_japanese?: string
 }
 
 export type streaming = {
