@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
                 hostname: 'cdn.myanimelist.net',
                 port: '',
                 pathname: '/images/anime/**/**',
-                search: '',
             },
         ],
     },
