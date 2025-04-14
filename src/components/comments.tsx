@@ -55,7 +55,7 @@ export function Comments() {
             id: comments.length + 1,
             user: {
                 name: 'You',
-                avatar: '/placeholder.svg?height=40&width=40',
+                avatar: '/placeholder.svg',
             },
             content: newComment,
             date: 'Just now',
@@ -73,18 +73,21 @@ export function Comments() {
                 <h3 className="text-xl font-bold">
                     Comments ({comments.length})
                 </h3>
-
-                <div className="flex gap-4">
+                {/*  comment form  */}
+                <form className="flex gap-4">
                     <div className="h-10 w-10">
                         <Image
-                            src="/placeholder.svg?height=40&width=40"
+                            src="/placeholder.svg"
                             alt="Your avatar"
+                            className="rounded-full"
+                            width={40}
+                            height={40}
                         />
                     </div>
                     <div className="flex-1 space-y-2">
                         <textarea
                             placeholder="Add a comment..."
-                            className="resize-none border-gray-700 bg-gray-900"
+                            className="w-full resize-none border-gray-700 bg-gray-900"
                             value={newComment}
                             onChange={(
                                 e: React.ChangeEvent<HTMLTextAreaElement>
@@ -99,18 +102,21 @@ export function Comments() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <div className="space-y-4">
                 {comments.map((comment) => (
-                    <div key={comment.id} className="flex gap-4">
-                        <div className="h-10 w-10">
+                    <div key={comment.id} className="flex justify-center gap-4">
+                        <div className="flex h-10 w-10 flex-col items-center justify-center">
                             <Image
                                 src={comment.user.avatar}
                                 alt={comment.user.name}
+                                width={40}
+                                height={40}
+                                className="rounded-full"
                             />
-                            <div>{comment.user.name.charAt(0)}</div>
+                            <div>{comment.user.name.slice(0, 2)}</div>
                         </div>
                         <div className="flex-1">
                             <div className="mb-1 flex items-center gap-2">
