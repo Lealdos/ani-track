@@ -9,7 +9,7 @@ const API_BASE_URL = 'https://api.jikan.moe/v4'
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Helper function to handle API rate limiting
-const fetchWithRetry = async (url: string, retries = 3, delay = 1000) => {
+const fetchWithRetry = async (url: string, retries = 3, delay = 1500) => {
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetch(url)
