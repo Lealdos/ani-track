@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
-        "clean-build": "rm -rf .next && npm run build",
+        "clean-build": "rm -rf .next && bun run build",
         "start": "next start",
         "lint": "next lint",
         "pretty": "prettier --write ./src"
