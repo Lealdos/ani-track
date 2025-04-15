@@ -32,7 +32,6 @@ export default function Home() {
                 <Suspense
                     fallback={<AnimeListSkeleton sectionName="top-anime" />}
                 >
-                    testing
                     <TopAnime />
                 </Suspense>
             </section>
