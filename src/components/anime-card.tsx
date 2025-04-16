@@ -18,12 +18,13 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                             anime.images?.webp?.image_url || '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className="max-h-[360px] w-full rounded sm:object-fill md:object-cover"
-                        width={500}
-                        height={360}
+                        className="h-[360px] max-h-[360px] w-[500px] rounded sm:object-fill md:object-cover"
+                        width={800}
+                        height={580}
+                        priority
                     />
                     {showBadge && anime.score && (
-                        <div className="absolute top-2 right-2 m-auto rounded-md bg-yellow-500 p-1 text-primary-foreground">
+                        <div className="text-primary-foreground absolute top-2 right-2 m-auto rounded-md bg-yellow-500 p-1">
                             ★ {anime.score.toFixed(1)}
                         </div>
                     )}
@@ -32,7 +33,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                     <h3 className="line-clamp-2 leading-tight font-medium">
                         {anime.title}
                     </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="text-muted-foreground mt-1 text-sm">
                         {anime.type} •{' '}
                         {anime.episodes
                             ? `${anime.episodes} eps`
@@ -43,7 +44,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                 </section>
             </Link>
             <div className="pb-3">
-                <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium">
                     Add to list
                 </button>
             </div>
