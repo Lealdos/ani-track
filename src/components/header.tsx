@@ -32,7 +32,7 @@ export default function Header() {
             className={cn(
                 `sticky top-0 z-50 flex w-full border-b`,
                 isScrolled
-                    ? 'bg-gradient-to-r from-slate-900/5 via-purple-900/85 to-slate-900/85 shadow-md backdrop-blur-sm'
+                    ? 'bg-gradient-to-r from-slate-900/90 via-purple-900/85 to-slate-900/90 shadow-md backdrop-blur-sm'
                     : 'bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur'
             )}
         >
