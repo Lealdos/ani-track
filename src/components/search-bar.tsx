@@ -1,7 +1,5 @@
 'use client'
 
-import type React from 'react'
-
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -24,7 +22,7 @@ export function SearchBar() {
                 <input
                     type="search"
                     placeholder="Search anime..."
-                    className="bg-background h-auto w-full rounded-lg p-3 pl-10 text-sm text-black"
+                    className="h-auto w-full rounded-lg border border-t-red-700 border-r-red-700 border-b-red-500 border-l-red-500 p-3 pl-10 text-sm text-black"
                     value={query}
                     onChange={(e: {
                         target: { value: React.SetStateAction<string> }
