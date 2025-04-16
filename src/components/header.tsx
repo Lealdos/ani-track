@@ -4,20 +4,39 @@
 // import { SearchBar } from '@/components/search-bar';
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { SearchBar } from './search-bar'
+import { cn } from '@/lib/utils'
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     // const pathname = usePathname()
     // const { user, signOut } = useAuth()
 
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
     const routes = [{ href: '/anime', label: 'Browse' }]
 
     return (
-        <header className="bg-background/95 sticky top-0 z-50 w-full border-b bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur">
-            <div className="mx-4 flex h-18 items-center justify-center gap-8 md:mx-8">
+        <header
+            className={cn(
+                `sticky top-0 z-50 flex w-full border-b`,
+                isScrolled
+                    ? 'bg-gradient-to-r from-slate-900/5 via-purple-900/85 to-slate-900/85 shadow-md backdrop-blur-sm'
+                    : 'bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur'
+            )}
+        >
+            <div className="mx-4 flex h-18 grow-4 items-center justify-center gap-8 md:mx-8">
                 <div className="flex">
                     <Link href="/" className="flex items-center">
                         <span className="bg-gradient-to-bl from-red-500 to-red-800 bg-clip-text text-xl font-bold text-transparent">
@@ -40,7 +59,7 @@ export default function Header() {
                     </nav>
                 </div>
 
-                <div className="hidden flex-1 md:flex md:justify-center">
+                <div className="hidden flex-1 grow-8 md:flex md:justify-center">
                     <SearchBar />
                 </div>
 
