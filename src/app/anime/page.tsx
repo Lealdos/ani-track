@@ -15,11 +15,11 @@ export default async function BrowseAnime() {
                 <AnimeList animes={anime} showBadge />
             </Suspense>
             <div className="mt-4 flex flex-row items-center justify-between">
-                <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                <button className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium">
                     {pagination.current_page > 1 ? '←' : ''} Previous page
                 </button>
                 {pagination.current_page}
-                <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                <button className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium">
                     Next page {pagination.has_next_page ? '→' : ''}
                 </button>
             </div>
