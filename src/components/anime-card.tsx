@@ -24,7 +24,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                         priority
                     />
                     {showBadge && anime.score && (
-                        <div className="text-primary-foreground absolute top-2 right-2 m-auto rounded-md bg-yellow-500 p-1">
+                        <div className="absolute top-2 right-2 m-auto rounded-md bg-yellow-500 p-1">
                             ★ {anime.score.toFixed(1)}
                         </div>
                     )}
@@ -33,7 +33,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                     <h3 className="line-clamp-2 leading-tight font-medium">
                         {anime.title}
                     </h3>
-                    <p className="text-muted-foreground mt-1 text-sm">
+                    <p className="mt-1 text-sm">
                         {anime.type} •{' '}
                         {anime.episodes
                             ? `${anime.episodes} eps`
@@ -44,7 +44,7 @@ export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
                 </section>
             </Link>
             <div className="pb-3">
-                <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium">
+                <button className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium">
                     Add to list
                 </button>
             </div>

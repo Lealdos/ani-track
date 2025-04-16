@@ -16,7 +16,7 @@ export async function SearchResults({ query }: SearchResultsProps) {
         return (
             <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
                 <h3 className="mb-2 text-lg font-medium">No results found</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm">
                     Try searching for something else or check your spelling.
                 </p>
             </div>
