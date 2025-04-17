@@ -1,16 +1,15 @@
 import { Anime, streaming } from '@/types/anime'
 import { removeDuplicates } from './utils'
-
-const API_BASE_URL = 'https://api.jikan.moe/v4'
+import { API_BASE_URL } from '@/config/const'
 
 const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1/3 second)
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
-async function fetchWithRateLimit(url: string) {
+export async function fetchWithRateLimit(url: string) {
     try {
-        const response = await fetch(url, { cache: 'no-store' })
+        const response = await fetch(url)
 
         if (response.status === 429) {
             //'Rate limit reached, waiting for 1 seconds...',
@@ -28,8 +27,6 @@ async function fetchWithRateLimit(url: string) {
     }
 }
 
-// Helper function to handle API rate limiting
-
 export async function getAllAnimes(page: number = 1) {
     try {
         const data = await fetchWithRateLimit(
@@ -42,6 +39,7 @@ export async function getAllAnimes(page: number = 1) {
         return []
     }
 }
+
 export async function getSeasonalAnime(): Promise<Anime[]> {
     try {
         const data = await fetchWithRateLimit(`${API_BASE_URL}/seasons/now`)
