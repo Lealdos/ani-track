@@ -1,13 +1,11 @@
 import { Anime, streaming } from '@/types/anime'
 import { removeDuplicates } from './utils'
 
-// Jikan API v4 base URL
 const API_BASE_URL = 'https://api.jikan.moe/v4'
 
-// Rate limiting helper - Jikan API has a limit of 3 requests per second
-// This simple delay helps prevent rate limit errors
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+// Rate limiting helper - Jikan API has a limit of 3 requests per second
 async function fetchWithRateLimit(url: string) {
     try {
         const response = await fetch(url)
@@ -15,7 +13,7 @@ async function fetchWithRateLimit(url: string) {
         // If we're approaching rate limits, add a delay
         if (response.headers.get('X-RateLimit-Remaining') === '1') {
             console.log(
-                'Rate limit reached, waiting for 1.5 seconds...',
+                'Rate limit reached, waiting for 1 seconds...',
                 response.headers.get('X-RateLimit-Remaining')
             )
             await delay(1000)
@@ -23,7 +21,7 @@ async function fetchWithRateLimit(url: string) {
 
         if (response.status === 429) {
             console.log(
-                'Rate limit reached, waiting for 1.5 seconds...',
+                'Rate limit reached, waiting for 1 seconds...',
                 response.headers.get('X-RateLimit-Remaining')
             )
             await delay(1000)
