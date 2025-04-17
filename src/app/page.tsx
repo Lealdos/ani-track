@@ -5,7 +5,7 @@ import { AnimeByGenre } from '@/components/GenreAnime'
 import { SearchBar } from '@/components/search-bar'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 
-export default function Home() {
+export default async function Home() {
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <div className="mb-8 md:hidden">
