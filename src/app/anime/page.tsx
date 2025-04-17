@@ -1,23 +1,8 @@
-// import { getAllAnimes } from '@/lib/api'
+import { getAllAnimes } from '@/lib/api'
 import { AnimeList } from '@/components/anime-list'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
-import { API_BASE_URL } from '@/config/const'
-
-async function getAllAnimes(page: number = 1) {
-    try {
-        const data = await fetch(`${API_BASE_URL}/anime?page=${page}`, {
-            cache: 'no-store',
-        })
-
-        const animes = data.json()
-        return animes
-    } catch (error) {
-        console.error('Error fetching animes:', error)
-        return []
-    }
-}
 
 export default async function BrowseAnime() {
     const { data: anime, pagination } = await getAllAnimes(2)
