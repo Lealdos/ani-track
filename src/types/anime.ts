@@ -30,9 +30,24 @@ export type Anime = {
     year?: number
     streaming?: streaming[]
     title_japanese?: string
+    broadcast?: broadcastInfo
 }
 
 export type streaming = {
     name: string
     url: string
+}
+
+export type broadcastInfo = {
+    day:
+        | 'Monday'
+        | 'Tuesday'
+        | 'Wednesday'
+        | 'Thursday'
+        | 'Friday'
+        | 'Saturday'
+        | 'Sunday'
+    time: string
+    timezone: string
+    string: string
 }

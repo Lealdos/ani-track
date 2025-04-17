@@ -82,7 +82,7 @@ export default async function AnimePage({
                     priority
                 />
                 <div className="absolute top-4 left-4">
-                    <Link href="/">
+                    <Link href="/anime">
                         <button className="rounded-full border-gray-700 bg-black/50">
                             <ArrowLeft className="h-5 w-5" />
                         </button>
