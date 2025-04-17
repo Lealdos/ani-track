@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 import { API_BASE_URL } from '@/config/const'
 
-export async function getAllAnimes(page: number = 1) {
+async function getAllAnimes(page: number = 1) {
     try {
         const data = await fetch(`${API_BASE_URL}/anime?page=${page}`, {
             cache: 'no-store',
