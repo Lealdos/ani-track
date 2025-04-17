@@ -3,28 +3,18 @@ import { removeDuplicates } from './utils'
 
 const API_BASE_URL = 'https://api.jikan.moe/v4'
 
+const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1/3 second)
+
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
 async function fetchWithRateLimit(url: string) {
     try {
-        const response = await fetch(url)
-
-        // If we're approaching rate limits, add a delay
-        if (response.headers.get('X-RateLimit-Remaining') === '1') {
-            console.log(
-                'Rate limit reached, waiting for 1 seconds...',
-                response.headers.get('X-RateLimit-Remaining')
-            )
-            await delay(1000)
-        }
+        const response = await fetch(url, { cache: 'no-store' })
 
         if (response.status === 429) {
-            console.log(
-                'Rate limit reached, waiting for 1 seconds...',
-                response.headers.get('X-RateLimit-Remaining')
-            )
-            await delay(1000)
+            //'Rate limit reached, waiting for 1 seconds...',
+            await delay(API_RATE_LIMIT_DELAY)
             return await fetchWithRateLimit(url)
         }
         if (!response.ok) {
