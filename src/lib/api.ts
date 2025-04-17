@@ -14,9 +14,21 @@ async function fetchWithRateLimit(url: string) {
 
         // If we're approaching rate limits, add a delay
         if (response.headers.get('X-RateLimit-Remaining') === '1') {
-            await delay(1500)
+            console.log(
+                'Rate limit reached, waiting for 1.5 seconds...',
+                response.headers.get('X-RateLimit-Remaining')
+            )
+            await delay(1000)
         }
 
+        if (response.status === 429) {
+            console.log(
+                'Rate limit reached, waiting for 1.5 seconds...',
+                response.headers.get('X-RateLimit-Remaining')
+            )
+            await delay(1000)
+            return await fetchWithRateLimit(url)
+        }
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`)
         }
