@@ -8,107 +8,13 @@ const API_BASE_URL = 'https://api.jikan.moe/v4'
 // This simple delay helps prevent rate limit errors
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Helper function to handle API rate limiting
-const fetchWithRetry = async (url: string, retries = 3, delay = 1500) => {
-    for (let i = 0; i < retries; i++) {
-        try {
-            const response = await fetch(url)
-
-            if (response.status === 429) {
-                // Rate limited, wait and retry
-                await new Promise((resolve) => setTimeout(resolve, delay))
-                continue
-            }
-
-            if (!response.ok) {
-                throw new Error(`API error: ${response.status}`)
-            }
-
-            return await response.json()
-        } catch (error) {
-            if (i === retries - 1) throw error
-            await new Promise((resolve) => setTimeout(resolve, delay))
-        }
-    }
-}
-
-export async function getAllAnimes(page: number = 1) {
-    try {
-        const data = await fetchWithRetry(`${API_BASE_URL}/anime?page=${page}`)
-        const animes = data
-        return animes
-    } catch (error) {
-        console.error('Error fetching animes:', error)
-        return []
-    }
-}
-export async function getSeasonalAnime(): Promise<Anime[]> {
-    try {
-        const data = await fetchWithRetry(`${API_BASE_URL}/seasons/now`)
-        const seasonalAnime = data.data
-        return removeDuplicates(seasonalAnime)
-    } catch (error) {
-        console.error('Error fetching seasonal anime:', error)
-        return []
-    }
-}
-
-export async function getTopAnime(): Promise<Anime[]> {
-    try {
-        const topAnimeList = await fetchWithRetry(
-            `${API_BASE_URL}/top/anime?limit=15`
-        )
-        return topAnimeList.data
-    } catch (error) {
-        console.error('Error fetching top anime:', error)
-        return []
-    }
-}
-
-export async function getAnimeByGenre(genreId: number): Promise<Anime[]> {
-    try {
-        const AnimeByGenre = await fetchWithRetry(
-            `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
-        )
-        return await AnimeByGenre.data
-    } catch (error) {
-        console.error(`Error fetching anime for genre ${genreId}:`, error)
-        return []
-    }
-}
-
-export async function getAnimeById(id: number): Promise<Anime | null> {
-    try {
-        const data = await fetchWithRetry(`${API_BASE_URL}/anime/${id}/full`)
-        return data.data
-    } catch (error) {
-        console.error(`Error fetching anime ${id}:`, error)
-        return null
-    }
-}
-
-export async function searchAnime(query: string): Promise<Anime[]> {
-    try {
-        const data = await fetchWithRetry(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20`
-        )
-        return data.data
-    } catch (error) {
-        console.error('Error searching anime:', error)
-        return []
-    }
-}
-
-/////////////////////////////////////////////////////////////
-
-// Fetch with rate limiting
 async function fetchWithRateLimit(url: string) {
     try {
         const response = await fetch(url)
 
         // If we're approaching rate limits, add a delay
         if (response.headers.get('X-RateLimit-Remaining') === '1') {
-            await delay(1000)
+            await delay(1500)
         }
 
         if (!response.ok) {
@@ -121,6 +27,83 @@ async function fetchWithRateLimit(url: string) {
         throw error
     }
 }
+
+// Helper function to handle API rate limiting
+
+export async function getAllAnimes(page: number = 1) {
+    try {
+        const data = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime?page=${page}`
+        )
+        const animes = data
+        return animes
+    } catch (error) {
+        console.error('Error fetching animes:', error)
+        return []
+    }
+}
+export async function getSeasonalAnime(): Promise<Anime[]> {
+    try {
+        const data = await fetchWithRateLimit(`${API_BASE_URL}/seasons/now`)
+        const seasonalAnime = data.data
+        return removeDuplicates(seasonalAnime)
+    } catch (error) {
+        console.error('Error fetching seasonal anime:', error)
+        return []
+    }
+}
+
+export async function getTopAnime(): Promise<Anime[]> {
+    try {
+        const topAnimeList = await fetchWithRateLimit(
+            `${API_BASE_URL}/top/anime?limit=15`
+        )
+        return topAnimeList.data
+    } catch (error) {
+        console.error('Error fetching top anime:', error)
+        return []
+    }
+}
+
+export async function getAnimeByGenre(genreId: number): Promise<Anime[]> {
+    try {
+        const AnimeByGenre = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
+        )
+        return await AnimeByGenre.data
+    } catch (error) {
+        console.error(`Error fetching anime for genre ${genreId}:`, error)
+        return []
+    }
+}
+
+export async function getAnimeById(id: number): Promise<Anime | null> {
+    try {
+        const data = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime/${id}/full`
+        )
+        return data.data
+    } catch (error) {
+        console.error(`Error fetching anime ${id}:`, error)
+        return null
+    }
+}
+
+export async function searchAnime(query: string): Promise<Anime[]> {
+    try {
+        const data = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20`
+        )
+        return data.data
+    } catch (error) {
+        console.error('Error searching anime:', error)
+        return []
+    }
+}
+
+/////////////////////////////////////////////////////////////
+
+// Fetch with rate limiting
 
 // // Get top anime (for homepage)
 // export async function getTopAnime(limit = 6) {
