@@ -63,8 +63,8 @@ export function EpisodeList({ episodes, animeId }: EpisodeListProps) {
                                     )}
                                 </div>
                             </div>
-                            <button className="bg-purple-600 hover:bg-purple-700">
-                                Ver
+                            <button className="rounded bg-purple-600 p-2 hover:bg-purple-700">
+                                Watch
                             </button>
                         </div>
                     </Link>
