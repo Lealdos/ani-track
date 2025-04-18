@@ -1,6 +1,10 @@
 export type Anime = {
     mal_id: number
     title: string
+    title_japanese?: string
+    title_english?: string
+    title_synonyms?: string[]
+    All_titles: multipleLanguagesTitles[]
     type?: string
     episodes?: number
     status?: string
@@ -20,8 +24,8 @@ export type Anime = {
     synopsis?: string
     genres?: { mal_id: number; name: string }[]
     aired?: {
-        from: string
-        to: string
+        from: Date
+        to: Date
     }
     studios?: { mal_id: number; name: string }[]
     rating?: string
@@ -29,7 +33,6 @@ export type Anime = {
     season?: string
     year?: number
     streaming?: streaming[]
-    title_japanese?: string
     broadcast?: broadcastInfo
 }
 
@@ -50,4 +53,10 @@ export type broadcastInfo = {
     time: string
     timezone: string
     string: string
+}
+
+export type multipleLanguagesTitles = {
+    type: 'Japanese' | 'English' | 'Spanish' | 'French' | 'German'
+
+    title: string
 }
