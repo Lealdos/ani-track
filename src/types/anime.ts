@@ -4,7 +4,7 @@ export type Anime = {
     title_japanese?: string
     title_english?: string
     title_synonyms?: string[]
-    All_titles: multipleLanguagesTitles[]
+    All_titles?: multipleLanguagesTitles[]
     type?: string
     episodes?: number
     status?: string
