@@ -18,3 +18,12 @@ export function removeDuplicates(array: Anime[]) {
         return false
     })
 }
+
+export function formatDate(date: Date, locale = 'en-US') {
+    const FormattedDate = new Date(date).toLocaleDateString(locale, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    })
+    return FormattedDate
+}
