@@ -14,6 +14,7 @@ import {
     formatStreamingPlatforms,
 } from '@/lib/api'
 import { Anime } from '@/types/anime'
+import { formatDate } from '@/lib/utils'
 
 interface Recommendations {
     entry: Anime
@@ -40,7 +41,7 @@ export async function generateMetadata({
     }
 
     return {
-        title: `${anime.title} | AniTrack`,
+        title: `AniTrack | ${anime.title}`,
         description: anime.synopsis,
     }
 }
@@ -53,7 +54,10 @@ export default async function AnimePage({
     const { id } = await params
 
     // Fetch anime details from API
-    const anime = await getAnimeById(id)
+    const animeData = await getAnimeById(id)
+    if (!animeData) return null
+
+    const { duration: episodeDuration, ...anime } = animeData
 
     // Fetch episodes
     const episodesData = await getAnimeEpisodes(id)
@@ -112,7 +116,7 @@ export default async function AnimePage({
                         </h1>
                         {anime.title_japanese && (
                             <p className="mb-4 text-gray-400">
-                                {anime.title_japanese}
+                                {anime.title_english}
                             </p>
                         )}
 
@@ -134,21 +138,41 @@ export default async function AnimePage({
                                     <span>{anime.score}/10</span>
                                 </div>
                             )}
-                            {anime.year && (
-                                <div className="flex items-center">
-                                    <Calendar className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>{anime.year}</span>
-                                </div>
-                            )}
-                            {anime.duration && (
+
+                            <div className="flex items-center">
+                                <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                <span>
+                                    premiered: {anime.season} {anime.year}
+                                </span>
+                            </div>
+
+                            {episodeDuration && (
                                 <div className="flex items-center">
                                     <Clock className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>{anime.duration}</span>
+                                    <span>{episodeDuration}</span>
                                 </div>
                             )}
                             {anime.status && (
                                 <div className="bg-purple-900/50 text-purple-200 hover:bg-purple-900/70">
                                     {anime.status}
+                                </div>
+                            )}
+                            {anime.aired && (
+                                <div className="flex items-center">
+                                    <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                    <span>
+                                        Aired {formatDate(anime.aired.from)}
+                                        {' - '}
+                                        {formatDate(anime.aired.to)}
+                                    </span>
+                                </div>
+                            )}
+                            {anime.broadcast && (
+                                <div className="flex items-center">
+                                    <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                    <span>
+                                        Broadcast: {anime.broadcast.string}{' '}
+                                    </span>
                                 </div>
                             )}
                         </div>
