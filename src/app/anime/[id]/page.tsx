@@ -132,6 +132,12 @@ export default async function AnimePage({
                         </div>
 
                         <div className="mb-6 flex flex-wrap items-center gap-6 text-sm">
+                            {anime.status && (
+                                <div className="rounded-xl bg-purple-900/50 p-1 text-purple-200 hover:bg-purple-900/70">
+                                    {anime.status}
+                                </div>
+                            )}
+
                             {anime.score && (
                                 <div className="flex items-center">
                                     <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
@@ -146,49 +152,57 @@ export default async function AnimePage({
                                 </span>
                             </div>
 
+                            {anime.broadcast && (
+                                <div className="flex items-center">
+                                    <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                    <span>
+                                        Broadcast: {anime.broadcast.string}
+                                    </span>
+                                </div>
+                            )}
+
+                            {anime.aired && (
+                                <div className="flex items-center">
+                                    <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                    <span>
+                                        Aired: {formatDate(anime.aired.from)}
+                                        {' - '}
+                                        {anime.aired.to ? (
+                                            formatDate(anime.aired.to)
+                                        ) : (
+                                            <span>still airing</span>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+
                             {episodeDuration && (
                                 <div className="flex items-center">
                                     <Clock className="mr-1 h-4 w-4 text-gray-400" />
                                     <span>{episodeDuration}</span>
                                 </div>
                             )}
-                            {anime.status && (
-                                <div className="bg-purple-900/50 text-purple-200 hover:bg-purple-900/70">
-                                    {anime.status}
-                                </div>
-                            )}
-                            {anime.aired && (
-                                <div className="flex items-center">
-                                    <Calendar className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>
-                                        Aired {formatDate(anime.aired.from)}
-                                        {' - '}
-                                        {formatDate(anime.aired.to)}
-                                    </span>
-                                </div>
-                            )}
-                            {anime.broadcast && (
-                                <div className="flex items-center">
-                                    <Clock className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>
-                                        Broadcast: {anime.broadcast.string}{' '}
-                                    </span>
-                                </div>
-                            )}
                         </div>
 
-                        <p className="mb-6 text-gray-300">{anime.synopsis}</p>
+                        <div>
+                            <h2 className="mb-2 text-2xl font-bold">
+                                Synopsis
+                            </h2>
+                            <p className="mb-6 text-gray-300">
+                                {anime.synopsis}
+                            </p>
+                        </div>
 
                         <Tabs defaultValue="episodes" className="w-full">
                             <TabsList className="grid w-full grid-cols-3 bg-gray-900">
                                 <TabsTrigger value="episodes">
-                                    Episodios
+                                    episodes
                                 </TabsTrigger>
                                 <TabsTrigger value="watch">
-                                    Dónde Ver
+                                    where to watch
                                 </TabsTrigger>
                                 <TabsTrigger value="comments">
-                                    Comentarios
+                                    comments
                                 </TabsTrigger>
                             </TabsList>
                             <TabsContent value="episodes" className="mt-4">
@@ -202,9 +216,8 @@ export default async function AnimePage({
                                     <StreamingPlatforms platforms={platforms} />
                                 ) : (
                                     <div className="py-8 text-center text-gray-400">
-                                        No hay información disponible sobre
-                                        plataformas de streaming para este
-                                        anime.
+                                        there are no streaming platforms
+                                        available for this anime.
                                     </div>
                                 )}
                             </TabsContent>
