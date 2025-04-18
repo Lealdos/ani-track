@@ -6,7 +6,7 @@ import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
 import { StreamingPlatforms } from '@/components/streaming-platforms'
 import { EpisodeList } from '@/components/episode-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Comments } from '@/components/comments'
+// import { Comments } from '@/components/comments'
 import {
     getAnimeById,
     getAnimeEpisodes,
@@ -78,11 +78,13 @@ export default async function AnimePage({
             <div className="relative h-[300px] md:h-[400px]">
                 <Image
                     src={
-                        anime.images?.jpg?.large_image_url || '/placeholder.svg'
+                        anime.images?.jpg?.large_image_url ||
+                        anime.images?.jpg?.image_url ||
+                        '/placeholder.svg'
                     }
                     alt={anime.title}
                     fill
-                    className="xwn object-cover brightness-60"
+                    className="object-center brightness-60"
                     priority
                 />
                 <div className="absolute top-4 left-4">
@@ -99,7 +101,7 @@ export default async function AnimePage({
                     <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:-mt-40">
                         <Image
                             src={
-                                anime.images?.jpg?.image_url ||
+                                anime.images?.webp?.image_url ||
                                 '/placeholder.svg'
                             }
                             alt={anime.title}
@@ -221,9 +223,9 @@ export default async function AnimePage({
                                     </div>
                                 )}
                             </TabsContent>
-                            <TabsContent value="comments" className="mt-4">
+                            {/* <TabsContent value="comments" className="mt-4">
                                 <Comments />
-                            </TabsContent>
+                            </TabsContent> */}
                         </Tabs>
                     </div>
                 </div>
