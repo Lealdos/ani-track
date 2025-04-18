@@ -75,7 +75,7 @@ export default async function AnimePage({
 
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
-            <div className="relative h-[300px] md:h-[400px]">
+            <div className="relative h-[300px] md:h-[620px]">
                 <Image
                     src={
                         anime.images?.jpg?.large_image_url ||
@@ -83,14 +83,17 @@ export default async function AnimePage({
                         '/placeholder.svg'
                     }
                     alt={anime.title}
-                    fill
-                    className="object-center brightness-60"
+                    className="object-cover brightness-70 md:object-fill"
                     priority
+                    fill
                 />
-                <div className="absolute top-4 left-4">
+                <div className="absolute top-6 left-6">
                     <Link href="/anime">
-                        <button className="rounded-full border-gray-700 bg-black/50">
-                            <ArrowLeft className="h-5 w-5" />
+                        <button
+                            className="rounded-full border-gray-700 bg-black/50 md:p-2"
+                            aria-label="Go back"
+                        >
+                            <ArrowLeft className="h-6 w-6" />
                         </button>
                     </Link>
                 </div>
@@ -196,16 +199,16 @@ export default async function AnimePage({
                         </div>
 
                         <Tabs defaultValue="episodes" className="w-full">
-                            <TabsList className="grid w-full grid-cols-3 bg-gray-900">
+                            <TabsList className="grid w-full grid-cols-2 bg-gray-900">
                                 <TabsTrigger value="episodes">
                                     episodes
                                 </TabsTrigger>
                                 <TabsTrigger value="watch">
                                     where to watch
                                 </TabsTrigger>
-                                <TabsTrigger value="comments">
+                                {/* <TabsTrigger value="comments">
                                     comments
-                                </TabsTrigger>
+                                </TabsTrigger> */}
                             </TabsList>
                             <TabsContent value="episodes" className="mt-4">
                                 <EpisodeList
