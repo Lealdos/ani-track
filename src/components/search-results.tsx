@@ -1,14 +1,11 @@
 import { searchAnime } from '@/lib/api'
 import { AnimeCard } from '@/components/anime-card'
+import { Anime } from '@/types/anime'
 
 interface SearchResultsProps {
     query: string
 }
 
-interface AnimeType {
-    mal_id: number
-    title: string
-}
 export async function SearchResults({ query }: SearchResultsProps) {
     const animes = await searchAnime(query)
 
@@ -25,7 +22,7 @@ export async function SearchResults({ query }: SearchResultsProps) {
 
     return (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {animes.map((anime: AnimeType) => (
+            {animes.map((anime: Anime) => (
                 <AnimeCard key={anime.mal_id} anime={anime} showBadge />
             ))}
         </div>
