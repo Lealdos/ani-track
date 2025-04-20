@@ -30,7 +30,7 @@ export async function fetchWithRateLimit(url: string) {
 export async function getAllAnimes(page: number = 1) {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?page=${page}`
+            `${API_BASE_URL}/anime?q=swf&page=${page}`
         )
         const animes = data
         return animes
