@@ -17,7 +17,7 @@ export default function Header() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10)
+            setIsScrolled(window.scrollY > 100)
         }
 
         const handleClickOutside = (event: MouseEvent) => {
@@ -46,10 +46,10 @@ export default function Header() {
     return (
         <header
             className={cn(
-                `sticky top-0 z-50 flex w-full border-b`,
+                `top-0 z-50 flex w-full border-b`,
                 isScrolled
-                    ? 'bg-gradient-to-r from-slate-900/85 via-purple-900/80 to-slate-900/85 shadow-md backdrop-blur-sm'
-                    : 'bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur'
+                    ? 'fixed bg-gradient-to-r from-slate-900/85 via-purple-900/80 to-slate-900/85 shadow-md backdrop-blur-sm'
+                    : 'sticky bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur'
             )}
         >
             <div className="mx-4 flex h-18 grow-4 items-center justify-center gap-8 md:mx-8">
