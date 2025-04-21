@@ -30,7 +30,7 @@ export async function fetchWithRateLimit(url: string) {
 export async function getAllAnimes(page: number = 1) {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=swf&page=${page}`
+            `${API_BASE_URL}/anime?page=${page}&limit=${15}&swf`
         )
         const animes = data
         return animes
@@ -89,10 +89,10 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
     }
 }
 
-export async function searchAnime(query: string): Promise<Anime[]> {
+export async function searchAnime(query: string, page = 1): Promise<Anime[]> {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20`
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=15&$page=${page}&swf`
         )
         return data.data
     } catch (error) {
