@@ -103,30 +103,6 @@ export async function searchAnime(query: string): Promise<Anime[]> {
 
 /////////////////////////////////////////////////////////////
 
-// Fetch with rate limiting
-
-// // Get top anime (for homepage)
-// export async function getTopAnime(limit = 6) {
-//     const data = await fetchWithRateLimit(
-//         `${API_BASE_URL}/top/anime?limit=${limit}`
-//     );
-//     return data.data;
-// }
-
-// Get seasonal anime (for homepage)
-// export async function getSeasonalAnime(limit = 6) {
-//     const data = await fetchWithRateLimit(
-//         `${API_BASE_URL}/seasons/now?limit=${limit}`
-//     );
-//     return data.data;
-// }
-
-// // Get anime by ID
-// export async function getAnimeById(id: number) {
-//     const data = await fetchWithRateLimit(`${API_BASE_URL}/anime/${id}/full`);
-//     return data.data;
-// }
-
 // Get anime episodes
 export async function getAnimeEpisodes(id: number, page = 1) {
     const data = await fetchWithRateLimit(
@@ -150,24 +126,6 @@ export async function getAnimeRecommendations(id: number) {
     )
     return data.data
 }
-
-// Search anime
-// export async function searchAnime(query: string, page = 1, limit = 12) {
-//     const data = await fetchWithRateLimit(
-//         `${API_BASE_URL}/anime?q=${encodeURIComponent(
-//             query
-//         )}&page=${page}&limit=${limit}`
-//     );
-//     return data;
-// }
-
-// Get anime by genre
-// export async function getAnimeByGenre(genreId: number, page = 1, limit = 12) {
-//     const data = await fetchWithRateLimit(
-//         `${API_BASE_URL}/anime?genres=${genreId}&page=${page}&limit=${limit}`
-//     );
-//     return data;
-// }
 
 // Get all genres
 export async function getGenres() {
