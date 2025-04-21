@@ -22,14 +22,11 @@ export default function Header() {
 
         const handleClickOutside = (event: MouseEvent) => {
             const drawer = document.getElementById('mobile-drawer')
-            const menuButton = document.getElementById('menu-button')
 
             if (
                 isMenuOpen &&
                 drawer &&
-                !drawer.contains(event.target as Node) &&
-                menuButton &&
-                !menuButton.contains(event.target as Node)
+                !drawer.contains(event.target as Node)
             ) {
                 setIsMenuOpen(false)
             }
