@@ -1,4 +1,5 @@
 import { Anime, streaming } from '@/types/anime'
+
 import { removeDuplicates } from './utils'
 import { API_BASE_URL } from '@/config/const'
 
@@ -92,9 +93,9 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
 export async function searchAnime(query: string, page = 1): Promise<Anime[]> {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=15&$page=${page}&swf`
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
         )
-        return data.data
+        return removeDuplicates(data.data)
     } catch (error) {
         console.error('Error searching anime:', error)
         return []
