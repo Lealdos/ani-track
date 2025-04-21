@@ -11,8 +11,9 @@ export function SearchBar() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
+        console.log(query)
         if (query.trim()) {
-            router.push(`/search?q=${encodeURIComponent(query)}`)
+            router.push(`/anime/browse?q=${encodeURIComponent(query)}`)
         }
     }
 
