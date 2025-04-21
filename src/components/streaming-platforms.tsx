@@ -34,11 +34,12 @@ export function StreamingPlatforms({ platforms }: StreamingPlatformsProps) {
                             </div>
                         </div>
                     </div>
-                    <button className="bg-gray-800 hover:bg-gray-700">
+                    <button className="flex items-center justify-center rounded-lg bg-purple-800 p-2 text-sm hover:bg-gray-700">
                         <a
                             href={platform.url}
                             target="_blank"
                             rel="noopener noreferrer"
+                            className="flex items-center gap-2"
                         >
                             Ver ahora
                             <ExternalLink className="ml-2 h-4 w-4" />

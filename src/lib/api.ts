@@ -30,7 +30,7 @@ export async function fetchWithRateLimit(url: string) {
 export async function getAllAnimes(page: number = 1) {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?page=${page}`
+            `${API_BASE_URL}/anime?q=swf&page=${page}`
         )
         const animes = data
         return animes
@@ -44,7 +44,9 @@ export async function getSeasonalAnime(): Promise<Anime[]> {
     try {
         const data = await fetchWithRateLimit(`${API_BASE_URL}/seasons/now`)
         const seasonalAnime = data.data
-        return removeDuplicates(seasonalAnime)
+        return removeDuplicates(seasonalAnime).filter(
+            (anime) => anime.status === 'Currently Airing'
+        )
     } catch (error) {
         console.error('Error fetching seasonal anime:', error)
         return []
