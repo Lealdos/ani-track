@@ -1,5 +1,4 @@
 import { Anime, streaming } from '@/types/anime'
-
 import { removeDuplicates } from './utils'
 import { API_BASE_URL } from '@/config/const'
 import { paginationProps } from '@/types/pageInfo'
@@ -91,17 +90,14 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
     }
 }
 
-export async function searchAnime(
-    query: string,
-    page = 1
-): Promise<Anime[] | { data: Anime[]; pagination: paginationProps }> {
+export async function searchAnime(query: string, page = 1) {
     try {
         const data = await fetchWithRateLimit(
             `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
         )
         const result = {
-            data: removeDuplicates(data.data),
-            pagination: data.pagination,
+            animes: removeDuplicates(data.data),
+            pagination: data.pagination as paginationProps,
         }
         return result
     } catch (error) {
