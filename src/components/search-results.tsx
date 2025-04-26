@@ -8,6 +8,7 @@ interface SearchResultsProps {
 
 export async function SearchResults({ query }: SearchResultsProps) {
     const animes = await searchAnime(query)
+    console.log(animes)
 
     if (animes.length === 0) {
         return (

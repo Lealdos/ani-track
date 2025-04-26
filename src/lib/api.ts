@@ -2,6 +2,7 @@ import { Anime, streaming } from '@/types/anime'
 
 import { removeDuplicates } from './utils'
 import { API_BASE_URL } from '@/config/const'
+import { paginationProps } from '@/types/pageInfo'
 
 const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1/3 second)
 
@@ -90,12 +91,19 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
     }
 }
 
-export async function searchAnime(query: string, page = 1): Promise<Anime[]> {
+export async function searchAnime(
+    query: string,
+    page = 1
+): Promise<Anime[] | { data: Anime[]; pagination: paginationProps }> {
     try {
         const data = await fetchWithRateLimit(
             `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
         )
-        return removeDuplicates(data.data)
+        const result = {
+            data: removeDuplicates(data.data),
+            pagination: data.pagination,
+        }
+        return result
     } catch (error) {
         console.error('Error searching anime:', error)
         return []
