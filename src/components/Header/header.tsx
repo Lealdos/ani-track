@@ -46,7 +46,7 @@ export default function Header() {
         }
     }, [isMenuOpen])
 
-    const LeftHeaderRoutes: Route[] = [{ href: '/animes', label: 'Browse' }]
+    const LeftHeaderRoutes: Route[] = [{ href: '/browse', label: 'Browse' }]
     const RightHeaderRoutes: Route[] = [
         { href: '/login', label: 'Log in' },
         { href: '/register', label: 'Sign up' },
