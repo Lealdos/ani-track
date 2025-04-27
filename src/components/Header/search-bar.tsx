@@ -13,15 +13,15 @@ export function SearchBar() {
         e.preventDefault()
         console.log(query)
         if (!query) {
-            return router.push('/anime')
+            return router.push('/animes')
         }
         if (query.trim()) {
-            router.push(`/anime/browse?q=${encodeURIComponent(query)}`)
+            router.push(`/animes/browse?q=${encodeURIComponent(query)}`)
         }
     }
 
     return (
-        <form onSubmit={handleSearch} className="relative w-full max-w-md">
+        <form onSubmit={handleSearch}>
             <div className="relative">
                 <input
                     type="search"

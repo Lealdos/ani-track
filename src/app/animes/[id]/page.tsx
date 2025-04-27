@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
-import { StreamingPlatforms } from '@/components/streaming-platforms'
-import { EpisodeList } from '@/components/episode-list'
+import { StreamingPlatforms } from '@/components/streamingPlatforms/streaming-platforms'
+import { EpisodeList } from '@/components/EpisodeList/episode-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // import { Comments } from '@/components/comments'
 import {
@@ -88,7 +88,7 @@ export default async function AnimePage({
                     fill
                 />
                 <div className="absolute top-6 left-6">
-                    <Link href="/anime">
+                    <Link href="/animes">
                         <button
                             className="rounded-full border-gray-700 bg-black/50 md:p-2"
                             aria-label="Go back"

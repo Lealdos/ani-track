@@ -1,4 +1,4 @@
-import { AnimeList } from '@/components/anime-list'
+import { AnimeList } from '@/components/AnimeList/anime-list'
 import { getTopAnime } from '@/lib/api'
 
 export async function TopAnime() {

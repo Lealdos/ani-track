@@ -1,5 +1,5 @@
 import { getAllAnimes } from '@/lib/api'
-import { AnimeList } from '@/components/anime-list'
+import { AnimeList } from '@/components/AnimeList/anime-list'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
