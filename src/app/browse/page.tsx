@@ -1,6 +1,6 @@
-import { SearchBar } from '@/components/Header/search-bar'
-import { SearchResults } from '@/app/animes/browse/Components/search-results'
+import { SearchResults } from '@/app/browse/Components/search-results'
 import { Suspense } from 'react'
+import { BrowseAllAnimes } from './Components/browseAllAnimes'
 
 export default async function SearchPage({
     searchParams,
@@ -8,11 +8,16 @@ export default async function SearchPage({
     searchParams: Promise<{ q: string }>
 }) {
     const { q } = await searchParams
+
+    if (!q) {
+        return (
+            <main className="mx-auto min-h-screen w-full px-4 py-8">
+                <BrowseAllAnimes />
+            </main>
+        )
+    }
     return (
         <main className="mx-auto min-h-screen w-full px-4 py-8">
-            <div className="mb-8 md:hidden">
-                <SearchBar />
-            </div>
             {q ? (
                 <Suspense
                     fallback={

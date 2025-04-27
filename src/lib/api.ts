@@ -13,7 +13,6 @@ export async function fetchWithRateLimit(url: string) {
         const response = await fetch(url)
 
         if (response.status === 429) {
-            //'Rate limit reached, waiting for 1 seconds...',
             await delay(API_RATE_LIMIT_DELAY)
             return await fetchWithRateLimit(url)
         }
@@ -37,6 +36,23 @@ export async function getAllAnimes(page: number = 1) {
         return animes
     } catch (error) {
         console.error('Error fetching animes:', error)
+        return []
+    }
+}
+
+export async function searchAnime(query: string, page = 1) {
+    try {
+        const data = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
+        )
+        console.log('entre')
+        const result = {
+            animes: removeDuplicates(data.data),
+            pagination: data.pagination as paginationProps,
+        }
+        return result
+    } catch (error) {
+        console.error('Error searching anime:', error)
         return []
     }
 }
@@ -87,22 +103,6 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
     } catch (error) {
         console.error(`Error fetching anime ${id}:`, error)
         return null
-    }
-}
-
-export async function searchAnime(query: string, page = 1) {
-    try {
-        const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
-        )
-        const result = {
-            animes: removeDuplicates(data.data),
-            pagination: data.pagination as paginationProps,
-        }
-        return result
-    } catch (error) {
-        console.error('Error searching anime:', error)
-        return []
     }
 }
 
