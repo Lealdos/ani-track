@@ -3,12 +3,13 @@ import Link from 'next/link'
 
 export default function NotFound() {
     return (
-        <div className="animate-fade-in flex min-h-screen flex-col items-center justify-center gap-8 text-center">
+        <div className="animate-fade-in flex min-h-screen flex-col items-center justify-center gap-6 text-center">
             <Image
                 src="/404.png"
-                alt="AniTrack Logo"
-                width={320}
-                height={280}
+                alt="AniTrack 404 Page Not Found"
+                className="h-96 w-auto md:h-full"
+                width={408}
+                height={612}
                 priority
             />
 
