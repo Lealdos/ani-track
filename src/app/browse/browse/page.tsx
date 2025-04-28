@@ -1,5 +1,5 @@
 import { SearchBar } from '@/components/Header/search-bar'
-import { SearchResults } from '@/app/animes/browse/Components/search-results'
+import { SearchResults } from '@/app/browse/browse/Components/search-results'
 import { Suspense } from 'react'
 
 export default async function SearchPage({
