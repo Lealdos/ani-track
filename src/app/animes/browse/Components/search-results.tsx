@@ -1,5 +1,3 @@
-'use client'
-
 import { searchAnime } from '@/lib/api'
 import { AnimeCard } from '@/components/AnimeCard/anime-card'
 import { Anime } from '@/types/anime'
@@ -36,13 +34,11 @@ export async function SearchResults({ query }: SearchResultsProps) {
                     <AnimeCard key={anime.mal_id} anime={anime} showBadge />
                 ))}
             </div>
-            {/* <div className="mt-8">
-                <Pagination
-                    currentPage={pagination.current_page}
-                    hasNextPage={pagination.has_next_page}
-                    lastPage={pagination.last_visible_page}
-                />
-            </div> */}
+            <Pagination
+                currentPage={pagination.current_page}
+                nextPage={pagination.has_next_page}
+                lastPage={pagination.last_visible_page}
+            />
         </>
     )
 }

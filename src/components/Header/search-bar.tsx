@@ -12,10 +12,10 @@ export function SearchBar() {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
         if (!query) {
-            return router.push('/browse')
+            return router.push('/animes')
         }
         if (query.trim()) {
-            router.push(`/browse?q=${encodeURIComponent(query)}`)
+            router.push(`/animes/browse?q=${encodeURIComponent(query)}`)
         }
     }
 
