@@ -1,10 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-
-import { useSearchParams } from 'next/navigation'
-
 interface PaginationProps {
     currentPage: number
     nextPage?: boolean
@@ -13,9 +8,6 @@ interface PaginationProps {
 
 export function Pagination(paginationProps: PaginationProps) {
     const { currentPage, nextPage, lastPage } = paginationProps
-    const router = useRouter()
-    const [searchParams, setSearchParams] = useSearchParams()
-    const havePrevPage = currentPage > 1
 
     return (
         <div className="mt-4 flex flex-row items-center justify-between">
