@@ -11,7 +11,7 @@ interface AnimeCardProps {
 export function AnimeCard({ anime, showBadge = false }: AnimeCardProps) {
     return (
         <article className="flex h-full flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl md:w-full">
-            <Link href={`/animes/${anime.mal_id}`} className="w-full">
+            <Link href={`/anime/${anime.mal_id}`} className="w-full">
                 <div className="relative">
                     <Image
                         src={
