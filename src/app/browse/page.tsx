@@ -43,7 +43,7 @@ export default async function BrowseAnime({
     }
 
     return (
-        <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
+        <main className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <Suspense fallback={<AnimeListSkeleton />}>
                 <AnimeList animes={animes} showBadge />
             </Suspense>
@@ -52,6 +52,6 @@ export default async function BrowseAnime({
                 nextPage={pagination.has_next_page}
                 lastPage={pagination.last_visible_page}
             />
-        </div>
+        </main>
     )
 }
