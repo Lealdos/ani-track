@@ -9,13 +9,13 @@ interface SearchResultsProps {
 }
 
 export async function SearchResults({ query, page }: SearchResultsProps) {
-    const data = await searchAnime(query, page)
+    const fetchedAnimeData = await searchAnime(query, page)
 
-    if (!data || !('animes' in data)) {
+    if (!fetchedAnimeData || !('animes' in fetchedAnimeData)) {
         return null
     }
 
-    const { animes, pagination } = data
+    const { animes, pagination } = fetchedAnimeData
 
     if (animes.length === 0) {
         return (
