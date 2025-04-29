@@ -5,8 +5,6 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 import { Pagination } from '@/components/Pagination/Pagination'
-import { Anime } from '@/types/anime'
-import { paginationProps } from '@/types/pageInfo'
 import { SearchResults } from './Components/search-results'
 
 interface searchParamsProps {
@@ -21,36 +19,14 @@ export default async function BrowseAnime({
 }: {
     searchParams: Promise<searchParamsProps>
 }) {
-    const {
-        data: anime,
-        pagination,
-    }: { data: Anime[]; pagination: paginationProps } = await getAllAnimes()
-    if (!anime) {
+    const { animes, pagination } = await getAllAnimes()
+    if (!animes) {
         return notFound()
     }
-    if (!anime) {
-        return notFound()
-    }
+
     if (searchParams) {
         const { q, page } = await searchParams
         if (q || page) {
-            // const fetchedAnimeData = await searchAnime(q, page)
-            // if (!fetchedAnimeData || !('animes' in fetchedAnimeData)) {
-            //     return null
-            // }
-            // const { animes, pagination } = fetchedAnimeData
-            // return (
-            //     <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
-            //         <Suspense fallback={<AnimeListSkeleton />}>
-            //             <AnimeList animes={animes} showBadge />
-            //         </Suspense>
-            //         <Pagination
-            //             currentPage={pagination.current_page}
-            //             nextPage={pagination.has_next_page}
-            //             lastPage={pagination.last_visible_page}
-            //         />
-            //     </div>
-            // )
             return (
                 <main className="mx-auto min-h-screen w-full px-4 py-8">
                     {(q || page) && (
@@ -69,7 +45,7 @@ export default async function BrowseAnime({
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <Suspense fallback={<AnimeListSkeleton />}>
-                <AnimeList animes={anime} showBadge />
+                <AnimeList animes={animes} showBadge />
             </Suspense>
             <Pagination
                 currentPage={pagination.current_page}
