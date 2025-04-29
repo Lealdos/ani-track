@@ -41,6 +41,22 @@ export async function getAllAnimes(page: number = 1) {
     }
 }
 
+export async function searchAnime(query: string, page = 1) {
+    try {
+        const data = await fetchWithRateLimit(
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
+        )
+        const result = {
+            animes: removeDuplicates(data.data),
+            pagination: data.pagination as paginationProps,
+        }
+        return result
+    } catch (error) {
+        console.error('Error searching anime:', error)
+        return []
+    }
+}
+
 export async function getSeasonalAnime(): Promise<Anime[]> {
     try {
         const data = await fetchWithRateLimit(`${API_BASE_URL}/seasons/now`)
@@ -87,22 +103,6 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
     } catch (error) {
         console.error(`Error fetching anime ${id}:`, error)
         return null
-    }
-}
-
-export async function searchAnime(query: string, page = 1) {
-    try {
-        const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
-        )
-        const result = {
-            animes: removeDuplicates(data.data),
-            pagination: data.pagination as paginationProps,
-        }
-        return result
-    } catch (error) {
-        console.error('Error searching anime:', error)
-        return []
     }
 }
 
