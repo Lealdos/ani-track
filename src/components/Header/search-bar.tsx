@@ -14,10 +14,9 @@ export function SearchBar() {
         if (!query) {
             return router.push('/browse')
         }
-        if (query.trim()) {
-            router.push(`/browse?q=${encodeURIComponent(query)}`)
-            setQuery('')
-        }
+        const cleanQuery = query.trim()
+        router.push(`/browse?q=${encodeURIComponent(cleanQuery).trim()}`)
+        setQuery('')
     }
 
     return (
