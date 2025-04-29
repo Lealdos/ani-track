@@ -22,7 +22,7 @@ export default function Header() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 100)
+            setIsScrolled(window.scrollY > 10)
         }
 
         const handleClickOutside = (event: MouseEvent) => {

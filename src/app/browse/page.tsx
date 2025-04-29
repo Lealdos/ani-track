@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { getAllAnimes } from '@/lib/api'
 import { AnimeList } from '@/components/AnimeList/anime-list'
 import { notFound } from 'next/navigation'
@@ -5,7 +6,6 @@ import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 import { Pagination } from '@/components/Pagination/Pagination'
 import { Anime } from '@/types/anime'
-
 import { paginationProps } from '@/types/pageInfo'
 
 export default async function BrowseAnime() {
