@@ -36,9 +36,9 @@ export async function SearchResults({ query, page }: SearchResultsProps) {
                 ))}
             </div>
             <Pagination
-                currentPage={pagination.current_page}
-                nextPage={pagination.has_next_page}
-                lastPage={pagination.last_visible_page}
+                current_Page={pagination.current_page}
+                has_next_page={pagination.has_next_page}
+                last_visible_page={pagination.last_visible_page}
             />
         </>
     )
