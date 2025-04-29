@@ -54,13 +54,7 @@ export default async function BrowseAnime({
             return (
                 <main className="mx-auto min-h-screen w-full px-4 py-8">
                     {(q || page) && (
-                        <Suspense
-                            fallback={
-                                <div className="flex items-center justify-center">
-                                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-red-500 border-t-transparent"></div>
-                                </div>
-                            }
-                        >
+                        <Suspense fallback={<AnimeListSkeleton />}>
                             <SearchResults
                                 query={q ? q : ''}
                                 page={page ? page : 1}
