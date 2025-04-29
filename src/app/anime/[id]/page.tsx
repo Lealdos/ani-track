@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { notFound } from 'next/navigation'
 
 import Image from 'next/image'
@@ -198,14 +199,21 @@ export default async function AnimePage({
                             </p>
                         </div>
 
-                        <Tabs defaultValue="episodes" className="w-full">
+                        <Tabs defaultValue="watch" className="w-full">
                             <TabsList className="grid w-full grid-cols-2 bg-gray-900">
-                                <TabsTrigger value="episodes">
-                                    episodes
-                                </TabsTrigger>
-                                <TabsTrigger value="watch">
+                                <TabsTrigger
+                                    value="watch"
+                                    className="focus:bg-purple-900/70"
+                                >
                                     where to watch
                                 </TabsTrigger>
+                                <TabsTrigger
+                                    value="episodes"
+                                    className="focus:bg-purple-900/70"
+                                >
+                                    episodes
+                                </TabsTrigger>
+
                                 {/* <TabsTrigger value="comments">
                                     comments
                                 </TabsTrigger> */}
