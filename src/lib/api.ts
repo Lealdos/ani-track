@@ -28,31 +28,35 @@ export async function fetchWithRateLimit(url: string) {
     }
 }
 
-export async function getAllAnimes(page: number = 1) {
+export async function getAllAnimes(
+    page: number = 1
+): Promise<{ animes: Anime[]; pagination: paginationProps }> {
     try {
         const data = await fetchWithRateLimit(
             `${API_BASE_URL}/anime?page=${page}&limit=${15}&swf`
         )
-        const animes = data
-        return animes
+        const animeData = {
+            animes: removeDuplicates(data.data),
+            pagination: data.pagination as paginationProps,
+        }
+        return animeData
     } catch (error) {
         console.error('Error fetching animes:', error)
-        return []
+        throw error as Error
     }
 }
 
 export async function searchAnime(query?: string, page = 1) {
     try {
         if (!query) {
-            console.log('query is empty')
             const data = await fetchWithRateLimit(
                 `${API_BASE_URL}/anime?limit=20&page=${page}&swf`
             )
-            const result = {
+            const animeData = {
                 animes: removeDuplicates(data.data),
                 pagination: data.pagination as paginationProps,
             }
-            return result
+            return animeData
         }
         console.log(query, 'test')
         const data = await fetchWithRateLimit(
