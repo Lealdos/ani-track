@@ -33,7 +33,7 @@ export async function getAllAnimes(
 ): Promise<{ animes: Anime[]; pagination: paginationProps }> {
     try {
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?page=${page}&limit=${15}&swf`
+            `${API_BASE_URL}/anime?page=${page}&limit=${15}&sfw`
         )
         const animeData = {
             animes: removeDuplicates(data.data),
@@ -50,7 +50,7 @@ export async function searchAnime(query?: string, page = 1) {
     try {
         if (!query) {
             const data = await fetchWithRateLimit(
-                `${API_BASE_URL}/anime?limit=20&page=${page}&swf`
+                `${API_BASE_URL}/anime?limit=20&page=${page}&sfw`
             )
             const animeData = {
                 animes: removeDuplicates(data.data),
@@ -58,9 +58,11 @@ export async function searchAnime(query?: string, page = 1) {
             }
             return animeData
         }
-        console.log(query, 'test')
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&swf`
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&sfw`
+        )
+        console.log(
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&sfw`
         )
         const result = {
             animes: removeDuplicates(data.data),
