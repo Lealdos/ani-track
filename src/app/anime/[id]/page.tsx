@@ -1,6 +1,4 @@
-export const dynamic = 'force-dynamic'
 import { notFound } from 'next/navigation'
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
@@ -27,6 +25,7 @@ interface Genres {
 interface Params {
     id: number
 }
+
 export async function generateMetadata({
     params,
 }: {
@@ -60,15 +59,12 @@ export default async function AnimePage({
 
     const { duration: episodeDuration, ...anime } = animeData
 
-    // Fetch episodes
     const episodesData = await getAnimeEpisodes(id)
     const episodes = episodesData.data || []
 
-    // Fetch recommendations
     const recommendations = await getAnimeRecommendations(id)
 
-    // Format streaming platforms
-    const platforms = formatStreamingPlatforms(anime?.streaming)
+    const streamingServices = formatStreamingPlatforms(anime?.streaming)
 
     if (!anime) {
         return notFound()
@@ -225,8 +221,10 @@ export default async function AnimePage({
                                 />
                             </TabsContent>
                             <TabsContent value="watch" className="mt-4">
-                                {platforms.length > 0 ? (
-                                    <StreamingPlatforms platforms={platforms} />
+                                {streamingServices.length > 0 ? (
+                                    <StreamingPlatforms
+                                        platforms={streamingServices}
+                                    />
                                 ) : (
                                     <div className="py-8 text-center text-gray-400">
                                         there are no streaming platforms
