@@ -61,9 +61,7 @@ export async function searchAnime(query?: string, page = 1) {
         const data = await fetchWithRateLimit(
             `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&sfw`
         )
-        console.log(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&sfw`
-        )
+
         const result = {
             animes: removeDuplicates(data.data),
             pagination: data.pagination as paginationProps,
