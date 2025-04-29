@@ -74,7 +74,7 @@ export default async function AnimePage({
     }
 
     return (
-        <div className="min-h-screen bg-gray-950 text-gray-100">
+        <main className="min-h-screen bg-gray-950 text-gray-100">
             <div className="relative h-[300px] md:h-[620px]">
                 <Image
                     src={
@@ -279,6 +279,6 @@ export default async function AnimePage({
                     </section>
                 )}
             </div>
-        </div>
+        </main>
     )
 }
