@@ -5,10 +5,11 @@ import { Pagination } from '@/components/Pagination/Pagination'
 
 interface SearchResultsProps {
     query: string
+    page: number
 }
 
-export async function SearchResults({ query }: SearchResultsProps) {
-    const data = await searchAnime(query)
+export async function SearchResults({ query, page }: SearchResultsProps) {
+    const data = await searchAnime(query, page)
 
     if (!data || !('animes' in data)) {
         return null
