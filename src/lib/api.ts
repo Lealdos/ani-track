@@ -9,7 +9,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
 export async function fetchWithRateLimit(url: string) {
-    console.log(url)
     try {
         const response = await fetch(url)
 
@@ -55,8 +54,9 @@ export async function searchAnime(query?: string, page = 1) {
             }
             return result
         }
+        console.log(query, 'test')
         const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&$page=${page}&swf`
+            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&swf`
         )
         const result = {
             animes: removeDuplicates(data.data),
