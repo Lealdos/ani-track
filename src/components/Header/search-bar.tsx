@@ -15,7 +15,7 @@ export function SearchBar() {
             return router.push('/browse')
         }
         if (query.trim()) {
-            router.push(`/browse/browse?q=${encodeURIComponent(query)}`)
+            router.push(`/browse?q=${encodeURIComponent(query)}`)
             setQuery('')
         }
     }
