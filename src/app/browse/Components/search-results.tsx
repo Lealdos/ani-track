@@ -4,8 +4,8 @@ import { Anime } from '@/types/anime'
 import { Pagination } from '@/components/Pagination/Pagination'
 
 interface SearchResultsProps {
-    query: string
-    page: number
+    query?: string
+    page?: number
 }
 
 export async function SearchResults({ query, page }: SearchResultsProps) {
