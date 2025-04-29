@@ -53,7 +53,7 @@ export default async function BrowseAnime({
             // )
             return (
                 <main className="mx-auto min-h-screen w-full px-4 py-8">
-                    {q || page ? (
+                    {(q || page) && (
                         <Suspense
                             fallback={
                                 <div className="flex items-center justify-center">
@@ -66,15 +66,6 @@ export default async function BrowseAnime({
                                 page={page ? page : 1}
                             />
                         </Suspense>
-                    ) : (
-                        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-                            <h3 className="mb-2 text-lg font-medium">
-                                Search for anime
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                                Enter a search term to find anime titles.
-                            </p>
-                        </div>
                     )}
                 </main>
             )
