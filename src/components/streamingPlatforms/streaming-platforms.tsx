@@ -39,10 +39,10 @@ export function StreamingPlatforms({ platforms }: StreamingPlatformsProps) {
                             href={platform.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2"
+                            className="flex items-center justify-center gap-2"
                         >
                             Ver ahora
-                            <ExternalLink className="ml-2 h-4 w-4" />
+                            <ExternalLink className="ml-2" />
                         </a>
                     </button>
                 </div>
