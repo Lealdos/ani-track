@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Star, Calendar, Clock } from 'lucide-react'
+import { Star, Calendar, Clock } from 'lucide-react'
 import { StreamingPlatforms } from '@/components/streamingPlatforms/streaming-platforms'
 import { EpisodeList } from '@/components/EpisodeList/episode-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
 // import { Comments } from '@/components/comments'
 import {
     getAnimeById,
@@ -14,6 +15,7 @@ import {
 } from '@/lib/api'
 import { Anime } from '@/types/anime'
 import { formatDate } from '@/lib/utils'
+import { BackButton } from '@/components/BackButton/BackButton'
 
 interface Recommendations {
     entry: Anime
@@ -84,18 +86,8 @@ export default async function AnimePage({
                     priority
                     fill
                 />
-                <div className="absolute top-6 left-6">
-                    <Link href="/browse">
-                        <button
-                            className="rounded-full border-gray-700 bg-black/50 md:p-2"
-                            aria-label="Go back"
-                        >
-                            <ArrowLeft className="h-6 w-6" />
-                        </button>
-                    </Link>
-                </div>
+                <BackButton />
             </div>
-
             <div className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
                     <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:-mt-40">
@@ -263,6 +255,7 @@ export default async function AnimePage({
                                                         ?.image_url ||
                                                     '/placeholder.svg'
                                                 }
+                                                priority
                                                 alt={
                                                     recommendedAnime.entry.title
                                                 }
