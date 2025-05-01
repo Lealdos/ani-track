@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Star, Calendar, Clock } from 'lucide-react'
-import { StreamingPlatforms } from '@/components/streamingPlatforms/streaming-platforms'
-import { EpisodeList } from '@/components/EpisodeList/episode-list'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { StreamingPlatforms } from '@/components/streamingPlatforms/StreamingPlatforms'
+import { EpisodeList } from '@/components/EpisodeList/EpisodeList'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 // import { Comments } from '@/components/comments'
 import {

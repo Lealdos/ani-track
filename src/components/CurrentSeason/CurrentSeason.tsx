@@ -1,4 +1,4 @@
-import { AnimeList } from '@/components/AnimeList/anime-list'
+import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { getSeasonalAnime } from '@/lib/api'
 
 export async function CurrentSeason() {

@@ -1,4 +1,4 @@
-import { AnimeCard } from '@/components/AnimeCard/anime-card'
+import { AnimeCard } from '@/components/AnimeCard/AnimeCard'
 import type { Anime } from '@/types/anime'
 
 interface AnimeListProps {

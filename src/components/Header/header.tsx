@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Menu, X, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { SearchBar } from './search-bar'
+import { SearchBar } from './SearchBar'
 
 type Route = {
     href: string

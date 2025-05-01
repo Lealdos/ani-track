@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { Suspense } from 'react'
-import { CurrentSeason } from '@/components/CurrentSeason/current-season'
-import { TopAnime } from '@/components/topAnime/top-anime'
+import { CurrentSeason } from '@/components/CurrentSeason/CurrentSeason'
+import { TopAnime } from '@/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
 

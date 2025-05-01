@@ -1,5 +1,5 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { AnimeList } from '@/components/AnimeList/anime-list'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { getAnimeByGenre } from '@/lib/api'
 import { GenreSelect } from './GenreSelect'
 

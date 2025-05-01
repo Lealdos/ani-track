@@ -1,5 +1,5 @@
 import { searchAnime } from '@/lib/api'
-import { AnimeCard } from '@/components/AnimeCard/anime-card'
+import { AnimeCard } from '@/components/AnimeCard/AnimeCard'
 import { Anime } from '@/types/anime'
 import { Pagination } from '@/components/Pagination/Pagination'
 
