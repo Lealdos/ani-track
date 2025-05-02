@@ -99,10 +99,12 @@ export default function Header() {
                         ))}
                     </nav>
 
+                    {/* Mobile menu */}
+
                     <button
                         id="menu-button"
                         className="relative flex items-center justify-center rounded-md p-2 md:hidden"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        onClick={() => setIsMenuOpen(true)}
                     >
                         {!isMenuOpen && (
                             <Menu
@@ -110,17 +112,17 @@ export default function Header() {
                                 strokeWidth={2}
                             />
                         )}
+                        <span className="sr-only">Open menu</span>
                     </button>
                 </div>
             </div>
 
-            {/* Mobile menu */}
             {isMenuOpen && (
                 <div
                     id="mobile-drawer"
-                    className={`fixed top-0 right-0 z-40 container h-screen w-72 -translate-x-full overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform ${
-                        isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-                    }`}
+                    className={`fixed top-0 right-0 z-40 container h-screen w-72 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+                        isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                    } `}
                     tabIndex={-1}
                     aria-labelledby="drawer-right-label"
                 >
@@ -134,7 +136,7 @@ export default function Header() {
                     <button
                         type="button"
                         onClick={() => setIsMenuOpen(false)}
-                        className="absolute end-2.5 top-2.5 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
+                        className="absolute end-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
                     >
                         <X className="h-6 w-6" />
                         <span className="sr-only">Close menu</span>
