@@ -120,7 +120,7 @@ export default function Header() {
             {isMenuOpen && (
                 <div
                     id="mobile-drawer"
-                    className={`fixed top-0 right-0 z-40 container h-screen w-72 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+                    className={`fixed top-0 right-0 z-10 h-screen w-72 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
                         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
                     } `}
                     tabIndex={-1}
