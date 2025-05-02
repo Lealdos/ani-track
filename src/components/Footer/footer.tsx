@@ -1,5 +1,3 @@
-// import Link from 'next/link'
-
 export default function Footer() {
     return (
         <footer className="flex flex-col items-center justify-center gap-4 border-t bg-gradient-to-bl from-slate-900 via-purple-900 to-slate-900">
@@ -10,26 +8,6 @@ export default function Footer() {
                         API.
                     </p>
                 </div>
-                {/* <div className="flex gap-4">
-                    <Link
-                        href="/about"
-                        className="text-sm font-medium underline-offset-4 hover:underline"
-                    >
-                        About
-                    </Link>
-                    <Link
-                        href="/terms"
-                        className="text-sm font-medium underline-offset-4 hover:underline"
-                    >
-                        Terms
-                    </Link>
-                    <Link
-                        href="/privacy"
-                        className="text-sm font-medium underline-offset-4 hover:underline"
-                    >
-                        Privacy
-                    </Link>
-                </div> */}
             </div>
         </footer>
     )
