@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
-import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 
+const Header = dynamic(() => import('@/components/Header/Header'))
 const geistSans = Geist({
     variable: '--font-geist-sans',
     subsets: ['latin'],

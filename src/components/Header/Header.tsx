@@ -117,60 +117,58 @@ export default function Header() {
                 </div>
             </div>
 
-            {isMenuOpen && (
-                <div
-                    id="mobile-drawer"
-                    className={`fixed top-0 right-0 z-10 h-screen w-72 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
-                        isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                    } `}
-                    tabIndex={-1}
-                    aria-labelledby="drawer-right-label"
+            <aside
+                id="mobile-drawer"
+                className={`fixed top-0 -right-0 z-20 container h-screen w-48 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                } `}
+                tabIndex={-1}
+                aria-labelledby="drawer-right-label"
+            >
+                <h5
+                    id="drawer-right-label"
+                    className="mb-4 inline-flex items-center text-base font-semibold text-white"
                 >
-                    <h5
-                        id="drawer-right-label"
-                        className="mb-4 inline-flex items-center text-base font-semibold text-white"
-                    >
-                        <User className="mr-2.5 h-4 w-4" />
-                        Menu
-                    </h5>
-                    <button
-                        type="button"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="absolute end-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
-                    >
-                        <X className="h-6 w-6" />
-                        <span className="sr-only">Close menu</span>
-                    </button>
-                    <ul className="space-y-2 text-white">
-                        <li>
+                    <User className="mr-2.5 h-4 w-4" />
+                    Menu
+                </h5>
+                <button
+                    type="button"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="absolute end-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
+                >
+                    <X className="h-6 w-6" />
+                    <span className="sr-only">Close menu</span>
+                </button>
+                <ul className="space-y-2 text-white">
+                    <li>
+                        <Link
+                            href="/login"
+                            className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
+                        >
+                            <span>Login</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/register"
+                            className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
+                        >
+                            <span>Register</span>
+                        </Link>
+                    </li>
+                    {LeftHeaderRoutes.map((route) => (
+                        <li key={route.href}>
                             <Link
-                                href="/login"
+                                href={route.href}
                                 className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
                             >
-                                <span>Login</span>
+                                <span>{route.label}</span>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/register"
-                                className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
-                            >
-                                <span>Register</span>
-                            </Link>
-                        </li>
-                        {LeftHeaderRoutes.map((route) => (
-                            <li key={route.href}>
-                                <Link
-                                    href={route.href}
-                                    className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
-                                >
-                                    <span>{route.label}</span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+                    ))}
+                </ul>
+            </aside>
         </header>
     )
 }
