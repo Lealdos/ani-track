@@ -119,9 +119,12 @@ export default function Header() {
 
             <aside
                 id="mobile-drawer"
-                className={`fixed top-0 -right-0 z-20 container h-screen w-48 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${
-                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                } `}
+                className={cn(
+                    `fixed z-20 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out`,
+                    isMenuOpen
+                        ? 'top-0 right-0 container h-screen w-48 translate-x-0'
+                        : '-top-10 -right-0 h-0.5 w-2 translate-x-full'
+                )}
                 tabIndex={-1}
                 aria-labelledby="drawer-right-label"
             >
