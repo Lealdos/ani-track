@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
+import { unstable_ViewTransition as ViewTransition } from 'react'
 
 const Header = dynamic(() => import('@/components/Header/Header'))
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} h-dvh w-full bg-gray-950 text-white antialiased`}
             >
                 <Header />
-                {children}
+                <ViewTransition name="page">{children}</ViewTransition>
                 <Toaster />
                 <Footer />
             </body>
