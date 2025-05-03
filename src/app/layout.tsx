@@ -33,10 +33,12 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} h-dvh w-full bg-gray-950 text-white antialiased`}
             >
-                <Header />
-                <ViewTransition name="page">{children}</ViewTransition>
-                <Toaster />
-                <Footer />
+                <ViewTransition name="page">
+                    <Header />
+                    {children}
+                    <Toaster />
+                    <Footer />
+                </ViewTransition>
             </body>
         </html>
     )
