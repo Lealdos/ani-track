@@ -16,7 +16,7 @@ export function EpisodeList({ episodes, animeId }: EpisodeListProps) {
     if (!episodes || episodes.length === 0) {
         return (
             <div className="py-8 text-center text-gray-400">
-                No hay información de episodios disponible para este anime.
+                there are no episodes available for this anime.
             </div>
         )
     }
@@ -25,11 +25,8 @@ export function EpisodeList({ episodes, animeId }: EpisodeListProps) {
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold">
-                    Episodios ({episodes.length})
+                    episodes ({episodes.length})
                 </h3>
-                {episodes.length > 10 && (
-                    <button className="text-xs">Ver todos los episodios</button>
-                )}
             </div>
 
             <div className="space-y-2">

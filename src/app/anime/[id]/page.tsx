@@ -187,7 +187,7 @@ export default async function AnimePage({
                             </p>
                         </div>
 
-                        <Tabs defaultValue="watch" className="w-full">
+                        <Tabs defaultValue="watch" className="h-80 w-full">
                             <TabsList className="grid w-full grid-cols-2 bg-gray-900">
                                 <TabsTrigger
                                     value="watch"
@@ -206,7 +206,10 @@ export default async function AnimePage({
                                     comments
                                 </TabsTrigger> */}
                             </TabsList>
-                            <TabsContent value="episodes" className="mt-4">
+                            <TabsContent
+                                value="episodes"
+                                className="mt-4 h-80 overflow-y-auto"
+                            >
                                 <EpisodeList
                                     episodes={episodes}
                                     animeId={id.toString()}
