@@ -75,7 +75,6 @@ export default async function AnimePage({
     const recommendations = await getAnimeRecommendations(id)
 
     const streamingServices = formatStreamingPlatforms(anime?.streaming)
-    console.log(streamingServices)
 
     if (!anime) {
         return notFound()
