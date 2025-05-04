@@ -224,7 +224,7 @@ export default async function AnimePage({
                                     {streamingServices.length > 0 ? (
                                         <StreamingPlatforms
                                             platforms={streamingServices}
-                                            animeName={anime.title}
+                                            animeTitle={anime.title}
                                         />
                                     ) : (
                                         <div className="py-8 text-center text-gray-400">

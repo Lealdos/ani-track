@@ -11,13 +11,10 @@ interface Platform {
 
 interface StreamingPlatformsProps {
     platforms: Platform[]
-    animeName: string
+    animeTitle?: string
 }
 
-export function StreamingPlatforms({
-    platforms,
-    animeName: animeTitle,
-}: StreamingPlatformsProps) {
+export function StreamingPlatforms({ platforms }: StreamingPlatformsProps) {
     return (
         <div className="my-2 space-y-4">
             {platforms.map((platform, index) => (
@@ -40,7 +37,7 @@ export function StreamingPlatforms({
                     </div>
                     <button className="flex items-center justify-center gap-2 truncate rounded-lg bg-purple-800 p-2 text-sm hover:bg-gray-700">
                         <a
-                            href={`${platform.url}/search?q=${encodeURIComponent(animeTitle)}`}
+                            href={`${platform.url}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-32 truncate"
