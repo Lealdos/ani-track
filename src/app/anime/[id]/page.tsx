@@ -75,6 +75,7 @@ export default async function AnimePage({
     const recommendations = await getAnimeRecommendations(id)
 
     const streamingServices = formatStreamingPlatforms(anime?.streaming)
+    console.log(streamingServices)
 
     if (!anime) {
         return notFound()
@@ -111,12 +112,12 @@ export default async function AnimePage({
                             priority
                         />
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center justify-center">
                         <section>
                             <h1 className="mb-2 text-3xl font-bold md:text-4xl">
                                 {anime.title}
                             </h1>
-                            {anime.title_japanese && (
+                            {anime.title_english && (
                                 <p className="mb-4 text-gray-400">
                                     {anime.title_english}
                                 </p>
@@ -197,8 +198,11 @@ export default async function AnimePage({
                             </div>
                         </section>
 
-                        <section className="my-8">
-                            <Tabs defaultValue="watch" className="h-80 w-full">
+                        <section className="mt-8 min-w-full">
+                            <Tabs
+                                defaultValue="watch"
+                                className="h-80 w-full md:h-96"
+                            >
                                 <TabsList className="grid w-full grid-cols-2 bg-gray-900">
                                     <TabsTrigger
                                         value="watch"
@@ -216,11 +220,12 @@ export default async function AnimePage({
 
                                 <TabsContent
                                     value="watch"
-                                    className={`mt-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
                                 >
                                     {streamingServices.length > 0 ? (
                                         <StreamingPlatforms
                                             platforms={streamingServices}
+                                            animeName={anime.title}
                                         />
                                     ) : (
                                         <div className="py-8 text-center text-gray-400">
@@ -231,7 +236,7 @@ export default async function AnimePage({
                                 </TabsContent>
                                 <TabsContent
                                     value="episodes"
-                                    className={`mt-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
                                 >
                                     <EpisodeList
                                         episodes={episodes}

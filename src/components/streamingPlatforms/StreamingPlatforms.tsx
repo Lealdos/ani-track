@@ -11,15 +11,19 @@ interface Platform {
 
 interface StreamingPlatformsProps {
     platforms: Platform[]
+    animeName: string
 }
 
-export function StreamingPlatforms({ platforms }: StreamingPlatformsProps) {
+export function StreamingPlatforms({
+    platforms,
+    animeName: animeTitle,
+}: StreamingPlatformsProps) {
     return (
-        <div className="space-y-4">
+        <div className="my-2 space-y-4">
             {platforms.map((platform, index) => (
                 <div
                     key={index}
-                    className="flex flex-col justify-between rounded-lg border border-gray-800 bg-gray-900 p-4 sm:flex-row sm:items-center"
+                    className="flex flex-col justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900 p-4 sm:flex-row sm:items-center"
                 >
                     <div className="mb-4 flex items-center gap-4 sm:mb-0">
                         <div
@@ -34,16 +38,16 @@ export function StreamingPlatforms({ platforms }: StreamingPlatformsProps) {
                             </div>
                         </div>
                     </div>
-                    <button className="flex items-center justify-center rounded-lg bg-purple-800 p-2 text-sm hover:bg-gray-700">
+                    <button className="flex items-center justify-center gap-2 truncate rounded-lg bg-purple-800 p-2 text-sm hover:bg-gray-700">
                         <a
-                            href={platform.url}
+                            href={`${platform.url}/search?q=${encodeURIComponent(animeTitle)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2"
+                            className="w-32 truncate"
                         >
-                            Ver ahora
-                            <ExternalLink className="ml-2" />
+                            Watch on {platform.name}
                         </a>
+                        <ExternalLink className="ml-2" />
                     </button>
                 </div>
             ))}
