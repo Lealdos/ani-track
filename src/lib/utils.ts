@@ -2,7 +2,7 @@ import { Anime } from '@/types/anime'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-export function cn(...inputs: ClassValue[]) {
+export function mergeClassNames(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 

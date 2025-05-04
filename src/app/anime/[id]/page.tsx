@@ -17,6 +17,14 @@ import { Anime } from '@/types/anime'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 
+const scrollBarStyles = `[&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500`
+
 interface Recommendations {
     entry: Anime
 }
@@ -73,7 +81,7 @@ export default async function AnimePage({
     }
 
     return (
-        <main className="min-h-screen bg-gray-950 text-gray-100">
+        <div className="min-h-screen bg-gray-950 text-gray-100">
             <div className="relative h-[300px] md:h-[620px]">
                 <Image
                     src={
@@ -88,7 +96,7 @@ export default async function AnimePage({
                 />
                 <BackButton />
             </div>
-            <div className="container mx-auto px-4 py-8">
+            <main className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
                     <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:-mt-40">
                         <Image
@@ -103,142 +111,138 @@ export default async function AnimePage({
                             priority
                         />
                     </div>
-
                     <div>
-                        <h1 className="mb-2 text-3xl font-bold md:text-4xl">
-                            {anime.title}
-                        </h1>
-                        {anime.title_japanese && (
-                            <p className="mb-4 text-gray-400">
-                                {anime.title_english}
-                            </p>
-                        )}
-
-                        <div className="mb-4 flex flex-wrap gap-2">
-                            {anime.genres?.map((genre: Genres) => (
-                                <div
-                                    key={genre.mal_id}
-                                    className="border-gray-600"
-                                >
-                                    {genre.name}
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="mb-6 flex flex-wrap items-center gap-6 text-sm">
-                            {anime.status && (
-                                <div className="rounded-xl bg-purple-900/50 p-1 text-purple-200 hover:bg-purple-900/70">
-                                    {anime.status}
-                                </div>
+                        <section>
+                            <h1 className="mb-2 text-3xl font-bold md:text-4xl">
+                                {anime.title}
+                            </h1>
+                            {anime.title_japanese && (
+                                <p className="mb-4 text-gray-400">
+                                    {anime.title_english}
+                                </p>
                             )}
 
-                            {anime.score && (
-                                <div className="flex items-center">
-                                    <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
-                                    <span>{anime.score}/10</span>
-                                </div>
-                            )}
-
-                            <div className="flex items-center">
-                                <Calendar className="mr-1 h-4 w-4 text-gray-400" />
-                                <span>
-                                    premiered: {anime.season} {anime.year}
-                                </span>
+                            <div className="mb-4 flex flex-wrap gap-2">
+                                {anime.genres?.map((genre: Genres) => (
+                                    <div
+                                        key={genre.mal_id}
+                                        className="border-gray-600"
+                                    >
+                                        {genre.name}
+                                    </div>
+                                ))}
                             </div>
 
-                            {anime.broadcast && (
-                                <div className="flex items-center">
-                                    <Clock className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>
-                                        Broadcast: {anime.broadcast.string}
-                                    </span>
-                                </div>
-                            )}
+                            <div className="mb-6 flex flex-wrap items-center gap-6 text-sm">
+                                {anime.status && (
+                                    <div className="rounded-xl bg-purple-900/50 p-1 text-purple-200 hover:bg-purple-900/70">
+                                        {anime.status}
+                                    </div>
+                                )}
 
-                            {anime.aired && (
+                                {anime.score && (
+                                    <div className="flex items-center">
+                                        <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
+                                        <span>{anime.score}/10</span>
+                                    </div>
+                                )}
+
                                 <div className="flex items-center">
                                     <Calendar className="mr-1 h-4 w-4 text-gray-400" />
                                     <span>
-                                        Aired: {formatDate(anime.aired.from)}
-                                        {' - '}
-                                        {anime.aired.to ? (
-                                            formatDate(anime.aired.to)
-                                        ) : (
-                                            <span>still airing</span>
-                                        )}
+                                        premiered: {anime.season} {anime.year}
                                     </span>
                                 </div>
-                            )}
 
-                            {episodeDuration && (
-                                <div className="flex items-center">
-                                    <Clock className="mr-1 h-4 w-4 text-gray-400" />
-                                    <span>{episodeDuration}</span>
-                                </div>
-                            )}
-                        </div>
-
-                        <div>
-                            <h2 className="mb-2 text-2xl font-bold">
-                                Synopsis
-                            </h2>
-                            <p className="mb-6 text-gray-300">
-                                {anime.synopsis}
-                            </p>
-                        </div>
-
-                        <Tabs defaultValue="watch" className="h-80 w-full">
-                            <TabsList className="grid w-full grid-cols-2 bg-gray-900">
-                                <TabsTrigger
-                                    value="watch"
-                                    className="focus:bg-purple-900/70"
-                                >
-                                    where to watch
-                                </TabsTrigger>
-                                <TabsTrigger
-                                    value="episodes"
-                                    className="focus:bg-purple-900/70"
-                                >
-                                    episodes
-                                </TabsTrigger>
-
-                                {/* <TabsTrigger value="comments">
-                                    comments
-                                </TabsTrigger> */}
-                            </TabsList>
-                            <TabsContent
-                                value="episodes"
-                                className="mt-4 h-80 overflow-y-auto"
-                            >
-                                <EpisodeList
-                                    episodes={episodes}
-                                    animeId={id.toString()}
-                                />
-                            </TabsContent>
-                            <TabsContent value="watch" className="mt-4">
-                                {streamingServices.length > 0 ? (
-                                    <StreamingPlatforms
-                                        platforms={streamingServices}
-                                    />
-                                ) : (
-                                    <div className="py-8 text-center text-gray-400">
-                                        there are no streaming platforms
-                                        available for this anime.
+                                {anime.broadcast && (
+                                    <div className="flex items-center">
+                                        <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                        <span>
+                                            Broadcast: {anime.broadcast.string}
+                                        </span>
                                     </div>
                                 )}
-                            </TabsContent>
-                            {/* <TabsContent value="comments" className="mt-4">
-                                <Comments />
-                            </TabsContent> */}
-                        </Tabs>
+
+                                {anime.aired && (
+                                    <div className="flex items-center">
+                                        <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                        <span>
+                                            Aired:{' '}
+                                            {formatDate(anime.aired.from)}
+                                            {' - '}
+                                            {anime.aired.to ? (
+                                                formatDate(anime.aired.to)
+                                            ) : (
+                                                <span>still airing</span>
+                                            )}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {episodeDuration && (
+                                    <div className="flex items-center">
+                                        <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                        <span>{episodeDuration}</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div>
+                                <h2 className="mb-2 text-2xl font-bold">
+                                    Synopsis
+                                </h2>
+                                <p className="mb-6 text-gray-300">
+                                    {anime.synopsis}
+                                </p>
+                            </div>
+                        </section>
+
+                        <section className="my-8">
+                            <Tabs defaultValue="watch" className="h-80 w-full">
+                                <TabsList className="grid w-full grid-cols-2 bg-gray-900">
+                                    <TabsTrigger
+                                        value="watch"
+                                        className="focus:bg-purple-900/70"
+                                    >
+                                        where to watch
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                        value="episodes"
+                                        className="focus:bg-purple-900/70"
+                                    >
+                                        episodes
+                                    </TabsTrigger>
+                                </TabsList>
+
+                                <TabsContent value="watch" className="mt-4">
+                                    {streamingServices.length > 0 ? (
+                                        <StreamingPlatforms
+                                            platforms={streamingServices}
+                                        />
+                                    ) : (
+                                        <div className="py-8 text-center text-gray-400">
+                                            there are no streaming platforms
+                                            available for this anime.
+                                        </div>
+                                    )}
+                                </TabsContent>
+                                <TabsContent
+                                    value="episodes"
+                                    className={`mt-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                >
+                                    <EpisodeList
+                                        episodes={episodes}
+                                        animeId={id.toString()}
+                                    />
+                                </TabsContent>
+                            </Tabs>
+                        </section>
                     </div>
                 </div>
 
-                <br className="my-8 bg-gray-800" />
-
                 {recommendations.length > 0 && (
                     <section>
-                        <h2 className="mb-6 text-2xl font-bold">
+                        <h2 className="my-6 text-2xl font-bold">
                             Anime Recommendations based in this anime
                         </h2>
                         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -280,7 +284,7 @@ export default async function AnimePage({
                         </div>
                     </section>
                 )}
-            </div>
-        </main>
+            </main>
+        </div>
     )
 }

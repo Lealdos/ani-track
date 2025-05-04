@@ -6,7 +6,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Menu, X, User } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { mergeClassNames } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
 
 type Route = {
@@ -54,7 +54,7 @@ export default function Header() {
 
     return (
         <header
-            className={cn(
+            className={mergeClassNames(
                 `top-0 z-50 flex h-18 w-full items-center justify-between border-b px-4`,
                 isScrolled
                     ? 'fixed bg-gradient-to-r from-slate-900/85 via-purple-900/80 to-slate-900/85 shadow-md backdrop-blur-sm'
@@ -119,7 +119,7 @@ export default function Header() {
 
             <aside
                 id="mobile-drawer"
-                className={cn(
+                className={mergeClassNames(
                     `fixed z-20 overflow-y-auto bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out`,
                     isMenuOpen
                         ? 'top-0 right-0 container h-screen w-48 translate-x-0'
