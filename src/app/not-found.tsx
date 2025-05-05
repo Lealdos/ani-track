@@ -7,7 +7,7 @@ export default function NotFound() {
             <Image
                 src="/404.png"
                 alt="AniTrack 404 Page Not Found"
-                className="h-96 w-auto md:h-full"
+                className="h-80 w-auto md:h-96"
                 width={408}
                 height={612}
                 priority
