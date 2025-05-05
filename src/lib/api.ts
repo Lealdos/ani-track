@@ -28,9 +28,25 @@ export async function fetchWithRateLimit(url: string) {
     }
 }
 
-export async function getAllAnimes(
+export async function FetchBrowsersAnime(
+    query?: string,
     page: number = 1
 ): Promise<{ animes: Anime[]; pagination: paginationProps }> {
+    if (query) {
+        try {
+            const data = await fetchWithRateLimit(
+                `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&page=${page}&limit=${15}&sfw`
+            )
+            const animeData = {
+                animes: removeDuplicates(data.data),
+                pagination: data.pagination as paginationProps,
+            }
+            return animeData
+        } catch (error) {
+            console.error('Error fetching animes:', error)
+            throw error as Error
+        }
+    }
     try {
         const data = await fetchWithRateLimit(
             `${API_BASE_URL}/anime?page=${page}&limit=${15}&sfw`
@@ -43,33 +59,6 @@ export async function getAllAnimes(
     } catch (error) {
         console.error('Error fetching animes:', error)
         throw error as Error
-    }
-}
-
-export async function searchAnime(query?: string, page = 1) {
-    try {
-        if (!query) {
-            const data = await fetchWithRateLimit(
-                `${API_BASE_URL}/anime?limit=20&page=${page}&sfw`
-            )
-            const animeData = {
-                animes: removeDuplicates(data.data),
-                pagination: data.pagination as paginationProps,
-            }
-            return animeData
-        }
-        const data = await fetchWithRateLimit(
-            `${API_BASE_URL}/anime?q=${encodeURIComponent(query)}&limit=20&page=${page}&sfw`
-        )
-
-        const result = {
-            animes: removeDuplicates(data.data),
-            pagination: data.pagination as paginationProps,
-        }
-        return result
-    } catch (error) {
-        console.error('Error searching anime:', error)
-        return []
     }
 }
 

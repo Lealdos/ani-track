@@ -82,7 +82,7 @@ export default async function AnimePage({
 
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
-            <div className="relative h-[300px] md:h-[620px]">
+            <div className="relative h-[300px] md:hidden md:h-[620px]">
                 <Image
                     src={
                         anime.images?.jpg?.large_image_url ||
@@ -98,7 +98,7 @@ export default async function AnimePage({
             </div>
             <main className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
-                    <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:-mt-40">
+                    <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:mt-10">
                         <Image
                             src={
                                 anime.images?.webp?.image_url ||
@@ -111,12 +111,12 @@ export default async function AnimePage({
                             priority
                         />
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center justify-center">
                         <section>
                             <h1 className="mb-2 text-3xl font-bold md:text-4xl">
                                 {anime.title}
                             </h1>
-                            {anime.title_japanese && (
+                            {anime.title_english && (
                                 <p className="mb-4 text-gray-400">
                                     {anime.title_english}
                                 </p>
@@ -197,8 +197,11 @@ export default async function AnimePage({
                             </div>
                         </section>
 
-                        <section className="my-8">
-                            <Tabs defaultValue="watch" className="h-80 w-full">
+                        <section className="mt-8 min-w-full">
+                            <Tabs
+                                defaultValue="watch"
+                                className="h-80 w-full md:h-96"
+                            >
                                 <TabsList className="grid w-full grid-cols-2 bg-gray-900">
                                     <TabsTrigger
                                         value="watch"
@@ -214,10 +217,14 @@ export default async function AnimePage({
                                     </TabsTrigger>
                                 </TabsList>
 
-                                <TabsContent value="watch" className="mt-4">
+                                <TabsContent
+                                    value="watch"
+                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                >
                                     {streamingServices.length > 0 ? (
                                         <StreamingPlatforms
                                             platforms={streamingServices}
+                                            animeTitle={anime.title}
                                         />
                                     ) : (
                                         <div className="py-8 text-center text-gray-400">
@@ -228,7 +235,7 @@ export default async function AnimePage({
                                 </TabsContent>
                                 <TabsContent
                                     value="episodes"
-                                    className={`mt-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
                                 >
                                     <EpisodeList
                                         episodes={episodes}
@@ -254,7 +261,7 @@ export default async function AnimePage({
                                         href={`/anime/${recommendedAnime.entry.mal_id}`}
                                         className="group"
                                     >
-                                        <div className="relative overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+                                        <div className="relative rounded-lg transition-transform group-hover:scale-105">
                                             <Image
                                                 src={
                                                     recommendedAnime.entry
