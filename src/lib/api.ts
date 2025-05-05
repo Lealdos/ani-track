@@ -30,7 +30,7 @@ export async function fetchWithRateLimit(url: string) {
 
 export async function FetchBrowsersAnime(
     query?: string,
-    page: number = 3
+    page: number = 1
 ): Promise<{ animes: Anime[]; pagination: paginationProps }> {
     if (query) {
         try {
