@@ -8,14 +8,6 @@ interface PaginationProps {
 
 export function Pagination(paginationProps: PaginationProps) {
     const { current_Page, has_next_page, last_visible_page } = paginationProps
-    console.log(
-        'current_Page',
-        current_Page,
-        'has_next_page',
-        has_next_page,
-        'last_visible_page',
-        last_visible_page
-    )
 
     return (
         <div className="mt-4 flex flex-row items-center justify-between">
