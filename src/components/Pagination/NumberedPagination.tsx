@@ -61,18 +61,19 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
     return (
         <nav className="mt-4 flex flex-row items-center justify-center gap-2 select-none">
             <button
-                className={`rounded-lg bg-purple-800 px-3 py-2 text-sm font-medium text-white transition-colors ${currentPage <= 1 ? 'opacity-50' : 'hover:bg-purple-900/90'}`}
+                className={`rounded-lg bg-purple-800 px-4 py-2 text-sm font-medium text-white transition-colors ${currentPage <= 1 ? 'opacity-50' : 'hover:bg-purple-900/90'}`}
                 disabled={currentPage <= 1}
                 onClick={() => handlePageClick(currentPage - 1)}
                 aria-label="Previous page"
             >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-5 w-4" />
+                <span className="sr-only">Previous page</span>
             </button>
             {pageNumbers.map((pageNumbers, pageIndex) =>
                 typeof pageNumbers === 'number' ? (
                     <button
                         key={pageNumbers}
-                        className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${pageNumbers === currentPage ? 'bg-purple-700 text-white' : 'bg-slate-600 text-white hover:bg-purple-500'}`}
+                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${pageNumbers === currentPage ? 'bg-purple-700 text-white' : 'bg-slate-600 text-white hover:bg-purple-500'}`}
                         onClick={() => handlePageClick(pageNumbers)}
                         aria-current={
                             pageNumbers === currentPage ? 'page' : undefined
@@ -90,12 +91,13 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
                 )
             )}
             <button
-                className={`rounded-lg bg-purple-900 px-3 py-2 text-sm font-medium text-white transition-colors ${!hasNextPage || currentPage >= lastPage ? 'opacity-50' : 'hover:bg-purple-900/90'}`}
+                className={`rounded-lg bg-purple-700 px-4 py-2 text-sm font-medium text-white transition-colors ${!hasNextPage || currentPage >= lastPage ? 'opacity-50' : 'hover:bg-purple-700/90'}`}
                 disabled={!hasNextPage || currentPage >= lastPage}
                 onClick={() => handlePageClick(currentPage + 1)}
                 aria-label="Next page"
             >
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-4" />
+                <span className="sr-only">Next page</span>
             </button>
         </nav>
     )
