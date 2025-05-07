@@ -4,7 +4,7 @@ import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
-import { Pagination } from '@/components/Pagination/Pagination'
+import { NumberedPagination } from '@/components/Pagination/NumberedPagination'
 import { FilterAndStringifySearchParams } from '@/lib/utils'
 import { searchParamsProps } from '@/types/SearchParamsProps'
 
@@ -31,10 +31,10 @@ export default async function BrowseAnime({
                 <Suspense fallback={<AnimeListSkeleton />}>
                     <AnimeList animes={animes} showBadge />
                 </Suspense>
-                <Pagination
-                    current_Page={pagination.current_page}
-                    has_next_page={pagination.has_next_page}
-                    last_visible_page={pagination.last_visible_page}
+                <NumberedPagination
+                    currentPage={pagination.current_page}
+                    lastPage={pagination.last_visible_page ?? 1}
+                    hasNextPage={pagination.has_next_page}
                 />
             </main>
         )
@@ -56,10 +56,10 @@ export default async function BrowseAnime({
                     <AnimeList animes={animes} showBadge />
                 </Suspense>
             )}
-            <Pagination
-                current_Page={pagination.current_page}
-                has_next_page={pagination.has_next_page}
-                last_visible_page={pagination.last_visible_page}
+            <NumberedPagination
+                currentPage={pagination.current_page}
+                lastPage={pagination.last_visible_page ?? 1}
+                hasNextPage={pagination.has_next_page}
             />
         </main>
     )
