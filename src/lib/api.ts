@@ -34,7 +34,6 @@ export async function FetchBrowsersAnime(
 ): Promise<{ animes: Anime[]; pagination: paginationProps }> {
     if (query) {
         try {
-            console.log('api request', `${API_BASE_URL}/anime?${query}&sfw`)
             const data = await fetchWithRateLimit(
                 `${API_BASE_URL}/anime?${query}&sfw`
             )
