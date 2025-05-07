@@ -15,18 +15,14 @@ export function Pagination(paginationProps: PaginationProps) {
     const searchParams = useSearchParams()
     const { push } = useRouter()
 
-    const currentPage = Number(searchParams.get('page')) || 1
-
     const createPageURL = (pageNumber: number | string) => {
         const params = new URLSearchParams(searchParams)
         params.set('page', pageNumber.toString())
         return `${pathname}?${params.toString()}`
     }
 
-    console.log('new url', createPageURL(currentPage))
     const handlePageClick = (pageNumber: number) => {
         const newURL = createPageURL(pageNumber)
-        console.log('new url 2', newURL)
         return push(newURL)
     }
 
