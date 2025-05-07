@@ -29,9 +29,12 @@ export function formatDate(date: Date, locale = 'en-US') {
 }
 
 export function FilterAndStringifySearchParams(rawParams: searchParamsProps) {
+    // Filter out null and undefined values from the search params
     return Object.fromEntries(
         Object.entries(rawParams)
-            .filter(([key]) => key !== 'page')
+            .filter(([key, value]) => {
+                return value !== null && key in rawParams && value !== undefined
+            })
             .map(([key, value]) => [
                 key,
                 value !== undefined ? String(value) : '',
