@@ -7,15 +7,15 @@ import { Search } from 'lucide-react'
 
 export function SearchBar() {
     const [query, setQuery] = useState('')
-    const router = useRouter()
+    const { push } = useRouter()
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault()
+    const handleSearch = (searchEvent: React.FormEvent) => {
+        searchEvent.preventDefault()
         if (!query) {
-            return router.push('/browse')
+            return push('/browse')
         }
         const cleanQuery = query.trim()
-        router.push(`/browse?q=${encodeURIComponent(cleanQuery).trim()}`)
+        push(`/browse?q=${encodeURIComponent(cleanQuery).trim()}`)
         setQuery('')
     }
 
@@ -28,9 +28,9 @@ export function SearchBar() {
                     placeholder="Search animes..."
                     className="h-10 w-full rounded-lg border border-t-red-700 border-r-red-700 border-b-red-500 border-l-red-500 bg-black/40 p-2 pr-12 pl-10 text-sm text-white placeholder:text-gray-400"
                     value={query}
-                    onChange={(e: {
+                    onChange={(searchEvent: {
                         target: { value: React.SetStateAction<string> }
-                    }) => setQuery(e.target.value)}
+                    }) => setQuery(searchEvent.target.value)}
                 />
                 <button
                     type="submit"
