@@ -1,4 +1,4 @@
-export interface searchParamsProps {
+export type searchParamsProps = {
     q?: string
     type?: string
     status?: string
