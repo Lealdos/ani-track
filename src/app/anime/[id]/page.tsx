@@ -93,6 +93,7 @@ export default async function AnimePage({
                     className="object-cover brightness-70 md:object-fill"
                     priority
                     fill
+                    sizes="(max-width: 768px) 100vw, 250px"
                 />
                 <BackButton />
             </div>
