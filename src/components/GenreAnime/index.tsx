@@ -3,7 +3,7 @@ import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { getAnimeByGenre } from '@/lib/api'
 import { GenreSelect } from './GenreSelect'
 
-export async function AnimeByGenre() {
+export function AnimeByGenre() {
     // Popular genres
     const genres = [
         { id: 1, name: 'Action' },
@@ -14,7 +14,7 @@ export async function AnimeByGenre() {
     ]
 
     // Fetch anime for the first genre to show by default
-    const defaultGenreAnimes = await getAnimeByGenre(genres[0].id)
+    const defaultGenreAnimes = getAnimeByGenre(genres[0].id)
 
     return (
         <Tabs defaultValue={genres[0].id.toString()} className="space-y-8">

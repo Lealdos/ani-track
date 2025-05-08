@@ -1,8 +1,9 @@
 import { AnimeList } from '@/components/AnimeList/AnimeList'
-import { getTopAnime } from '@/lib/api'
+import { Anime } from '@/types/anime'
+interface TopAnimeProps {
+    topAnime: Promise<Anime[]>
+}
 
-export async function TopAnime() {
-    const animes = await getTopAnime()
-
-    return <AnimeList animes={animes} showBadge SectionName="top-animes" />
+export function TopAnime({ topAnime }: TopAnimeProps) {
+    return <AnimeList animes={topAnime} showBadge SectionName="top-animes" />
 }

@@ -1,8 +1,18 @@
 import { AnimeList } from '@/components/AnimeList/AnimeList'
-import { getSeasonalAnime } from '@/lib/api'
+import { Anime } from '@/types/anime'
 
-export async function CurrentSeason() {
-    const animes = await getSeasonalAnime()
+interface CurrentSeasonProps {
+    currentSeason: Promise<Anime[]>
+}
 
-    return <AnimeList animes={animes} showBadge SectionName="current-season" />
+export function CurrentSeason({
+    currentSeason,
+}: CurrentSeasonProps): React.ReactElement {
+    return (
+        <AnimeList
+            animes={currentSeason}
+            showBadge
+            SectionName="current-season"
+        />
+    )
 }

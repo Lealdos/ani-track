@@ -4,8 +4,12 @@ import { CurrentSeason } from '@/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/ui/SkeletonCard/AnimeSkeletonList'
+import { getSeasonalAnime, getTopAnime } from '@/lib/api'
 
 export default async function Home() {
+    const seasonalAnime = getSeasonalAnime()
+    const topAnime = getTopAnime()
+
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <section className="mb-12">
@@ -17,7 +21,7 @@ export default async function Home() {
                         <AnimeListSkeleton sectionName="current-season" />
                     }
                 >
-                    <CurrentSeason />
+                    <CurrentSeason currentSeason={seasonalAnime} />
                 </Suspense>
             </section>
 
@@ -28,7 +32,7 @@ export default async function Home() {
                 <Suspense
                     fallback={<AnimeListSkeleton sectionName="top-anime" />}
                 >
-                    <TopAnime />
+                    <TopAnime topAnime={topAnime} />
                 </Suspense>
             </section>
 
