@@ -13,12 +13,20 @@ interface NumberedPaginationProps {
 }
 
 // Helper to generate page numbers with ellipsis
+/**
+ * Generates an array of page numbers with ellipsis for pagination
+ * @param currentPageNum Current active page number
+ * @param totalPages Total number of pages
+ * @param maxPagesToShow Maximum number of page buttons to show
+ * @returns Array of numbers and ellipsis strings
+ */
 function getPageNumbers(
     currentPageNum: number,
-    totalPages: number
-): (number | string)[] {
-    const pages: (number | string)[] = []
-    if (totalPages <= 10) {
+    totalPages: number,
+    maxPagesToShow: number = 8
+): (number | '...')[] {
+    const pages: (number | '...')[] = []
+    if (totalPages <= maxPagesToShow) {
         for (let i = 1; i <= totalPages; i++) pages.push(i)
         return pages
     }
@@ -56,10 +64,11 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
         }
     }
 
-    const pageNumbers = getPageNumbers(currentPage, lastPage)
+    const maxPagesToShow = 8
+    const pageNumbers = getPageNumbers(currentPage, lastPage, maxPagesToShow)
 
     return (
-        <nav className="mt-4 flex flex-row items-center justify-center gap-2 select-none">
+        <nav className="mt-4 flex flex-row flex-wrap items-center justify-center-safe gap-2 select-none">
             <button
                 className={`rounded-lg bg-purple-700 px-4 py-2 text-sm font-medium text-white transition-colors ${currentPage <= 1 ? 'opacity-50' : 'hover:bg-purple-800/90'}`}
                 disabled={currentPage <= 1}
