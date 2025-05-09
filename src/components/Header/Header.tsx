@@ -15,6 +15,12 @@ type Route = {
 }
 
 export default function Header() {
+    const animeBrowseMenu: Route[] = [{ href: '/browse', label: 'Browse' }]
+    const AuthHeaderRoutes: Route[] = [
+        { href: '/login', label: 'Log in' },
+        { href: '/register', label: 'Sign up' },
+    ]
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     // const pathname = usePathname()
@@ -46,18 +52,12 @@ export default function Header() {
         }
     }, [isMenuOpen])
 
-    const LeftHeaderRoutes: Route[] = [{ href: '/browse', label: 'Browse' }]
-    const RightHeaderRoutes: Route[] = [
-        { href: '/login', label: 'Log in' },
-        { href: '/register', label: 'Sign up' },
-    ]
-
     return (
         <header
             className={mergeClassNames(
-                `top-0 z-50 flex h-18 w-full items-center justify-between border-b px-4`,
+                `top-0 z-50 flex h-18 w-full items-center justify-between border-b border-b-red-900 px-4 transition duration-1000 ease-in-out`,
                 isScrolled
-                    ? 'fixed bg-gradient-to-r from-slate-900/85 via-purple-900/80 to-slate-900/85 shadow-md backdrop-blur-sm'
+                    ? 'fixed translate-y-8 rounded-full border-1 border-x-red-800 border-y-purple-700 bg-gradient-to-r from-slate-900/80 via-red-900/70 to-slate-900/80 shadow-md backdrop-blur'
                     : 'sticky bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur'
             )}
         >
@@ -70,7 +70,7 @@ export default function Header() {
                     </Link>
 
                     <nav className="hidden items-center text-sm font-medium md:flex">
-                        {LeftHeaderRoutes.map((route) => (
+                        {animeBrowseMenu.map((route) => (
                             <Link
                                 key={route.href}
                                 href={route.href}
@@ -88,7 +88,7 @@ export default function Header() {
 
                 <div className="flex items-center gap-4">
                     <nav className="hidden items-center gap-4 text-sm font-medium sm:flex">
-                        {RightHeaderRoutes.map((route) => (
+                        {AuthHeaderRoutes.map((route) => (
                             <Link
                                 key={route.href}
                                 href={route.href}
@@ -138,33 +138,30 @@ export default function Header() {
                 <button
                     type="button"
                     onClick={() => setIsMenuOpen(false)}
-                    className="absolute end-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
+                    className="absolute end-12 top-4 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-white"
                 >
                     <X className="h-6 w-6" />
                     <span className="sr-only">Close menu</span>
                 </button>
                 <ul className="space-y-2 text-white">
-                    <li>
-                        <Link
-                            href="/login"
-                            className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
-                        >
-                            <span>Login</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/register"
-                            className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
-                        >
-                            <span>Register</span>
-                        </Link>
-                    </li>
-                    {LeftHeaderRoutes.map((route) => (
+                    {AuthHeaderRoutes.map((route) => (
+                        <li key={route.href}>
+                            <Link
+                                key={route.href}
+                                href={route.href}
+                                className={`w-max text-white transition-colors hover:scale-105 hover:text-cyan-500`}
+                            >
+                                {route.label}
+                            </Link>
+                        </li>
+                    ))}
+
+                    {animeBrowseMenu.map((route) => (
                         <li key={route.href}>
                             <Link
                                 href={route.href}
                                 className="flex items-center rounded-lg p-2 hover:bg-gray-700 hover:text-white"
+                                onClick={() => setIsMenuOpen(false)}
                             >
                                 <span>{route.label}</span>
                             </Link>
