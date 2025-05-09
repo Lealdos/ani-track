@@ -61,6 +61,13 @@ export default async function AnimePage({
 }: {
     params: Promise<Params>
 }) {
+    const TabsContes = [
+        {
+            tabsName: 'Where to watch',
+        },
+        { tabsName: 'Episodes' },
+    ]
+
     const { id } = await params
 
     // Fetch anime details from API
@@ -200,26 +207,23 @@ export default async function AnimePage({
 
                         <section className="mt-8 min-w-full">
                             <Tabs
-                                defaultValue="watch"
+                                defaultValue={TabsContes[0].tabsName}
                                 className="h-80 w-full md:h-96"
                             >
                                 <TabsList className="grid w-full grid-cols-2 bg-gray-900">
-                                    <TabsTrigger
-                                        value="watch"
-                                        className="focus:bg-purple-900/70"
-                                    >
-                                        where to watch
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="episodes"
-                                        className="focus:bg-purple-900/70"
-                                    >
-                                        episodes
-                                    </TabsTrigger>
+                                    {TabsContes.map(({ tabsName }) => (
+                                        <TabsTrigger
+                                            key={tabsName}
+                                            value={tabsName}
+                                            className="rounded-full py-2 text-white data-[state=active]:bg-purple-600 data-[state=inactive]:bg-black/60"
+                                        >
+                                            {tabsName}
+                                        </TabsTrigger>
+                                    ))}
                                 </TabsList>
 
                                 <TabsContent
-                                    value="watch"
+                                    value={'Where to watch'}
                                     className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
                                 >
                                     {streamingServices.length > 0 ? (
@@ -235,7 +239,7 @@ export default async function AnimePage({
                                     )}
                                 </TabsContent>
                                 <TabsContent
-                                    value="episodes"
+                                    value="Episodes"
                                     className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
                                 >
                                     <EpisodeList
