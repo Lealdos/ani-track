@@ -57,7 +57,7 @@ export default function Header() {
             className={mergeClassNames(
                 `top-0 z-50 items-center justify-center rounded-full transition-all transition-discrete duration-1000 ease-out`,
                 isScrolled
-                    ? 'fixed w-94 max-w-md translate-y-10 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
+                    ? 'fixed w-93 max-w-md translate-y-10 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
                     : 'sticky w-full max-w-full'
             )}
         >
@@ -66,7 +66,7 @@ export default function Header() {
                     `flex h-14 w-full items-center justify-between md:h-16`,
                     isScrolled
                         ? 'rounded-full bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 shadow-md backdrop-blur md:px-20'
-                        : 'border-b border-b-red-900 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur md:px-40'
+                        : 'border-b border-b-red-900 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 px-2 backdrop-blur md:px-40'
                 )}
             >
                 <div
@@ -130,10 +130,10 @@ export default function Header() {
                     </div>
                 </div>
 
-                <div
+                <aside
                     id="mobile-drawer"
                     className={mergeClassNames(
-                        `fixed z-20 overflow-y-auto rounded-lg bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-500 ease-in-out`,
+                        `fixed z-20 overflow-y-auto rounded-lg bg-gradient-to-tr from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 shadow-md backdrop-blur-sm transition-transform duration-500 ease-in-out md:hidden`,
                         IsMobileMenuVisible
                             ? 'top-0 right-0 h-screen w-48 translate-x-0'
                             : '-top-10 -right-8 h-0.5 w-0.5 translate-x-full'
@@ -181,7 +181,7 @@ export default function Header() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </aside>
             </header>
         </div>
     )
