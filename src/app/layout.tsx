@@ -31,7 +31,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} h-dvh w-full bg-gray-950 text-white antialiased`}
+                className={`${geistSans.variable} ${geistMono.variable} flex w-full flex-col items-center-safe justify-between bg-gray-950 text-white antialiased`}
             >
                 <Header />
                 <ViewTransition name="page">
