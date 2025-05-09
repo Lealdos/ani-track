@@ -34,7 +34,7 @@ export function SearchBar() {
                 />
                 <button
                     type="submit"
-                    className="absolute top-1/2 right-1 -translate-y-1/2 rounded-md px-2 py-1 text-sm text-gray-400 hover:text-white"
+                    className="absolute top-1/2 right-1 hidden -translate-y-1/2 rounded-md px-2 py-1 text-sm text-gray-400 hover:text-white md:block"
                 >
                     <span className="sr-only">Search</span>
                     Enter
