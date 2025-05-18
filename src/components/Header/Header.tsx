@@ -158,7 +158,7 @@ export default function Header() {
                         `z-20 mt-2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
                         isMobileMenuOpen
                             ? 'absolute flex w-full animate-flip-down flex-col items-center justify-center from-slate-900 via-red-900 to-slate-900 animate-duration-500 animate-ease-linear animate-once'
-                            : 'absolute hidden animate-fade-down animate-reverse'
+                            : 'absolute flex w-full animate-fade-down flex-col items-center animate-reverse'
                     )}
                     tabIndex={-1}
                     aria-labelledby="drawer-right-label"
