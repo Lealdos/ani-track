@@ -152,12 +152,12 @@ export default function Header() {
                     </div>
                 </header>
                 {/* Mobile menu drawer */}
-                <aside
+                <nav
                     id="mobile-menu"
                     className={mergeClassNames(
-                        `z-20 mt-2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
+                        `left-1/2 z-20 mt-4 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
                         isMobileMenuOpen
-                            ? 'absolute flex w-full animate-flip-down flex-col items-center justify-center from-slate-900 via-red-900 to-slate-900 animate-duration-500 animate-ease-linear animate-once'
+                            ? 'absolute flex w-sm animate-flip-down flex-col items-center justify-center self-center from-slate-900 via-red-900 to-slate-900 animate-duration-500 animate-ease-linear animate-once'
                             : 'absolute flex w-full animate-fade-down flex-col items-center animate-reverse'
                     )}
                     tabIndex={-1}
@@ -190,7 +190,7 @@ export default function Header() {
                             </li>
                         ))}
                     </ul>
-                </aside>
+                </nav>
             </div>
             {isMobileMenuOpen && (
                 <div
