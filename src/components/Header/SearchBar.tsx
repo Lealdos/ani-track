@@ -32,13 +32,13 @@ export function SearchBar() {
                         target: { value: React.SetStateAction<string> }
                     }) => setQuery(searchEvent.target.value)}
                 />
-                <button
+                {/* <button
                     type="submit"
                     className="absolute top-1/2 right-4 hidden -translate-y-1/2 rounded-md px-2 py-1 text-sm text-gray-400 hover:text-white md:block"
                 >
                     <span className="sr-only">Search</span>
                     Enter
-                </button>
+                </button> */}
             </div>
         </form>
     )
