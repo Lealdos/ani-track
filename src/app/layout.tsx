@@ -5,6 +5,8 @@ import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
 import { unstable_ViewTransition as ViewTransition } from 'react'
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
 
 const Header = dynamic(() => import('@/components/Header/Header'))
 const geistSans = Geist({
@@ -29,17 +31,25 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} flex w-full flex-col items-center-safe justify-between bg-gray-950 text-white antialiased`}
-            >
-                <Header />
-                <ViewTransition name="page">
-                    {children}
-                    <Toaster />
-                </ViewTransition>
-                <Footer />
-            </body>
-        </html>
+        <ClerkProvider
+            appearance={{
+                baseTheme: dark,
+            }}
+            afterSignOutUrl="/"
+        >
+            <html lang="en">
+                <body
+                    className={`${geistSans.variable} ${geistMono.variable} flex w-full flex-col items-center-safe justify-between bg-gray-950 text-white antialiased`}
+                >
+                    <Header />
+
+                    <ViewTransition name="page">
+                        {children}
+                        <Toaster />
+                    </ViewTransition>
+                    <Footer />
+                </body>
+            </html>
+        </ClerkProvider>
     )
 }
