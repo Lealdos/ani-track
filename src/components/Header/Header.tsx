@@ -1,8 +1,4 @@
 'use client'
-
-// import { usePathname } from 'next/navigation'
-// import { SearchBar } from '@/components/search-bar';
-
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
@@ -29,7 +25,6 @@ export default function Header() {
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const mobileMenuRef = useRef<HTMLDivElement | null>(null)
-    // const pathname = usePathname()
 
     useEffect(() => {
         if (isMobileMenuOpen) {
