@@ -4,7 +4,7 @@
 // import { SearchBar } from '@/components/search-bar';
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { mergeClassNames } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
@@ -26,8 +26,27 @@ export default function Header() {
     const { isLoaded, user } = useUser()
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+    const mobileMenuRef = useRef<HTMLDivElement | null>(null)
     // const pathname = usePathname()
+
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            setIsMobileMenuVisible(true)
+        }
+        const menu = mobileMenuRef.current
+        if (!menu) return
+        const handleAnimationEnd = () => {
+            if (!isMobileMenuOpen) {
+                setIsMobileMenuVisible(false)
+            }
+        }
+        menu.addEventListener('animationend', handleAnimationEnd)
+        return () => {
+            menu.removeEventListener('animationend', handleAnimationEnd)
+        }
+    }, [isMobileMenuOpen])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,12 +54,12 @@ export default function Header() {
         }
 
         const handleClickOutside = (event: MouseEvent) => {
-            const drawer = document.getElementById('mobile-menu')
+            const mobileMenu = document.getElementById('mobile-menu')
 
             if (
                 isMobileMenuOpen &&
-                drawer &&
-                !drawer.contains(event.target as Node)
+                mobileMenu &&
+                !mobileMenu.contains(event.target as Node)
             ) {
                 setIsMobileMenuOpen(false)
             }
@@ -111,89 +130,83 @@ export default function Header() {
                                     </SignedIn>
                                 )}
                                 <SignedOut>
-                                    <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
-                                        <SignInButton mode="modal" />
-                                    </div>
+                                    <SignInButton mode="modal" />
                                 </SignedOut>
                             </div>
-
-                            {/* Mobile menu */}
-                            <div className="flex items-center gap-4 md:hidden">
-                                <SignedIn>
-                                    <UserButton />
-                                </SignedIn>
-                            </div>
-
-                            <button
-                                id="menu-button"
-                                className="relative flex items-center justify-center rounded-md p-2 md:hidden"
-                                onClick={() =>
-                                    setIsMobileMenuOpen(!isMobileMenuOpen)
-                                }
-                            >
-                                {!isMobileMenuOpen ? (
-                                    <>
-                                        <Menu
-                                            className="h-6 w-6 text-white"
-                                            strokeWidth={2}
-                                        />
-                                    </>
-                                ) : (
-                                    <>
-                                        <X className="h-6 w-6" />
-                                        <span className="sr-only">
-                                            Close menu
-                                        </span>
-                                    </>
-                                )}
-                            </button>
                         </div>
+                        {/* Mobile menu */}
+
+                        <button
+                            id="menu-button"
+                            className="flex items-center justify-center rounded-md md:hidden"
+                            onClick={() =>
+                                setIsMobileMenuOpen(!isMobileMenuOpen)
+                            }
+                        >
+                            {!isMobileMenuOpen ? (
+                                <>
+                                    <Menu className="h-6 w-6 text-white" />
+                                    <span className="sr-only">Open menu</span>
+                                </>
+                            ) : (
+                                <>
+                                    <X className="h-6 w-6" />
+                                    <span className="sr-only">Close menu</span>
+                                </>
+                            )}
+                        </button>
                     </div>
                 </header>
+
                 {/* Mobile menu drawer */}
-                <nav
-                    id="mobile-menu"
-                    className={mergeClassNames(
-                        `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
-                        isMobileMenuOpen
-                            ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-400 animate-ease-linear animate-once'
-                            : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-400 animate-reverse'
-                    )}
-                    tabIndex={-1}
-                    aria-labelledby="mobile-menu-label"
-                >
-                    <h5
-                        id="drawer-right-label"
-                        className="mb-4 flex w-full items-center justify-center border-b border-b-red-900 pb-2 text-base font-semibold text-white"
+                {isMobileMenuVisible && (
+                    <nav
+                        ref={mobileMenuRef}
+                        id="mobile-menu"
+                        className={mergeClassNames(
+                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
+                            isMobileMenuOpen
+                                ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
+                                : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-400 animate-reverse'
+                        )}
+                        tabIndex={-1}
+                        aria-labelledby="mobile-menu-label"
                     >
-                        Menu
-                    </h5>
-                    <br />
+                        <h5
+                            id="drawer-right-label"
+                            className="mb-4 flex w-full items-center justify-center border-b border-b-red-900 pb-2 text-base font-semibold text-white"
+                        >
+                            Menu
+                        </h5>
+                        <br />
 
-                    <ul className="space-y-2 text-white">
-                        <li>
-                            <SignedOut>
-                                <SignInButton mode="modal" />
-                            </SignedOut>
-                        </li>
-
-                        {animeBrowseMenu.map((route) => (
-                            <li key={route.href}>
-                                <Link
-                                    href={route.href}
-                                    className="flex items-center rounded-lg hover:bg-gray-700 hover:text-white"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <span>{route.label}</span>
-                                </Link>
+                        <ul className="space-y-2 text-white">
+                            <li>
+                                <SignedOut>
+                                    <SignInButton mode="modal" />
+                                </SignedOut>
                             </li>
-                        ))}
-                    </ul>
-                </nav>
+
+                            {animeBrowseMenu.map((route) => (
+                                <li key={route.href}>
+                                    <Link
+                                        href={route.href}
+                                        className="flex items-center rounded-lg hover:bg-gray-700 hover:text-white"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
+                                    >
+                                        <span>{route.label}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                )}
             </div>
             {isMobileMenuOpen && (
                 <div
-                    className="bg-opacity-50 fixed inset-0 z-10 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+                    className="bg-opacity-50 fixed inset-0 z-10 bg-slate-900/85 backdrop-blur-sm transition-opacity duration-300"
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-hidden="true"
                 />
