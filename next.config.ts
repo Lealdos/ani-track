@@ -2,8 +2,13 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
     images: {
-        remotePatterns: [new URL('https://cdn.myanimelist.net/images/**')],
-        domains: ['cdn.myanimelist.net'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.myanimelist.net',
+                pathname: '/images/**',
+            },
+        ],
     },
     experimental: {
         viewTransition: true,
