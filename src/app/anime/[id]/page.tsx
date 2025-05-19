@@ -106,7 +106,7 @@ export default async function AnimePage({
             </div>
             <main className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
-                    <div className="relative z-10 mx-auto -mt-32 md:mx-0 md:mt-10">
+                    <div className="relative mx-auto -mt-32 md:mx-0 md:mt-10">
                         <Image
                             src={
                                 anime.images?.webp?.image_url ||
@@ -162,7 +162,7 @@ export default async function AnimePage({
                                     </span>
                                 </div>
 
-                                {anime.broadcast && (
+                                {anime.broadcast?.string && (
                                     <div className="flex items-center">
                                         <Clock className="mr-1 h-4 w-4 text-gray-400" />
                                         <span>
@@ -210,12 +210,12 @@ export default async function AnimePage({
                                 defaultValue={TabsContes[0].tabsName}
                                 className="h-80 w-full md:h-96"
                             >
-                                <TabsList className="grid w-full grid-cols-2 bg-gray-900">
+                                <TabsList className="grid w-full grid-cols-2 gap-2 bg-gray-900">
                                     {TabsContes.map(({ tabsName }) => (
                                         <TabsTrigger
                                             key={tabsName}
                                             value={tabsName}
-                                            className="rounded-full py-2 text-white data-[state=active]:bg-purple-600 data-[state=inactive]:bg-black/60"
+                                            className="h-full rounded-md text-white data-[state=active]:bg-purple-600 data-[state=inactive]:bg-black/60"
                                         >
                                             {tabsName}
                                         </TabsTrigger>
