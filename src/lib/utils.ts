@@ -2,6 +2,7 @@ import { Anime } from '@/types/anime'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { searchParamsProps } from '@/types/SearchParamsProps'
+
 export function mergeClassNames(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
