@@ -78,7 +78,7 @@ export async function getSeasonalAnime(): Promise<Anime[]> {
 export async function getTopAnime(): Promise<Anime[]> {
     try {
         const topAnimeList = await fetchWithRateLimit(
-            `${API_BASE_URL}/top/anime?limit=15`
+            `${API_BASE_URL}/top/anime?limit=10`
         )
         return topAnimeList.data
     } catch (error) {
