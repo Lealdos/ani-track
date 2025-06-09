@@ -29,11 +29,8 @@ export default async function Home() {
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
                     Top Anime
                 </h2>
-                <Suspense
-                    fallback={<AnimeListSkeleton sectionName="top-anime" />}
-                >
-                    <TopAnime topAnime={topAnime} />
-                </Suspense>
+
+                <TopAnime topAnime={topAnime} />
             </section>
 
             <section className="mb-12">
