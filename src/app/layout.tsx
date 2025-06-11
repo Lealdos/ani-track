@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
@@ -9,14 +9,21 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 
 const Header = dynamic(() => import('@/components/Header/Header'))
-const geistSans = Geist({
-    variable: '--font-geist-sans',
+
+const inter = Inter({
     subsets: ['latin'],
+    variable: '--font-inter',
 })
 
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
+const roboto_mono = Roboto_Mono({
     subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-roboto-mono',
+})
+
+const delaGothicOne = Dela_Gothic_One({
+    variable: '--font-dela-gothic-one',
+    weight: ['400'],
 })
 
 export const metadata: Metadata = {
@@ -39,7 +46,7 @@ export default function RootLayout({
         >
             <html lang="en">
                 <body
-                    className={`${geistSans.variable} ${geistMono.variable} flex w-full flex-col items-center-safe justify-between bg-gray-950 text-white antialiased`}
+                    className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between bg-gray-950 font-sans text-white antialiased`}
                 >
                     <Header />
 
