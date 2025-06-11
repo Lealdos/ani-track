@@ -13,6 +13,11 @@ export default async function Home() {
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
             <section className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Top global Anime 🌎</h2>
+
+                <TopAnime topAnime={topAnime} />
+            </section>
+            <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
                     Current Season
                 </h2>
@@ -23,14 +28,6 @@ export default async function Home() {
                 >
                     <CurrentSeason currentSeason={seasonalAnime} />
                 </Suspense>
-            </section>
-
-            <section className="mb-12">
-                <h2 className="mb-6 text-2xl font-bold tracking-tight">
-                    Top Anime
-                </h2>
-
-                <TopAnime topAnime={topAnime} />
             </section>
 
             <section className="mb-12">
