@@ -32,7 +32,7 @@ export function AnimeCard({
                         priority
                     />
                     {showBadge && anime.score && (
-                        <div className="absolute top-2 right-2 m-auto rounded-md bg-yellow-600/95 p-1">
+                        <div className="absolute top-2 right-2 m-auto flex items-center justify-center rounded-sm bg-yellow-500/90 p-1 font-semibold text-shadow-black text-shadow-md">
                             ★ {anime.score.toFixed(1)}
                         </div>
                     )}
