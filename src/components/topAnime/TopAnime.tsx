@@ -13,23 +13,24 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
     return (
         <section className="m-4">
             <Suspense fallback={<AnimeListSkeleton sectionName="top-anime" />}>
-                <main className="flex gap-4 overflow-x-auto px-2 pb-4">
+                <main className="flex items-center gap-6 overflow-hidden overflow-x-auto px-2 py-4">
                     {animes?.map((anime) => (
                         <div
                             key={anime.mal_id}
-                            className="relative flex h-[380px] max-h-[380px] w-[380px] flex-shrink-0 flex-row tracking-tight"
+                            className="relative flex h-[380px] max-h-[380px] w-[380px] flex-shrink-0 flex-row items-center"
                         >
                             {/*  ranking number behind the  card */}
-                            <span
+                            <text
+                                fill="#232d2d"
                                 className={mergeClassNames(
-                                    `pointer-events-none relative top-16 text-center text-[220px] leading-none font-semibold text-gray-100/80 select-none md:top-4 md:text-[300px]`,
+                                    `testing pointer-events-none relative text-center font-gothic text-[200px] leading-none text-gray-900/70 antialiased select-none md:text-[220px]`,
                                     (anime?.rank ?? 0) > 9
-                                        ? 'tracking-[-2rem] md:tracking-[-2.4rem]'
+                                        ? 'tracking-[-1.5rem] md:tracking-[-2rem]'
                                         : ''
                                 )}
                             >
                                 {anime.rank}
-                            </span>
+                            </text>
 
                             {/*  anime card */}
                             <div
