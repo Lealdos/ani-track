@@ -50,3 +50,24 @@
         }
     }
 }
+
+@theme inline {
+    --font-sans: var(--font-inter);
+    --font-mono: var(--font-roboto-mono);
+    --font-gothic: var(--font-dela-gothic-one);
+}
+
+.testing {
+    /* -webkit-text-stroke-width: 4px;
+    -webkit-text-stroke-color: rgb(170, 59, 19); */
+    background: -webkit-linear-gradient(
+        -75deg,
+        #8622b7 10%,
+        #ff441a 48%,
+        #6a05b2 92%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke: 6px transparent;
+    color: #101828;
+}
