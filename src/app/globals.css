@@ -57,7 +57,7 @@
     --font-gothic: var(--font-dela-gothic-one);
 }
 
-.testing {
+.gradient-top-number {
     /* -webkit-text-stroke-width: 4px;
     -webkit-text-stroke-color: rgb(170, 59, 19); */
     background: -webkit-linear-gradient(
@@ -69,5 +69,5 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-stroke: 6px transparent;
-    color: #101828;
+    color: #090f1f;
 }

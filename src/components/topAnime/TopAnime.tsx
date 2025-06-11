@@ -20,17 +20,16 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             className="relative flex h-[380px] max-h-[380px] w-[380px] flex-shrink-0 flex-row items-center"
                         >
                             {/*  ranking number behind the  card */}
-                            <text
-                                fill="#232d2d"
+                            <span
                                 className={mergeClassNames(
-                                    `testing pointer-events-none relative text-center font-gothic text-[200px] leading-none text-gray-900/70 antialiased select-none md:text-[220px]`,
+                                    `gradient-top-number pointer-events-none relative text-center font-gothic text-[200px] leading-none text-gray-900 antialiased select-none md:text-[220px]`,
                                     (anime?.rank ?? 0) > 9
                                         ? 'tracking-[-1.5rem] md:tracking-[-2rem]'
                                         : ''
                                 )}
                             >
                                 {anime.rank}
-                            </text>
+                            </span>
 
                             {/*  anime card */}
                             <div
