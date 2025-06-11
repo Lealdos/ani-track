@@ -24,7 +24,7 @@ const roboto_mono = Roboto_Mono({
 const delaGothicOne = Dela_Gothic_One({
     variable: '--font-dela-gothic-one',
     weight: ['400'],
-    subsets: ['latin', 'latin-ext', 'vietnamese', 'cyrillic'],
+    subsets: ['latin', 'latin-ext'],
 })
 
 export const metadata: Metadata = {
