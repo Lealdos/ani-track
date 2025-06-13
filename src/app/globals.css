@@ -68,6 +68,27 @@
     );
     -webkit-background-clip: text;
     background-clip: text;
-    -webkit-text-stroke: 6px transparent;
+    -webkit-text-stroke: 0.6rem transparent;
     color: #090f1f;
+}
+
+/* Custom scrollbar styles for desktop */
+
+@media (min-width: 420px) {
+    /* Estilos personalizados para scrollbar en escritorio */
+    html ::-webkit-scrollbar {
+        width: 12px;
+        background: #181c2a;
+    }
+    html ::-webkit-scrollbar-thumb {
+        background: #8622b7;
+        border-radius: 8px;
+    }
+    html ::-webkit-scrollbar-thumb:hover {
+        background: #ff441a;
+    }
+}
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #8622b7 #181c2a;
 }
