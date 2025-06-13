@@ -39,7 +39,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                                     `relative h-70 max-w-[200px] min-w-[200px] md:h-80`,
                                     (anime?.rank ?? 0) > 9
                                         ? '-left-6 md:-left-14'
-                                        : '-left-6 md:-left-8'
+                                        : '-left-8 md:-left-10'
                                 )}
                             >
                                 <AnimeCard anime={anime} hasFooter={false} />
