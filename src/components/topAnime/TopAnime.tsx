@@ -32,9 +32,11 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             </span>
 
                             {/*  anime card */}
+                            {/* cambiar este div por un link arriba y un imagen abajo
+                             */}
                             <div
                                 className={mergeClassNames(
-                                    `relative z-10 min-w-[240px]`,
+                                    `relative h-70 max-w-[200px] min-w-[200px]`,
                                     (anime?.rank ?? 0) > 9
                                         ? '-left-6 md:-left-14'
                                         : '-left-6 md:-left-8'
