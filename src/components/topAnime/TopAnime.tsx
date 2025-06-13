@@ -35,7 +35,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             </span>
 
                             {/*  anime card */}
-                            
+
                             <img
                                 className={mergeClassNames(
                                     `relative h-70 max-w-[200px] min-w-[200px] rounded`,
@@ -47,9 +47,6 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                                     anime.images?.webp?.image_url || '/placeholder.jpg'
                                 }
                             />
-
-                                {/* <AnimeCard anime={anime} hasFooter={false} /> */}
-                            {/* </div> */}
                         </Link>
                     ))}
                 </main>
