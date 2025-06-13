@@ -17,7 +17,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                     {animes?.map((anime) => (
                         <div
                             key={anime.mal_id}
-                            className="relative flex h-[380px] max-h-[380px] w-[380px] flex-shrink-0 flex-row items-center"
+                            className="relative flex flex-row items-center"
                         >
                             {/*  ranking number behind the  card */}
                             <span
@@ -36,7 +36,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                              */}
                             <div
                                 className={mergeClassNames(
-                                    `relative h-70 max-w-[200px] min-w-[200px]`,
+                                    `relative h-70 max-w-[200px] min-w-[200px] md:h-80`,
                                     (anime?.rank ?? 0) > 9
                                         ? '-left-6 md:-left-14'
                                         : '-left-6 md:-left-8'
