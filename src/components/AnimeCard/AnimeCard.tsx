@@ -26,13 +26,13 @@ export function AnimeCard({
                             anime.images?.webp?.image_url || '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className="h-[380px] max-h-[380px] w-[500px] rounded sm:object-fill md:object-cover"
+                        className="h-[380px] max-h-[380px] w-[480px] rounded sm:object-fill md:object-cover"
                         width={800}
                         height={580}
                         priority
                     />
                     {showBadge && anime.score && (
-                        <div className="absolute top-2 right-2 m-auto flex items-center justify-center rounded-sm bg-yellow-500/90 p-1 font-semibold text-shadow-black text-shadow-md">
+                        <div className="absolute top-2 right-2 m-auto flex items-center justify-center rounded-sm bg-yellow-500 p-1 font-semibold text-shadow-black text-shadow-md">
                             ★ {anime.score.toFixed(1)}
                         </div>
                     )}
