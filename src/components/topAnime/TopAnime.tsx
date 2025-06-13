@@ -15,6 +15,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
             <Suspense fallback={<AnimeListSkeleton sectionName="top-anime" />}>
                 <main className="flex items-center gap-2 overflow-hidden overflow-x-auto px-2 py-4">
                     {animes?.map((anime) => (
+                        
                         <Link
                             href={`/anime/${anime.mal_id}`}
                             key={anime.mal_id}
@@ -25,9 +26,9 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             <span
                                 className={mergeClassNames(
                                     `gradient-top-number pointer-events-none relative text-center font-gothic text-[200px] leading-none text-gray-900 antialiased select-none md:text-[220px]`,
-                                    (anime?.rank ?? 0) > 9
-                                        ? 'tracking-[-1.5rem] md:tracking-[-2rem]'
-                                        : ''
+                                    anime?.rank !== undefined && anime.rank  > 9
+                                    ? 'tracking-[-1.5rem] md:tracking-[-2rem]'
+                                    : ''
                                 )}
                             >
                                 {anime.rank}
