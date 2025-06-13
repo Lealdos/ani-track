@@ -1,7 +1,6 @@
 import { Anime } from '@/types/anime'
 import { Suspense } from 'react'
 import { AnimeListSkeleton } from '../SkeletonCard/AnimeSkeletonList'
-import { AnimeCard } from '../AnimeCard/AnimeCard'
 // import { SkeletonCard } from '../SkeletonCard/skeletonCard'
 import { mergeClassNames } from '@/lib/utils'
 import Link from 'next/link'
@@ -14,7 +13,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
     return (
         <section className="m-4">
             <Suspense fallback={<AnimeListSkeleton sectionName="top-anime" />}>
-                <main className="flex items-center gap-6 overflow-hidden overflow-x-auto px-2 py-4">
+                <main className="flex items-center gap-2 overflow-hidden overflow-x-auto px-2 py-4">
                     {animes?.map((anime) => (
                         <Link
                             href={`/anime/${anime.mal_id}`}
@@ -40,7 +39,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                                 className={mergeClassNames(
                                     `relative h-70 max-w-[200px] min-w-[200px] rounded`,
                                     (anime?.rank ?? 0) > 9
-                                        ? '-left-6 md:-left-14'
+                                        ? '-left-6 md:-left-12'
                                         : '-left-8 md:-left-10'
                                 )}
                                 src={
