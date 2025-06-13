@@ -4,6 +4,7 @@ import { AnimeListSkeleton } from '../SkeletonCard/AnimeSkeletonList'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 // import { SkeletonCard } from '../SkeletonCard/skeletonCard'
 import { mergeClassNames } from '@/lib/utils'
+import Link from 'next/link'
 interface TopAnimeProps {
     topAnime: Promise<Anime[]>
 }
@@ -15,9 +16,11 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
             <Suspense fallback={<AnimeListSkeleton sectionName="top-anime" />}>
                 <main className="flex items-center gap-6 overflow-hidden overflow-x-auto px-2 py-4">
                     {animes?.map((anime) => (
-                        <div
+                        <Link
+                            href={`/anime/${anime.mal_id}`}
                             key={anime.mal_id}
-                            className="relative flex flex-row items-center"
+                            className="relative flex flex-row items-center hover:scale-105 transition-transform"
+                            aria-label={`top ${anime.rank} - ${anime.title}`}
                         >
                             {/*  ranking number behind the  card */}
                             <span
@@ -32,19 +35,22 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             </span>
 
                             {/*  anime card */}
-                            {/* cambiar este div por un link arriba y un imagen abajo
-                             */}
-                            <div
+                            
+                            <img
                                 className={mergeClassNames(
-                                    `relative h-70 max-w-[200px] min-w-[200px] md:h-80`,
+                                    `relative h-70 max-w-[200px] min-w-[200px] rounded`,
                                     (anime?.rank ?? 0) > 9
                                         ? '-left-6 md:-left-14'
                                         : '-left-8 md:-left-10'
                                 )}
-                            >
-                                <AnimeCard anime={anime} hasFooter={false} />
-                            </div>
-                        </div>
+                                src={
+                                    anime.images?.webp?.image_url || '/placeholder.jpg'
+                                }
+                            />
+
+                                {/* <AnimeCard anime={anime} hasFooter={false} /> */}
+                            {/* </div> */}
+                        </Link>
                     ))}
                 </main>
             </Suspense>
