@@ -5,6 +5,7 @@ import { TopAnime } from '@/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 import { getSeasonalAnime, getTopAnime } from '@/lib/api'
+import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
@@ -12,6 +13,11 @@ export default async function Home() {
 
     return (
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
+            <section className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Top global Anime 🌎</h2>
+
+                <FavoritesAccordion />
+            </section>
             <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold">Top global Anime 🌎</h2>
 
