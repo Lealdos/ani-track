@@ -43,6 +43,8 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                                         ? '-left-6 md:-left-12'
                                         : '-left-8 md:-left-10'
                                 )}
+                                width={800}
+                                height={580}
                                 src={
                                     anime.images?.webp?.image_url ||
                                     '/placeholder.jpg'
