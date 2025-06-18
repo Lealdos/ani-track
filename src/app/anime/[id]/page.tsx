@@ -17,13 +17,7 @@ import { Anime } from '@/types/anime'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 
-const scrollBarStyles = `[&::-webkit-scrollbar]:w-2
-  [&::-webkit-scrollbar-track]:rounded-full
-  [&::-webkit-scrollbar-track]:bg-gray-100
-  [&::-webkit-scrollbar-thumb]:rounded-full
-  [&::-webkit-scrollbar-thumb]:bg-gray-300
-  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
-  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500`
+
 
 interface Recommendations {
     entry: Anime
@@ -224,7 +218,7 @@ export default async function AnimePage({
 
                                 <TabsContent
                                     value={'Where to watch'}
-                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                    className={`my-4 h-64 overflow-y-auto  `}
                                 >
                                     {streamingServices.length > 0 ? (
                                         <StreamingPlatforms
@@ -240,7 +234,7 @@ export default async function AnimePage({
                                 </TabsContent>
                                 <TabsContent
                                     value="Episodes"
-                                    className={`my-4 h-64 overflow-y-auto ${scrollBarStyles} `}
+                                    className={`my-4 h-64 overflow-y-auto  `}
                                 >
                                     <EpisodeList
                                         episodes={episodes}
