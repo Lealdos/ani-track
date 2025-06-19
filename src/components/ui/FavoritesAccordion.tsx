@@ -101,9 +101,8 @@ export function FavoritesAccordion() {
             )
         )
     }
- console.log('test',favoriteLists[0])
     return (
-        <div className="mx-auto w-full max-w-7xl p-4">
+        <div className="mx-auto w-full  p-4">
             <Accordion
                 type="single"
                 collapsible
