@@ -6,6 +6,7 @@ import { AnimeByGenre } from '@/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 import { getSeasonalAnime, getTopAnime } from '@/lib/api'
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
+import { Heart } from 'lucide-react'
 
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
@@ -15,7 +16,8 @@ export default async function Home() {
         <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white max-w-7xl">
             <section className="mb-12">
             <h2 className="flex items-center gap-2 text-2xl font-bold">
-                        ❤ Your saved animes lists 
+                <Heart className='h-6 w-6 text-red-600 '/>
+                         Your saved lists 
                     </h2>
                 <FavoritesAccordion />
             </section>
