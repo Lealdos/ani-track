@@ -13,12 +13,12 @@ export default async function Home() {
     const topAnime = getTopAnime()
 
     return (
-        <div className="container mx-auto min-h-screen w-full px-4 py-8 text-white max-w-7xl">
+        <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
             <section className="mb-12">
-            <h2 className="flex items-center gap-2 text-2xl font-bold">
-                <Heart className='h-6 w-6 text-red-600 '/>
-                         Your saved lists 
-                    </h2>
+                <h2 className="flex items-center gap-2 text-2xl font-bold">
+                    Your favorites animes
+                    <Heart className="h-6 w-6 text-red-600" />
+                </h2>
                 <FavoritesAccordion />
             </section>
             <section className="mb-12">
