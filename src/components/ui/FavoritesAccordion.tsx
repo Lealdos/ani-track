@@ -107,15 +107,6 @@ export function FavoritesAccordion() {
 
     return (
         <div className="mx-auto w-full max-w-7xl p-4">
-            <div className="mb-6 flex items-center justify-between">
-                <div>
-
-                    <p className="text-muted-foreground">
-                        check your animes lists:
-                    </p>
-                </div>
-            </div>
-
             <Accordion
                 type="single"
                 collapsible
