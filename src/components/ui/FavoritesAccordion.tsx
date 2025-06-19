@@ -175,7 +175,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                     ) : (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                             {list.items.map((anime) => (
-                                <AnimeCard key={anime.mal_id} anime={anime} />
+                                <AnimeCard showBadge key={anime.mal_id} anime={anime} />
                             ))}
                         </div>
                     )}
