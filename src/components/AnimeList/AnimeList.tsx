@@ -21,7 +21,7 @@ export function AnimeList({
             {animes.map((animeItem) => (
                 <div
                     key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
-                    className="w-[70%] shrink-0 snap-start sm:w-[50%] md:w-[280px] m-2"
+                    className="w-[70%] shrink-0 snap-start sm:w-[50%] md:w-[280px]"
                 >
                     <AnimeCard anime={animeItem} showBadge={showBadge} />
                 </div>
