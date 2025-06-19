@@ -132,7 +132,7 @@ export function FavoritesAccordion() {
                             </span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 pb-4">
+                    <AccordionContent className="px-4 pt-2 pb-4 overflow-auto ">
                         <div className="space-y-4">
                             {favoriteLists.map((list) => (
                                 <ListAccordion key={list.id} list={list} />
@@ -150,7 +150,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
         <Accordion
             type="single"
             collapsible
-            className="w-full overflow-hidden rounded-lg border"
+            className="w-full overflow-hidden rounded-lg border "
         >
             <AccordionItem value={list.id} className="border-0">
                 <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
@@ -161,7 +161,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                         </span>
                     </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-4 pt-2 pb-4">
+                <AccordionContent className="px-4 pt-2 pb-4 overflow-auto max-h-[720px]">
                     {list.loading ? (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                             {[...Array(6)].map((_, index) => (
