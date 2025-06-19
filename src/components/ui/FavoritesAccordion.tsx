@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Heart, Star, Calendar, Clock, Tv } from 'lucide-react'
+// import { Star, Calendar, Clock, Tv } from 'lucide-react'
+// import { Badge } from '@/components/ui/badge'
 import {
     Accordion,
     AccordionContent,
@@ -11,16 +12,13 @@ import {
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
-    CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Badge } from '@/components/ui/badge'
 import { getTopAnime, getAnimeByGenre, getSeasonalAnime } from '@/lib/api'
 import { Anime } from '@/types/anime'
-import Image from 'next/image'
+import { AnimeCard } from '../AnimeCard/AnimeCard'
 
 // Tipo para las listas de favoritos
 type FavoriteList = {
@@ -35,32 +33,32 @@ export function FavoritesAccordion() {
     const [favoriteLists, setFavoriteLists] = useState<FavoriteList[]>([
         {
             id: 'top-anime',
-            name: 'Anime Popular',
+            name: 'Testing 1',
+            items: [],
+            loading: true,
+            error: null,
+        }, {
+            id: 'seasonal-anime',
+            name: 'Current watching',
             items: [],
             loading: true,
             error: null,
         },
         {
             id: 'action-anime',
-            name: 'Anime de Acción',
+            name: 'Watch later',
             items: [],
             loading: true,
             error: null,
         },
         {
             id: 'romance-anime',
-            name: 'Anime Romántico',
+            name: 'Romantic animes',
             items: [],
             loading: true,
             error: null,
         },
-        {
-            id: 'seasonal-anime',
-            name: 'Anime de Temporada',
-            items: [],
-            loading: true,
-            error: null,
-        },
+
     ])
 
     useEffect(() => {
@@ -71,22 +69,14 @@ export function FavoritesAccordion() {
                 const topAnime = await getTopAnime()
                 updateListData('top-anime', topAnime)
 
-                // Esperar un poco para evitar rate limiting de la API
-                await new Promise((resolve) => setTimeout(resolve, 1000))
-
                 // Obtener anime de acción (género 1)
                 const actionAnime = await getAnimeByGenre(1)
                 updateListData('action-anime', actionAnime)
-
-                // Esperar un poco para evitar rate limiting de la API
-                await new Promise((resolve) => setTimeout(resolve, 1000))
 
                 // Obtener anime romántico (género 22)
                 const romanceAnime = await getAnimeByGenre(22)
                 updateListData('romance-anime', romanceAnime)
 
-                // Esperar un poco para evitar rate limiting de la API
-                await new Promise((resolve) => setTimeout(resolve, 1000))
 
                 // Obtener anime de la temporada actual
                 // const currentYear = new Date().getFullYear()
@@ -116,15 +106,12 @@ export function FavoritesAccordion() {
     }
 
     return (
-        <div className="mx-auto w-full max-w-4xl p-4">
+        <div className="mx-auto w-full max-w-7xl p-4">
             <div className="mb-6 flex items-center justify-between">
                 <div>
-                    <h2 className="flex items-center gap-2 text-2xl font-bold">
-                        <Heart className="text-rose-500" />
-                        Mis Listas de Anime Favoritos
-                    </h2>
+
                     <p className="text-muted-foreground">
-                        Explora colecciones de anime organizadas por categorías
+                        check your animes lists:
                     </p>
                 </div>
             </div>
@@ -138,7 +125,7 @@ export function FavoritesAccordion() {
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
                         <div className="flex items-center gap-2">
                             <span className="font-medium">
-                                Todas mis listas
+                                All my lists
                             </span>
                             <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-600 dark:bg-rose-900/20 dark:text-rose-400">
                                 {favoriteLists.length}
@@ -198,65 +185,6 @@ function ListAccordion({ list }: { list: FavoriteList }) {
     )
 }
 
-function AnimeCard({ anime }: { anime: Anime }) {
-    return (
-        <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/20">
-            <div className="h-48 w-full overflow-hidden">
-                <Image
-                    src={anime?.images?.jpg.image_url || '/placeholder.svg'}
-                    alt={anime.title}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                    width={200}
-                    height={300}
-                />
-            </div>
-            <CardHeader className="p-3 pb-1">
-                <CardTitle
-                    className="line-clamp-1 text-base"
-                    title={anime.title}
-                >
-                    {anime.title}
-                </CardTitle>
-                <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
-                    <Star className="h-4 w-4 fill-current" />
-                    <span className="text-sm font-medium">
-                        {anime.score || 'N/A'}
-                    </span>
-                </div>
-            </CardHeader>
-            <CardContent className="flex-grow p-3 pt-0">
-                <CardDescription className="line-clamp-3">
-                    {anime.synopsis || 'No hay descripción disponible.'}
-                </CardDescription>
-            </CardContent>
-            <CardFooter className="flex flex-wrap gap-2 p-3 pt-0">
-                <Badge variant="outline" className="flex items-center gap-1">
-                    <Tv className="h-3 w-3" />
-                    {anime.type || 'TV'}
-                </Badge>
-                {anime.episodes && (
-                    <Badge
-                        variant="outline"
-                        className="flex items-center gap-1"
-                    >
-                        <Clock className="h-3 w-3" />
-                        {anime.episodes} eps
-                    </Badge>
-                )}
-                {anime.aired?.from && (
-                    <Badge
-                        variant="outline"
-                        className="flex items-center gap-1"
-                    >
-                        <Calendar className="h-3 w-3" />
-                        {new Date(anime.aired.from).getFullYear()}
-                    </Badge>
-                )}
-            </CardFooter>
-        </Card>
-    )
-}
 
 function AnimeCardSkeleton() {
     return (
@@ -279,3 +207,65 @@ function AnimeCardSkeleton() {
         </Card>
     )
 }
+
+
+
+// function AnimeCard({ anime }: { anime: Anime }) {
+//     return (
+//         <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/20">
+//             <div className="h-48 w-full overflow-hidden">
+//                 <Image
+//                     src={anime?.images?.jpg.image_url || '/placeholder.svg'}
+//                     alt={anime.title}
+//                     className="h-full w-full object-cover"
+//                     loading="lazy"
+//                     width={200}
+//                     height={300}
+//                 />
+//             </div>
+//             <CardHeader className="p-3 pb-1">
+//                 <CardTitle
+//                     className="line-clamp-1 text-base"
+//                     title={anime.title}
+//                 >
+//                     {anime.title}
+//                 </CardTitle>
+//                 <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
+//                     <Star className="h-4 w-4 fill-current" />
+//                     <span className="text-sm font-medium">
+//                         {anime.score || 'N/A'}
+//                     </span>
+//                 </div>
+//             </CardHeader>
+//             <CardContent className="flex-grow p-3 pt-0">
+//                 <CardDescription className="line-clamp-3">
+//                     {anime.synopsis || 'No hay descripción disponible.'}
+//                 </CardDescription>
+//             </CardContent>
+//             <CardFooter className="flex flex-wrap gap-2 p-3 pt-0">
+//                 <Badge variant="outline" className="flex items-center gap-1">
+//                     <Tv className="h-3 w-3" />
+//                     {anime.type || 'TV'}
+//                 </Badge>
+//                 {anime.episodes && (
+//                     <Badge
+//                         variant="outline"
+//                         className="flex items-center gap-1"
+//                     >
+//                         <Clock className="h-3 w-3" />
+//                         {anime.episodes} eps
+//                     </Badge>
+//                 )}
+//                 {anime.aired?.from && (
+//                     <Badge
+//                         variant="outline"
+//                         className="flex items-center gap-1"
+//                     >
+//                         <Calendar className="h-3 w-3" />
+//                         {new Date(anime.aired.from).getFullYear()}
+//                     </Badge>
+//                 )}
+//             </CardFooter>
+//         </Card>
+//     )
+// }
