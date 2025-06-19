@@ -15,7 +15,7 @@ export function AnimeCard({
     hasFooter = true,
 }: AnimeCardProps) {
     return (
-        <article className="m-2 flex h-full flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl md:w-full">
+        <article className="flex h-full flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl ">
             <Link
                 href={`/anime/${anime.mal_id}`}
                 className="flex w-full flex-col"
