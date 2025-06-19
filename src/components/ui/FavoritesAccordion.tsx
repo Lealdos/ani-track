@@ -95,7 +95,7 @@ export function FavoritesAccordion() {
         )
     }
     return (
-        <div className="w-full py-4">
+        <div className="mx-auto w-full py-2">
             <Accordion
                 type="single"
                 collapsible
@@ -105,7 +105,7 @@ export function FavoritesAccordion() {
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
                         <div className="flex items-center gap-2">
                             <span className="font-medium">All my lists</span>
-                            <span className="rounded-full px-2 py-0.5 text-sm font-medium">
+                            <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-600 dark:bg-rose-900/20 dark:text-rose-400">
                                 {favoriteLists.length}
                             </span>
                         </div>
