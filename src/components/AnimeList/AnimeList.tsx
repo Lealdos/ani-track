@@ -17,7 +17,7 @@ export function AnimeList({
         animesPromise instanceof Promise ? use(animesPromise) : animesPromise
     if (!animes) return <div>Loading...</div>
     return (
-        <main className="scrollbar-hide flex snap-x gap-4 overflow-x-auto px-4 pb-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
+        <main className=" scrollbar-hide flex snap-x gap-4 overflow-x-auto px-4 py-6 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">
             {animes.map((animeItem) => (
                 <div
                     key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
