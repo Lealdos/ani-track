@@ -16,7 +16,7 @@ import {
     CardHeader,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getTopAnime, getAnimeByGenre, getSeasonalAnime } from '@/lib/api'
+import { getAnimeByGenre, getSeasonalAnime } from '@/lib/api'
 import { Anime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 
@@ -35,7 +35,7 @@ export function FavoritesAccordion() {
             id: 'top-anime',
             name: 'Testing 1',
             items: [],
-            loading: true,
+            loading: false,
             error: null,
         }, {
             id: 'seasonal-anime',
@@ -65,9 +65,6 @@ export function FavoritesAccordion() {
         // Función para cargar los datos de cada lista
         const loadListData = async () => {
             try {
-                // Obtener anime popular
-                const topAnime = await getTopAnime()
-                updateListData('top-anime', topAnime)
 
                 // Obtener anime de acción (género 1)
                 const actionAnime = await getAnimeByGenre(1)
@@ -104,7 +101,7 @@ export function FavoritesAccordion() {
             )
         )
     }
-
+ console.log('test',favoriteLists[0])
     return (
         <div className="mx-auto w-full max-w-7xl p-4">
             <Accordion
@@ -163,13 +160,17 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                         <div className="p-4 text-center text-red-500">
                             <p>Error: {list.error}</p>
                         </div>
-                    ) : (
+                    ) : list.items.length > 0 ? (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                             {list.items.map((anime) => (
                                 <AnimeCard showBadge key={anime.mal_id} anime={anime} />
                             ))}
                         </div>
-                    )}
+                    ):
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                No items in the list 
+                            </span>
+                    }
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
