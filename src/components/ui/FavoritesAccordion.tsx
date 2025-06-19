@@ -9,12 +9,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion'
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-} from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getAnimeByGenre, getSeasonalAnime } from '@/lib/api'
 import { Anime } from '@/types/anime'
@@ -37,7 +32,8 @@ export function FavoritesAccordion() {
             items: [],
             loading: false,
             error: null,
-        }, {
+        },
+        {
             id: 'seasonal-anime',
             name: 'Current watching',
             items: [],
@@ -58,14 +54,12 @@ export function FavoritesAccordion() {
             loading: true,
             error: null,
         },
-
     ])
 
     useEffect(() => {
         // Función para cargar los datos de cada lista
         const loadListData = async () => {
             try {
-
                 // Obtener anime de acción (género 1)
                 const actionAnime = await getAnimeByGenre(1)
                 updateListData('action-anime', actionAnime)
@@ -73,7 +67,6 @@ export function FavoritesAccordion() {
                 // Obtener anime romántico (género 22)
                 const romanceAnime = await getAnimeByGenre(22)
                 updateListData('romance-anime', romanceAnime)
-
 
                 // Obtener anime de la temporada actual
                 // const currentYear = new Date().getFullYear()
@@ -102,7 +95,7 @@ export function FavoritesAccordion() {
         )
     }
     return (
-        <div className="mx-auto w-full  p-4">
+        <div className="w-full py-4">
             <Accordion
                 type="single"
                 collapsible
@@ -111,15 +104,13 @@ export function FavoritesAccordion() {
                 <AccordionItem value="listas-favoritos" className="border-0">
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
                         <div className="flex items-center gap-2">
-                            <span className="font-medium">
-                                All my lists
-                            </span>
-                            <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-600 dark:bg-rose-900/20 dark:text-rose-400">
+                            <span className="font-medium">All my lists</span>
+                            <span className="rounded-full px-2 py-0.5 text-sm font-medium">
                                 {favoriteLists.length}
                             </span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 pb-4 overflow-auto ">
+                    <AccordionContent className="overflow-auto px-4 pt-2 pb-4">
                         <div className="space-y-4">
                             {favoriteLists.map((list) => (
                                 <ListAccordion key={list.id} list={list} />
@@ -137,7 +128,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
         <Accordion
             type="single"
             collapsible
-            className="w-full overflow-hidden rounded-lg border "
+            className="w-full overflow-hidden rounded-lg border"
         >
             <AccordionItem value={list.id} className="border-0">
                 <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
@@ -148,7 +139,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                         </span>
                     </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-4 pt-2 pb-4 overflow-auto max-h-[720px]">
+                <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
                     {list.loading ? (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                             {[...Array(6)].map((_, index) => (
@@ -162,20 +153,23 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                     ) : list.items.length > 0 ? (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                             {list.items.map((anime) => (
-                                <AnimeCard showBadge key={anime.mal_id} anime={anime} />
+                                <AnimeCard
+                                    showBadge
+                                    key={anime.mal_id}
+                                    anime={anime}
+                                />
                             ))}
                         </div>
-                    ):
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                                No items in the list 
-                            </span>
-                    }
+                    ) : (
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                            No items in the list
+                        </span>
+                    )}
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
     )
 }
-
 
 function AnimeCardSkeleton() {
     return (
@@ -198,8 +192,6 @@ function AnimeCardSkeleton() {
         </Card>
     )
 }
-
-
 
 // function AnimeCard({ anime }: { anime: Anime }) {
 //     return (
