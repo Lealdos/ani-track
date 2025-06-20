@@ -102,10 +102,10 @@ export function FavoritesAccordion() {
                 className="w-full overflow-hidden rounded-lg border"
             >
                 <AccordionItem value="listas-favoritos" className="border-0">
-                    <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
+                    <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all text-sm">
                         <div className="flex items-center gap-2">
                             <span className="font-medium">All my lists</span>
-                            <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-600 dark:bg-rose-900/20 dark:text-rose-400">
+                            <span className="rounded-full px-2 py-0.5  font-medium dark:bg-purple-900/20 ">
                                 {favoriteLists.length}
                             </span>
                         </div>
@@ -141,7 +141,7 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                 </AccordionTrigger>
                 <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
                     {list.loading ? (
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                        <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-4">
                             {[...Array(6)].map((_, index) => (
                                 <AnimeCardSkeleton key={index} />
                             ))}
@@ -151,18 +151,18 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                             <p>Error: {list.error}</p>
                         </div>
                     ) : list.items.length > 0 ? (
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                        <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-4 ">
                             {list.items.map((anime) => (
                                 <AnimeCard
                                     showBadge
-                                    key={anime.mal_id}
+                                    key={`${list.name}-${anime.mal_id}-${anime.title}`}
                                     anime={anime}
                                 />
                             ))}
                         </div>
                     ) : (
-                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                            No items in the list
+                        <span className="block px-2 py-0.5 text-lg font-medium text-slate-100 text-center">
+                            No animes in the list
                         </span>
                     )}
                 </AccordionContent>
