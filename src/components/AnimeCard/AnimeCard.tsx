@@ -26,7 +26,7 @@ export function AnimeCard({
                             anime.images?.webp?.image_url || '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className="h-[320px] max-h-[320px] w-[360px] rounded sm:object-fill md:object-cover"
+                        className="h-[320px] max-h-[320px] w-[360px] rounded  "
                         width={800}
                         height={380}
                         priority
