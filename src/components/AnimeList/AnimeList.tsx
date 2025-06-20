@@ -17,11 +17,11 @@ export function AnimeList({
         animesPromise instanceof Promise ? use(animesPromise) : animesPromise
     if (!animes) return <div>Loading...</div>
     return (
-        <main className="scrollbar-hide flex gap-4 overflow-x-auto px-4 py-4 md:grid md:grid-cols-2 md:gap-2 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">
+        <main className="scrollbar-hide flex gap-4 overflow-x-auto px-4 py-4 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">
             {animes.map((animeItem) => (
                 <div
                     key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
-                    className="w-[70%] shrink-0 snap-start sm:w-[50%] md:w-[280px]"
+                    className="w-[70%] shrink-0 snap-start sm:w-[280px] md:w-[280px]"
                 >
                     <AnimeCard anime={animeItem} showBadge={showBadge} />
                 </div>

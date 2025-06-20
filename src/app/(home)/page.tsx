@@ -15,6 +15,7 @@ export default async function Home() {
     return (
         <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
             <section className="mb-12">
+
                 <h2 className="flex items-center gap-2 text-2xl font-bold">
                     Your favorites animes
                     <Heart className="h-6 w-6 text-red-600" />
@@ -23,8 +24,9 @@ export default async function Home() {
             </section>
             <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold">Top global Anime 🌎</h2>
-
-                <TopAnime topAnime={topAnime} />
+                <Suspense fallback={<AnimeListSkeleton />}>
+                    <TopAnime topAnime={topAnime} />
+                </Suspense>
             </section>
             <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
