@@ -15,18 +15,18 @@ export function AnimeCard({
     hasFooter = true,
 }: AnimeCardProps) {
     return (
-        <article className="flex h-full max-w-[360px] flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl">
+        <article className="h-80 flex md:h-full max-w-[200px] md:max-w-[320px] flex-col items-center justify-between overflow-hidden rounded-lg border bg-black transition-all duration-400 hover:scale-105 hover:shadow-xl">
             <Link
                 href={`/anime/${anime.mal_id}`}
-                className="flex w-full flex-col"
+                className="flex w-full flex-col h-full"
             >
-                <div className="relative">
+                <div className="relative ">
                     <Image
                         src={
                             anime.images?.webp?.image_url || '/placeholder.jpg'
                         }
                         alt={anime.title}
-                        className="h-[320px] max-h-[320px] w-[360px] rounded  "
+                        className="h-50 md:h-[320px] max-h-[320px] w-[360px] rounded  object-fill "
                         width={800}
                         height={380}
                         priority
