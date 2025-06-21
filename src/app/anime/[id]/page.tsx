@@ -276,7 +276,7 @@ export default async function AnimePage({
                                                 height={300}
                                                 className="aspect-[2/3] w-full object-cover"
                                             />
-                                            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black to-transparent p-2">
+                                            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
                                                 <h3 className="line-clamp-2 text-lg font-medium text-balance text-center">
                                                     {
                                                         recommendedAnime.entry
