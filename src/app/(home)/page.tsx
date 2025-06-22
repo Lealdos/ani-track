@@ -15,7 +15,6 @@ export default async function Home() {
     return (
         <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
             <section className="mb-12">
-
                 <h2 className="flex items-center gap-2 text-2xl font-bold">
                     Your favorites animes
                     <Heart className="h-6 w-6 text-red-600" />
@@ -56,9 +55,8 @@ export default async function Home() {
 
             <section className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold tracking-tight">
-                    Watch Later
+                    Watch Later 
                 </h2>
-                <h2>Coming soon mirar luego</h2>
             </section>
         </div>
     )

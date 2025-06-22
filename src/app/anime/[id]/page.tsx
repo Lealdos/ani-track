@@ -199,7 +199,7 @@ export default async function AnimePage({
                             </div>
                         </section>
 
-                        <section className="mt-8 min-w-full">
+                        <section className="mt-8 min-w-full md:min-w-max">
                             <Tabs
                                 defaultValue={TabsContes[0].tabsName}
                                 className="h-80 w-full md:h-96"

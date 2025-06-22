@@ -9,64 +9,28 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { getAnimeByGenre, getSeasonalAnime } from '@/lib/api'
+import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
+
+import { getAnimeByGenre } from '@/lib/api'
 import { Anime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 
 // Tipo para las listas de favoritos
-type FavoriteList = {
-    id: string
-    name: string
-    items: Anime[]
-    loading: boolean
-    error: string | null
-}
+
 
 export function FavoritesAccordion() {
-    const [favoriteLists, setFavoriteLists] = useState<FavoriteList[]>([
-        {
-            id: 'top-anime',
-            name: 'Testing 1',
-            items: [],
-            loading: false,
-            error: null,
-        },
-        {
-            id: 'seasonal-anime',
-            name: 'Current watching',
-            items: [],
-            loading: true,
-            error: null,
-        },
-        {
-            id: 'action-anime',
-            name: 'Watch later',
-            items: [],
-            loading: true,
-            error: null,
-        },
-        {
-            id: 'romance-anime',
-            name: 'Romantic animes',
-            items: [],
-            loading: true,
-            error: null,
-        },
-    ])
+    const [favoriteLists, setFavoriteLists] = useState<Anime[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         // Función para cargar los datos de cada lista
         const loadListData = async () => {
             try {
-                // Obtener anime de acción (género 1)
-                const actionAnime = await getAnimeByGenre(1)
-                updateListData('action-anime', actionAnime)
-
                 // Obtener anime romántico (género 22)
                 const romanceAnime = await getAnimeByGenre(22)
-                updateListData('romance-anime', romanceAnime)
+                updateListData( romanceAnime)
+                setLoading(false)
 
                 // Obtener anime de la temporada actual
                 // const currentYear = new Date().getFullYear()
@@ -74,9 +38,9 @@ export function FavoritesAccordion() {
                 // const currentMonth = new Date().getMonth()
                 // const currentSeason = seasons[Math.floor(currentMonth / 3)]
 
-                const seasonalAnime = await getSeasonalAnime()
-                updateListData('seasonal-anime', seasonalAnime)
+            
             } catch (error) {
+                setError(`Error loading data error ${error}`)
                 console.error('Error loading data:', error)
             }
         }
@@ -85,14 +49,9 @@ export function FavoritesAccordion() {
     }, [])
 
     // Función para actualizar los datos de una lista específica
-    const updateListData = (listId: string, items: Anime[]) => {
-        setFavoriteLists((prevLists) =>
-            prevLists.map((list) =>
-                list.id === listId
-                    ? { ...list, items, loading: false, error: null }
-                    : list
-            )
-        )
+    const updateListData = ( FavAnimes: Anime[]) => {
+        setFavoriteLists(FavAnimes)
+
     }
     return (
         <div className="mx-auto w-full py-2">
@@ -104,59 +63,30 @@ export function FavoritesAccordion() {
                 <AccordionItem value="listas-favoritos" className="border-0">
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all text-sm">
                         <div className="flex items-center gap-2">
-                            <span className="font-medium">All my lists</span>
                             <span className="rounded-full px-2 py-0.5  font-medium dark:bg-purple-900/20 ">
-                                {favoriteLists.length}
+                                Anime in this list: {favoriteLists.length}
                             </span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="overflow-auto px-4 pt-2 pb-4">
+                    <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
                         <div className="space-y-4">
-                            {favoriteLists.map((list) => (
-                                <ListAccordion key={list.id} list={list} />
-                            ))}
-                        </div>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </div>
-    )
-}
-
-function ListAccordion({ list }: { list: FavoriteList }) {
-    return (
-        <Accordion
-            type="single"
-            collapsible
-            className="w-full overflow-hidden rounded-lg border"
-        >
-            <AccordionItem value={list.id} className="border-0">
-                <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
-                    <div className="flex items-center gap-2">
-                        <span className="font-medium">{list.name}</span>
-                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                            {list.loading ? '...' : list.items.length}
-                        </span>
-                    </div>
-                </AccordionTrigger>
-                <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
-                    {list.loading ? (
+                        {loading ? (
                         <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-4">
                             {[...Array(6)].map((_, index) => (
-                                <AnimeCardSkeleton key={index} />
+                                <SkeletonCard key={index} />
                             ))}
                         </div>
-                    ) : list.error ? (
+                    ) : error ? (
                         <div className="p-4 text-center text-red-500">
-                            <p>Error: {list.error}</p>
+                            <p>Error: {error}</p>
                         </div>
-                    ) : list.items.length > 0 ? (
+                    ) : favoriteLists.length > 0 ? (
                         <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center
                         ">
-                            {list.items.map((anime) => (
+                             {favoriteLists.map((anime) => (
                                 <AnimeCard
                                     showBadge
-                                    key={`${list.name}-${anime.mal_id}-${anime.title}`}
+                                    key={`${anime.mal_id}-${anime.title}`}
                                     anime={anime}
                                 />
                             ))}
@@ -166,33 +96,66 @@ function ListAccordion({ list }: { list: FavoriteList }) {
                             No animes in the list
                         </span>
                     )}
-                </AccordionContent>
-            </AccordionItem>
-        </Accordion>
+
+                          
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        </div>
     )
 }
 
-function AnimeCardSkeleton() {
-    return (
-        <Card className="flex h-full flex-col overflow-hidden">
-            <Skeleton className="h-48 w-full" />
-            <CardHeader className="p-3 pb-1">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="mt-1 h-4 w-16" />
-            </CardHeader>
-            <CardContent className="flex-grow p-3 pt-0">
-                <Skeleton className="mb-1 h-4 w-full" />
-                <Skeleton className="mb-1 h-4 w-full" />
-                <Skeleton className="h-4 w-3/4" />
-            </CardContent>
-            <CardFooter className="flex gap-2 p-3 pt-0">
-                <Skeleton className="h-6 w-16" />
-                <Skeleton className="h-6 w-16" />
-                <Skeleton className="h-6 w-16" />
-            </CardFooter>
-        </Card>
-    )
-}
+// function ListAccordion({ list }: { list: FavoriteList }) {
+//     return (
+//         <Accordion
+//             type="single"
+//             collapsible
+//             className="w-full overflow-hidden rounded-lg border"
+//         >
+//             <AccordionItem value={list.id} className="border-0">
+//                 <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all">
+//                     <div className="flex items-center gap-2">
+//                         <span className="font-medium">{list.name}</span>
+//                         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+//                             {list.loading ? '...' : list.items.length}
+//                         </span>
+//                     </div>
+//                 </AccordionTrigger>
+//                 <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
+//                     {list.loading ? (
+//                         <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+//                             {[...Array(6)].map((_, index) => (
+//                                 <SkeletonCard key={index} />
+//                             ))}
+//                         </div>
+//                     ) : list.error ? (
+//                         <div className="p-4 text-center text-red-500">
+//                             <p>Error: {list.error}</p>
+//                         </div>
+//                     ) : list.items.length > 0 ? (
+//                         <div className="grid md:grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center
+//                         ">
+//                             {list.items.map((anime) => (
+//                                 <AnimeCard
+//                                     showBadge
+//                                     key={`${list.name}-${anime.mal_id}-${anime.title}`}
+//                                     anime={anime}
+//                                 />
+//                             ))}
+//                         </div>
+//                     ) : (
+//                         <span className="block px-2 py-0.5 text-lg font-medium text-slate-100 text-center">
+//                             No animes in the list
+//                         </span>
+//                     )}
+//                 </AccordionContent>
+//             </AccordionItem>
+//         </Accordion>
+//     )
+// }
+
+
 
 // function AnimeCard({ anime }: { anime: Anime }) {
 //     return (
