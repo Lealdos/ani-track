@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-// import { Star, Calendar, Clock, Tv } from 'lucide-react'
+import { useState, useEffect } from 'react' 
 // import { Badge } from '@/components/ui/badge'
 import {
     Accordion,
@@ -64,7 +63,7 @@ export function FavoritesAccordion() {
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all text-sm">
                         <div className="flex items-center gap-2">
                             <span className="rounded-full px-2 py-0.5  font-medium dark:bg-purple-900/20 ">
-                                Anime in this list: {favoriteLists.length}
+                                Animes in this list: {favoriteLists.length}
                             </span>
                         </div>
                     </AccordionTrigger>

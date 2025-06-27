@@ -5,7 +5,7 @@ export type Anime = {
     title_english?: string
     title_synonyms?: string[]
     All_titles?: multipleLanguagesTitles[]
-    type?: string
+    type?: AnimeType
     episodes?: number
     status?: string
     score?: number
@@ -62,3 +62,6 @@ export type multipleLanguagesTitles = {
 
     title: string
 }
+
+
+type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music'
