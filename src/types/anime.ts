@@ -1,3 +1,16 @@
+type AnimeImagesType =  {
+    jpg: {
+        image_url: string
+        large_image_url: string
+        small_image_url: string
+    }
+    webp?: {
+        image_url: string
+        large_image_url: string
+        small_image_url: string
+    }
+}
+
 export type Anime = {
     mal_id: number
     title: string
@@ -9,18 +22,7 @@ export type Anime = {
     episodes?: number
     status?: string
     score?: number
-    images?: {
-        jpg: {
-            image_url: string
-            large_image_url: string
-            small_image_url: string
-        }
-        webp?: {
-            image_url: string
-            large_image_url: string
-            small_image_url: string
-        }
-    }
+    images?: AnimeImagesType
     synopsis?: string
     genres?: { mal_id: number; name: string }[]
     aired?: {
@@ -65,3 +67,43 @@ export type multipleLanguagesTitles = {
 
 
 type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music'
+
+type Genres = {
+    mal_id: number,
+    name: string,
+    url: string,
+    count: number
+}
+
+export type AnimeGenres ={
+data: Genres[]
+}
+
+
+export type Recomendations = {
+    entry: {
+        mal_id: number
+        url: string
+        images: AnimeImagesType
+        title: string
+    }
+}
+
+export type animeRecomendations = {
+    data: Recomendations[]
+}
+
+export type AnimeEpisodes = {
+    data: Episode[]
+}
+
+export type Episode = {
+    mal_id: number
+    title: string
+    title_japanese: string
+    title_romanji: string
+    aired: string
+    filler: boolean
+    recap: boolean
+    forum_url: string
+}

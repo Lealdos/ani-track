@@ -12,6 +12,7 @@ interface EpisodeListProps {
     animeId: string
 }
 
+//agregar inivite scroll
 export function EpisodeList({ episodes, animeId }: EpisodeListProps) {
     if (!episodes || episodes.length === 0) {
         return (

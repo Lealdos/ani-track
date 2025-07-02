@@ -70,8 +70,7 @@ export default async function AnimePage({
 
     const { duration: episodeDuration, ...anime } = animeData
 
-    const episodesData = await getAnimeEpisodes(id)
-    const episodes = episodesData.data || []
+    const {episodes} = await getAnimeEpisodes(id)
 
     const recommendations = await getAnimeRecommendations(id)
 
