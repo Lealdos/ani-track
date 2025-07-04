@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { Anime } from '@/types/anime'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 import { Calendar, Tv, Star, Film, TvMinimalPlay } from 'lucide-react'
 // import { AddToListButton } from '@/components/add-to-list-button';
@@ -23,15 +24,15 @@ export function AnimeCard({
                 className="flex h-full w-full flex-col"
             >
                 <div className="relative">
-                    <Image
+                    <img
                         src={
-                            anime.images?.webp?.image_url || '/placeholder.jpg'
+                            anime.images?.webp?.image_url || '/placeholder.svg'
                         }
                         alt={anime.title}
                         className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-[320px]"
-                        width={800}
+                        width={360}
                         height={380}
-                        priority
+                        // priority
                     />
                     {showBadge && anime.score && (
                         <div className="absolute top-2 right-2 m-auto flex items-center justify-center gap-1 rounded-sm bg-yellow-500 p-1 font-semibold text-shadow-black text-shadow-md">
