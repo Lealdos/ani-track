@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { Anime } from '@/types/anime'
 import { mergeClassNames } from '@/lib/utils'
 import Link from 'next/link'
-import Image from 'next/image'
+// import Image from 'next/image'
 interface TopAnimeProps {
     topAnime: Promise<Anime[]>
 }
@@ -31,7 +32,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                         </span>
 
                         {/*  anime card */}
-                            <Image
+                            <img
                                 className={mergeClassNames(
                                     `relative h-70 max-w-[200px] min-w-[200px] rounded`,
                                     (anime?.rank ?? 0) > 9
@@ -42,7 +43,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                                 height={580}
                                 src={
                                     anime.images?.webp?.image_url ||
-                                    '/placeholder.jpg'
+                                    '/placeholder.svg'
                                 }
                                 alt={anime.title}
                             />
