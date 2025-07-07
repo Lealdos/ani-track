@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Star, Calendar, Clock } from 'lucide-react'
 import { StreamingPlatforms } from '@/components/streamingPlatforms/StreamingPlatforms'
@@ -83,7 +83,7 @@ export default async function AnimePage({
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
             <div className="relative h-[300px] md:hidden md:h-[620px]">
-                <Image
+                <img
                     src={
                         anime.images?.jpg?.large_image_url ||
                         anime.images?.jpg?.image_url ||
@@ -91,8 +91,6 @@ export default async function AnimePage({
                     }
                     alt={anime.title}
                     className="object-cover brightness-70 md:object-fill"
-                    priority
-                    fill
                     sizes="(max-width: 768px) 100vw, 250px"
                 />
                 <BackButton />
@@ -100,16 +98,14 @@ export default async function AnimePage({
             <main className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
                     <div className="relative mx-auto -mt-32 md:mx-0 md:mt-10">
-                        <Image
+                        <img
                             src={
                                 anime.images?.webp?.image_url ||
                                 '/placeholder.svg'
                             }
                             alt={anime.title}
-                            width={250}
-                            height={375}
                             className="aspect-[2/3] rounded-lg object-cover shadow-xl"
-                            priority
+                            
                         />
                     </div>
                     <div className="flex flex-col items-center justify-center">
@@ -260,19 +256,17 @@ export default async function AnimePage({
                                         className="group"
                                     >
                                         <div className="relative rounded-lg transition-transform group-hover:scale-105">
-                                            <Image
+                                            <img
                                                 src={
                                                     recommendedAnime.entry
                                                         .images?.jpg
                                                         ?.image_url ||
                                                     '/placeholder.svg'
                                                 }
-                                                priority
+                                                
                                                 alt={
                                                     recommendedAnime.entry.title
                                                 }
-                                                width={200}
-                                                height={300}
                                                 className="aspect-[2/3] w-full object-cover"
                                             />
                                             <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
