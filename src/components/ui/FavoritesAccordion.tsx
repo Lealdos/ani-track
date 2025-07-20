@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react' 
-// import { Badge } from '@/components/ui/badge'
+import { useState } from 'react' 
+import { getStoredFavoriteAnimes } from '@/store/userFavoritesAnime'
 import {
     Accordion,
     AccordionContent,
@@ -10,44 +10,47 @@ import {
 } from '@/components/ui/accordion'
 import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
 
-import { getAnimeByGenre } from '@/lib/api'
+// import { getAnimeByGenre } from '@/lib/api'
 import { Anime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
+
+
 
 // remember to add Types
 
 
 export function FavoritesAccordion() {
-    const [favoriteLists, setFavoriteLists] = useState<Anime[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const [favoriteLists] = useState<Anime[]>(() => getStoredFavoriteAnimes() )
+    const [loading] = useState(false)
+    const [error] = useState<string | null>(null)
 
-    useEffect(() => {
-        const loadListData = async () => {
-            try {
-                const romanceAnime = await getAnimeByGenre(22)
-                updateListData( romanceAnime)
-                setLoading(false)
+    // useEffect(() => {
+    //     const loadListData = async () => {
+    //         try {
+    //             const romanceAnime = await getAnimeByGenre(22)
+    //             updateListData( romanceAnime)
+    //             setLoading(false)
 
-                // const currentYear = new Date().getFullYear()
-                // const seasons = ["winter", "spring", "summer", "fall"]
-                // const currentMonth = new Date().getMonth()
-                // const currentSeason = seasons[Math.floor(currentMonth / 3)]
+    //             // const currentYear = new Date().getFullYear()
+    //             // const seasons = ["winter", "spring", "summer", "fall"]
+    //             // const currentMonth = new Date().getMonth()
+    //             // const currentSeason = seasons[Math.floor(currentMonth / 3)]
 
             
-            } catch (error) {
-                setError(`Error loading data error ${error}`)
-                console.error('Error loading data:', error)
-            }
-        }
+    //         } catch (error) {
+    //             setError(`Error loading data error ${error}`)
+    //             console.error('Error loading data:', error)
+    //         }
+    //     }
 
-        loadListData()
-    }, [])
+    //     loadListData()
+    // }, [])
 
-    const updateListData = ( FavAnimes: Anime[]) => {
-        setFavoriteLists(FavAnimes)
+    // const updateListData = ( FavAnimes: Anime[]) => {
+    //     setFavoriteLists(FavAnimes)
 
-    }
+    // }
+
     return (
         <div className="mx-auto w-full py-2">
             <Accordion

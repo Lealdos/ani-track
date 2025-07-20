@@ -1,3 +1,4 @@
+'use client'
 import { Anime } from "@/types/anime";
 
 const FAV_KEY = "Favorites-Animes";
