@@ -1,10 +1,10 @@
 import { Anime } from "@/types/anime";
 
-const FAV_KEY = "AniTrack-Favorites-Animes";
+const FAV_KEY = "Favorites-Animes";
 
 export function getStoredFavoriteAnimes() {
-  const value = localStorage.getItem(FAV_KEY);
-  return value ? JSON.parse(value) : [];
+  const FavoriteAnimeList = localStorage.getItem(FAV_KEY);
+  return FavoriteAnimeList ? JSON.parse(FavoriteAnimeList) : [];
 }
 
 export function storeFavoriteAnimes(favorites:Anime[]) {
@@ -13,7 +13,7 @@ export function storeFavoriteAnimes(favorites:Anime[]) {
 
 /*
 
-personajes de un anime
+character api
 
 https://api.jikan.moe/v4/anime/1/characters
 

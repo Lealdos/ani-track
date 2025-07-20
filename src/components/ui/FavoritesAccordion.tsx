@@ -14,7 +14,7 @@ import { getAnimeByGenre } from '@/lib/api'
 import { Anime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 
-// Tipo para las listas de favoritos
+// remember to add Types
 
 
 export function FavoritesAccordion() {
@@ -29,7 +29,6 @@ export function FavoritesAccordion() {
                 updateListData( romanceAnime)
                 setLoading(false)
 
-                // Obtener anime de la temporada actual
                 // const currentYear = new Date().getFullYear()
                 // const seasons = ["winter", "spring", "summer", "fall"]
                 // const currentMonth = new Date().getMonth()
@@ -45,7 +44,6 @@ export function FavoritesAccordion() {
         loadListData()
     }, [])
 
-    // Función para actualizar los datos de una lista específica
     const updateListData = ( FavAnimes: Anime[]) => {
         setFavoriteLists(FavAnimes)
 
