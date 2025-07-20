@@ -23,10 +23,8 @@ export function FavoritesAccordion() {
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        // Función para cargar los datos de cada lista
         const loadListData = async () => {
             try {
-                // Obtener anime romántico (género 22)
                 const romanceAnime = await getAnimeByGenre(22)
                 updateListData( romanceAnime)
                 setLoading(false)
@@ -59,7 +57,7 @@ export function FavoritesAccordion() {
                 collapsible
                 className="w-full overflow-hidden rounded-lg border"
             >
-                <AccordionItem value="listas-favoritos" className="border-0">
+                <AccordionItem value="favorite-list" className="border-0">
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 transition-all text-sm">
                         <div className="flex items-center gap-2">
                             <span className="rounded-full px-2 py-0.5  font-medium dark:bg-purple-900/20 ">
@@ -151,67 +149,5 @@ export function FavoritesAccordion() {
 //                 </AccordionContent>
 //             </AccordionItem>
 //         </Accordion>
-//     )
-// }
-
-
-
-// function AnimeCard({ anime }: { anime: Anime }) {
-//     return (
-//         <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/20">
-//             <div className="h-48 w-full overflow-hidden">
-//                 <Image
-//                     src={anime?.images?.jpg.image_url || '/placeholder.svg'}
-//                     alt={anime.title}
-//                     className="h-full w-full object-cover"
-//                     loading="lazy"
-//                     width={200}
-//                     height={300}
-//                 />
-//             </div>
-//             <CardHeader className="p-3 pb-1">
-//                 <CardTitle
-//                     className="line-clamp-1 text-base"
-//                     title={anime.title}
-//                 >
-//                     {anime.title}
-//                 </CardTitle>
-//                 <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
-//                     <Star className="h-4 w-4 fill-current" />
-//                     <span className="text-sm font-medium">
-//                         {anime.score || 'N/A'}
-//                     </span>
-//                 </div>
-//             </CardHeader>
-//             <CardContent className="flex-grow p-3 pt-0">
-//                 <CardDescription className="line-clamp-3">
-//                     {anime.synopsis || 'No hay descripción disponible.'}
-//                 </CardDescription>
-//             </CardContent>
-//             <CardFooter className="flex flex-wrap gap-2 p-3 pt-0">
-//                 <Badge variant="outline" className="flex items-center gap-1">
-//                     <Tv className="h-3 w-3" />
-//                     {anime.type || 'TV'}
-//                 </Badge>
-//                 {anime.episodes && (
-//                     <Badge
-//                         variant="outline"
-//                         className="flex items-center gap-1"
-//                     >
-//                         <Clock className="h-3 w-3" />
-//                         {anime.episodes} eps
-//                     </Badge>
-//                 )}
-//                 {anime.aired?.from && (
-//                     <Badge
-//                         variant="outline"
-//                         className="flex items-center gap-1"
-//                     >
-//                         <Calendar className="h-3 w-3" />
-//                         {new Date(anime.aired.from).getFullYear()}
-//                     </Badge>
-//                 )}
-//             </CardFooter>
-//         </Card>
 //     )
 // }
