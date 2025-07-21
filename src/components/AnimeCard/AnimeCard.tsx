@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { Anime } from '@/types/anime'
-// import Image from 'next/image'
 
 import { Calendar, Tv, Star, Film, TvMinimalPlay } from 'lucide-react'
-// import { AddToListButton } from '@/components/add-to-list-button';
 
 interface AnimeCardProps {
     anime: Anime
@@ -42,7 +40,7 @@ export function AnimeCard({
                     )}
                 </div>
                 {hasFooter && (
-                    <footer className="flex h-full flex-col items-center justify-center text-balance p-2">
+                    <footer className="flex h-full flex-col items-center justify-center p-2 text-balance">
                         <h3 className="my-2 line-clamp-2 text-center leading-tight font-medium text-balance">
                             {anime.title}
                         </h3>
