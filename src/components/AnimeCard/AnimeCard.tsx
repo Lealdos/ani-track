@@ -2,7 +2,16 @@
 import Link from 'next/link'
 import type { Anime } from '@/types/anime'
 
-import { Calendar, Tv, Star, Film, TvMinimalPlay } from 'lucide-react'
+import {
+    Calendar,
+    Tv,
+    Star,
+    Film,
+    TvMinimalPlay,
+    Heart,
+    HeartOff,
+    BookmarkPlus,
+} from 'lucide-react'
 
 interface AnimeCardProps {
     anime: Anime
