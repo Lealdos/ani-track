@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { Anime } from '@/types/anime'
+import { AddToListButton } from '@/components/ui/AddToListButton'
 
 import {
     Calendar,
@@ -8,8 +9,6 @@ import {
     Star,
     Film,
     TvMinimalPlay,
-    Heart,
-    HeartOff,
     BookmarkPlus,
 } from 'lucide-react'
 
@@ -17,6 +16,7 @@ interface AnimeCardProps {
     anime: Anime
     showBadge?: boolean
     hasFooter?: boolean
+    FavoriteListFunction?: (animeId: number) => void
 }
 
 export function AnimeCard({
@@ -39,12 +39,20 @@ export function AnimeCard({
                         className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-[320px]"
                         width={360}
                         height={380}
-                        // priority
                     />
                     {showBadge && anime.score && (
                         <div className="absolute top-2 right-2 m-auto flex items-center justify-center gap-1 rounded-sm bg-yellow-500 p-1 font-semibold text-shadow-black text-shadow-md">
                             {anime.score.toFixed(1)}
                             <Star className="size-3 fill-current" />
+                        </div>
+                    )}
+                    {showBadge && (
+                        <div className="absolute top-15 right-2 flex flex-col items-center justify-center gap-2">
+                            <AddToListButton anime={anime} />
+                            <button className="rounded bg-black/50 p-1 text-white hover:bg-black/70">
+                                <BookmarkPlus className="size-6" />
+                                <span className="sr-only">Add to a list</span>
+                            </button>
                         </div>
                     )}
                 </div>
