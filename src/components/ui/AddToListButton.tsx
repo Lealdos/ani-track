@@ -18,8 +18,10 @@ export function AddToListButton({ anime }: AddToListButtonProps) {
             onClick={(e) => {
                 e.preventDefault()
                 if (isFavorite) {
+                    console.log('remove from favorites')
                     removeFromFavorites(anime.mal_id)
                 } else {
+                    console.log('add to favorites')
                     addToFavorites(anime)
                 }
             }}
