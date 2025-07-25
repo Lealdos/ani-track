@@ -16,7 +16,6 @@ interface AnimeCardProps {
     anime: Anime
     showBadge?: boolean
     hasFooter?: boolean
-    FavoriteListFunction?: (animeId: number) => void
 }
 
 export function AnimeCard({

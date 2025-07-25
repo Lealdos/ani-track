@@ -4,7 +4,7 @@ import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
-import { unstable_ViewTransition as ViewTransition } from 'react'
+// import { unstable_ViewTransition as ViewTransition } from 'react'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 
@@ -51,10 +51,10 @@ export default function RootLayout({
                 >
                     <Header />
 
-                    <ViewTransition name="page">
-                        {children}
-                        <Toaster />
-                    </ViewTransition>
+                    {/* <ViewTransition name="page"> */}
+                    {children}
+                    <Toaster />
+                    {/* </ViewTransition> */}
                     <Footer />
                 </body>
             </html>

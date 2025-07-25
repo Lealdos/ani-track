@@ -1,7 +1,7 @@
 'use client'
 import { Heart, HeartOff } from 'lucide-react'
 import type { Anime } from '@/types/anime'
-import { useFavoriteAnimes } from '@/hooks/useFetchUserFavoriteList'
+import { useFavorites } from '@/context/favoriteContext'
 
 interface AddToListButtonProps {
     anime: Anime
@@ -9,7 +9,8 @@ interface AddToListButtonProps {
 
 export function AddToListButton({ anime }: AddToListButtonProps) {
     const { isInFavorites, addToFavorites, removeFromFavorites } =
-        useFavoriteAnimes()
+        useFavorites()
+
     const isFavorite = isInFavorites(anime.mal_id)
 
     return (
@@ -32,22 +33,14 @@ export function AddToListButton({ anime }: AddToListButtonProps) {
                     <HeartOff
                         className={`size-6 ${isFavorite && 'fill-red-500 hover:fill-transparent'}`}
                     />
-                    <span className="sr-only">
-                        {isFavorite
-                            ? 'Remove from Favorites'
-                            : 'Add to Favorites'}
-                    </span>
+                    <span className="sr-only">Add to Favorites</span>
                 </>
             ) : (
                 <>
                     <Heart
                         className={`size-6 ${isFavorite ? 'fill-red-600' : 'hover:fill-red-600'}`}
                     />
-                    <span className="sr-only">
-                        {isFavorite
-                            ? 'Remove from Favorites'
-                            : 'Add to Favorites'}
-                    </span>
+                    <span className="sr-only">Remove from Favorites</span>
                 </>
             )}
         </button>

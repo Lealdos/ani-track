@@ -12,14 +12,14 @@ import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
 
 import { Anime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
-import { useFavoriteAnimes } from '@/hooks/useFetchUserFavoriteList'
+import { useFavorites } from '@/context/favoriteContext'
 
 // remember to add Types
 
 export function FavoritesAccordion() {
-    const { favorites, removeFromFavorites } = useFavoriteAnimes()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const { favorites } = useFavorites()
+    const [loading] = useState(false)
+    const [error] = useState<string | null>(null)
 
     //             // const currentYear = new Date().getFullYear()
     //             // const seasons = ["winter", "spring", "summer", "fall"]
