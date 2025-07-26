@@ -41,20 +41,13 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
         storeFavoriteAnimes(newFavorites)
     }
 
-    const toggleFavorite = (anime: Anime) => {
-        if (isInFavorites(anime.mal_id)) {
-            removeFromFavorites(anime.mal_id)
-        } else {
-            addToFavorites(anime)
-        }
-    }
+    
 
     return (
         <FavoriteContext.Provider
             value={{
                 favorites,
                 isInFavorites,
-                toggleFavorite,
                 addToFavorites,
                 removeFromFavorites,
             }}
