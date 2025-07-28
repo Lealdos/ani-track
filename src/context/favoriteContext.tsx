@@ -6,11 +6,17 @@ import {
     storeFavoriteAnimes,
 } from '@/store/StorageFavoritesAnime'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const FavoriteContext = createContext<any>({
+type FavoriteContextType = {
+    favorites: Anime[]
+    setFavorites?: (favorites: Anime[]) => void
+    isInFavorites: (animeId: number) => boolean
+    addToFavorites: (anime: Anime) => void
+    removeFromFavorites: (animeId: number) => void
+}
+const FavoriteContext = createContext<FavoriteContextType>({
     favorites: [],
     setFavorites: () => {},
-    isInFavorites: () => {},
+    isInFavorites: () => false,
     addToFavorites: () => {},
     removeFromFavorites: () => {},
 })
@@ -40,8 +46,6 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
         setFavorites(newFavorites)
         storeFavoriteAnimes(newFavorites)
     }
-
-    
 
     return (
         <FavoriteContext.Provider
