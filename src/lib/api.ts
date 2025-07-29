@@ -1,4 +1,10 @@
-import { Anime, AnimeGenres, Episode, Recomendations, streaming } from '@/types/anime'
+import {
+    Anime,
+    AnimeGenres,
+    Episode,
+    Recomendations,
+    streaming,
+} from '@/types/anime'
 import { removeDuplicates } from './utils'
 import { API_BASE_URL } from '@/config/const'
 import { paginationProps } from '@/types/pageInfo'
@@ -39,8 +45,9 @@ export async function fetchWithRateLimit<T>(
 export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     if (query) {
         try {
-            const { data, pagination } = await fetchWithRateLimit<Anime[]
-            >(`${API_BASE_URL}/anime?${query}&sfw`)
+            const { data, pagination } = await fetchWithRateLimit<Anime[]>(
+                `${API_BASE_URL}/anime?${query}&sfw`
+            )
             const animeData = {
                 animes: removeDuplicates(data),
                 pagination: pagination as paginationProps,
@@ -52,8 +59,9 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
         }
     }
     try {
-        const { data, pagination } = await fetchWithRateLimit<Anime[]
-        >(`${API_BASE_URL}/anime?page=${page}&sfw`)
+        const { data, pagination } = await fetchWithRateLimit<Anime[]>(
+            `${API_BASE_URL}/anime?page=${page}&sfw`
+        )
         const animeData = {
             animes: removeDuplicates(data),
             pagination: pagination as paginationProps,
@@ -67,7 +75,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
 
 export async function getSeasonalAnime(): Promise<Anime[]> {
     try {
-        const {data} = await fetchWithRateLimit<Anime[]>(
+        const { data } = await fetchWithRateLimit<Anime[]>(
             `${API_BASE_URL}/seasons/now`
         )
         const seasonalAnime = data
@@ -82,7 +90,7 @@ export async function getSeasonalAnime(): Promise<Anime[]> {
 
 export async function getTopAnime(): Promise<Anime[]> {
     try {
-        const {data} = await fetchWithRateLimit<Anime[]>(
+        const { data } = await fetchWithRateLimit<Anime[]>(
             `${API_BASE_URL}/top/anime?limit=10`
         )
         return data
@@ -94,7 +102,7 @@ export async function getTopAnime(): Promise<Anime[]> {
 
 export async function getAnimeByGenre(genreId: number) {
     try {
-        const {data} = await fetchWithRateLimit<Anime[]>(
+        const { data } = await fetchWithRateLimit<Anime[]>(
             `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
         )
         return data
@@ -106,7 +114,7 @@ export async function getAnimeByGenre(genreId: number) {
 
 export async function getAnimeById(id: number): Promise<Anime | null> {
     try {
-        const {data} = await fetchWithRateLimit<Anime>(
+        const { data } = await fetchWithRateLimit<Anime>(
             `${API_BASE_URL}/anime/${id}/full`
         )
         return data
@@ -120,8 +128,8 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
 
 // Get anime episodes
 export async function getAnimeEpisodes(id: number, page = 1) {
-    const {data, pagination} = await fetchWithRateLimit<Episode[]>(
-        `${API_BASE_URL}/anime/${id}/episodes?page=${page}&limit=null`
+    const { data, pagination } = await fetchWithRateLimit<Episode[]>(
+        `${API_BASE_URL}/anime/${id}/episodes?page=${page}`
     )
     const animeEpisodes = {
         episodes: data,
@@ -131,10 +139,8 @@ export async function getAnimeEpisodes(id: number, page = 1) {
 }
 
 // Get anime characters
-export async function getAnimeCharacters(
-    id: number
-): Promise<Character[]> {
-    const {data} = await fetchWithRateLimit<CharacterDataItem[]>(
+export async function getAnimeCharacters(id: number): Promise<Character[]> {
+    const { data } = await fetchWithRateLimit<CharacterDataItem[]>(
         `${API_BASE_URL}/anime/${id}/characters`
     )
     const allCharacter = data.map((character) => character.character)
@@ -146,7 +152,7 @@ export async function getAnimeCharacters(
 export async function getAnimeRecommendations(
     id: number
 ): Promise<Recomendations[]> {
-    const {data} = await fetchWithRateLimit<Recomendations[]>(
+    const { data } = await fetchWithRateLimit<Recomendations[]>(
         `${API_BASE_URL}/anime/${id}/recommendations`
     )
     return data

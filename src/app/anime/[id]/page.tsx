@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Star, Calendar, Clock } from 'lucide-react'
 import { StreamingPlatforms } from '@/components/streamingPlatforms/StreamingPlatforms'
-import { EpisodeList } from '@/components/EpisodeList/EpisodeList'
+import { EpisodesList } from '@/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 // import { Comments } from '@/components/comments'
@@ -16,8 +16,6 @@ import {
 import { Anime } from '@/types/anime'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
-
-
 
 interface Recommendations {
     entry: Anime
@@ -70,7 +68,7 @@ export default async function AnimePage({
 
     const { duration: episodeDuration, ...anime } = animeData
 
-    const {episodes} = await getAnimeEpisodes(id)
+    const { episodes, pagination } = await getAnimeEpisodes(id)
 
     const recommendations = await getAnimeRecommendations(id)
 
@@ -105,7 +103,6 @@ export default async function AnimePage({
                             }
                             alt={anime.title}
                             className="aspect-[2/3] rounded-lg object-cover shadow-xl"
-                            
                         />
                     </div>
                     <div className="flex flex-col items-center justify-center">
@@ -114,7 +111,7 @@ export default async function AnimePage({
                                 {anime.title}
                             </h1>
                             {anime.title_english && (
-                                <p className="mb-4 text-gray-400">
+                                <p className="mb-4 text-gray-300">
                                     {anime.title_english}
                                 </p>
                             )}
@@ -132,7 +129,7 @@ export default async function AnimePage({
 
                             <div className="mb-6 flex flex-wrap items-center gap-6 text-sm">
                                 {anime.status && (
-                                    <div className="rounded-xl bg-purple-900/50 p-1 text-purple-200 hover:bg-purple-900/70">
+                                    <div className="rounded-xl bg-purple-900/50 p-1.5 text-gray-100 hover:bg-purple-900/70">
                                         {anime.status}
                                     </div>
                                 )}
@@ -145,7 +142,7 @@ export default async function AnimePage({
                                 )}
 
                                 <div className="flex items-center">
-                                    <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                    <Calendar className="mr-1 h-4 w-4 text-gray-300" />
                                     <span>
                                         premiered: {anime.season} {anime.year}
                                     </span>
@@ -153,7 +150,7 @@ export default async function AnimePage({
 
                                 {anime.broadcast?.string && (
                                     <div className="flex items-center">
-                                        <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                        <Clock className="mr-1 h-4 w-4 text-gray-300" />
                                         <span>
                                             Broadcast: {anime.broadcast.string}
                                         </span>
@@ -162,7 +159,7 @@ export default async function AnimePage({
 
                                 {anime.aired && (
                                     <div className="flex items-center">
-                                        <Calendar className="mr-1 h-4 w-4 text-gray-400" />
+                                        <Calendar className="mr-1 h-4 w-4 text-gray-300" />
                                         <span>
                                             Aired:{' '}
                                             {formatDate(anime.aired.from)}
@@ -178,7 +175,7 @@ export default async function AnimePage({
 
                                 {episodeDuration && (
                                     <div className="flex items-center">
-                                        <Clock className="mr-1 h-4 w-4 text-gray-400" />
+                                        <Clock className="mr-1 h-4 w-4 text-gray-300" />
                                         <span>{episodeDuration}</span>
                                     </div>
                                 )}
@@ -188,13 +185,13 @@ export default async function AnimePage({
                                 <h2 className="mb-2 text-2xl font-bold">
                                     Synopsis
                                 </h2>
-                                <p className="mb-6 text-gray-300">
+                                <p className="mb-6 text-balance text-gray-200">
                                     {anime.synopsis}
                                 </p>
                             </div>
                         </section>
 
-                        <section className="mt-8 min-w-full md:min-w-max">
+                        <section className="mt-8 md:min-w-max lg:min-w-3xl">
                             <Tabs
                                 defaultValue={TabsContes[0].tabsName}
                                 className="h-80 w-full md:h-96"
@@ -213,7 +210,7 @@ export default async function AnimePage({
 
                                 <TabsContent
                                     value={'Where to watch'}
-                                    className={`my-4 h-64 overflow-y-auto  `}
+                                    className={`my-4 h-64 overflow-y-auto`}
                                 >
                                     {streamingServices.length > 0 ? (
                                         <StreamingPlatforms
@@ -221,7 +218,7 @@ export default async function AnimePage({
                                             animeTitle={anime.title}
                                         />
                                     ) : (
-                                        <div className="py-8 text-center text-gray-400">
+                                        <div className="py-8 text-center text-gray-300">
                                             there are no streaming platforms
                                             available for this anime.
                                         </div>
@@ -229,11 +226,12 @@ export default async function AnimePage({
                                 </TabsContent>
                                 <TabsContent
                                     value="Episodes"
-                                    className={`my-4 h-64 overflow-y-auto  `}
+                                    className={`my-4 h-64 overflow-y-auto`}
                                 >
-                                    <EpisodeList
+                                    <EpisodesList
+                                        animeId={anime.mal_id}
                                         episodes={episodes}
-                                        animeId={id.toString()}
+                                        paginationProps={pagination}
                                     />
                                 </TabsContent>
                             </Tabs>
@@ -241,7 +239,7 @@ export default async function AnimePage({
                     </div>
                 </div>
 
-                {recommendations.length > 0 && (
+                {recommendations.length > 0 ? (
                     <section>
                         <h2 className="my-6 text-2xl font-bold">
                             Anime Recommendations based in this anime
@@ -263,14 +261,13 @@ export default async function AnimePage({
                                                         ?.image_url ||
                                                     '/placeholder.svg'
                                                 }
-                                                
                                                 alt={
                                                     recommendedAnime.entry.title
                                                 }
                                                 className="aspect-[2/3] w-full object-cover"
                                             />
                                             <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
-                                                <h3 className="line-clamp-2 text-lg font-medium text-balance text-center">
+                                                <h3 className="line-clamp-2 text-center text-lg font-medium text-balance">
                                                     {
                                                         recommendedAnime.entry
                                                             .title
@@ -281,6 +278,16 @@ export default async function AnimePage({
                                     </Link>
                                 ))}
                         </div>
+                    </section>
+                ) : (
+                    <section className="">
+                        <h2 className="my-6 text-2xl font-bold">
+                            Anime Recommendations based in this anime
+                        </h2>
+                        <p className="text-center">
+                            there are no recommendations available for this
+                            anime.
+                        </p>
                     </section>
                 )}
             </main>
