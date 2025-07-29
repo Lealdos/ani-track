@@ -19,7 +19,7 @@
         - [] create a button to delete list
         - [] create a button to delete anime from list
     - Anime/ID page:
-        - [] add infinite scroll functionality to episode section
+        - [✅] add infinite scroll functionality to episode section
 
 # Backend
 
