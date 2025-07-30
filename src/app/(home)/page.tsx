@@ -20,7 +20,7 @@ export default async function Home() {
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         Your favorites animes
-                        <Heart className="h-6 w-6 text-red-600" />
+                        <Heart className="h-6 w-6 fill-red-600 text-red-600" />
                     </h2>
                     <FavoritesAccordion />
                 </section>
