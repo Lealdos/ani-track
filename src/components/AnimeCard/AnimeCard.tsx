@@ -24,7 +24,7 @@ export function AnimeCard({
     hasFooter = true,
 }: AnimeCardProps) {
     return (
-        <article className="flex h-80 max-w-[200px] flex-col items-center justify-between overflow-hidden rounded-lg border bg-black/80 transition-all duration-400 hover:shadow-xl hover:shadow-indigo-500/60 md:h-full md:max-w-[320px]">
+        <article className="flex max-w-[200px] flex-col items-center justify-between overflow-hidden rounded-lg border bg-black/80 transition-all duration-400 hover:shadow-xl hover:shadow-indigo-500/60 md:h-full md:max-w-[320px]">
             <Link
                 href={`/anime/${anime.mal_id}`}
                 className="flex h-full w-full flex-col"
@@ -35,7 +35,7 @@ export function AnimeCard({
                             anime.images?.webp?.image_url || '/placeholder.svg'
                         }
                         alt={anime.title}
-                        className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-[320px]"
+                        className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-64 md:object-center"
                         width={360}
                         height={380}
                     />
