@@ -21,6 +21,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
     const [page, setPage] = useState(1)
     const [pagination, setPagination] = useState<paginationProps>()
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
     const loader = useRef(null)
 
     useEffect(() => {
@@ -31,6 +32,24 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
             setPagination(pagination)
             setIsLoading(false)
         }
+        fetchEpisodes()
+    }, [animeId])
+
+    useEffect(() => {
+        const fetchEpisodes = async () => {
+            try {
+                setIsLoading(true)
+                const { episodes, pagination } = await getAnimeEpisodes(animeId)
+                setDisplayedEpisodes(episodes)
+                setPagination(pagination)
+            } catch (error) {
+                setError('Error fetching episodes')
+                console.error('Error fetching episodes:', error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
         fetchEpisodes()
     }, [animeId])
 
@@ -70,17 +89,11 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         return () => {
             if (currentLoader) observer.unobserve(currentLoader)
         }
-    }, [
-        animeId,
-        displayedEpisodes?.length,
-        displayedEpisodes,
-        page,
-        pagination?.has_next_page,
-    ])
+    }, [animeId, page, pagination?.has_next_page])
 
     if (!displayedEpisodes || displayedEpisodes.length === 0) {
         return (
-            <div className="py-8 text-center text-gray-300">
+            <div className="min-h-xl py-8 text-center text-gray-300">
                 there are no episodes available for this anime.
             </div>
         )
@@ -90,6 +103,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold">
+                    {/* episodes quantity */}
                     {(pagination?.last_visible_page ?? 1) > 1
                         ? `more than ${(pagination?.last_visible_page ?? 1) * 100 - 100}  episodes`
                         : `episodes ${displayedEpisodes.length}`}
@@ -118,7 +132,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                                             <Calendar className="mr-1 h-3 w-3" />
                                             {new Date(
                                                 episode.aired
-                                            ).toLocaleDateString('es-ES', {
+                                            ).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: 'short',
                                                 day: 'numeric',
@@ -133,6 +147,14 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                         </div>
                     </Link>
                 ))}
+                {error && (
+                    <div className="py-5 text-center text-red-500">{error}</div>
+                )}
+                {!pagination?.has_next_page && (
+                    <div className="py-4 text-center text-gray-400">
+                        No more episodes available.
+                    </div>
+                )}
                 <div ref={loader} className="py-4 text-center text-gray-300">
                     {isLoading && 'Loading more episodes...'}
                 </div>
