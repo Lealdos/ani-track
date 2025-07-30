@@ -53,7 +53,7 @@ export function FavoritesAccordion() {
                                     <p>Error: {error}</p>
                                 </div>
                             ) : favorites.length > 0 ? (
-                                <div className="grid justify-items-center gap-4 sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid-cols-4">
+                                <div className="grid justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                                     {favorites.map((anime: Anime) => (
                                         <AnimeCard
                                             showBadge
