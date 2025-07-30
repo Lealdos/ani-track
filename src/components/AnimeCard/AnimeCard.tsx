@@ -35,9 +35,7 @@ export function AnimeCard({
                             anime.images?.webp?.image_url || '/placeholder.svg'
                         }
                         alt={anime.title}
-                        className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-64 md:object-center"
-                        width={360}
-                        height={380}
+                        className="h-50 max-h-[320px] w-[360px] rounded object-fill md:h-64 md:w-full md:object-center"
                     />
                     {showBadge && anime.score && (
                         <div className="absolute top-2 right-2 m-auto flex items-center justify-center gap-1 rounded-sm bg-yellow-500 p-1 font-semibold text-shadow-black text-shadow-md">
