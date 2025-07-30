@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { getAnimeEpisodes } from '@/lib/api'
 import { paginationProps } from '@/types/pageInfo'
+import { formatDate } from '@/lib/utils'
 interface Episode {
     mal_id: number
     title: string
@@ -130,13 +131,9 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                                     {episode.aired && (
                                         <div className="mt-1 flex items-center text-xs text-gray-300">
                                             <Calendar className="mr-1 h-3 w-3" />
-                                            {new Date(
-                                                episode.aired
-                                            ).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric',
-                                            })}
+                                            {formatDate(
+                                                new Date(episode.aired)
+                                            )}
                                         </div>
                                     )}
                                 </div>
