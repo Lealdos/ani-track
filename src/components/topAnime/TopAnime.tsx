@@ -32,21 +32,21 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                         </span>
 
                         {/*  anime card */}
-                            <img
-                                className={mergeClassNames(
-                                    `relative h-70 max-w-[200px] min-w-[200px] rounded`,
-                                    (anime?.rank ?? 0) > 9
-                                        ? '-left-6 md:-left-12'
-                                        : '-left-8 md:-left-10'
-                                )}
-                                width={800}
-                                height={580}
-                                src={
-                                    anime.images?.webp?.image_url ||
-                                    '/placeholder.svg'
-                                }
-                                alt={anime.title}
-                            />
+                        <img
+                            className={mergeClassNames(
+                                `relative h-70 max-w-[200px] min-w-[200px] rounded`,
+                                (anime?.rank ?? 0) > 9
+                                    ? '-left-6 md:-left-12'
+                                    : '-left-8 md:-left-10'
+                            )}
+                            width={800}
+                            height={580}
+                            src={
+                                anime.images?.webp?.image_url ||
+                                '/placeholder.svg'
+                            }
+                            alt={anime.title}
+                        />
                     </Link>
                 ))}
             </main>

@@ -1,4 +1,4 @@
-type AnimeImagesType =  {
+type AnimeImagesType = {
     jpg: {
         image_url: string
         large_image_url: string
@@ -65,22 +65,20 @@ export type multipleLanguagesTitles = {
     title: string
 }
 
-
 type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music'
 
 type Genres = {
-    mal_id: number,
-    name: string,
-    url: string,
+    mal_id: number
+    name: string
+    url: string
     count: number
 }
 
-export type AnimeGenres ={
-data: Genres[]
+export type AnimeGenres = {
+    data: Genres[]
 }
 
-
-export type Recomendations = {
+export type Recommendations = {
     entry: {
         mal_id: number
         url: string
@@ -89,8 +87,8 @@ export type Recomendations = {
     }
 }
 
-export type animeRecomendations = {
-    data: Recomendations[]
+export type animeRecommendations = {
+    data: Recommendations[]
 }
 
 export type AnimeEpisodes = {

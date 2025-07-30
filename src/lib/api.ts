@@ -2,7 +2,7 @@ import {
     Anime,
     AnimeGenres,
     Episode,
-    Recomendations,
+    Recommendations,
     streaming,
 } from '@/types/anime'
 import { removeDuplicates } from './utils'
@@ -91,7 +91,7 @@ export async function getSeasonalAnime(): Promise<Anime[]> {
 export async function getTopAnime(): Promise<Anime[]> {
     try {
         const { data } = await fetchWithRateLimit<Anime[]>(
-            `${API_BASE_URL}/top/anime?limit=10`
+            `${API_BASE_URL}/top/anime?limit=9`
         )
         return data
     } catch (error) {
@@ -151,8 +151,8 @@ export async function getAnimeCharacters(id: number): Promise<Character[]> {
 // Get anime recommendations
 export async function getAnimeRecommendations(
     id: number
-): Promise<Recomendations[]> {
-    const { data } = await fetchWithRateLimit<Recomendations[]>(
+): Promise<Recommendations[]> {
+    const { data } = await fetchWithRateLimit<Recommendations[]>(
         `${API_BASE_URL}/anime/${id}/recommendations`
     )
     return data
