@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic'
 import { Suspense } from 'react'
 import { CurrentSeason } from '@/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/components/topAnime/TopAnime'

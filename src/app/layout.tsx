@@ -51,10 +51,8 @@ export default function RootLayout({
                 >
                     <Header />
 
-                    <ViewTransition name="page">
-                    {children}
+                    <ViewTransition> {children}</ViewTransition>
                     <Toaster />
-                    </ViewTransition>
                     <Footer />
                 </body>
             </html>
