@@ -8,6 +8,7 @@ import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { Heart } from 'lucide-react'
 
 import { FavoriteProvider } from '@/context/favoriteContext'
+import { LastAiredEpisodes } from '@/components/LastAiredEpisode/LastAiredEpisodes'
 
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
@@ -23,6 +24,14 @@ export default async function Home() {
                     </h2>
                     <FavoritesAccordion />
                 </section>
+
+                <section className="mb-12">
+                    <h2 className="flex items-center gap-2 text-2xl font-bold">
+                    last episodes released:
+                    </h2>
+                    <LastAiredEpisodes />
+                </section>
+
                 <section className="mb-12">
                     <h2 className="mb-6 text-2xl font-bold tracking-tight">
                         Current Season
