@@ -4,19 +4,19 @@ import { Play, Calendar } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { getAnimeEpisodes } from '@/lib/api'
-import { paginationProps } from '@/types/pageInfo'
+import { PaginationInfo } from '@/types/pageInfo'
 import { formatDate } from '@/lib/utils'
 import { Episode } from '@/types/anime'
 
 interface EpisodesListProps {
     episodes: Episode[]
-    paginationProps: paginationProps
+    paginationProps: PaginationInfo
     animeId: number
 }
 export function EpisodesList({ animeId }: EpisodesListProps) {
     const [displayedEpisodes, setDisplayedEpisodes] = useState<Episode[]>([])
     const [page, setPage] = useState(1)
-    const [pagination, setPagination] = useState<paginationProps>()
+    const [pagination, setPagination] = useState<PaginationInfo>()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const loader = useRef(null)

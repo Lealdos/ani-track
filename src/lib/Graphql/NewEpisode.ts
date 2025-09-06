@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from 'graphql-request'
 import { AniListClient } from '@/config/const' 
 
@@ -33,7 +34,7 @@ export interface AnimeTitle {
   }
   
   
-  // 🔹 Próximos episodios por salir
+  // 🔹 next episodes to release (upcoming) 
   export async function getUpcomingEpisodes(): Promise<EpisodeInfo[]> {
     const query = gql`
       query {
