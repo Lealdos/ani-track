@@ -1,4 +1,4 @@
-import { getSeasonEpisodes } from "@/lib/Graphql/NewEpisode";
+import { getSeasonEpisodes } from "@/services/AniList/Graphql/NewEpisode";
 
 /* eslint-disable @next/next/no-img-element */
 export async function LastAiredEpisodes() {

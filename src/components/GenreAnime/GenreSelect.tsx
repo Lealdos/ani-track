@@ -1,6 +1,6 @@
 'use client'
 
-import { getAnimeByGenre } from '@/lib/api'
+import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { useState, useEffect } from 'react'
 import { Anime } from '@/types/anime'

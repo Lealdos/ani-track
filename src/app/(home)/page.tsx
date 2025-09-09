@@ -3,7 +3,7 @@ import { CurrentSeason } from '@/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
-import { getSeasonalAnime, getTopAnime } from '@/lib/api'
+import { getSeasonalAnime, getTopAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { Heart } from 'lucide-react'
 

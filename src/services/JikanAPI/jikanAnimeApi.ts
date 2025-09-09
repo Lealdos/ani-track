@@ -5,7 +5,7 @@ import {
     Recommendations,
     streaming,
 } from '@/types/anime'
-import { removeDuplicates } from './utils'
+import { removeDuplicates } from '../../lib/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { Character, CharacterDataItem } from '@/types/animeCharacter'

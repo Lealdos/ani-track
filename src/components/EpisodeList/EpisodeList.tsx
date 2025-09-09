@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Play, Calendar } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-import { getAnimeEpisodes } from '@/lib/api'
+import { getAnimeEpisodes } from '@/services/JikanAPI/jikanAnimeApi'
 import { PaginationInfo } from '@/types/pageInfo'
 import { formatDate } from '@/lib/utils'
 import { Episode } from '@/types/anime'

@@ -1,4 +1,4 @@
-import { FetchBrowsersAnime } from '@/lib/api'
+import { FetchBrowsersAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'

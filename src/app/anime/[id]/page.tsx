@@ -12,7 +12,7 @@ import {
     getAnimeEpisodes,
     getAnimeRecommendations,
     formatStreamingPlatforms,
-} from '@/lib/api'
+} from '@/services/JikanAPI/jikanAnimeApi'
 import { Anime } from '@/types/anime'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
