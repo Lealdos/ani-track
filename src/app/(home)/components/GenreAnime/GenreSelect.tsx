@@ -3,10 +3,10 @@
 import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { useState, useEffect } from 'react'
-import { Anime } from '@/types/anime'
+import { JikanAnime } from '@/types/anime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 export function GenreSelect({ genreId }: { genreId: number }) {
-    const [animes, setAnimes] = useState<Anime[]>([])
+    const [animes, setAnimes] = useState<JikanAnime[]>([])
 
     useEffect(() => {
         const fetchAnimes = async () => {

@@ -1,16 +1,16 @@
 'use client'
 import { useState, useContext, createContext, useEffect } from 'react'
-import type { Anime } from '@/types/anime'
+import type { JikanAnime } from '@/types/anime'
 import {
     getStoredFavoriteAnimes,
     storeFavoriteAnimes,
 } from '@/store/StorageFavoritesAnime'
 
 type FavoriteContextType = {
-    favorites: Anime[]
-    setFavorites?: (favorites: Anime[]) => void
+    favorites: JikanAnime[]
+    setFavorites?: (favorites: JikanAnime[]) => void
     isInFavorites: (animeId: number) => boolean
-    addToFavorites: (anime: Anime) => void
+    addToFavorites: (anime: JikanAnime) => void
     removeFromFavorites: (animeId: number) => void
 }
 const FavoriteContext = createContext<FavoriteContextType>({
@@ -22,7 +22,7 @@ const FavoriteContext = createContext<FavoriteContextType>({
 })
 
 const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
-    const [favorites, setFavorites] = useState<Anime[]>([])
+    const [favorites, setFavorites] = useState<JikanAnime[]>([])
 
     useEffect(() => {
         setFavorites(getStoredFavoriteAnimes())
@@ -32,7 +32,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
         return favorites.some((anime) => anime.mal_id === animeId)
     }
 
-    const addToFavorites = (anime: Anime) => {
+    const addToFavorites = (anime: JikanAnime) => {
         if (isInFavorites(anime.mal_id)) {
             return
         }

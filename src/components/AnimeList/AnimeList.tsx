@@ -1,9 +1,9 @@
 import { AnimeCard } from '@/components/AnimeCard/AnimeCard'
-import type { Anime } from '@/types/anime'
+import type { JikanAnime } from '@/types/anime'
 import { use } from 'react'
 
 interface AnimeListProps {
-    animes: Promise<Anime[]> | Anime[]
+    animes: Promise<JikanAnime[]> | JikanAnime[]
     showBadge?: boolean
     SectionName?: string
 }

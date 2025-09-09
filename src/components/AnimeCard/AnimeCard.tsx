@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import type { Anime } from '@/types/anime'
+import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 
 import {
@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 
 interface AnimeCardProps {
-    anime: Anime
+    anime: JikanAnime
     showBadge?: boolean
     hasFooter?: boolean
 }

@@ -1,10 +1,10 @@
 'use client'
 import { Heart, HeartOff } from 'lucide-react'
-import type { Anime } from '@/types/anime'
+import type { JikanAnime } from '@/types/anime'
 import { useFavorites } from '@/context/favoriteContext'
 
 interface AddToListButtonProps {
-    anime: Anime
+    anime: JikanAnime
 }
 
 export function AddToListButton({ anime }: AddToListButtonProps) {

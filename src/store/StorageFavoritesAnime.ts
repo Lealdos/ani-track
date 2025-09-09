@@ -1,5 +1,5 @@
 'use client'
-import { Anime } from '@/types/anime'
+import { JikanAnime } from '@/types/anime'
 
 const FAV_KEY = 'Favorites-Animes'
 
@@ -9,7 +9,7 @@ export function getStoredFavoriteAnimes() {
     return FavoriteAnimeList ? JSON.parse(FavoriteAnimeList) : []
 }
 
-export function storeFavoriteAnimes(favorites: Anime[]) {
+export function storeFavoriteAnimes(favorites: JikanAnime[]) {
     if (typeof window === 'undefined') return
     localStorage.setItem(FAV_KEY, JSON.stringify(favorites))
 }

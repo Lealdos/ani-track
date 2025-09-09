@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion'
 import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
 
-import { Anime } from '@/types/anime'
+import { JikanAnime } from '@/types/anime'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 import { useFavorites } from '@/context/favoriteContext'
 
@@ -54,7 +54,7 @@ export function FavoritesAccordion() {
                                 </div>
                             ) : favorites.length > 0 ? (
                                 <div className="grid justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                    {favorites.map((anime: Anime) => (
+                                    {favorites.map((anime: JikanAnime) => (
                                         <AnimeCard
                                             showBadge
                                             key={`${anime.mal_id}-${anime.title}-Favorites`}

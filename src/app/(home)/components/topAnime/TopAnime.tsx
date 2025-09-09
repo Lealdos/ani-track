@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { Anime } from '@/types/anime'
+import { JikanAnime } from '@/types/anime'
 import { mergeClassNames } from '@/lib/utils'
 import Link from 'next/link'
 // import Image from 'next/image'
 interface TopAnimeProps {
-    topAnime: Promise<Anime[]>
+    topAnime: Promise<JikanAnime[]>
 }
 
 export async function TopAnime({ topAnime }: TopAnimeProps) {

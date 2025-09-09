@@ -12,14 +12,14 @@ import {
     getAnimeRecommendations,
     formatStreamingPlatforms,
 } from '@/services/JikanAPI/jikanAnimeApi'
-import { Anime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 
 interface Recommendations {
-    entry: Anime
+    entry: JikanAnime
 }
 interface Genres {
     mal_id: number
