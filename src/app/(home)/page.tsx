@@ -1,14 +1,17 @@
 import { Suspense } from 'react'
-import { CurrentSeason } from '@/components/CurrentSeason/CurrentSeason'
-import { TopAnime } from '@/components/topAnime/TopAnime'
-import { AnimeByGenre } from '@/components/GenreAnime'
+import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
+import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
+import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
-import { getSeasonalAnime, getTopAnime } from '@/services/JikanAPI/jikanAnimeApi'
+import {
+    getSeasonalAnime,
+    getTopAnime,
+} from '@/services/JikanAPI/jikanAnimeApi'
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { Heart } from 'lucide-react'
 
 import { FavoriteProvider } from '@/context/favoriteContext'
-import { LastAiredEpisodes } from '@/components/LastAiredEpisode/LastAiredEpisodes'
+import { LastAiredEpisodes } from '@/app/(home)/components/LastAiredEpisode/LastAiredEpisodes'
 
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
@@ -27,7 +30,7 @@ export default async function Home() {
 
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
-                    last episodes released:
+                        last episodes released:
                     </h2>
                     <LastAiredEpisodes />
                 </section>

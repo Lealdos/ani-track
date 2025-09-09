@@ -2,11 +2,10 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Star, Calendar, Clock, BookmarkPlus } from 'lucide-react'
-import { StreamingPlatforms } from '@/components/streamingPlatforms/StreamingPlatforms'
-import { EpisodesList } from '@/components/EpisodeList/EpisodeList'
+import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
+import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
-// import { Comments } from '@/components/comments'
 import {
     getAnimeById,
     getAnimeEpisodes,
