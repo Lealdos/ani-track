@@ -1,10 +1,10 @@
+import { streaming } from '@/types/anime'
 import {
-    Anime,
-    AnimeGenres,
-    Episode,
-    Recommendations,
-    streaming,
-} from '@/types/anime'
+    JikanAnime,
+    JikanAnimeGenres,
+    JikanEpisode,
+    JikanRecommendations,
+} from '@/services/JikanAPI/interfaces/JikanType'
 import { removeDuplicates } from '../../lib/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
@@ -50,7 +50,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     if (query) {
         try {
             const { data, pagination } = await fetchWithRateLimit<
-                JikanResponse<Anime[]>
+                JikanResponse<JikanAnime[]>
             >(`${API_BASE_URL}/anime?${query}&sfw`)
             const animeData = {
                 animes: removeDuplicates(data),
@@ -64,7 +64,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     }
     try {
         const { data, pagination } = await fetchWithRateLimit<
-            JikanResponse<Anime[]>
+            JikanResponse<JikanAnime[]>
         >(`${API_BASE_URL}/anime?page=${page}&sfw`)
         const animeData = {
             animes: removeDuplicates(data),
@@ -77,9 +77,9 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     }
 }
 
-export async function getSeasonalAnime(): Promise<Anime[]> {
+export async function getSeasonalAnime(): Promise<JikanAnime[]> {
     try {
-        const { data } = await fetchWithRateLimit<JikanResponse<Anime[]>>(
+        const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/seasons/now`
         )
         const seasonalAnime = data
@@ -92,9 +92,9 @@ export async function getSeasonalAnime(): Promise<Anime[]> {
     }
 }
 
-export async function getTopAnime(): Promise<Anime[]> {
+export async function getTopAnime(): Promise<JikanAnime[]> {
     try {
-        const { data } = await fetchWithRateLimit<JikanResponse<Anime[]>>(
+        const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/top/anime?limit=9`
         )
         return data
@@ -106,7 +106,7 @@ export async function getTopAnime(): Promise<Anime[]> {
 
 export async function getAnimeByGenre(genreId: number) {
     try {
-        const { data } = await fetchWithRateLimit<JikanResponse<Anime[]>>(
+        const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
         )
         return data
@@ -116,11 +116,12 @@ export async function getAnimeByGenre(genreId: number) {
     }
 }
 
-export async function getAnimeById(id: number): Promise<Anime | null> {
+export async function getAnimeById(id: number): Promise<JikanAnime | null> {
     try {
-        const { data } = await fetchWithRateLimit<JikanResponse<Anime>>(
+        const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime>>(
             `${API_BASE_URL}/anime/${id}/full`
         )
+
         return data
     } catch (error) {
         console.error(`Error fetching anime ${id}:`, error)
@@ -133,7 +134,7 @@ export async function getAnimeById(id: number): Promise<Anime | null> {
 // Get anime episodes
 export async function getAnimeEpisodes(id: number, page = 1) {
     const { data, pagination } = await fetchWithRateLimit<
-        JikanResponse<Episode[]>
+        JikanResponse<JikanEpisode[]>
     >(`${API_BASE_URL}/anime/${id}/episodes?page=${page}`)
     const animeEpisodes = {
         episodes: data,
@@ -155,16 +156,16 @@ export async function getAnimeCharacters(id: number): Promise<Character[]> {
 // Get anime recommendations
 export async function getAnimeRecommendations(
     id: number
-): Promise<Recommendations[]> {
-    const { data } = await fetchWithRateLimit<JikanResponse<Recommendations[]>>(
-        `${API_BASE_URL}/anime/${id}/recommendations`
-    )
+): Promise<JikanRecommendations[]> {
+    const { data } = await fetchWithRateLimit<
+        JikanResponse<JikanRecommendations[]>
+    >(`${API_BASE_URL}/anime/${id}/recommendations`)
     return data
 }
 
 // Get all genres
 export async function getGenres() {
-    const data = await fetchWithRateLimit<JikanResponse<AnimeGenres[]>>(
+    const data = await fetchWithRateLimit<JikanResponse<JikanAnimeGenres[]>>(
         `${API_BASE_URL}/genres/anime`
     )
     return data.data
