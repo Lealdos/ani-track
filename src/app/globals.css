@@ -72,6 +72,21 @@
     color: #090f1f;
 }
 
+.gradient-home-name {
+    /* -webkit-text-stroke-width: 4px;
+    -webkit-text-stroke-color: rgb(170, 59, 19); */
+    background: -webkit-linear-gradient(
+        -60deg,
+        #cc3ef8 10%,
+        #ff441a 48%,
+        #6a05b2 92%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke: 0.2rem transparent;
+    color: #0e1321f2;
+}
+
 /* Custom scrollbar styles for desktop */
 
 @media (min-width: 420px) {

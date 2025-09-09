@@ -95,9 +95,10 @@ export default function Header() {
                     >
                         <div className="flex items-center gap-8">
                             <Link href="/" className="flex items-center">
-                                <span className="bg-gradient-to-bl from-red-500 to-red-800 bg-clip-text font-sans text-xl font-bold text-transparent italic">
-                                    AniTrack
+                                <span className="gradient-home-name p-2 font-gothic text-xl font-bold text-transparent italic">
+                                    ANI TRACK
                                 </span>
+                                <span className="sr-only">Home</span>
                             </Link>
 
                             <nav className="hidden items-center text-sm font-medium md:flex">
