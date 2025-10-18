@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { mergeClassNames } from '@/lib/utils'
 import Link from 'next/link'
 // import Image from 'next/image'

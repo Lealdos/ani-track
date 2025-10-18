@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion'
 import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
 
-import { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { AnimeCard } from '../AnimeCard/AnimeCard'
 import { useFavorites } from '@/context/favoriteContext'
 

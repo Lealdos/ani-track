@@ -1,5 +1,5 @@
 'use client'
-import { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 
 const FAV_KEY = 'Favorites-Animes'
 

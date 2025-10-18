@@ -1,6 +1,6 @@
 'use client'
 import { Heart, HeartOff } from 'lucide-react'
-import type { JikanAnime } from '@/types/anime'
+import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useFavorites } from '@/context/favoriteContext'
 
 interface AddToListButtonProps {

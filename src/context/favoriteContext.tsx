@@ -1,6 +1,6 @@
 'use client'
 import { useState, useContext, createContext, useEffect } from 'react'
-import type { JikanAnime } from '@/types/anime'
+import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import {
     getStoredFavoriteAnimes,
     storeFavoriteAnimes,
