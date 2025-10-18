@@ -1,5 +1,5 @@
 import { AnimeList } from '@/components/AnimeList/AnimeList'
-import { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 
 interface CurrentSeasonProps {
     currentSeason: Promise<JikanAnime[]>

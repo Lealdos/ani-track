@@ -17,6 +17,7 @@ import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
+import { convertJSTToLocal } from '@/lib/utils'
 
 interface Recommendations {
     entry: JikanAnime
@@ -154,7 +155,10 @@ export default async function AnimePage({
                                             <Clock className="mr-1 h-4 w-4 text-gray-300" />
                                             <span>
                                                 Broadcast:{' '}
-                                                {anime.broadcast.string}
+                                                {anime.broadcast.string} /{' '}
+                                                {convertJSTToLocal(
+                                                    anime.broadcast.string
+                                                )}
                                             </span>
                                         </div>
                                     )}

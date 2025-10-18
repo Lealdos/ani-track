@@ -3,7 +3,7 @@
 import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeList } from '@/components/AnimeList/AnimeList'
 import { useState, useEffect } from 'react'
-import { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 export function GenreSelect({ genreId }: { genreId: number }) {
     const [animes, setAnimes] = useState<JikanAnime[]>([])

@@ -1,5 +1,5 @@
 import { AnimeCard } from '@/components/AnimeCard/AnimeCard'
-import type { JikanAnime } from '@/types/anime'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { use } from 'react'
 
 interface AnimeListProps {
