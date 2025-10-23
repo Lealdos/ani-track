@@ -6,7 +6,7 @@ import { useState, use } from 'react'
 
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 
-import { convertJSTToLocal } from '@/lib/utils'
+import { convertJSTToLocal } from '@/lib/utils/utils'
 
 interface CurrentSeasonProps {
     currentSeason: Promise<JikanAnime[]>

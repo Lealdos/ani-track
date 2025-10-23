@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { mergeClassNames } from '@/lib/utils'
+import { mergeClassNames } from '@/lib/utils/utils'
 import Link from 'next/link'
 // import Image from 'next/image'
 interface TopAnimeProps {

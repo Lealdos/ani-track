@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { mergeClassNames } from '@/lib/utils'
+import { mergeClassNames } from '@/lib/utils/utils'
 import { SearchBar } from './SearchBar'
 import {
     SignedIn,

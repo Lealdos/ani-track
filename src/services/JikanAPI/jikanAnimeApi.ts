@@ -5,7 +5,7 @@ import {
     JikanEpisode,
     JikanRecommendations,
 } from '@/services/JikanAPI/interfaces/JikanType'
-import { removeDuplicates } from '../../lib/utils'
+import { removeDuplicates } from '../../lib/utils/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { Character, CharacterDataItem } from '@/types/animeCharacter'
