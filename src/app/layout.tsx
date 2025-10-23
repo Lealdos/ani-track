@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
@@ -47,8 +48,9 @@ export default function RootLayout({
         >
             <html lang="en">
                 <body
-                    className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
+                    className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} items-center-safe flex w-full flex-col justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
                 >
+                    <SpeedInsights />
                     <Header />
 
                     <ViewTransition> {children}</ViewTransition>

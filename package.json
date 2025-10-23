@@ -19,8 +19,12 @@
     "@prisma/extension-accelerate": "^2.0.2",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-tabs": "^1.1.4",
+<<<<<<< HEAD
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
+=======
+    "@vercel/speed-insights": "^1.2.0",
+>>>>>>> 18cad52a489bc401f1783168a858732c824d2e38
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "install": "^0.13.0",

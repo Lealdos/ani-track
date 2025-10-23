@@ -8,13 +8,13 @@ export type multipleLanguagesTitles = {
 
 export type broadcastInfo = {
     day:
-        | 'Monday'
-        | 'Tuesday'
-        | 'Wednesday'
-        | 'Thursday'
-        | 'Friday'
-        | 'Saturday'
-        | 'Sunday'
+        | 'Mondays'
+        | 'Tuesdays'
+        | 'Wednesdays'
+        | 'Thursdays'
+        | 'Fridays'
+        | 'Saturdays'
+        | 'Sundays'
     time: string
     timezone: string
     string: string

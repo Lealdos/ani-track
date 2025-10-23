@@ -4,25 +4,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, use } from 'react'
 
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 
+<<<<<<< HEAD
 import { convertJSTToLocal } from '@/lib/utils/utils'
+=======
+import  { JikanAnime  } from '@/services/JikanAPI/interfaces/JikanType'
+import { broadcastInfo } from '@/types/anime'
+import { convertJSTToLocal } from '@/lib/utils'
+>>>>>>> 18cad52a489bc401f1783168a858732c824d2e38
 
 interface CurrentSeasonProps {
     currentSeason: Promise<JikanAnime[]>
 }
-const WEEKDAYS: Array<{
-    key: JikanAnime['broadcast'] extends { day: infer D } ? D : string
-    label: string
-}> = [
-    { key: 'Mondays', label: 'Monday' },
-    { key: 'Tuesdays', label: 'Tuesday' },
-    { key: 'Wednesdays', label: 'Wednesday' },
-    { key: 'Thursdays', label: 'Thursday' },
-    { key: 'Fridays', label: 'Friday' },
-    { key: 'Saturdays', label: 'Saturday' },
-    { key: 'Sundays', label: 'Sunday' },
-]
+
+
+ const WEEKDAYS: broadcastInfo["day"] [] =['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'] 
+
+// console.log(WEEKDAYS_MAP)
 
 export function EpisodeSchedule({
     currentSeason,
@@ -30,7 +28,8 @@ export function EpisodeSchedule({
     const animeCurrentSeason = use(currentSeason)
     // 0 (Sun) - 6 (Sat)
     const todayIndex = new Date().getDay()
-    const defaultDay = WEEKDAYS[todayIndex - 1].key
+    const defaultDayIndex = (todayIndex + 6) % 7
+    const defaultDay = WEEKDAYS[defaultDayIndex]
 
     const [selectedDay, setSelectedDay] = useState<string>(defaultDay)
 
@@ -53,15 +52,15 @@ export function EpisodeSchedule({
             <h2 className="text-lg font-semibold">emission schedule </h2>
 
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
-                {WEEKDAYS.map((d) => {
-                    const active = selectedDay === (d.key as string)
+                {WEEKDAYS.map((day:string) => {
+                    const active = selectedDay === (day)
                     return (
                         <button
-                            key={d.key}
-                            onClick={() => handleDayChange(d.key as string)}
+                            key={day}
+                            onClick={() => handleDayChange(day )}
                             className={`rounded-md border px-3 py-1 text-sm whitespace-nowrap ${active ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80'} ${selectedDay ? '' : 'opacity-50'}`}
                         >
-                            {d.label}
+                            {day}
                         </button>
                     )
                 })}
