@@ -4,13 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { mergeClassNames } from '@/lib/utils/utils'
 import { SearchBar } from './SearchBar'
-import {
-    SignedIn,
-    UserButton,
-    SignedOut,
-    SignInButton,
-    useUser,
-} from '@clerk/nextjs'
 
 type Route = {
     href: string
@@ -19,7 +12,6 @@ type Route = {
 
 export default function Header() {
     const animeBrowseMenu: Route[] = [{ href: '/browse', label: 'Browse' }]
-    const { isLoaded, user } = useUser()
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
@@ -120,14 +112,15 @@ export default function Header() {
 
                         <div className="flex items-center gap-4">
                             <div className="hidden items-center gap-4 text-sm font-medium sm:flex">
-                                {isLoaded && user && (
+                                {/* create user button */}
+                                {/* {isLoaded && user && (
                                     <SignedIn>
                                         <UserButton />
                                     </SignedIn>
                                 )}
                                 <SignedOut>
                                     <SignInButton mode="modal" />
-                                </SignedOut>
+                                </SignedOut> */}
                             </div>
                         </div>
                         {/* Mobile menu */}
@@ -178,9 +171,9 @@ export default function Header() {
 
                         <ul className="space-y-2 text-white">
                             <li>
-                                <SignedOut>
+                                {/* <SignedOut>
                                     <SignInButton mode="modal" />
-                                </SignedOut>
+                                </SignedOut> */}
                             </li>
 
                             {animeBrowseMenu.map((route) => (
