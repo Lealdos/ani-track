@@ -4,21 +4,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, use } from 'react'
 
-
-<<<<<<< HEAD
-import { convertJSTToLocal } from '@/lib/utils/utils'
-=======
-import  { JikanAnime  } from '@/services/JikanAPI/interfaces/JikanType'
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { broadcastInfo } from '@/types/anime'
-import { convertJSTToLocal } from '@/lib/utils'
->>>>>>> 18cad52a489bc401f1783168a858732c824d2e38
+import { convertJSTToLocal } from '@/lib/utils/utils'
 
 interface CurrentSeasonProps {
     currentSeason: Promise<JikanAnime[]>
 }
 
-
- const WEEKDAYS: broadcastInfo["day"] [] =['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'] 
+const WEEKDAYS: broadcastInfo['day'][] = [
+    'Mondays',
+    'Tuesdays',
+    'Wednesdays',
+    'Thursdays',
+    'Fridays',
+    'Saturdays',
+    'Sundays',
+]
 
 // console.log(WEEKDAYS_MAP)
 
@@ -52,12 +54,12 @@ export function EpisodeSchedule({
             <h2 className="text-lg font-semibold">emission schedule </h2>
 
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
-                {WEEKDAYS.map((day:string) => {
-                    const active = selectedDay === (day)
+                {WEEKDAYS.map((day: string) => {
+                    const active = selectedDay === day
                     return (
                         <button
                             key={day}
-                            onClick={() => handleDayChange(day )}
+                            onClick={() => handleDayChange(day)}
                             className={`rounded-md border px-3 py-1 text-sm whitespace-nowrap ${active ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80'} ${selectedDay ? '' : 'opacity-50'}`}
                         >
                             {day}
