@@ -5,6 +5,7 @@ import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
+// @ts-ignore
 import { ViewTransition } from 'react'
 const Header = dynamic(() => import('@/components/Header/Header'))
 
