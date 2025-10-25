@@ -44,3 +44,11 @@ next-env.d.ts
 /.clerk/
 
 .vscode
+
+.idx/.data
+
+# docker run -d --name my-postgres-container -p 5432:5432 anitrackdb
+
+# docker pull postgres
+
+#  docker build -t anitrackdb .

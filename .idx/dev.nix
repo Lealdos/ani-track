@@ -4,6 +4,8 @@
     pkgs.nodejs_20
     pkgs.bun
   ];
+
+  services.docker.enable = true;
   idx.extensions = [
     
   ];
