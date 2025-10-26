@@ -43,7 +43,7 @@ export type JikanAnime = {
     year?: number
     streaming?: streaming[]
     broadcast?: broadcastInfo
-    rank?: number // for top anime
+    rank: number // for top anime
     popularity?: number // for top anime
 }
 
