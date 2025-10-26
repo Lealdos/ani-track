@@ -3,6 +3,7 @@
   packages = [
     pkgs.nodejs_20
     pkgs.bun
+    pkgs.docker-compose
   ];
   
   services.docker.enable = true;
