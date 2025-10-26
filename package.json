@@ -12,6 +12,7 @@
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
         "setupDB": "docker-compose -f docker-compose.yml up -d --renew-anon-volumes",
+        "dockerStart": "docker start anitrack-db",
         "teardownDb": "docker-compose -f docker-compose.yml down"
     },
     "dependencies": {
