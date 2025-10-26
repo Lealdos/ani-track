@@ -12,16 +12,14 @@ import {
     getAnimeRecommendations,
     formatStreamingPlatforms,
 } from '@/services/JikanAPI/jikanAnimeApi'
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import {  JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 
-interface Recommendations {
-    entry: JikanAnime
-}
+
 interface Genres {
     mal_id: number
     name: string
@@ -262,7 +260,7 @@ export default async function AnimePage({
                                 {recommendations
                                     .slice(0, 6)
                                     .map(
-                                        (recommendedAnime: Recommendations) => (
+                                        (recommendedAnime: JikanRecommendations) => (
                                             <Link
                                                 key={
                                                     recommendedAnime.entry
