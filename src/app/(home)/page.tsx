@@ -33,7 +33,7 @@ export default async function Home() {
 
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
-                        last episodes released:
+                        Last episodes released:
                     </h2>
                     <EpisodeSchedule />
                 </section>
