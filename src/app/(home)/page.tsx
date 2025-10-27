@@ -4,6 +4,7 @@ import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 import {
+    getAiringDayAnime,
     getSeasonalAnime,
     getTopAnime,
 } from '@/services/JikanAPI/jikanAnimeApi'
@@ -16,6 +17,8 @@ import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/Episode
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
     const topAnime = getTopAnime()
+    const todayIndex = new Date().getDay()
+    const defaultDayIndex = (todayIndex + 6) % 7
 
     return (
         <FavoriteProvider>
@@ -32,7 +35,7 @@ export default async function Home() {
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         last episodes released:
                     </h2>
-                    <EpisodeSchedule currentSeason={seasonalAnime} />
+                    <EpisodeSchedule />
                 </section>
 
                 <section className="mb-12">
