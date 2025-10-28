@@ -85,3 +85,5 @@ export type JikanEpisode = {
     recap: boolean
     forum_url: string
 }
+
+export type JikanScheduleDays = 'monday'| 'tuesday'| 'wednesday'| 'thursday'| 'friday'| 'saturday'| 'sunday'
