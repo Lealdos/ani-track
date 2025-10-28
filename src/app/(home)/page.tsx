@@ -17,8 +17,6 @@ import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/Episode
 export default async function Home() {
     const seasonalAnime = getSeasonalAnime()
     const topAnime = getTopAnime()
-    const todayIndex = new Date().getDay()
-    const defaultDayIndex = (todayIndex + 6) % 7
 
     return (
         <FavoriteProvider>
