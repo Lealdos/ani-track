@@ -4,6 +4,7 @@ import {
     JikanAnimeGenres,
     JikanEpisode,
     JikanRecommendations,
+    JikanScheduleDays,
 } from '@/services/JikanAPI/interfaces/JikanType'
 import { removeDuplicates } from '../../lib/utils/utils'
 import { API_BASE_URL } from '@/config/const'
@@ -77,11 +78,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     }
 }
 
-export async function getAiringDayAnime({
-    day,
-}: {
-    day: string
-}): Promise<JikanAnime[]> {
+export async function getAiringDayAnime(day: JikanScheduleDays): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/schedules?filter=${day}&sfw`

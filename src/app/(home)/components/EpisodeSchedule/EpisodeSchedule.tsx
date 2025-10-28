@@ -2,37 +2,35 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import { JikanAnime, JikanScheduleDays } from '@/services/JikanAPI/interfaces/JikanType'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 
-const WEEKDAYS = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+const WEEKDAYS: JikanScheduleDays[] = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
 ]
 
+// 0 (Sun) - 6 (Sat)
+const todayIndex = new Date().getDay()
+const defaultDayIndex = (todayIndex + 6) % 7
+const defaultDay = WEEKDAYS[defaultDayIndex]
+
 export function EpisodeSchedule(): React.ReactElement {
-    // 0 (Sun) - 6 (Sat)
-    const todayIndex = new Date().getDay()
-    const defaultDayIndex = (todayIndex + 6) % 7
-    const defaultDay = WEEKDAYS[defaultDayIndex]
-
-    const [selectedDay, setSelectedDay] = useState<string>(defaultDay)
-
+    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays>(defaultDay)
     const [animesByDay, setAnimesByDay] = useState<JikanAnime[] | []>([])
-    const handleDayChange = async (day: string) => {
+
+    const handleDayChange = async (day: JikanScheduleDays) => {
         setSelectedDay(day)
-        const filteredAnimesByDay = await getAiringDayAnime({
-            day: day.toLowerCase(),
-        })
+        const filteredAnimesByDay = await getAiringDayAnime(day)
         setAnimesByDay(filteredAnimesByDay)
     }
     useEffect(() => {
@@ -42,13 +40,12 @@ export function EpisodeSchedule(): React.ReactElement {
         <>
             <h2 className="text-lg font-semibold">Emission schedule </h2>
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
-                {WEEKDAYS.map((day: string) => {
-                    const active = selectedDay === day
+                {WEEKDAYS.map((day) => {
                     return (
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`rounded-md border px-3 py-1 text-sm whitespace-nowrap ${active ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80'} ${selectedDay ? '' : 'opacity-50'}`}
+                            className={`capitalize rounded-md border px-3 py-1 text-sm whitespace-nowrap ${selectedDay.toLowerCase() === day.toLowerCase() ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80 opacity-50'} hover:bg-emerald-400 hover:text-black`}
                         >
                             {day}
                         </button>
