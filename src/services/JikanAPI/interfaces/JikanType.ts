@@ -28,7 +28,7 @@ export type JikanAnime = {
     type?: AnimeType
     episodes?: number
     status?: string
-    score?: number
+    score: number
     images?: JikanAnimeImagesType
     synopsis?: string
     genres?: { mal_id: number; name: string }[]
