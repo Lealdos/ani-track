@@ -83,7 +83,10 @@ export async function getAiringDayAnime(day: JikanScheduleDays): Promise<JikanAn
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/schedules?filter=${day}&sfw`
         )
-        return data
+        const airingAnime = data.filter( (anime)=>{
+            return anime.broadcast?.day?.toLowerCase().includes(day) && (anime.duration !== 'Unknown' || anime.duration ) 
+        })
+        return airingAnime
     } catch (error) {
         console.error('Error fetching airing anime:', error)
         return []
