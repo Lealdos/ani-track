@@ -4,7 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
-import { JikanAnime, JikanScheduleDays } from '@/services/JikanAPI/interfaces/JikanType'
+import {
+    JikanAnime,
+    JikanScheduleDays,
+} from '@/services/JikanAPI/interfaces/JikanType'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
@@ -19,23 +22,39 @@ const WEEKDAYS: JikanScheduleDays[] = [
     'sunday',
 ]
 
-// 0 (Sun) - 6 (Sat)
-const todayIndex = new Date().getDay()
-const defaultDayIndex = (todayIndex + 6) % 7
-const defaultDay = WEEKDAYS[defaultDayIndex]
-
 export function EpisodeSchedule(): React.ReactElement {
-    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays>(defaultDay)
+    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays | null>(
+        null
+    )
+
     const [animesByDay, setAnimesByDay] = useState<JikanAnime[] | []>([])
 
     const handleDayChange = async (day: JikanScheduleDays) => {
+        if (!day) return
+
         setSelectedDay(day)
+        setAnimesByDay([])
         const filteredAnimesByDay = await getAiringDayAnime(day)
         setAnimesByDay(filteredAnimesByDay)
     }
+
     useEffect(() => {
-        handleDayChange(selectedDay)
-    }, [selectedDay])
+        const todayIndex = new Date().getDay()
+        const defaultDayIndex = (todayIndex + 6) % 7
+        const clientDefaultDay = WEEKDAYS[defaultDayIndex]
+
+        handleDayChange(clientDefaultDay)
+    }, [])
+
+    if (selectedDay === null) {
+        return (
+            <AnimeListSkeleton
+                sectionName="episode-schedule"
+                skeletonItemCount={5}
+            />
+        )
+    }
+
     return (
         <>
             <h2 className="text-lg font-semibold">Emission schedule </h2>
@@ -45,7 +64,8 @@ export function EpisodeSchedule(): React.ReactElement {
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`capitalize rounded-md border px-3 py-1 text-sm whitespace-nowrap ${selectedDay.toLowerCase() === day.toLowerCase() ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80 opacity-50'} hover:bg-emerald-400 hover:text-black`}
+                            className={`rounded-md border px-2 py-1 text-sm capitalize ${selectedDay === day ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80 opacity-50'} hover:bg-emerald-400 hover:text-black`}
+                            disabled={selectedDay === day}
                         >
                             {day}
                         </button>
@@ -58,7 +78,7 @@ export function EpisodeSchedule(): React.ReactElement {
                 {animesByDay.map((anime) => (
                     <article
                         key={`last-episode-${anime.mal_id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-lg border bg-black/80 transition-all duration-400 hover:shadow-xl hover:shadow-indigo-500/60 md:h-full md:max-w-[260px] md:min-w-[220px]"
+                        className="flex max-w-[200px] min-w-38 flex-col  items-center justify-between overflow-hidden rounded-lg   transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
                     >
                         <Link
                             href={`/anime/${anime.mal_id}`}
@@ -76,11 +96,11 @@ export function EpisodeSchedule(): React.ReactElement {
                                     className="object-fill"
                                 />
                                 <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
-                                    {convertJSTToLocal(anime.broadcast?.string)}{' '}
-                                    ~ aprox.
+                                    {convertJSTToLocal(anime.broadcast?.string)}
+                                    ~ approx.
                                 </span>
                                 <span className="absolute bottom-3 left-3 rounded bg-slate-700 px-2 py-1 text-xs text-white">
-                                    TV Anime
+                                    {anime.type}
                                 </span>
                             </div>
 
@@ -93,7 +113,6 @@ export function EpisodeSchedule(): React.ReactElement {
                     </article>
                 ))}
             </ul>
-            {/* If there are no animes for the selected day show a friendly message */}
             {(animesByDay ?? []).length === 0 && (
                 <AnimeListSkeleton
                     sectionName="episode-schedule"
