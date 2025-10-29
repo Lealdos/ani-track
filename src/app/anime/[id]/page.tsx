@@ -12,13 +12,12 @@ import {
     getAnimeRecommendations,
     formatStreamingPlatforms,
 } from '@/services/JikanAPI/jikanAnimeApi'
-import {  JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
+import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils/utils'
 import { BackButton } from '@/components/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
-
 
 interface Genres {
     mal_id: number
@@ -27,6 +26,7 @@ interface Genres {
 interface Params {
     id: number
 }
+
 
 export async function generateMetadata({
     params,
@@ -46,6 +46,17 @@ export async function generateMetadata({
         title: `AniTrack | ${anime.title}`,
         description: anime.synopsis,
     }
+}
+
+
+const relationsLabel = {
+    adaptation:'Adaptation',
+    prequel: 'Prequel',
+    sequel: 'Sequel',
+    side_story: 'Side story',
+    parent_story: 'Parent story',
+    summary: 'Summary',
+    full: 'Full',
 }
 
 export default async function AnimePage({
@@ -180,7 +191,9 @@ export default async function AnimePage({
                                     {episodeDuration && (
                                         <div className="flex items-center">
                                             <Clock className="mr-1 h-4 w-4 text-gray-300" />
-                                            <span>{episodeDuration}</span>
+                                            <span>
+                                                Duration: {episodeDuration} 
+                                            </span>
                                         </div>
                                     )}
                                 </div>
@@ -200,6 +213,40 @@ export default async function AnimePage({
                                     <p className="mb-6 text-balance text-gray-200">
                                         {anime.synopsis}
                                     </p>
+                                </div>
+                                <div>
+                                    {anime.relations.map((relation) => {
+                                        if (relation.relation === relationsLabel.adaptation) {
+                                            return null
+                                        }
+                                        return (
+                                            <div
+                                                key={relation.relation}
+                                            >
+                                                <h4 className="my-2 text-lg font-bold">
+                                                    {relation.relation}
+                                                </h4>
+                                                <div className='flex justify-center-safe flex-col gap-4'> 
+
+                                                {relation.entry.map(
+                                                    (entry) => {
+                                                        return (
+                                                            <Link
+                                                                key={entry.mal_id}
+                                                                href={`/anime/${entry.mal_id}`}
+                                                                className='hover:underline'
+                                                            >
+                                                            {entry.name}
+                                                            </Link>
+                                                            )
+
+                                                    })
+                                                    }
+                                                </div>
+
+                                            </div>
+                                        )
+                                    })}
                                 </div>
                             </section>
 
@@ -260,7 +307,9 @@ export default async function AnimePage({
                                 {recommendations
                                     .slice(0, 6)
                                     .map(
-                                        (recommendedAnime: JikanRecommendations) => (
+                                        (
+                                            recommendedAnime: JikanRecommendations
+                                        ) => (
                                             <Link
                                                 key={
                                                     recommendedAnime.entry

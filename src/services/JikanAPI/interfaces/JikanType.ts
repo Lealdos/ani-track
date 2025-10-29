@@ -44,9 +44,22 @@ export type JikanAnime = {
     streaming?: streaming[]
     broadcast?: broadcastInfo
     rank: number // for top anime
-    popularity?: number // for top anime
+    popularity?: number 
+    demographics: JikanAnimeEntry[]
+    relations: relations[]
 }
 
+type relations = {
+    relation: string
+    entry: JikanAnimeEntry[]
+}
+
+type JikanAnimeEntry = {
+    mal_id: number
+    type: string
+    name: string
+    url: string
+}
 type JikanGenres = {
     mal_id: number
     name: string
