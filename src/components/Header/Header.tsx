@@ -75,8 +75,8 @@ export default function Header() {
                     className={mergeClassNames(
                         `flex h-16 w-full items-center justify-between md:h-16`,
                         isScrolled
-                            ? 'rounded-full bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 shadow-md backdrop-blur md:px-20'
-                            : 'border-b border-b-red-900 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 px-2 backdrop-blur md:px-40'
+                            ? 'rounded-full bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 shadow-md backdrop-blur md:px-20'
+                            : 'border-b border-b-red-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900 px-2 backdrop-blur md:px-40'
                     )}
                 >
                     <div
@@ -153,7 +153,7 @@ export default function Header() {
                         ref={mobileMenuRef}
                         id="mobile-menu"
                         className={mergeClassNames(
-                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-gradient-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
+                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
                             isMobileMenuOpen
                                 ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
                                 : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-400 animate-reverse'
