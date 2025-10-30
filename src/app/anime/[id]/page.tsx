@@ -1,7 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Star, Calendar, Clock, BookmarkPlus } from 'lucide-react'
+import {
+    Star,
+    Clock,
+    BookmarkPlus,
+    Video,
+    Target,
+    CalendarSearch,
+    Hourglass,
+    CalendarCheck,
+    CalendarDays,
+} from 'lucide-react'
 import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
@@ -27,7 +37,6 @@ interface Params {
     id: number
 }
 
-
 export async function generateMetadata({
     params,
 }: {
@@ -48,9 +57,8 @@ export async function generateMetadata({
     }
 }
 
-
 const relationsLabel = {
-    adaptation:'Adaptation',
+    adaptation: 'Adaptation',
     prequel: 'Prequel',
     sequel: 'Sequel',
     side_story: 'Side story',
@@ -112,12 +120,13 @@ export default async function AnimePage({
                                     '/placeholder.svg'
                                 }
                                 alt={anime.title}
-                                className="aspect-[2/3] rounded-lg object-cover shadow-xl"
+                                className="aspect-2/3 rounded-lg object-cover shadow-xl"
                             />
                         </div>
                         <div className="flex flex-col items-center justify-center">
+                            {/* ANIME INFORMATION */}
                             <section>
-                                <h1 className="mb-2 text-3xl font-bold md:text-4xl">
+                                <h1 className="mb-2 font-gothic text-3xl italic md:text-4xl">
                                     {anime.title}
                                 </h1>
                                 {anime.title_english && (
@@ -127,7 +136,7 @@ export default async function AnimePage({
                                 )}
 
                                 <div className="mb-4 flex flex-wrap gap-2">
-                                    {anime.genres?.map((genre: Genres) => (
+                                    {anime.genres?.map((genre) => (
                                         <div
                                             key={genre.mal_id}
                                             className="border-gray-600"
@@ -137,33 +146,56 @@ export default async function AnimePage({
                                     ))}
                                 </div>
 
-                                <div className="mb-6 flex flex-wrap items-center gap-6 text-sm">
-                                    {anime.status && (
-                                        <div className="rounded-xl bg-purple-900/50 p-1.5 text-gray-100 hover:bg-purple-900/70">
-                                            {anime.status}
+                                <div className="mb-6 flex flex-wrap items-center gap-6 text-lg">
+                                    <div className="flex flex-col flex-wrap items-start justify-center-safe gap-2 md:flex-row md:items-center">
+                                        <div className="flex flex-wrap items-center-safe gap-1">
+                                            <Target className="mr-1 h-5 w-5" />
+                                            Demography:{' '}
+                                            {anime.demographics &&
+                                                anime.demographics?.map(
+                                                    (demographic) => (
+                                                        <div
+                                                            key={
+                                                                demographic.mal_id
+                                                            }
+                                                            className="rounded-xl p-2 text-gray-100"
+                                                        >
+                                                            {demographic.name}
+                                                        </div>
+                                                    )
+                                                )}
                                         </div>
-                                    )}
+                                        <div className="flex items-center gap-1">
+                                            <Video /> Episodes: {anime.episodes}
+                                        </div>
 
-                                    {anime.score && (
-                                        <div className="flex items-center">
-                                            <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
-                                            <span>{anime.score}/10</span>
-                                        </div>
-                                    )}
+                                        {anime.status && (
+                                            <div className="flex items-center gap-1 rounded-xl text-gray-100">
+                                                <CalendarSearch className="mr-1 h-5 w-5" />
+                                                Status:{anime.status}
+                                            </div>
+                                        )}
+                                        {anime.score && (
+                                            <div className="flex items-center">
+                                                <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
+                                                <span>{anime.score}/10</span>
+                                            </div>
+                                        )}
+                                    </div>
 
                                     <div className="flex items-center">
-                                        <Calendar className="mr-1 h-4 w-4 text-gray-300" />
+                                        <CalendarCheck className="mr-1 h-5 w-5 text-gray-300" />
                                         <span>
-                                            premiered: {anime.season}{' '}
+                                            premiered at: {anime.season}{' '}
                                             {anime.year}
                                         </span>
                                     </div>
 
                                     {anime.broadcast?.string && (
-                                        <div className="flex items-center">
-                                            <Clock className="mr-1 h-4 w-4 text-gray-300" />
+                                        <div className="flex flex-wrap items-center">
+                                            <Clock className="mr-1 h-5 w-5 text-gray-300" />
+                                            Broadcast:{' '}
                                             <span>
-                                                Broadcast:{' '}
                                                 {anime.broadcast.string} /{' '}
                                                 {convertJSTToLocal(
                                                     anime.broadcast.string
@@ -174,7 +206,7 @@ export default async function AnimePage({
 
                                     {anime.aired && (
                                         <div className="flex items-center">
-                                            <Calendar className="mr-1 h-4 w-4 text-gray-300" />
+                                            <CalendarDays className="mr-1 h-5 w-5 text-gray-300" />
                                             <span>
                                                 Aired:{' '}
                                                 {formatDate(anime.aired.from)}
@@ -190,9 +222,9 @@ export default async function AnimePage({
 
                                     {episodeDuration && (
                                         <div className="flex items-center">
-                                            <Clock className="mr-1 h-4 w-4 text-gray-300" />
+                                            <Hourglass className="mr-1 h-5 w-5 text-gray-300" />
                                             <span>
-                                                Duration: {episodeDuration} 
+                                                Duration: {episodeDuration}
                                             </span>
                                         </div>
                                     )}
@@ -216,34 +248,34 @@ export default async function AnimePage({
                                 </div>
                                 <div>
                                     {anime.relations.map((relation) => {
-                                        if (relation.relation === relationsLabel.adaptation) {
+                                        if (
+                                            relation.relation ===
+                                            relationsLabel.adaptation
+                                        ) {
                                             return null
                                         }
                                         return (
-                                            <div
-                                                key={relation.relation}
-                                            >
+                                            <div key={relation.relation}>
                                                 <h4 className="my-2 text-lg font-bold">
                                                     {relation.relation}
                                                 </h4>
-                                                <div className='flex justify-center-safe flex-col gap-4'> 
-
-                                                {relation.entry.map(
-                                                    (entry) => {
-                                                        return (
-                                                            <Link
-                                                                key={entry.mal_id}
-                                                                href={`/anime/${entry.mal_id}`}
-                                                                className='hover:underline'
-                                                            >
-                                                            {entry.name}
-                                                            </Link>
+                                                <div className="flex flex-col justify-center-safe gap-4">
+                                                    {relation.entry.map(
+                                                        (entry) => {
+                                                            return (
+                                                                <Link
+                                                                    key={
+                                                                        entry.mal_id
+                                                                    }
+                                                                    href={`/anime/${entry.mal_id}`}
+                                                                    className="hover:underline"
+                                                                >
+                                                                    {entry.name}
+                                                                </Link>
                                                             )
-
-                                                    })
-                                                    }
+                                                        }
+                                                    )}
                                                 </div>
-
                                             </div>
                                         )
                                     })}
@@ -331,9 +363,9 @@ export default async function AnimePage({
                                                             recommendedAnime
                                                                 .entry.title
                                                         }
-                                                        className="aspect-[2/3] w-full object-cover"
+                                                        className="aspect-2/3 w-full object-cover"
                                                     />
-                                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
+                                                    <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
                                                         <h3 className="line-clamp-2 text-center text-lg font-medium text-balance">
                                                             {
                                                                 recommendedAnime
