@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/Footer/Footer'
-import { unstable_ViewTransition as ViewTransition } from 'react'
-import { ClerkProvider } from '@clerk/nextjs'
-import { dark } from '@clerk/themes'
-
+// @ts-ignore
+import { ViewTransition } from 'react'
 const Header = dynamic(() => import('@/components/Header/Header'))
 
 const inter = Inter({
@@ -40,25 +38,17 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        
-        <ClerkProvider
-        appearance={{
-            baseTheme: dark,
-        }}
-        afterSignOutUrl="/"
-        >
-            <html lang="en">
-                <body
-                    className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
-                    >
-                        <SpeedInsights/>
-                    <Header />
+        <html lang="en">
+            <body
+                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
+            >
+                <SpeedInsights />
+                <Header />
 
-                    <ViewTransition> {children}</ViewTransition>
-                    <Toaster />
-                    <Footer />
-                </body>
-            </html>
-        </ClerkProvider>
+                <ViewTransition> {children}</ViewTransition>
+                <Toaster />
+                <Footer />
+            </body>
+        </html>
     )
 }

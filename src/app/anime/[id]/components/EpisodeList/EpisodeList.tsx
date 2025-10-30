@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { getAnimeEpisodes } from '@/services/JikanAPI/jikanAnimeApi'
 import { PaginationInfo } from '@/types/pageInfo'
-import { formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils/utils'
 import { JikanEpisode } from '@/services/JikanAPI/interfaces/JikanType'
 
 interface EpisodesListProps {
@@ -102,8 +102,9 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                 {displayedEpisodes?.map((episode) => (
                     <Link
                         key={episode.mal_id}
-                        href={`/anime/${animeId}/watch/${episode.mal_id}`}
+                        href={episode.url}
                         className="block"
+                        target="_blank"
                     >
                         <div className="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-900 p-3 transition-colors hover:bg-gray-800">
                             <div className="flex items-center gap-3">

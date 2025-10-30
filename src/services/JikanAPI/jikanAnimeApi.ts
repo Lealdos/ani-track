@@ -4,8 +4,9 @@ import {
     JikanAnimeGenres,
     JikanEpisode,
     JikanRecommendations,
+    JikanScheduleDays,
 } from '@/services/JikanAPI/interfaces/JikanType'
-import { removeDuplicates } from '../../lib/utils'
+import { removeDuplicates } from '../../lib/utils/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { Character, CharacterDataItem } from '@/types/animeCharacter'
@@ -77,10 +78,25 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     }
 }
 
+export async function getAiringDayAnime(day: JikanScheduleDays): Promise<JikanAnime[]> {
+    try {
+        const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
+            `${API_BASE_URL}/schedules?filter=${day}&sfw`
+        )
+        const airingAnime = data.filter( (anime)=>{
+            return anime.broadcast?.day?.toLowerCase().includes(day) && (anime.duration !== 'Unknown' || anime.duration ) 
+        })
+        return airingAnime
+    } catch (error) {
+        console.error('Error fetching airing anime:', error)
+        return []
+    }
+}
+
 export async function getSeasonalAnime(): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
-            `${API_BASE_URL}/seasons/now`
+            `${API_BASE_URL}/seasons/now?continuing&unapproved`
         )
         const seasonalAnime = data
         return removeDuplicates(seasonalAnime).filter(
@@ -95,9 +111,10 @@ export async function getSeasonalAnime(): Promise<JikanAnime[]> {
 export async function getTopAnime(): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
-            `${API_BASE_URL}/top/anime?limit=9`
+            `${API_BASE_URL}/top/anime?sfw&limit=20`
         )
-        return data
+        const sortedTopAnimes = data.toSorted((a, b) => a.rank - b.rank)
+        return sortedTopAnimes
     } catch (error) {
         console.error('Error fetching top anime:', error)
         return []

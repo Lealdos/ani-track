@@ -2,73 +2,83 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, use } from 'react'
+import { useState, useEffect } from 'react'
 
+import {
+    JikanAnime,
+    JikanScheduleDays,
+} from '@/services/JikanAPI/interfaces/JikanType'
+import { convertJSTToLocal } from '@/lib/utils/utils'
+import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
+import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 
-import  { JikanAnime  } from '@/services/JikanAPI/interfaces/JikanType'
-import { broadcastInfo } from '@/types/anime'
-import { convertJSTToLocal } from '@/lib/utils'
+const WEEKDAYS: JikanScheduleDays[] = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+]
 
-interface CurrentSeasonProps {
-    currentSeason: Promise<JikanAnime[]>
-}
-
-
- const WEEKDAYS: broadcastInfo["day"] [] =['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'] 
-
-// console.log(WEEKDAYS_MAP)
-
-export function EpisodeSchedule({
-    currentSeason,
-}: CurrentSeasonProps): React.ReactElement {
-    const animeCurrentSeason = use(currentSeason)
-    // 0 (Sun) - 6 (Sat)
-    const todayIndex = new Date().getDay()
-    const defaultDayIndex = (todayIndex + 6) % 7
-    const defaultDay = WEEKDAYS[defaultDayIndex]
-
-    const [selectedDay, setSelectedDay] = useState<string>(defaultDay)
-
-    const [animeByDay, setAnimeByDay] = useState<JikanAnime[]>(() =>
-        animeCurrentSeason.filter((anime) => {
-            return anime?.broadcast?.day === selectedDay
-        })
+export function EpisodeSchedule(): React.ReactElement {
+    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays | null>(
+        null
     )
 
-    const handleDayChange = (day: string) => {
+    const [animesByDay, setAnimesByDay] = useState<JikanAnime[] | []>([])
+
+    const handleDayChange = async (day: JikanScheduleDays) => {
+        if (!day) return
+
         setSelectedDay(day)
-        const filteredAnimesByDay = animeCurrentSeason.filter((anime) => {
-            return anime?.broadcast?.day === day
-        })
-        setAnimeByDay(filteredAnimesByDay)
+        setAnimesByDay([])
+        const filteredAnimesByDay = await getAiringDayAnime(day)
+        setAnimesByDay(filteredAnimesByDay)
+    }
+
+    useEffect(() => {
+        const todayIndex = new Date().getDay()
+        const defaultDayIndex = (todayIndex + 6) % 7
+        const clientDefaultDay = WEEKDAYS[defaultDayIndex]
+
+        handleDayChange(clientDefaultDay)
+    }, [])
+
+    if (selectedDay === null) {
+        return (
+            <AnimeListSkeleton
+                sectionName="episode-schedule"
+                skeletonItemCount={5}
+            />
+        )
     }
 
     return (
         <>
-            <h2 className="text-lg font-semibold">emission schedule </h2>
-
+            <h2 className="text-lg font-semibold">Emission schedule </h2>
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
-                {WEEKDAYS.map((day:string) => {
-                    const active = selectedDay === (day)
+                {WEEKDAYS.map((day) => {
                     return (
                         <button
                             key={day}
-                            onClick={() => handleDayChange(day )}
-                            className={`rounded-md border px-3 py-1 text-sm whitespace-nowrap ${active ? 'bg-emerald-400 text-black' : 'bg-transparent text-white/80'} ${selectedDay ? '' : 'opacity-50'}`}
+                            onClick={() => handleDayChange(day)}
+                            className={`rounded border border-purple-600 px-2 py-1 text-sm capitalize ${selectedDay === day ? 'bg-purple-700 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-purple-800 hover:text-white`}
+                            disabled={selectedDay === day}
                         >
                             {day}
                         </button>
                     )
                 })}
             </div>
-
             {/* Anime list grid */}
 
             <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
-                {animeByDay.map((anime) => (
+                {animesByDay.map((anime) => (
                     <article
                         key={`last-episode-${anime.mal_id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-lg border bg-black/80 transition-all duration-400 hover:shadow-xl hover:shadow-indigo-500/60 md:h-full md:max-w-[260px] md:min-w-[220px]"
+                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-lg transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
                     >
                         <Link
                             href={`/anime/${anime.mal_id}`}
@@ -83,14 +93,14 @@ export function EpisodeSchedule({
                                     alt={`${anime.title} poster`}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 33vw"
-                                    className="object-fill"
+                                    className="object-scale-down"
                                 />
                                 <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
-                                    {convertJSTToLocal(anime.broadcast?.string)}{' '}
-                                    ~ aprox.
+                                    {convertJSTToLocal(anime.broadcast?.string)}
+                                    ~ approx.
                                 </span>
                                 <span className="absolute bottom-3 left-3 rounded bg-slate-700 px-2 py-1 text-xs text-white">
-                                    TV Anime
+                                    {anime.type}
                                 </span>
                             </div>
 
@@ -102,14 +112,13 @@ export function EpisodeSchedule({
                         </Link>
                     </article>
                 ))}
-
-                {/* If there are no animes for the selected day show a friendly message */}
-                {(animeByDay ?? []).length === 0 && (
-                    <div className="text-muted-foreground col-span-full py-8 text-center text-sm">
-                        there are no airing animes for this day.
-                    </div>
-                )}
             </ul>
+            {(animesByDay ?? []).length === 0 && (
+                <AnimeListSkeleton
+                    sectionName="episode-schedule"
+                    skeletonItemCount={5}
+                />
+            )}
         </>
     )
 }

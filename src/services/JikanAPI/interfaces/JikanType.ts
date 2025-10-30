@@ -28,7 +28,7 @@ export type JikanAnime = {
     type?: AnimeType
     episodes?: number
     status?: string
-    score?: number
+    score: number
     images?: JikanAnimeImagesType
     synopsis?: string
     genres?: { mal_id: number; name: string }[]
@@ -43,10 +43,23 @@ export type JikanAnime = {
     year?: number
     streaming?: streaming[]
     broadcast?: broadcastInfo
-    rank?: number // for top anime
-    popularity?: number // for top anime
+    rank: number // for top anime
+    popularity?: number
+    demographics: JikanAnimeEntry[]
+    relations: relations[]
 }
 
+type relations = {
+    relation: string
+    entry: JikanAnimeEntry[]
+}
+
+type JikanAnimeEntry = {
+    mal_id: number
+    type: string
+    name: string
+    url: string
+}
 type JikanGenres = {
     mal_id: number
     name: string
@@ -84,4 +97,14 @@ export type JikanEpisode = {
     filler: boolean
     recap: boolean
     forum_url: string
+    url: string
 }
+
+export type JikanScheduleDays =
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday'

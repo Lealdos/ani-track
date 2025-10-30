@@ -4,6 +4,7 @@ import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 import {
+    getAiringDayAnime,
     getSeasonalAnime,
     getTopAnime,
 } from '@/services/JikanAPI/jikanAnimeApi'
@@ -30,9 +31,9 @@ export default async function Home() {
 
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
-                        last episodes released:
+                        Last episodes released:
                     </h2>
-                    <EpisodeSchedule currentSeason={seasonalAnime} />
+                    <EpisodeSchedule />
                 </section>
 
                 <section className="mb-12">
