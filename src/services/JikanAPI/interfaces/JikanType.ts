@@ -44,7 +44,7 @@ export type JikanAnime = {
     streaming?: streaming[]
     broadcast?: broadcastInfo
     rank: number // for top anime
-    popularity?: number 
+    popularity?: number
     demographics: JikanAnimeEntry[]
     relations: relations[]
 }
@@ -97,6 +97,14 @@ export type JikanEpisode = {
     filler: boolean
     recap: boolean
     forum_url: string
+    url: string
 }
 
-export type JikanScheduleDays = 'monday'| 'tuesday'| 'wednesday'| 'thursday'| 'friday'| 'saturday'| 'sunday'
+export type JikanScheduleDays =
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday'
