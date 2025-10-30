@@ -4,7 +4,6 @@ import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/SkeletonCard/AnimeSkeletonList'
 import {
-    getAiringDayAnime,
     getSeasonalAnime,
     getTopAnime,
 } from '@/services/JikanAPI/jikanAnimeApi'

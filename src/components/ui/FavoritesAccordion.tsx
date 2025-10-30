@@ -20,17 +20,12 @@ export function FavoritesAccordion() {
     const [loading] = useState(false)
     const [error] = useState<string | null>(null)
 
-    //             // const currentYear = new Date().getFullYear()
-    //             // const seasons = ["winter", "spring", "summer", "fall"]
-    //             // const currentMonth = new Date().getMonth()
-    //             // const currentSeason = seasons[Math.floor(currentMonth / 3)]
-
     return (
         <div className="mx-auto w-full py-2">
             <Accordion
                 type="single"
                 collapsible
-                className="w-full overflow-hidden rounded-lg border"
+                className="w-full overflow-hidden rounded-lg border border-purple-600/80"
             >
                 <AccordionItem value="favorite-list" className="border-0">
                     <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 text-sm transition-all">
