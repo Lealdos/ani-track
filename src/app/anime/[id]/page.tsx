@@ -6,11 +6,13 @@ import {
     Clock,
     BookmarkPlus,
     Video,
+    House,
     Target,
     CalendarSearch,
     Hourglass,
     CalendarCheck,
     CalendarDays,
+    Trophy,
 } from 'lucide-react'
 import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
@@ -165,6 +167,18 @@ export default async function AnimePage({
                                                     )
                                                 )}
                                         </div>
+                                        <div className="flex items-center gap-1 rounded-xl text-gray-100">
+                                            <House className="mr-1 h-5 w-5" />
+                                            Studios:
+                                            {anime.studios?.map((studio) => (
+                                                <span
+                                                    key={studio.mal_id}
+                                                    className="rounded-xl p-2 text-gray-100"
+                                                >
+                                                    {studio.name}
+                                                </span>
+                                            ))}
+                                        </div>
                                         <div className="flex items-center gap-1">
                                             <Video /> Episodes: {anime.episodes}
                                         </div>
@@ -226,6 +240,12 @@ export default async function AnimePage({
                                             <span>
                                                 Duration: {episodeDuration}
                                             </span>
+                                        </div>
+                                    )}
+                                    {anime.rank && (
+                                        <div className="flex items-center">
+                                            <Trophy className="mr-1 h-5 w-5 text-gray-300" />
+                                            <span>Rank: #{anime.rank}</span>
                                         </div>
                                     )}
                                 </div>
