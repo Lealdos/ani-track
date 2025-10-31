@@ -47,6 +47,7 @@ export type JikanAnime = {
     popularity?: number
     demographics: JikanAnimeEntry[]
     relations: relations[]
+    producers?: { mal_id: number; name: string; url: string; type: string }[]
 }
 
 type relations = {

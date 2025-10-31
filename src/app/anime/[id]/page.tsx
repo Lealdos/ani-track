@@ -13,6 +13,7 @@ import {
     CalendarCheck,
     CalendarDays,
     Trophy,
+    Warehouse,
 } from 'lucide-react'
 import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
@@ -146,7 +147,7 @@ export default async function AnimePage({
                                 </div>
 
                                 <div className="mb-6 flex flex-wrap items-center gap-6 text-lg">
-                                    <div className="flex flex-col flex-wrap items-start justify-center-safe gap-2 md:flex-row md:items-center">
+                                    <div className="flex flex-col flex-wrap items-start gap-2 md:flex-row md:items-center">
                                         <div className="flex flex-wrap items-center-safe gap-1">
                                             <Target className="mr-1 h-5 w-5" />
                                             Demography:{' '}
@@ -166,29 +167,38 @@ export default async function AnimePage({
                                         </div>
                                         <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                             <House className="mr-1 h-5 w-5" />
-                                            Studios/Producers:
-                                            {anime.studios?.map((studio) => (
-                                                <div
-                                                    key={studio.mal_id}
-                                                    className="flex items-center gap-1 border-r-red-600"
-                                                >
-                                                    <a
-                                                        key={studio.mal_id}
-                                                        className="rounded-xl p-2 text-gray-100"
-                                                        href={studio.url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        {studio.name}
-                                                    </a>
-                                                </div>
-                                            ))}
+                                            Studio:
+                                            <div>
+                                                {anime.studios?.map(
+                                                    (studio) => (
+                                                        <div
+                                                            key={studio.mal_id}
+                                                            className="flex flex-wrap items-center gap-1"
+                                                        >
+                                                            <a
+                                                                key={
+                                                                    studio.mal_id
+                                                                }
+                                                                className="rounded-xl p-2 text-gray-100"
+                                                                href={
+                                                                    studio.url
+                                                                }
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                {studio.name}
+                                                            </a>
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
                                             {anime.studios?.length === 0 && (
                                                 <span className="rounded-xl p-2 text-gray-100">
                                                     Unknown
                                                 </span>
                                             )}
                                         </div>
+
                                         <div className="flex items-center gap-1">
                                             <Video /> Episodes: {anime.episodes}
                                         </div>
@@ -268,6 +278,33 @@ export default async function AnimePage({
                                         </span>
                                     </button>
                                 </div>
+
+                                {/* producers (e.g. Studio Ghibli) */}
+                                <div className="flex flex-wrap items-center gap-1 rounded-xl text-gray-100">
+                                    <div className="flex">
+                                        <Warehouse className="w-5md:h-10 mr-1 h-5 md:w-10" />
+                                        Producers:
+                                    </div>
+                                    <div className="flex flex-wrap">
+                                        {anime.producers?.map((producer) => (
+                                            <a
+                                                key={producer.mal_id}
+                                                className="p-2 text-gray-100"
+                                                href={producer.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {producer.name}
+                                            </a>
+                                        ))}
+                                        {anime.producers?.length === 0 && (
+                                            <span className="p-2 text-gray-100">
+                                                Unknown
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
                                 <div>
                                     <h2 className="mb-2 text-2xl font-bold">
                                         Synopsis
