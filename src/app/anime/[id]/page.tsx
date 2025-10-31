@@ -23,6 +23,7 @@ import {
     getAnimeEpisodes,
     getAnimeRecommendations,
     formatStreamingPlatforms,
+    getAnimeCharacters,
 } from '@/services/JikanAPI/jikanAnimeApi'
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils/utils'
@@ -30,6 +31,7 @@ import { BackButton } from '@/components/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
+import { CharactersList } from './components/CharactersList/CharactersList'
 
 interface Genres {
     mal_id: number
@@ -93,6 +95,8 @@ export default async function AnimePage({
     const recommendations = await getAnimeRecommendations(id)
 
     const streamingServices = formatStreamingPlatforms(anime?.streaming)
+
+    const characters = await getAnimeCharacters(id)
     if (!anime) {
         return notFound()
     }
@@ -302,6 +306,13 @@ export default async function AnimePage({
                                 </div>
                             </section>
 
+                            {/* Characters SECTION */}
+                            {/* <section className="mt-8 md:min-w-max lg:min-w-3xl">
+                                <CharactersList characters={characters} />
+                            </section> */}
+
+                            {/* STREAMING PLATFORMS & EPISODES TABS */}
+
                             <section className="mt-8 md:min-w-max lg:min-w-3xl">
                                 <Tabs
                                     defaultValue={TabsContes[0].tabsName}
@@ -349,6 +360,8 @@ export default async function AnimePage({
                             </section>
                         </div>
                     </div>
+
+                    {/* RECOMMENDATIONS SECTION */}
 
                     {recommendations.length > 0 ? (
                         <section>

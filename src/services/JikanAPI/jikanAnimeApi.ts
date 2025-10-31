@@ -78,13 +78,18 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
     }
 }
 
-export async function getAiringDayAnime(day: JikanScheduleDays): Promise<JikanAnime[]> {
+export async function getAiringDayAnime(
+    day: JikanScheduleDays
+): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/schedules?filter=${day}&sfw`
         )
-        const airingAnime = data.filter( (anime)=>{
-            return anime.broadcast?.day?.toLowerCase().includes(day) && (anime.duration !== 'Unknown' || anime.duration ) 
+        const airingAnime = data.filter((anime) => {
+            return (
+                anime.broadcast?.day?.toLowerCase().includes(day) &&
+                (anime.duration !== 'Unknown' || anime.duration)
+            )
         })
         return airingAnime
     } catch (error) {
@@ -161,12 +166,13 @@ export async function getAnimeEpisodes(id: number, page = 1) {
 }
 
 // Get anime characters
-export async function getAnimeCharacters(id: number): Promise<Character[]> {
+export async function getAnimeCharacters(
+    id: number
+): Promise<CharacterDataItem[]> {
     const { data } = await fetchWithRateLimit<
         JikanResponse<CharacterDataItem[]>
     >(`${API_BASE_URL}/anime/${id}/characters`)
-    const allCharacter = data.map((character) => character.character)
-
+    const allCharacter = data
     return allCharacter
 }
 
