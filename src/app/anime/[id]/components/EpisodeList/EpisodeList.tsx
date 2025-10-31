@@ -1,5 +1,4 @@
 'use client'
-import Link from 'next/link'
 import { Play, Calendar } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -21,7 +20,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         has_next_page: false,
         last_visible_page: 1,
     })
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const loader = useRef(null)
 
@@ -81,10 +80,18 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         }
     }, [animeId, page, pagination?.has_next_page])
 
+    if (isLoading && displayedEpisodes.length === 0) {
+        return (
+            <div className="min-h-xl m-auto py-8 text-center text-5xl text-gray-300">
+                Loading episodes...
+            </div>
+        )
+    }
+
     if (!displayedEpisodes || displayedEpisodes.length === 0) {
         return (
             <div className="min-h-xl py-8 text-center text-gray-300">
-                there are no episodes available for this anime.
+                There are no episodes available for this anime.
             </div>
         )
     }
