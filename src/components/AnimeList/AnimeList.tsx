@@ -17,7 +17,7 @@ export function AnimeList({
         animesPromise instanceof Promise ? use(animesPromise) : animesPromise
     if (!animes) return <div>Loading...</div>
     return (
-        <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
+        <ul className="grid grid-cols-2 justify-items-center gap-2 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
             {animes.map((animeItem) => (
                 <AnimeCard
                     key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
