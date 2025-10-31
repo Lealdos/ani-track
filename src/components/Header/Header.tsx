@@ -87,7 +87,7 @@ export default function Header() {
                     >
                         <div className="flex items-center gap-8">
                             <Link href="/" className="flex items-center">
-                                <span className="gradient-home-name p-2 font-gothic text-sm font-bold text-transparent italic md:text-2xl">
+                                <span className="gradient-home-name p-2 font-gothic text-base font-bold text-transparent italic md:text-2xl">
                                     ANI TRACK
                                 </span>
                                 <span className="sr-only">Home</span>
