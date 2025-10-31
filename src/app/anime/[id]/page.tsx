@@ -263,7 +263,9 @@ export default async function AnimePage({
                                         {anime.synopsis}
                                     </p>
                                 </div>
+
                                 {/* Anime relations (e.g. Adaptation, Prequel, Sequel) */}
+
                                 <h3 className="col-span-full mb-2 text-lg font-bold">
                                     Related Anime (Adaptation, Prequel, Sequel):
                                 </h3>
@@ -288,7 +290,7 @@ export default async function AnimePage({
                                                 <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
                                                     {relation.relation}
                                                 </h4>
-                                                <div className="flex h-96 flex-col items-center-safe justify-center-safe gap-4 overflow-y-auto p-2 text-center text-gray-100">
+                                                <div className="flex max-h-96 flex-col items-center-safe justify-center-safe gap-4 overflow-y-auto p-2 text-center text-gray-100">
                                                     {relation.entry.map(
                                                         (entry) => {
                                                             return (
