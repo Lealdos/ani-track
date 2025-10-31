@@ -9,7 +9,7 @@ import {
 import { removeDuplicates } from '../../lib/utils/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
-import { Character, CharacterDataItem } from '@/types/animeCharacter'
+import { Character, JikanCharacterDataItem } from '@/types/animeCharacter'
 
 const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1/3 second)
 
@@ -168,9 +168,9 @@ export async function getAnimeEpisodes(id: number, page = 1) {
 // Get anime characters
 export async function getAnimeCharacters(
     id: number
-): Promise<CharacterDataItem[]> {
+): Promise<JikanCharacterDataItem[]> {
     const { data } = await fetchWithRateLimit<
-        JikanResponse<CharacterDataItem[]>
+        JikanResponse<JikanCharacterDataItem[]>
     >(`${API_BASE_URL}/anime/${id}/characters`)
     const allCharacter = data
     return allCharacter

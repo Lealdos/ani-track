@@ -1,9 +1,9 @@
-import { CharacterDataItem } from '@/types/animeCharacter'
+import { JikanCharacterDataItem } from '@/types/animeCharacter'
 
 export function CharactersList({
     characters,
 }: {
-    characters: CharacterDataItem[]
+    characters: JikanCharacterDataItem[]
 }): React.ReactElement {
     return (
         <div className="grid h-96 grid-cols-1 items-center-safe justify-center gap-2 overflow-y-auto p-2 md:grid-cols-2">
