@@ -78,7 +78,7 @@ export function EpisodeSchedule(): React.ReactElement {
                 {animesByDay.map((anime) => (
                     <article
                         key={`last-episode-${anime.mal_id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-lg transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
+                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
                     >
                         <Link
                             href={`/anime/${anime.mal_id}`}
@@ -92,8 +92,8 @@ export function EpisodeSchedule(): React.ReactElement {
                                     }
                                     alt={`${anime.title} poster`}
                                     fill
-                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                    className="object-scale-down"
+                                    // className="rounded-4xl-xl w-full object-scale-down"
+                                    className="h-50 max-h-80 rounded object-scale-down md:h-64 md:w-full md:object-center"
                                 />
                                 <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                                     {convertJSTToLocal(anime.broadcast?.string)}
