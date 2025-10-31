@@ -9,9 +9,9 @@ import {
 import { removeDuplicates } from '../../lib/utils/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
-import { Character, JikanCharacterDataItem } from '@/types/animeCharacter'
+import { JikanCharacterDataItem } from '@/types/animeCharacter'
 
-const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1/3 second)
+const API_RATE_LIMIT_DELAY = 2000 // Delay in milliseconds for rate limiting (2 seconds)
 
 const delay = (ms: number): Promise<void> =>
     new Promise((resolve) => setTimeout(resolve, ms))
@@ -31,12 +31,15 @@ export async function fetchWithRateLimit<T>(url: string): Promise<T> {
             return await fetchWithRateLimit<T>(url)
         }
         if (!response.ok) {
-            throw new Error(`API error: ${response.status}`)
+            await delay(API_RATE_LIMIT_DELAY)
+            return await fetchWithRateLimit<T>(url)
         }
 
         return await response.json()
     } catch (error) {
-        console.error('Error fetching from  API:', error)
+        console.error(`Error fetching from API: ${error}  for URL: ${url}`)
+        throw new Error(`API error: ${error} for URL: ${url}`)
+
         throw error
     }
 }
@@ -44,7 +47,14 @@ export async function fetchWithRateLimit<T>(url: string): Promise<T> {
 export async function fetchWithJikan<T>(
     url: string
 ): Promise<JikanResponse<T>> {
-    return await fetchWithRateLimit<JikanResponse<T>>(`${API_BASE_URL}/${url}`)
+    try {
+        return await fetchWithRateLimit<JikanResponse<T>>(
+            `${API_BASE_URL}/${url}`
+        )
+    } catch (error) {
+        console.error(`Error fetching from Jikan API with url ${url}:`, error)
+        throw error
+    }
 }
 
 export async function FetchBrowsersAnime(query?: string, page: number = 1) {
@@ -155,35 +165,60 @@ export async function getAnimeById(id: number): Promise<JikanAnime | null> {
 
 // Get anime episodes
 export async function getAnimeEpisodes(id: number, page = 1) {
-    const { data, pagination } = await fetchWithRateLimit<
-        JikanResponse<JikanEpisode[]>
-    >(`${API_BASE_URL}/anime/${id}/episodes?page=${page}`)
-    const animeEpisodes = {
-        episodes: data,
-        pagination: pagination as PaginationInfo,
+    try {
+        const { data, pagination } = await fetchWithRateLimit<
+            JikanResponse<JikanEpisode[]>
+        >(`${API_BASE_URL}/anime/${id}/episodes?page=${page}`)
+        const animeEpisodes = {
+            episodes: data,
+            pagination: pagination as PaginationInfo,
+        }
+        return animeEpisodes
+    } catch (error) {
+        console.error(
+            `Error fetching episodes for anime ${id} on page ${page}:`,
+            error
+        )
+        return {
+            episodes: [],
+            pagination: {
+                current_page: 1,
+                last_visible_page: 0,
+                has_next_page: false,
+            } as PaginationInfo,
+        }
     }
-    return animeEpisodes
 }
 
 // Get anime characters
 export async function getAnimeCharacters(
     id: number
 ): Promise<JikanCharacterDataItem[]> {
-    const { data } = await fetchWithRateLimit<
-        JikanResponse<JikanCharacterDataItem[]>
-    >(`${API_BASE_URL}/anime/${id}/characters`)
-    const allCharacter = data
-    return allCharacter
+    try {
+        const { data } = await fetchWithRateLimit<
+            JikanResponse<JikanCharacterDataItem[]>
+        >(`${API_BASE_URL}/anime/${id}/characters`)
+        const allCharacter = data
+        return allCharacter
+    } catch (error) {
+        console.error(`Error fetching characters for anime ${id}:`, error)
+        return []
+    }
 }
 
 // Get anime recommendations
 export async function getAnimeRecommendations(
     id: number
 ): Promise<JikanRecommendations[]> {
-    const { data } = await fetchWithRateLimit<
-        JikanResponse<JikanRecommendations[]>
-    >(`${API_BASE_URL}/anime/${id}/recommendations`)
-    return data
+    try {
+        const { data } = await fetchWithRateLimit<
+            JikanResponse<JikanRecommendations[]>
+        >(`${API_BASE_URL}/anime/${id}/recommendations`)
+        return data
+    } catch (error) {
+        console.error(`Error fetching recommendations for anime ${id}:`, error)
+        return []
+    }
 }
 
 // Get all genres
