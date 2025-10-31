@@ -11,7 +11,7 @@ import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { JikanCharacterDataItem } from '@/types/animeCharacter'
 
-const API_RATE_LIMIT_DELAY = 2000 // Delay in milliseconds for rate limiting (2 seconds)
+const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1.25 seconds)
 
 const delay = (ms: number): Promise<void> =>
     new Promise((resolve) => setTimeout(resolve, ms))
