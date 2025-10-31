@@ -33,14 +33,14 @@ import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
 
-interface Params {
+interface PageParams {
     id: number
 }
 
 export async function generateMetadata({
     params,
 }: {
-    params: Promise<Params>
+    params: Promise<PageParams>
 }) {
     const { id } = await params
     const anime = await getAnimeById(id)
@@ -70,7 +70,7 @@ const relationsLabel = {
 export default async function AnimePage({
     params,
 }: {
-    params: Promise<Params>
+    params: Promise<PageParams>
 }) {
     const TabsContes = [
         {
@@ -169,7 +169,7 @@ export default async function AnimePage({
                                         <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                             <House className="mr-1 h-5 w-5" />
                                             Studio:
-                                            <div>
+                                            <div className="flex flex-wrap items-center gap-1 rounded-xl text-gray-100">
                                                 {anime.studios?.map(
                                                     (studio) => (
                                                         <div
@@ -200,14 +200,18 @@ export default async function AnimePage({
                                             )}
                                         </div>
 
-                                        <div className="flex items-center gap-1">
-                                            <Video /> Episodes: {anime.episodes}
-                                        </div>
+                                        {anime.episodes && (
+                                            <div className="flex items-center gap-1">
+                                                <Video /> Episodes:{' '}
+                                                {anime.episodes ||
+                                                    'Still airing'}
+                                            </div>
+                                        )}
 
                                         {anime.status && (
                                             <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                                 <CalendarSearch className="mr-1 h-5 w-5" />
-                                                Status:{anime.status}
+                                                Status: {anime.status}
                                             </div>
                                         )}
                                         {anime.score && (
@@ -271,19 +275,20 @@ export default async function AnimePage({
                                     )}
                                 </div>
                                 <div className="my-2 flex flex-row items-center gap-2">
-                                    <AddToListButton anime={anime} />
-                                    <button className="rounded bg-black/50 p-1 text-white hover:bg-black/70">
+                                    {/* TODO : add to list button COMPONENT */}
+                                    <button className="rounded bg-black/50 text-white hover:bg-black/70">
                                         <BookmarkPlus className="size-6" />
                                         <span className="sr-only">
                                             Add to a list
                                         </span>
                                     </button>
+                                    <AddToListButton anime={anime} />
                                 </div>
 
-                                {/* producers (e.g. Studio Ghibli) */}
+                                {/* producers section */}
                                 <div className="flex flex-wrap items-center gap-1 rounded-xl text-gray-100">
                                     <div className="flex">
-                                        <Warehouse className="w-5md:h-10 mr-1 h-5 md:w-10" />
+                                        <Warehouse className="mr-1 h-5 w-5" />
                                         Producers:
                                     </div>
                                     <div className="flex flex-wrap">
