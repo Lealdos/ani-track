@@ -97,6 +97,7 @@ export default async function AnimePage({
 
     return (
         <FavoriteProvider>
+            {/* background image in mobile view */}
             <div className="min-h-screen bg-gray-950 text-gray-100">
                 <div className="relative h-[300px] md:hidden md:h-[620px]">
                     <img
@@ -335,7 +336,7 @@ export default async function AnimePage({
                                         return (
                                             <div
                                                 key={relation.relation}
-                                                className="mb-4 rounded-lg border-1 border-purple-950 p-1 text-balance"
+                                                className="mb-4 w-full rounded-lg border-1 border-purple-950 p-1 text-balance"
                                             >
                                                 <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
                                                     {relation.relation}
