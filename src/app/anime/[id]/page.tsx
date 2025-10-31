@@ -33,10 +33,6 @@ import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
 
-interface Genres {
-    mal_id: number
-    name: string
-}
 interface Params {
     id: number
 }
@@ -89,8 +85,6 @@ export default async function AnimePage({
     if (!animeData) return null
 
     const { duration: episodeDuration, ...anime } = animeData
-
-    const { episodes, pagination } = await getAnimeEpisodes(id)
 
     const recommendations = await getAnimeRecommendations(id)
 
@@ -270,7 +264,16 @@ export default async function AnimePage({
                                         {anime.synopsis}
                                     </p>
                                 </div>
-                                <div>
+                                {/* Anime relations (e.g. Adaptation, Prequel, Sequel) */}
+                                <h3 className="col-span-full mb-2 text-lg font-bold">
+                                    Related Anime (Adaptation, Prequel, Sequel):
+                                </h3>
+                                <div className="flex flex-row flex-wrap gap-2 overflow-auto px-2 md:grid md:grid-cols-3">
+                                    {anime.relations.length === 0 && (
+                                        <p className="text-center text-gray-400">
+                                            No related anime found.
+                                        </p>
+                                    )}
                                     {anime.relations.map((relation) => {
                                         if (
                                             relation.relation ===
@@ -279,11 +282,14 @@ export default async function AnimePage({
                                             return null
                                         }
                                         return (
-                                            <div key={relation.relation}>
-                                                <h4 className="my-2 text-lg font-bold">
+                                            <div
+                                                key={relation.relation}
+                                                className="mb-4 rounded-lg border-1 border-purple-950 p-1 text-balance"
+                                            >
+                                                <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
                                                     {relation.relation}
                                                 </h4>
-                                                <div className="flex flex-col justify-center-safe gap-4">
+                                                <div className="flex h-96 flex-col items-center-safe justify-center-safe gap-4 overflow-y-auto p-2 text-center text-gray-100">
                                                     {relation.entry.map(
                                                         (entry) => {
                                                             return (
@@ -307,9 +313,17 @@ export default async function AnimePage({
                             </section>
 
                             {/* Characters SECTION */}
-                            {/* <section className="mt-8 md:min-w-max lg:min-w-3xl">
+                            <section className="mt-8 md:min-w-max lg:min-w-3xl">
+                                <h2 className="mb-4 text-2xl font-bold">
+                                    Anime Characters:
+                                </h2>
+                                {characters.length === 0 && (
+                                    <p className="text-center text-gray-400">
+                                        No characters found for this anime.
+                                    </p>
+                                )}
                                 <CharactersList characters={characters} />
-                            </section> */}
+                            </section>
 
                             {/* STREAMING PLATFORMS & EPISODES TABS */}
 
@@ -350,11 +364,7 @@ export default async function AnimePage({
                                         value="Episodes"
                                         className={`my-4 h-64 overflow-y-auto`}
                                     >
-                                        <EpisodesList
-                                            animeId={anime.mal_id}
-                                            episodes={episodes}
-                                            paginationProps={pagination}
-                                        />
+                                        <EpisodesList animeId={anime.mal_id} />
                                     </TabsContent>
                                 </Tabs>
                             </section>

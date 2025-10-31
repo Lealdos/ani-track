@@ -9,8 +9,6 @@ import { formatDate } from '@/lib/utils/utils'
 import { JikanEpisode } from '@/services/JikanAPI/interfaces/JikanType'
 
 interface EpisodesListProps {
-    episodes: JikanEpisode[]
-    paginationProps: PaginationInfo
     animeId: number
 }
 export function EpisodesList({ animeId }: EpisodesListProps) {
@@ -18,7 +16,11 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         []
     )
     const [page, setPage] = useState(1)
-    const [pagination, setPagination] = useState<PaginationInfo>()
+    const [pagination, setPagination] = useState<PaginationInfo>({
+        current_page: 1,
+        has_next_page: false,
+        last_visible_page: 1,
+    })
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const loader = useRef(null)
@@ -100,7 +102,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
 
             <div className="space-y-2">
                 {displayedEpisodes?.map((episode) => (
-                    <Link
+                    <a
                         key={episode.mal_id}
                         href={episode.url}
                         className="block"
@@ -130,7 +132,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                                 Watch
                             </button>
                         </div>
-                    </Link>
+                    </a>
                 ))}
                 {error && (
                     <div className="py-5 text-center text-red-500">{error}</div>
