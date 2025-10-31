@@ -36,7 +36,7 @@ export type JikanAnime = {
         from: Date
         to: Date
     }
-    studios?: { mal_id: number; name: string }[]
+    studios?: { mal_id: number; name: string; url: string }[]
     rating?: string
     duration?: string
     season?: string

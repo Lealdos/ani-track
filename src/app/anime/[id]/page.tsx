@@ -166,15 +166,28 @@ export default async function AnimePage({
                                         </div>
                                         <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                             <House className="mr-1 h-5 w-5" />
-                                            Studios:
+                                            Studios/Producers:
                                             {anime.studios?.map((studio) => (
-                                                <span
+                                                <div
                                                     key={studio.mal_id}
-                                                    className="rounded-xl p-2 text-gray-100"
+                                                    className="flex items-center gap-1 border-r-red-600"
                                                 >
-                                                    {studio.name}
-                                                </span>
+                                                    <a
+                                                        key={studio.mal_id}
+                                                        className="rounded-xl p-2 text-gray-100"
+                                                        href={studio.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        {studio.name}
+                                                    </a>
+                                                </div>
                                             ))}
+                                            {anime.studios?.length === 0 && (
+                                                <span className="rounded-xl p-2 text-gray-100">
+                                                    Unknown
+                                                </span>
+                                            )}
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <Video /> Episodes: {anime.episodes}
