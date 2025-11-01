@@ -3,12 +3,12 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
-import { Toaster } from '@/components/ui/Sonner'
-import Footer from '@/components/Footer/Footer'
+import { Toaster } from '@/shared/components/ui/Sonner'
+import Footer from '@/shared/components/Footer/Footer'
 // @ts-ignore
 import { ViewTransition } from 'react'
 import { AuthProvider } from '@/context/auth/AuthContext'
-const Header = dynamic(() => import('@/components/Header/Header'))
+const Header = dynamic(() => import('@/shared/components/Header/Header'))
 
 const inter = Inter({
     subsets: ['latin'],

@@ -6,8 +6,8 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from '@/components/ui/accordion'
-import { SkeletonCard } from '@/components/SkeletonCard/skeletonCard'
+} from '@/shared/components/ui/accordion'
+import { SkeletonCard } from '@/shared/components/SkeletonCard/skeletonCard'
 
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { AnimeCard } from '../AnimeCard/AnimeCard'

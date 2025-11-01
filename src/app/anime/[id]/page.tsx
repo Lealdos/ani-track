@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/Tabs'
 
 import {
     getAnimeById,
@@ -27,8 +27,8 @@ import {
 } from '@/services/JikanAPI/jikanAnimeApi'
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils/utils'
-import { BackButton } from '@/components/BackButton/BackButton'
-import { AddToListButton } from '@/components/ui/AddToListButton'
+import { BackButton } from '@/shared/components/BackButton/BackButton'
+import { AddToListButton } from '@/shared/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'

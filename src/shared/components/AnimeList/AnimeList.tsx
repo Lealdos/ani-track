@@ -1,4 +1,4 @@
-import { AnimeCard } from '@/components/AnimeCard/AnimeCard'
+import { AnimeCard } from '@/shared/components/AnimeCard/AnimeCard'
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { use } from 'react'
 

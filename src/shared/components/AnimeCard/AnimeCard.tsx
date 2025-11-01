@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { AddToListButton } from '@/components/ui/AddToListButton'
+import { AddToListButton } from '@/shared/components/ui/AddToListButton'
 
 import {
     Calendar,

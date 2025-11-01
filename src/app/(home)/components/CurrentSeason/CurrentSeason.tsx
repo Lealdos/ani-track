@@ -1,4 +1,4 @@
-import { AnimeList } from '@/components/AnimeList/AnimeList'
+import { AnimeList } from '@/shared/components/AnimeList/AnimeList'
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 
 interface CurrentSeasonProps {
