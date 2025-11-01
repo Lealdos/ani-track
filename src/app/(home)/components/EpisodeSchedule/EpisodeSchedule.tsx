@@ -90,8 +90,9 @@ export function EpisodeSchedule(): React.ReactElement {
                                         anime.images?.jpg?.image_url ||
                                         '/placeholder.svg'
                                     }
+                                     
                                     alt={`${anime.title} poster`}
-                                    className="h-50 max-h-80 rounded md:h-72 md:w-full md:object-center"
+                                    className="h-50 max-h-90 rounded md:h-72 md:w-full md:object-center object-fit "
                                 />
                                 <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                                     {convertJSTToLocal(anime.broadcast?.string)}
