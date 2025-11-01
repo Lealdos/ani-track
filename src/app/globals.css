@@ -112,9 +112,9 @@ body {
 .loader {
     margin: 0 auto;
     width: 300px;
-    aspect-ratio: 1.154;
+    aspect-ratio: 1.15;
     display: grid;
-    color: #4a20e2;
+    color: #4b2bbd;
     background: linear-gradient(
                 to bottom left,
                 #0000 calc(50% - 1px),
