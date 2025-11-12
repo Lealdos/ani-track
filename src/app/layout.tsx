@@ -7,7 +7,7 @@ import { Toaster } from '@/shared/components/ui/Sonner'
 import Footer from '@/shared/components/Footer/Footer'
 // @ts-ignore
 import { ViewTransition } from 'react'
-import { AuthProvider } from '@/context/auth/AuthContext'
+// import { AuthProvider } from '@/context/auth/AuthContext'
 const Header = dynamic(() => import('@/shared/components/Header/Header'))
 
 const inter = Inter({
@@ -43,14 +43,14 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
             >
-                <AuthProvider>
-                    <SpeedInsights />
-                    <Header />
+                {/* <AuthProvider> */}
+                <SpeedInsights />
+                <Header />
 
-                    <ViewTransition> {children}</ViewTransition>
-                    <Toaster />
-                    <Footer />
-                </AuthProvider>
+                <ViewTransition> {children}</ViewTransition>
+                <Toaster />
+                <Footer />
+                {/* </AuthProvider> */}
             </body>
         </html>
     )
