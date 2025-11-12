@@ -1,3 +1,4 @@
+'use server'
 import { streaming } from '@/types/anime'
 import {
     JikanAnime,
@@ -38,9 +39,8 @@ export async function fetchWithRateLimit<T>(url: string): Promise<T> {
         return await response.json()
     } catch (error) {
         console.error(`Error fetching from API: ${error}  for URL: ${url}`)
-        throw new Error(`API error: ${error} for URL: ${url}`)
-
-        throw error
+        // throw error
+        throw new Error(`Error fetching from API: ${error}`)
     }
 }
 
@@ -53,7 +53,9 @@ export async function fetchWithJikan<T>(
         )
     } catch (error) {
         console.error(`Error fetching from Jikan API with url ${url}:`, error)
-        throw error
+        throw new Error(
+            `Error fetching from Jikan API with url ${url}: ${error}`
+        )
     }
 }
 
@@ -70,7 +72,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
             return animeData
         } catch (error) {
             console.error('Error fetching animes:', error)
-            throw error as Error
+            throw new Error(`Error fetching animes: ${error}`)
         }
     }
     try {
@@ -84,7 +86,7 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
         return animeData
     } catch (error) {
         console.error('Error fetching animes:', error)
-        throw error as Error
+        throw new Error(`Error fetching animes: ${error}`)
     }
 }
 
@@ -95,12 +97,15 @@ export async function getAiringDayAnime(
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
             `${API_BASE_URL}/schedules?filter=${day}&sfw`
         )
-        const airingAnime = data.filter((anime) => {
-            return (
-                anime.broadcast?.day?.toLowerCase().includes(day) &&
-                (anime.duration !== 'Unknown' || anime.duration)
-            )
-        })
+        const airingAnime = data
+            .filter((anime) => {
+                return (
+                    anime.broadcast?.day?.toLowerCase().includes(day) &&
+                    (anime.duration !== 'Unknown' || anime.duration)
+                )
+            })
+            .toSorted((a, b) => a.rank - b.rank)
+
         return airingAnime
     } catch (error) {
         console.error('Error fetching airing anime:', error)
@@ -149,6 +154,8 @@ export async function getAnimeByGenre(genreId: number) {
 }
 
 export async function getAnimeById(id: number): Promise<JikanAnime | null> {
+    'use cache'
+
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime>>(
             `${API_BASE_URL}/anime/${id}/full`
@@ -230,7 +237,9 @@ export async function getGenres() {
 }
 
 // Helper function to format streaming platforms
-export function formatStreamingPlatforms(streamingLinks: streaming[] = []) {
+export async function formatStreamingPlatforms(
+    streamingLinks: streaming[] = []
+) {
     if (!streamingLinks || streamingLinks.length === 0) {
         return []
     }

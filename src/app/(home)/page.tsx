@@ -1,4 +1,6 @@
 import { Suspense } from 'react'
+import { cacheLife } from 'next/cache'
+
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
@@ -14,6 +16,8 @@ import { FavoriteProvider } from '@/context/favoriteContext'
 import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/EpisodeSchedule'
 
 export default async function Home() {
+    'use cache'
+    cacheLife('weeks') // Cache this page for 2 week
     const seasonalAnime = getSeasonalAnime()
     const topAnime = getTopAnime()
 

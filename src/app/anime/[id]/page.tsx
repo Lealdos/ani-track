@@ -17,7 +17,12 @@ import {
 } from 'lucide-react'
 import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/Tabs'
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from '@/shared/components/ui/Tabs'
 
 import {
     getAnimeById,
@@ -72,7 +77,7 @@ export default async function AnimePage({
 }: {
     params: Promise<PageParams>
 }) {
-    const TabsContes = [
+    const tabsContents = [
         {
             tabsName: 'Where to watch',
         },
@@ -88,7 +93,7 @@ export default async function AnimePage({
 
     const recommendations = await getAnimeRecommendations(id)
 
-    const streamingServices = formatStreamingPlatforms(anime?.streaming)
+    const streamingServices = await formatStreamingPlatforms(anime?.streaming)
 
     const characters = await getAnimeCharacters(id)
     if (!anime) {
@@ -386,11 +391,11 @@ export default async function AnimePage({
 
                             <section className="mt-8 md:min-w-max lg:min-w-3xl">
                                 <Tabs
-                                    defaultValue={TabsContes[0].tabsName}
+                                    defaultValue={tabsContents[0].tabsName}
                                     className="h-80 w-full md:h-96"
                                 >
                                     <TabsList className="grid w-full grid-cols-2 gap-2 bg-gray-900">
-                                        {TabsContes.map(({ tabsName }) => (
+                                        {tabsContents.map(({ tabsName }) => (
                                             <TabsTrigger
                                                 key={tabsName}
                                                 value={tabsName}
