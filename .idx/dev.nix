@@ -1,9 +1,10 @@
 {pkgs}: {
   channel = "stable-24.05";
   packages = [
-    pkgs.nodejs_20
+    pkgs.nodejs_22
     pkgs.bun
     pkgs.docker-compose
+    pkgs.openssl_3_3
   ];
   
   services.docker.enable = true;
