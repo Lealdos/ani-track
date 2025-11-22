@@ -2,12 +2,12 @@
 import { defineConfig } from 'prisma/config';
 
 
-type Env = 'local' | 'staging' | 'production'
+type Env = 'development'  | 'staging' | 'production'
 
-const env = (process.env.NODE_ENV as Env) ?? 'local'
+const env = (process.env.NODE_ENV as Env) ?? 'development'
 
 const urlByEnv: Record<Env, string> = {
-  local: process.env.DATABASE_URL_LOCAL!,
+  development: process.env.DATABASE_URL_LOCAL!,
   staging: process.env.DATABASE_URL_STG!,
   production: process.env.DATABASE_URL_PROD!,
 }

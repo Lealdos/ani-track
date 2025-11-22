@@ -21,7 +21,8 @@ export default async function BrowseAnime({
     const animeSearchParamsString = new URLSearchParams(
         stringSearchParams
     ).toString()
-
+    console.log('env',process.env.NODE_ENV)
+    console.log(process.env.DATABASE_URL)
     // If no q or page is present, fetch without params
     if (!q && !page) {
         const { animes, pagination } = await FetchBrowsersAnime()

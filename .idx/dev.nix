@@ -4,6 +4,7 @@
     pkgs.nodejs_22
     pkgs.bun
     pkgs.docker-compose
+    pkgs.openssl_3_3
   ];
   
   services.docker.enable = true;
