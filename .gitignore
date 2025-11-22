@@ -229,3 +229,9 @@ dist
 # docker pull postgres
 
 #  docker build -t anitrackdb .
+
+/src/generated/prisma
+
+/src/generated/prisma
+
+/src/generated/prisma

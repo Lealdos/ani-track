@@ -16,11 +16,15 @@
     "teardownDb": "docker-compose -f docker-compose.yml down"
   },
   "dependencies": {
+    "@better-auth/cli": "^1.4.0",
     "@next/codemod": "^16.0.0",
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tabs": "^1.1.4",
     "@types/bcrypt": "^6.0.0",
     "@types/pg": "^8.15.6",
