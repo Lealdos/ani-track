@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "pretty": "prettier --write ./src",
-    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "setupDB": "docker-compose -f docker-compose.yml up -d --renew-anon-volumes",
     "dockerStart": "docker start anitrack-db",
