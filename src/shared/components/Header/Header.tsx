@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { mergeClassNames } from '@/lib/utils/utils'
 import { SearchBar } from './SearchBar'
+import { useSession } from '@/lib/Auth/auth-clients'
 
 type Route = {
     href: string
@@ -12,6 +13,12 @@ type Route = {
 
 export default function Header() {
     const animeBrowseMenu: Route[] = [{ href: '/browse', label: 'Browse' }]
+    const {
+        data: session,
+        isPending, //loading state
+        error, //error object
+        refetch, //refetch the session
+    } = useSession()
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
@@ -113,17 +120,25 @@ export default function Header() {
                         <div className="flex items-center gap-4">
                             <div className="hidden items-center gap-4 text-sm font-medium sm:flex">
                                 {/* create user button */}
-                                {/* {isLoaded && user && (
-                                    <SignedIn>
-                                        <UserButton />
-                                    </SignedIn>
+                                {session ? (
+                                    <Link
+                                        href="/profile"
+                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
+                                    >
+                                        Profile
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
+                                    >
+                                        Sign In
+                                    </Link>
                                 )}
-                                <SignedOut>
-                                    <SignInButton mode="modal" />
-                                </SignedOut> */}
                             </div>
                         </div>
-                        {/* Mobile menu */}
+
+                        {/* Mobile menu ↓ */}
 
                         <button
                             id="menu-button"
