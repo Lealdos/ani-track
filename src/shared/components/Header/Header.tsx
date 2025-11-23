@@ -99,53 +99,24 @@ export default function Header() {
                                 </span>
                                 <span className="sr-only">Home</span>
                             </Link>
-
-                            <nav className="hidden items-center text-sm font-medium md:flex">
-                                {animeBrowseMenu.map((route) => (
-                                    <Link
-                                        key={route.href}
-                                        href={route.href}
-                                        className={`text-white transition-colors hover:scale-105 hover:text-cyan-500`}
-                                    >
-                                        {route.label}
-                                    </Link>
-                                ))}
-                            </nav>
                         </div>
 
-                        <div className="mx-1 max-w-md flex-1">
+                        <div className="mx-1 max-w-3xl flex-1">
                             <SearchBar />
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <div className="hidden items-center gap-4 text-sm font-medium sm:flex">
-                                {/* create user button */}
-                                {session ? (
-                                    <Link
-                                        href="/profile"
-                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
-                                    >
-                                        Profile
-                                    </Link>
-                                ) : (
-                                    <Link
-                                        href="/login"
-                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
-                                    >
-                                        Sign In
-                                    </Link>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Mobile menu ↓ */}
+                        {/*  menu ↓ */}
 
                         <button
                             id="menu-button"
-                            className="flex items-center justify-center rounded-md md:hidden"
+                            className="flex items-center justify-center rounded-md"
                             onClick={() =>
                                 setIsMobileMenuOpen(!isMobileMenuOpen)
                             }
+                            aria-controls="mobile-menu"
+                            
+                            aria-label="Open menu"
+                            type='button'
                         >
                             {!isMobileMenuOpen ? (
                                 <>
@@ -162,13 +133,13 @@ export default function Header() {
                     </div>
                 </header>
 
-                {/* Mobile menu drawer */}
+                {/* Mobile menu MODAL ↓*/}
                 {isMobileMenuVisible && (
                     <nav
                         ref={mobileMenuRef}
                         id="mobile-menu"
                         className={mergeClassNames(
-                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out md:hidden`,
+                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out`,
                             isMobileMenuOpen
                                 ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
                                 : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-400 animate-reverse'
@@ -182,20 +153,30 @@ export default function Header() {
                         >
                             Menu
                         </h5>
-                        <br />
-
-                        <ul className="space-y-2 text-white">
+                        {/* TODO: agregar separacion de secciones entre elementos de la lista ↓ */ }                        
+                        <ul className="space-y-2  text-white flex justify-center items-center-safe flex-col border-b-red-800">
                             <li>
-                                {/* <SignedOut>
-                                    <SignInButton mode="modal" />
-                                </SignedOut> */}
+                                {session ? (
+                                    <Link
+                                        href="/profile"
+                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
+                                    >
+                                        Profile
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        className="rounded-lg  px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
+                                    >
+                                        Sign In
+                                    </Link>
+                                )}
                             </li>
-
                             {animeBrowseMenu.map((route) => (
                                 <li key={route.href}>
                                     <Link
                                         href={route.href}
-                                        className="flex items-center rounded-lg hover:bg-gray-700 hover:text-white"
+                                        className="flex items-center rounded-lg hover:scale-105  hover:text-white"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)
                                         }
