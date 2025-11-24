@@ -6,11 +6,11 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from '@/shared/components/ui/accordion'
-import { SkeletonCard } from '@/shared/components/SkeletonCard/skeletonCard'
+} from '@/components/ui/accordion'
+import { SkeletonCard } from '@/components/shered/SkeletonCard/skeletonCard'
 
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { AnimeCard } from '../AnimeCard/AnimeCard'
+import { AnimeCard } from '../shered/AnimeCard/AnimeCard'
 import { useFavorites } from '@/context/favoriteContext'
 
 // remember to add Types

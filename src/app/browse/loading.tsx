@@ -1,4 +1,4 @@
-import { Loader } from '@/shared/components/loading/Loader'
+import { Loader } from '@/components/shered/loading/Loader'
 
 export default function Loading() {
     return (

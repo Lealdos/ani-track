@@ -1,10 +1,10 @@
 'use client'
 
 import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
-import { AnimeList } from '@/shared/components/AnimeList/AnimeList'
+import { AnimeList } from '@/components/shered/AnimeList/AnimeList'
 import { useState, useEffect } from 'react'
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { AnimeListSkeleton } from '@/shared/components/SkeletonCard/AnimeSkeletonList'
+import { AnimeListSkeleton } from '@/components/shered/SkeletonCard/AnimeSkeletonList'
 export function GenreSelect({ genreId }: { genreId: number }) {
     const [animes, setAnimes] = useState<JikanAnime[]>([])
 

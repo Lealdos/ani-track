@@ -10,7 +10,7 @@ import {
 } from '@/services/JikanAPI/interfaces/JikanType'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
-import { AnimeListSkeleton } from '@/shared/components/SkeletonCard/AnimeSkeletonList'
+import { AnimeListSkeleton } from '@/components/shered/SkeletonCard/AnimeSkeletonList'
 
 const WEEKDAYS: JikanScheduleDays[] = [
     'monday',
@@ -90,9 +90,8 @@ export function EpisodeSchedule(): React.ReactElement {
                                         anime.images?.jpg?.image_url ||
                                         '/placeholder.svg'
                                     }
-                                     
                                     alt={`${anime.title} poster`}
-                                    className="h-50 max-h-90 rounded md:h-72 md:w-full md:object-center object-fit "
+                                    className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
                                 />
                                 <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                                     {convertJSTToLocal(anime.broadcast?.string)}

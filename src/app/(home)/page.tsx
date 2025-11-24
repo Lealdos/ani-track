@@ -4,12 +4,12 @@ import { cacheLife } from 'next/cache'
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
-import { AnimeListSkeleton } from '@/shared/components/SkeletonCard/AnimeSkeletonList'
+import { AnimeListSkeleton } from '@/components/shered/SkeletonCard/AnimeSkeletonList'
 import {
     getSeasonalAnime,
     getTopAnime,
 } from '@/services/JikanAPI/jikanAnimeApi'
-import { FavoritesAccordion } from '@/shared/components/ui/FavoritesAccordion'
+import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { Heart } from 'lucide-react'
 
 import { FavoriteProvider } from '@/context/favoriteContext'
