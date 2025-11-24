@@ -341,7 +341,7 @@ export default async function AnimePage({
                                         return (
                                             <div
                                                 key={relation.relation}
-                                                className="mb-4 w-full rounded-lg border-1 border-purple-950 p-1 text-balance"
+                                                className="mb-4 w-full rounded-lg border border-purple-950 p-1 text-balance"
                                             >
                                                 <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
                                                     {relation.relation}
