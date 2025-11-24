@@ -1,4 +1,4 @@
-import { SkeletonCard } from '@/components/shered/SkeletonCard/skeletonCard'
+import { SkeletonCard } from '@/components/shared/SkeletonCard/skeletonCard'
 
 interface AnimeListSkeletonProps {
     sectionName?: string

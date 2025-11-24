@@ -10,7 +10,7 @@ import {
 } from '@/services/JikanAPI/interfaces/JikanType'
 import { convertJSTToLocal } from '@/lib/utils/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
-import { AnimeListSkeleton } from '@/components/shered/SkeletonCard/AnimeSkeletonList'
+import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 
 const WEEKDAYS: JikanScheduleDays[] = [
     'monday',

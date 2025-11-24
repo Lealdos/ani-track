@@ -27,7 +27,7 @@ import {
 } from '@/services/JikanAPI/jikanAnimeApi'
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils/utils'
-import { BackButton } from '@/components/shered/BackButton/BackButton'
+import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils/utils'

@@ -4,7 +4,7 @@ import { cacheLife } from 'next/cache'
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
-import { AnimeListSkeleton } from '@/components/shered/SkeletonCard/AnimeSkeletonList'
+import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 import {
     getSeasonalAnime,
     getTopAnime,

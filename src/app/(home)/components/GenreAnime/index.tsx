@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { AnimeList } from '@/components/shered/AnimeList/AnimeList'
+import { AnimeList } from '@/components/shared/AnimeList/AnimeList'
 import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
 import { GenreSelect } from './GenreSelect'
 

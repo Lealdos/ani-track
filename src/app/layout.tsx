@@ -4,11 +4,11 @@ import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
-import Footer from '@/components/shered/Footer/Footer'
+import Footer from '@/components/shared/Footer/Footer'
 // @ts-ignore
 import { ViewTransition } from 'react'
 // import { AuthProvider } from '@/context/auth/AuthContext'
-const Header = dynamic(() => import('@/components/shered/Header/Header'))
+const Header = dynamic(() => import('@/components/shared/Header/Header'))
 
 const inter = Inter({
     subsets: ['latin'],
