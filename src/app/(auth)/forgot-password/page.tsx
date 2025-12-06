@@ -10,20 +10,31 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { signUp } from '@/lib/Auth/auth-clients'
+import { resetPassword, signIn } from '@/lib/Auth/auth-clients'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function SignupPage() {
+export default function ResetPasswordPage() {
     const router = useRouter()
-    const [name, setName] = useState('')
+    const searchParams = useSearchParams()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
+    const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [token, setToken] = useState<string | null>(null)
+
+    useEffect(() => {
+        const tokenParam = searchParams.get('token')
+        if (!tokenParam) {
+            setError('Invalid or missing reset token')
+        } else {
+            setToken(tokenParam)
+        }
+    }, [searchParams])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -39,62 +50,54 @@ export default function SignupPage() {
             return
         }
 
+        if (!token) {
+            setError('Invalid reset token')
+            return
+        }
+
         setLoading(true)
 
         try {
-            const result = await signUp.email({
-                email,
-                name,
-                password,
+            const result = await resetPassword({
+                newPassword: password,
+                token,
             })
+
             if (result.error) {
-                setError(result.error.message || 'Signup failed')
+                setError(result.error.message || 'Failed to reset password')
             } else {
-                router.push('/dashboard')
+                setSuccess(true)
+                setTimeout(() => {
+                    router.push('/login')
+                }, 2000)
             }
         } catch (err) {
-            setError('An error occurred during signup')
-            console.error(err)
+            setError('An error occurred. Please try again.')
+            console.error('Reset password error:', err)
         } finally {
             setLoading(false)
         }
     }
 
+    if (!token && !error) {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <p>Loading...</p>
+            </div>
+        )
+    }
+
     return (
-        <div className="bg-background flex min-h-screen items-center justify-center p-4">
-            <Card className="w-full max-w-md">
+        <div className="flex min-h-screen items-center justify-center p-4">
+            <Card className="w-full max-w-3xl border-purple-800">
                 <CardHeader>
-                    <CardTitle>Sign Up</CardTitle>
-                    <CardDescription>
-                        Create a new account to get started
-                    </CardDescription>
+                    <CardTitle>Reset Password</CardTitle>
+                    <CardDescription>Enter your new password</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input
-                                id="name"
-                                type="text"
-                                placeholder="John Doe"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="you@example.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">New Password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -102,11 +105,12 @@ export default function SignupPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
+                                disabled={!token}
                             />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="confirmPassword">
-                                Confirm Password
+                                Confirm New Password
                             </Label>
                             <Input
                                 id="confirmPassword"
@@ -117,6 +121,7 @@ export default function SignupPage() {
                                     setConfirmPassword(e.target.value)
                                 }
                                 required
+                                disabled={!token}
                             />
                         </div>
                         {error && (
@@ -127,21 +132,19 @@ export default function SignupPage() {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={loading}
+                            disabled={loading || !token}
                         >
-                            {loading ? 'Creating account...' : 'Sign Up'}
+                            {loading ? 'Resetting...' : 'Reset Password'}
+                        </Button>
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="w-full bg-transparent"
+                        >
+                            <Link href="/login">Back to Login</Link>
                         </Button>
                     </form>
                 </CardContent>
-                <div className="mt-4 text-center text-sm">
-                    Already have an account?{' '}
-                    <Link
-                        href="/login"
-                        className="text-primary hover:underline"
-                    >
-                        Login
-                    </Link>
-                </div>
             </Card>
         </div>
     )
