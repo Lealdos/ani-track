@@ -77,6 +77,10 @@ export default async function Home() {
                     <h2 className="mb-6 text-2xl font-bold tracking-tight">
                         Watch Later
                     </h2>
+                    <span>
+                        Animes that you have added to your watch later list.
+                        Coming soon!
+                    </span>
                 </section>
             </div>
         </FavoriteProvider>
