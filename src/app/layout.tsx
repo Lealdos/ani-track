@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'
@@ -5,9 +6,7 @@ import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/shared/Footer/Footer'
-// @ts-ignore
 import { ViewTransition } from 'react'
-// import { AuthProvider } from '@/context/auth/AuthContext'
 const Header = dynamic(() => import('@/components/shared/Header/Header'))
 
 const inter = Inter({
