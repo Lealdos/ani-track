@@ -114,9 +114,8 @@ export default function Header() {
                                 setIsMobileMenuOpen(!isMobileMenuOpen)
                             }
                             aria-controls="mobile-menu"
-                            
                             aria-label="Open menu"
-                            type='button'
+                            type="button"
                         >
                             {!isMobileMenuOpen ? (
                                 <>
@@ -153,9 +152,13 @@ export default function Header() {
                         >
                             Menu
                         </h5>
-                        {/* TODO: agregar separacion de secciones entre elementos de la lista ↓ */ }                        
-                        <ul className="space-y-2  text-white flex justify-center items-center-safe flex-col border-b-red-800">
-                            <li>
+                        {/* TODO: agregar separacion de secciones entre elementos de la lista ↓ */}
+                        <ul className="flex flex-col items-center-safe justify-center space-y-2 border-b-red-800 text-white">
+                            <li
+                                onClick={() => {
+                                    setIsMobileMenuOpen(!isMobileMenuOpen)
+                                }}
+                            >
                                 {session ? (
                                     <Link
                                         href="/profile"
@@ -166,7 +169,7 @@ export default function Header() {
                                 ) : (
                                     <Link
                                         href="/login"
-                                        className="rounded-lg  px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
+                                        className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
                                     >
                                         Sign In
                                     </Link>
@@ -176,7 +179,7 @@ export default function Header() {
                                 <li key={route.href}>
                                     <Link
                                         href={route.href}
-                                        className="flex items-center rounded-lg hover:scale-105  hover:text-white"
+                                        className="flex items-center rounded-lg hover:scale-105 hover:text-white"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)
                                         }
