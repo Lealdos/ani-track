@@ -132,16 +132,16 @@ export default function Header() {
                     </div>
                 </header>
 
-                {/* Mobile menu MODAL ↓*/}
+                {/*  menu MODAL ↓*/}
                 {isMobileMenuVisible && (
                     <nav
                         ref={mobileMenuRef}
                         id="mobile-menu"
                         className={mergeClassNames(
-                            `left-1/2 z-20 mt-4 w-sm -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform ease-in-out`,
+                            `top-64 left-1/2 my-20 mt-4 w-[360px] -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
                             isMobileMenuOpen
                                 ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
-                                : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-400 animate-reverse'
+                                : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-300 animate-reverse'
                         )}
                         tabIndex={-1}
                         aria-labelledby="mobile-menu-label"
@@ -152,7 +152,7 @@ export default function Header() {
                         >
                             Menu
                         </h5>
-                        {/* TODO: agregar separacion de secciones entre elementos de la lista ↓ */}
+                        {/* TODO: agregar separation de secciones entre elementos de la lista ↓ */}
                         <ul className="flex flex-col items-center-safe justify-center space-y-2 border-b-red-800 text-white">
                             <li
                                 onClick={() => {
