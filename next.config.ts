@@ -1,5 +1,5 @@
 import type { NextConfig } from 'next'
-
+const path = require('path')
 const nextConfig: NextConfig = {
     cacheComponents: true,
     images: {
@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
     },
     experimental: {
         viewTransition: true,
+    },
+    turbopack: {
+        root: path.join(__dirname, './'),
     },
 }
 
