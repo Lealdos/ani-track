@@ -15,7 +15,7 @@ export const userRegistrationSchema = z.object({
         .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
         .regex(/[0-9]/, 'Password must contain at least one number'),
     fullName: z.string().min(2, 'Full name must have at least 2 characters'),
-    nickname: z.string().min(2).max(50).optional(),
+    userName: z.string().min(2).max(50),
 })
 
 // User login schema
@@ -84,13 +84,13 @@ export const userResponseSchema = z.object({
 export const userSchema = userRegistrationSchema
 
 // Types
-export type UserRegistrationSchema = z.infer<typeof userRegistrationSchema>
-export type UserLoginSchema = z.infer<typeof userLoginSchema>
-export type UserUpdateSchema = z.infer<typeof userUpdateSchema>
-export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>
-export type ResetPasswordRequestSchema = z.infer<
+export type UserRegistrationSchemaType = z.infer<typeof userRegistrationSchema>
+export type UserLoginSchemaType = z.infer<typeof userLoginSchema>
+export type UserUpdateSchemaType = z.infer<typeof userUpdateSchema>
+export type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>
+export type ResetPasswordRequestSchemaType = z.infer<
     typeof resetPasswordRequestSchema
 >
-export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>
-export type UserResponseSchema = z.infer<typeof userResponseSchema>
-export type UserSchema = z.infer<typeof userSchema>
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>
+export type UserResponseSchemaType = z.infer<typeof userResponseSchema>
+export type UserSchemaType = z.infer<typeof userSchema>
