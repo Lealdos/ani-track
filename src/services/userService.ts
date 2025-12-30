@@ -1,8 +1,8 @@
 import prisma from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 import type {
-    UserRegistrationSchema,
-    UserUpdateSchema,
+    UserRegistrationSchemaType,
+    UserUpdateSchemaType,
 } from '@/lib/validations/userSchema'
 import type { UserUpdateInput } from '@/generated/prisma/models/User'
 import type * as runtime from '@prisma/client/runtime/client'
@@ -25,7 +25,7 @@ const userSelectWithoutPassword = {
 /**
  * Create a new user
  */
-export async function createUser(data: UserRegistrationSchema) {
+export async function createUser(data: UserRegistrationSchemaType) {
     const { password, ...userData } = data
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
@@ -89,7 +89,7 @@ export async function getUserByEmailWithPassword(email: string) {
 /**
  * Update user
  */
-export async function updateUser(userId: string, data: UserUpdateSchema) {
+export async function updateUser(userId: string, data: UserUpdateSchemaType) {
     const updateData: UserUpdateInput = {}
 
     if (data.password) {
