@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { mergeClassNames } from '@/lib/utils/utils'
+import { cn } from '@/lib/utils/utils'
 import { SearchBar } from './SearchBar'
 import { useSession } from '@/lib/Auth/auth-clients'
 
@@ -71,7 +71,7 @@ export default function Header() {
     return (
         <>
             <div
-                className={mergeClassNames(
+                className={cn(
                     `top-0 z-20 items-center justify-center rounded-full transition-all transition-discrete duration-1000 ease-out`,
                     isScrolled
                         ? 'fixed w-93 max-w-md translate-y-6 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
@@ -79,7 +79,7 @@ export default function Header() {
                 )}
             >
                 <header
-                    className={mergeClassNames(
+                    className={cn(
                         `flex h-16 w-full items-center justify-between md:h-16`,
                         isScrolled
                             ? 'rounded-full bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 shadow-md backdrop-blur md:px-20'
@@ -87,7 +87,7 @@ export default function Header() {
                     )}
                 >
                     <div
-                        className={mergeClassNames(
+                        className={cn(
                             'mx-auto flex w-full items-center justify-between gap-4',
                             isScrolled ? 'px-4' : ''
                         )}
@@ -137,7 +137,7 @@ export default function Header() {
                     <nav
                         ref={mobileMenuRef}
                         id="mobile-menu"
-                        className={mergeClassNames(
+                        className={cn(
                             `top-64 left-1/2 my-20 mt-4 w-[360px] -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
                             isMobileMenuOpen
                                 ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'

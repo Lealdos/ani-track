@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { mergeClassNames } from '@/lib/utils/utils'
+import { cn } from '@/lib/utils/utils'
 import Link from 'next/link'
 // import Image from 'next/image'
 interface TopAnimeProps {
@@ -21,7 +21,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                     >
                         {/*  ranking number behind the  card */}
                         <span
-                            className={mergeClassNames(
+                            className={cn(
                                 `gradient-top-number pointer-events-none relative text-center font-gothic text-[200px] leading-none text-gray-900 antialiased select-none md:text-[220px]`,
                                 anime?.rank !== undefined && anime.rank > 9
                                     ? 'tracking-[-1.5rem] md:tracking-[-2rem]'
@@ -33,7 +33,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
 
                         {/*  anime card */}
                         <img
-                            className={mergeClassNames(
+                            className={cn(
                                 `relative h-70 max-w-[200px] min-w-[200px] rounded`,
                                 (anime?.rank ?? 0) > 9
                                     ? '-left-6 md:-left-12'

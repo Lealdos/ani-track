@@ -3,7 +3,7 @@ import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { searchParamsProps } from '@/types/SearchParamsProps'
 
-export function mergeClassNames(...inputs: ClassValue[]) {
+export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
