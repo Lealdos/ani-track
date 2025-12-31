@@ -1,4 +1,5 @@
 'use client'
+
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -15,6 +16,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { FieldGroup } from '@/components/ui/field'
+
 import {
     Form,
     FormControl,
@@ -46,6 +49,7 @@ export function SignupForm({
             userName: '',
             email: '',
             password: '',
+            fullName: '',
         },
     })
 
@@ -55,11 +59,10 @@ export function SignupForm({
             callbackURL: '/',
         })
     }
-
+    //    console.log(form.formState.errors) <-- For debugging purposes check validation errors of react-hook-form
     async function onSubmit(values: UserRegistrationSchemaType) {
         console.log('onSubmit called!', values)
         setIsLoading(true)
-        await new Promise((resolve) => setTimeout(resolve, 2000))
         const { success, message } = await signUp(
             values.email,
             values.password,
@@ -93,11 +96,7 @@ export function SignupForm({
                     <Form {...form}>
                         <form
                             className="space-y-8"
-                            onSubmit={(e) => {
-                                console.log('Form submit event triggered')
-                                e.preventDefault()
-                                form.handleSubmit(onSubmit)
-                            }}
+                            onSubmit={form.handleSubmit(onSubmit)}
                         >
                             <div className="grid gap-6">
                                 <div className="flex flex-col gap-4">
@@ -112,7 +111,7 @@ export function SignupForm({
                                 </div>
 
                                 <div className="grid gap-6">
-                                    <div className="grid gap-3">
+                                    <div className="flex flex-col gap-6 text-center text-sm">
                                         <FormField
                                             control={form.control}
                                             name="userName"
@@ -148,7 +147,26 @@ export function SignupForm({
                                                 </FormItem>
                                             )}
                                         />
+                                        <FormField
+                                            control={form.control}
+                                            name="fullName"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        Full Name
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder="john doe"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
                                     </div>
+
                                     <div className="grid gap-3">
                                         <div className="flex flex-col gap-2">
                                             <FormField
