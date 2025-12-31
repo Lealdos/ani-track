@@ -10,12 +10,15 @@ export const userRegistrationSchema = z.object({
     email: z.email('Invalid email address'),
     password: z
         .string()
-        .min(8, 'Password must have at least 8 characters')
+        .min(6, 'Password must have at least 6 characters')
         .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
         .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
         .regex(/[0-9]/, 'Password must contain at least one number'),
     fullName: z.string().min(2, 'Full name must have at least 2 characters'),
-    userName: z.string().min(2).max(50),
+    userName: z
+        .string()
+        .min(2, 'Username must have at least 2 characters')
+        .max(30, 'Username must have at most 30 characters'),
 })
 
 // User login schema
