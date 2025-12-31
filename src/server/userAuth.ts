@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { auth } from '@/lib/Auth/auth'
+import { auth } from '@/lib/auth'
 
 export const signIn = async (email: string, password: string) => {
     try {
@@ -32,6 +32,7 @@ export const signUp = async (
     password: string,
     username: string
 ) => {
+    console.log('signUp called with:', { email, password, username })
     try {
         await auth.api.signUpEmail({
             body: {

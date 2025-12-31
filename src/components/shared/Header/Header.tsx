@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { cn } from '@/lib/utils/utils'
+import { cn } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
 import { useSession } from '@/lib/Auth/auth-clients'
 

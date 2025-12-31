@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { getAnimeEpisodes } from '@/services/JikanAPI/jikanAnimeApi'
 import { PaginationInfo } from '@/types/pageInfo'
-import { formatDate } from '@/lib/utils/utils'
+import { formatDate } from '@/lib/utils'
 import { JikanEpisode } from '@/services/JikanAPI/interfaces/JikanType'
 
 interface EpisodesListProps {

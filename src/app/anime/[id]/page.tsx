@@ -26,11 +26,11 @@ import {
     getAnimeCharacters,
 } from '@/services/JikanAPI/jikanAnimeApi'
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
-import { formatDate } from '@/lib/utils/utils'
+import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddToListButton } from '@/components/ui/AddToListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
-import { convertJSTToLocal } from '@/lib/utils/utils'
+import { convertJSTToLocal } from '@/lib/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
 
 interface PageParams {

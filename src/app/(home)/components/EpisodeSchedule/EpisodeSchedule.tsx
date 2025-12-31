@@ -8,7 +8,7 @@ import {
     JikanAnime,
     JikanScheduleDays,
 } from '@/services/JikanAPI/interfaces/JikanType'
-import { convertJSTToLocal } from '@/lib/utils/utils'
+import { convertJSTToLocal } from '@/lib/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 

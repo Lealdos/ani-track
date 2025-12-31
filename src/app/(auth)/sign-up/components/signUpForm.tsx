@@ -16,7 +16,6 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { FieldGroup } from '@/components/ui/field'
 
 import {
     Form,
@@ -28,7 +27,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { signIn } from '@/lib/Auth/auth-clients'
-import { cn } from '@/lib/utils/utils'
+import { cn } from '@/lib/utils'
 import { signUp } from '@/server/userAuth'
 
 import {
@@ -61,7 +60,6 @@ export function SignupForm({
     }
     //    console.log(form.formState.errors) <-- For debugging purposes check validation errors of react-hook-form
     async function onSubmit(values: UserRegistrationSchemaType) {
-        console.log('onSubmit called!', values)
         setIsLoading(true)
         const { success, message } = await signUp(
             values.email,
@@ -126,7 +124,7 @@ export function SignupForm({
                                                             {...field}
                                                         />
                                                     </FormControl>
-                                                    <FormMessage />
+                                                    <FormMessage className="text-red-600" />
                                                 </FormItem>
                                             )}
                                         />

@@ -7,7 +7,7 @@ import {
     JikanRecommendations,
     JikanScheduleDays,
 } from '@/services/JikanAPI/interfaces/JikanType'
-import { removeDuplicates } from '../../lib/utils/utils'
+import { removeDuplicates } from '../../lib/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { JikanCharacterDataItem } from '@/types/animeCharacter'
