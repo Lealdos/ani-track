@@ -11,5 +11,5 @@ export const {
     resetPassword,
     changePassword,
 } = createAuthClient({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000/api/auth',
 })
