@@ -167,12 +167,20 @@ export default function Header() {
                                         Profile
                                     </Link>
                                 ) : (
-                                    <Link
-                                        href="/login"
-                                        className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
-                                    >
-                                        Sign In
-                                    </Link>
+                                    <div className="flex flex-col items-center justify-center gap-2">
+                                        <Link
+                                            href="/login"
+                                            className="px-3 py-1.5 text-white transition-colors hover:scale-105"
+                                        >
+                                            Sign In
+                                        </Link>
+                                        <Link
+                                            href="/sign-up"
+                                            className="px-3 py-1.5 text-white transition-colors hover:scale-105"
+                                        >
+                                            Sign Up
+                                        </Link>
+                                    </div>
                                 )}
                             </li>
                             {animeBrowseMenu.map((route) => (
