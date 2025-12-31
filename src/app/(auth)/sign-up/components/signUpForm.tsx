@@ -57,8 +57,9 @@ export function SignupForm({
     }
 
     async function onSubmit(values: UserRegistrationSchemaType) {
+        console.log('onSubmit called!', values)
         setIsLoading(true)
-
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         const { success, message } = await signUp(
             values.email,
             values.password,
@@ -69,7 +70,7 @@ export function SignupForm({
             toast.success(
                 `${message as string} Please check your email for verification.`
             )
-            router.push('/dashboard')
+            router.push('/')
         } else {
             toast.error(message as string)
         }
@@ -81,7 +82,9 @@ export function SignupForm({
         <div className={cn('flex flex-col gap-6', className)} {...props}>
             <Card className="border-red-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900">
                 <CardHeader className="text-center">
-                    <CardTitle className="text-xl">Welcome back</CardTitle>
+                    <CardTitle className="text-xl">
+                        Welcome 'o hai io!'
+                    </CardTitle>
                     <CardDescription>
                         Signup with your Google account
                     </CardDescription>
@@ -90,7 +93,11 @@ export function SignupForm({
                     <Form {...form}>
                         <form
                             className="space-y-8"
-                            onSubmit={form.handleSubmit(onSubmit)}
+                            onSubmit={(e) => {
+                                console.log('Form submit event triggered')
+                                e.preventDefault()
+                                form.handleSubmit(onSubmit)
+                            }}
                         >
                             <div className="grid gap-6">
                                 <div className="flex flex-col gap-4">
