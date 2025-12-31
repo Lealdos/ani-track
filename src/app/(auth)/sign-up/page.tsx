@@ -1,7 +1,4 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { SignupForm } from '@/components/forms/register'
-
+import { SignupForm } from './components/signUpForm'
 export default function SignupPage() {
     return (
         <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
