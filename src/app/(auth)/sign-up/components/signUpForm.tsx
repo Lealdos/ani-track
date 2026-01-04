@@ -34,6 +34,7 @@ import {
     userRegistrationSchema,
     UserRegistrationSchemaType,
 } from '@/lib/validations/userSchema'
+import { Google } from '@/components/ui/svgs/google'
 
 export function SignupForm({
     className,
@@ -99,11 +100,12 @@ export function SignupForm({
                             <div className="grid gap-6">
                                 <div className="flex flex-col gap-4">
                                     <Button
-                                        className="w-full"
+                                        className="m-auto w-fit p-2"
                                         onClick={signInWithGoogle}
                                         type="button"
                                         variant="outline"
                                     >
+                                        <Google className="mr-2" />
                                         Signup with Google
                                     </Button>
                                 </div>
