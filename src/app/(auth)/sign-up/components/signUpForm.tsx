@@ -36,7 +36,7 @@ import {
 } from '@/lib/validations/userSchema'
 import { Google } from '@/components/ui/svgs/google'
 
-export function SignupForm({
+export function SignUpForm({
     className,
     ...props
 }: React.ComponentProps<'div'>) {
