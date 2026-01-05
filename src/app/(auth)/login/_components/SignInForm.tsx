@@ -163,7 +163,7 @@ export default function SignInForm({
                                     you don't have an account?{' '}
                                     <Link
                                         className="underline underline-offset-4"
-                                        href="/signup"
+                                        href="/sign-up"
                                     >
                                         Signup
                                     </Link>
