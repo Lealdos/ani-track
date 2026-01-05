@@ -2,7 +2,6 @@
 
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,7 +25,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { signIn } from '@/lib/Auth/auth-clients'
+import { signIn, useSession } from '@/lib/Auth/auth-clients'
 import { cn } from '@/lib/utils'
 import { signUp } from '@/server/userAuth'
 
@@ -35,14 +34,18 @@ import {
     UserRegistrationSchemaType,
 } from '@/lib/validations/userSchema'
 import { Google } from '@/components/ui/svgs/google'
+import { PasswordInput } from '@/components/shared/forms/PasswordInput'
+import { useRouter } from 'next/navigation'
 
 export function SignUpForm({
     className,
     ...props
 }: React.ComponentProps<'div'>) {
-    const [isLoading, setIsLoading] = useState(false)
+    const { refetch } = useSession()
 
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
+
     const form = useForm<UserRegistrationSchemaType>({
         resolver: zodResolver(userRegistrationSchema),
         defaultValues: {
@@ -62,22 +65,30 @@ export function SignUpForm({
     //    console.log(form.formState.errors) <-- For debugging purposes check validation errors of react-hook-form
     async function onSubmit(values: UserRegistrationSchemaType) {
         setIsLoading(true)
-        const { success, message } = await signUp(
-            values.email,
-            values.password,
-            values.userName
-        )
+        try {
+            const { success, message } = await signUp({
+                email: values.email,
+                password: values.password,
+                username: values.userName,
+                fullName: values.fullName,
+            })
 
-        if (success) {
-            toast.success(
-                `${message as string} Please check your email for verification.`
-            )
-            router.push('/')
-        } else {
-            toast.error(message as string)
+            if (success) {
+                toast.success(
+                    `${message as string} Please check your email for verification.`
+                )
+                refetch()
+                router.push('/profile')
+            } else {
+                toast.error(message as string)
+            }
+
+            setIsLoading(false)
+        } catch (error) {
+            toast.error(`${error as string} An error occurred during sign up.`)
+        } finally {
+            setIsLoading(false)
         }
-
-        setIsLoading(false)
     }
 
     return (
@@ -118,7 +129,7 @@ export function SignUpForm({
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormLabel>
-                                                        Username
+                                                        User name
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
@@ -173,19 +184,12 @@ export function SignUpForm({
                                                 control={form.control}
                                                 name="password"
                                                 render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>
-                                                            Password
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder="********"
-                                                                {...field}
-                                                                type="password"
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
+                                                    <PasswordInput
+                                                        label="Password"
+                                                        name="password"
+                                                        control={form.control}
+                                                        field={field}
+                                                    />
                                                 )}
                                             />
                                             <Link
@@ -204,7 +208,7 @@ export function SignUpForm({
                                         {isLoading ? (
                                             <Loader2 className="size-4 animate-spin" />
                                         ) : (
-                                            'Signup'
+                                            'Sign up'
                                         )}
                                     </Button>
                                 </div>

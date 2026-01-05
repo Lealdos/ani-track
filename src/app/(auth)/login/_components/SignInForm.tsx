@@ -26,7 +26,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { signIn } from '@/lib/Auth/auth-clients'
+import { signIn, useSession } from '@/lib/Auth/auth-clients'
 import { cn } from '@/lib/utils'
 import { signIn as emailSignIn } from '@/server/userAuth'
 
@@ -35,13 +35,14 @@ import {
     UserLoginSchemaType,
 } from '@/lib/validations/userSchema'
 import { Google } from '@/components/ui/svgs/google'
+import { PasswordInput } from '@/components/shared/forms/PasswordInput'
 
 export default function SignInForm({
     className,
     ...props
 }: React.ComponentProps<'div'>) {
+    const { refetch } = useSession()
     const [isLoading, setIsLoading] = useState(false)
-
     const router = useRouter()
     const form = useForm<UserLoginSchemaType>({
         resolver: zodResolver(userLoginSchema),
@@ -69,7 +70,8 @@ export default function SignInForm({
             toast.success(
                 `${message as string} Please check your email for verification.`
             )
-            router.push('/')
+            refetch()
+            router.push('/profile')
         } else {
             toast.error(message as string)
         }
@@ -100,7 +102,7 @@ export default function SignInForm({
                                     variant="outline"
                                 >
                                     <Google className="mr-2" />
-                                    Signup with Google
+                                    Sign in with Google
                                 </Button>
 
                                 <div className="grid gap-6">
@@ -129,19 +131,12 @@ export default function SignInForm({
                                                 control={form.control}
                                                 name="password"
                                                 render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>
-                                                            Password
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder="********"
-                                                                {...field}
-                                                                type="password"
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
+                                                    <PasswordInput
+                                                        label="Password"
+                                                        name="password"
+                                                        control={form.control}
+                                                        field={field}
+                                                    />
                                                 )}
                                             />
                                             <Link
