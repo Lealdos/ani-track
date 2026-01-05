@@ -177,10 +177,16 @@ export default function Header() {
                                             Sign Out
                                         </button>
                                         <Link
-                                            href="/profile"
+                                            href="/account"
                                             className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105"
                                         >
-                                            Profile
+                                            My Account
+                                        </Link>
+                                        <Link
+                                            href="/account/my-lists"
+                                            className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105"
+                                        >
+                                            My lists
                                         </Link>
                                     </div>
                                 ) : (
