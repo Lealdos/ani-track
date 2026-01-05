@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
-import { useSession } from '@/lib/Auth/auth-clients'
+import { useSession, signOut } from '@/lib/Auth/auth-clients'
+import { useRouter } from 'next/navigation'
 
 type Route = {
     href: string
@@ -12,14 +13,14 @@ type Route = {
 }
 
 export default function Header() {
+    const router = useRouter()
+
     const animeBrowseMenu: Route[] = [{ href: '/browse', label: 'Browse' }]
     const {
         data: session,
-        isPending, //loading state
-        error, //error object
         refetch, //refetch the session
+        isRefetching,
     } = useSession()
-
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -67,6 +68,17 @@ export default function Header() {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [isMobileMenuOpen])
+
+    const handleLogout = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/')
+                },
+            },
+        })
+        refetch()
+    }
 
     return (
         <>
@@ -159,13 +171,18 @@ export default function Header() {
                                     setIsMobileMenuOpen(!isMobileMenuOpen)
                                 }}
                             >
-                                {session ? (
-                                    <Link
-                                        href="/profile"
-                                        className="rounded-lg bg-purple-700 px-3 py-1.5 text-white transition-colors hover:scale-105 hover:bg-purple-800"
-                                    >
-                                        Profile
-                                    </Link>
+                                {session?.user ? (
+                                    <div className="flex flex-col items-center justify-center gap-2">
+                                        <button onClick={handleLogout}>
+                                            Sign Out
+                                        </button>
+                                        <Link
+                                            href="/profile"
+                                            className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center gap-2">
                                         <Link
