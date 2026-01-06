@@ -78,7 +78,7 @@ export function SignUpForm({
                     `${message as string} Please check your email for verification.`
                 )
                 refetch()
-                router.push('/profile')
+                router.push('/account')
             } else {
                 toast.error(message as string)
             }
