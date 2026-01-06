@@ -28,7 +28,7 @@ import {
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
-import { AddToListButton } from '@/components/ui/AddToListButton'
+import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
@@ -282,7 +282,8 @@ export default async function AnimePage({
                                             Add to a list
                                         </span>
                                     </button>
-                                    <AddToListButton anime={anime} />
+                                    {/* ADD TO FAVORITE BUTTON COMPONENT */}
+                                    <AddFavoritesButton anime={anime} />
                                 </div>
 
                                 {/* producers section */}

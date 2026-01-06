@@ -7,7 +7,7 @@ interface AddToListButtonProps {
     anime: JikanAnime
 }
 
-export function AddToListButton({ anime }: AddToListButtonProps) {
+export function AddFavoritesButton({ anime }: AddToListButtonProps) {
     const { isInFavorites, addToFavorites, removeFromFavorites } =
         useFavorites()
 
@@ -35,14 +35,14 @@ export function AddToListButton({ anime }: AddToListButtonProps) {
                     <HeartOff
                         className={`size-6 ${isFavorite && 'fill-red-500 hover:fill-transparent'}`}
                     />
-                    <span className="sr-only">Add to Favorites</span>
+                    <span className="sr-only">Remove from Favorites</span>
                 </>
             ) : (
                 <>
                     <Heart
                         className={`size-6 ${isFavorite ? 'fill-red-600' : 'hover:fill-red-600'}`}
                     />
-                    <span className="sr-only">Remove from Favorites</span>
+                    <span className="sr-only">Add to Favorites</span>
                 </>
             )}
         </button>

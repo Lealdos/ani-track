@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { AddToListButton } from '@/components/ui/AddToListButton'
+import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
 
 import {
     Calendar,
@@ -45,7 +45,7 @@ export function AnimeCard({
                     )}
                     {showBadge && (
                         <div className="absolute top-15 right-2 flex flex-col items-center justify-center gap-2">
-                            <AddToListButton anime={anime} />
+                            <AddFavoritesButton anime={anime} />
                             <button className="rounded bg-black/50 p-1 text-white hover:bg-black/70">
                                 <BookmarkPlus className="size-6" />
                                 <span className="sr-only">Add to a list</span>
