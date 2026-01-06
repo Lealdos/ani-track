@@ -11,6 +11,7 @@ import {
     TvMinimalPlay,
     BookmarkPlus,
 } from 'lucide-react'
+import { AddToListButton } from '../AddToListButton/AddToListButton'
 
 interface AnimeCardProps {
     anime: JikanAnime
@@ -46,10 +47,7 @@ export function AnimeCard({
                     {showBadge && (
                         <div className="absolute top-15 right-2 flex flex-col items-center justify-center gap-2">
                             <AddFavoritesButton anime={anime} />
-                            <button className="rounded bg-black/50 p-1 text-white hover:bg-black/70">
-                                <BookmarkPlus className="size-6" />
-                                <span className="sr-only">Add to a list</span>
-                            </button>
+                            <AddToListButton anime={anime} />
                         </div>
                     )}
                 </div>

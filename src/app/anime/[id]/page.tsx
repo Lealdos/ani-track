@@ -32,6 +32,7 @@ import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { convertJSTToLocal } from '@/lib/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
+import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 
 interface PageParams {
     id: number
@@ -276,12 +277,8 @@ export default async function AnimePage({
                                 </div>
                                 <div className="my-2 flex flex-row items-center gap-2">
                                     {/* TODO : add to list button COMPONENT */}
-                                    <button className="rounded bg-black/50 text-white hover:bg-black/70">
-                                        <BookmarkPlus className="size-6" />
-                                        <span className="sr-only">
-                                            Add to a list
-                                        </span>
-                                    </button>
+                                    <AddToListButton anime={anime} />
+
                                     {/* ADD TO FAVORITE BUTTON COMPONENT */}
                                     <AddFavoritesButton anime={anime} />
                                 </div>
