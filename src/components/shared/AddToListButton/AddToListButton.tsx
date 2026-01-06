@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { PlusCircle, ListPlus, Loader2, Check } from 'lucide-react'
+import { ListPlus, Loader2, Check, BookmarkPlus } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -59,7 +59,7 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
     const fetchLists = async () => {
         try {
             setIsLoadingLists(true)
-            const res = await fetch('/api/_users-lists', {
+            const res = await fetch('/api/users-lists', {
                 credentials: 'include',
             })
             if (!res.ok) throw new Error('Failed to load lists')
@@ -70,7 +70,7 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
             setLists(data.data || [])
         } catch (error) {
             console.error(error)
-            toast.error('Could not load your lists')
+            toast.error(`Could not load your lists ${error}`)
         } finally {
             setIsLoadingLists(false)
         }
@@ -79,7 +79,7 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
     const handleAdd = async (listId: string) => {
         try {
             setAddingListId(listId)
-            const res = await fetch(`/api/_users-lists/${listId}/items`, {
+            const res = await fetch(`/api/users-lists/${listId}/items`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -102,7 +102,7 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
         }
         try {
             setIsCreating(true)
-            const res = await fetch('/api/_users-lists', {
+            const res = await fetch('/api/users-lists', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -128,35 +128,54 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
             <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
                     <Button
-                        variant="outline"
-                        size="sm"
+                        variant="secondary"
+                        size="icon-sm"
                         className={cn(
-                            'gap-2 bg-slate-900/70 text-white hover:bg-slate-800',
+                            'rounded bg-black/50 text-white hover:bg-black/70',
                             className
                         )}
                     >
-                        <PlusCircle className="h-4 w-4" />
-                        Add to list
+                        <BookmarkPlus className="size-6" />
+                        <span className="sr-only">Add to a list</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent
+                    align="end"
+                    className="bg-black/80 text-center"
+                >
                     <DropdownMenuLabel>Your lists</DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                        className="gap-2 text-center text-cyan-300"
+                        onSelect={(e) => {
+                            e.preventDefault()
+                            setDialogOpen(true)
+                        }}
+                    >
+                        New list
+                        <ListPlus className="h-4 w-4" />
+                    </DropdownMenuItem>
                     {isLoadingLists && (
-                        <DropdownMenuItem disabled className="gap-2">
+                        <DropdownMenuItem
+                            disabled
+                            className="gap-2 text-center"
+                        >
                             <Loader2 className="h-4 w-4 animate-spin" />
                             Loading…
                         </DropdownMenuItem>
                     )}
                     {!isLoadingLists && lists.length === 0 && (
-                        <DropdownMenuItem disabled>
+                        <DropdownMenuItem
+                            disabled
+                            className="gap-2 text-center"
+                        >
                             No lists yet
                         </DropdownMenuItem>
                     )}
                     {lists.map((list) => (
                         <DropdownMenuItem
                             key={list.id}
-                            className="gap-2"
+                            className="gap-2 text-center"
                             disabled={addingListId === list.id}
                             onSelect={(e) => {
                                 e.preventDefault()
@@ -177,16 +196,6 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
                         </DropdownMenuItem>
                     ))}
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        className="gap-2 text-cyan-300"
-                        onSelect={(e) => {
-                            e.preventDefault()
-                            setDialogOpen(true)
-                        }}
-                    >
-                        <ListPlus className="h-4 w-4" />
-                        Create new list
-                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
@@ -199,7 +208,7 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
                 </DialogHeader>
                 <div className="space-y-3">
                     <Input
-                        placeholder="e.g. Fall 2026 watchlist"
+                        placeholder="e.g. Fall 2026 watch's"
                         value={listName}
                         onChange={(e) => setListName(e.target.value)}
                         autoFocus
