@@ -117,7 +117,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                     >
                         <div className="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-900 p-3 transition-colors hover:bg-gray-800">
                             <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-purple-900">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-purple-900">
                                     <Play className="h-4 w-4" />
                                 </div>
                                 <div>
