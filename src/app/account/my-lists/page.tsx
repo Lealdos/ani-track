@@ -1,8 +1,19 @@
-export default function UserListPage() {
+import { auth } from '@/lib/auth'
+import { UserListsDashboard } from './_components/UserListsDashboard'
+import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
+
+export default async function MyListsPage() {
+    const session = await auth.api.getSession({ headers: await headers() })
+
+    if (!session?.user) {
+        redirect('/login')
+    }
+
+    console.log(session.user)
     return (
-        <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
-            <h1>My Lists</h1>
-            User List Page
+        <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+            <UserListsDashboard />
         </div>
     )
 }
