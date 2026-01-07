@@ -10,7 +10,6 @@ export default async function MyListsPage() {
         redirect('/login')
     }
 
-    console.log(session.user)
     return (
         <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
             <UserListsDashboard />
