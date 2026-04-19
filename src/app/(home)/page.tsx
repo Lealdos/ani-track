@@ -1,7 +1,9 @@
 import { Suspense } from 'react'
-import { cacheLife } from 'next/cache'
 
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
+
+// Force dynamic rendering to avoid prerender issues with external API
+export const dynamic = 'force-dynamic'
 import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
@@ -16,8 +18,6 @@ import { FavoriteProvider } from '@/context/favoriteContext'
 import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/EpisodeSchedule'
 
 export default async function Home() {
-    'use cache'
-    cacheLife('weeks')
     const seasonalAnime = getSeasonalAnime()
     const topAnime = getTopAnime()
 

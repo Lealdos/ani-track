@@ -24,7 +24,7 @@ type JikanResponse<T> = {
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
 export async function fetchWithRateLimit<T>(url: string): Promise<T> {
     try {
-        const response = await fetch(url)
+        const response = await fetch(url, { cache: 'no-store' })
 
         if (response.status === 429) {
             //'Rate limit reached, waiting for 1 seconds...',
@@ -38,9 +38,9 @@ export async function fetchWithRateLimit<T>(url: string): Promise<T> {
 
         return await response.json()
     } catch (error) {
-        console.error(`Error fetching from API: ${error}  for URL: ${url}`)
-        // throw error
-        throw new Error(`Error fetching from API: ${error}`)
+        // Return empty data structure instead of throwing during prerender
+        console.error(`Error fetching from API for URL: ${url}`)
+        return { data: [] } as T
     }
 }
 
