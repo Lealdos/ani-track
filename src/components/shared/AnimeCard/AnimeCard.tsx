@@ -2,14 +2,12 @@
 import Link from 'next/link'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
-
 import {
     Calendar,
     Tv,
     Star,
     Film,
     TvMinimalPlay,
-    BookmarkPlus,
 } from 'lucide-react'
 import { AddToListButton } from '../AddToListButton/AddToListButton'
 
@@ -25,69 +23,75 @@ export function AnimeCard({
     hasFooter = true,
 }: AnimeCardProps) {
     return (
-        <article className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-lg transition-all duration-400 hover:shadow-xl hover:shadow-indigo-500/60 md:h-full md:max-w-60 md:min-w-[200px]">
+        <article className="anime-card group relative flex w-full max-w-[180px] flex-col overflow-hidden rounded-xl bg-card border border-border/50 shadow-sm hover:shadow-xl hover:shadow-primary/10 md:max-w-[200px]">
             <Link
                 href={`/anime/${anime.mal_id}`}
                 className="flex h-full w-full flex-col"
             >
-                <div className="relative">
+                {/* Image Container */}
+                <div className="relative aspect-[2/3] w-full overflow-hidden">
                     <img
-                        src={
-                            anime.images?.webp?.image_url || '/placeholder.svg'
-                        }
+                        src={anime.images?.webp?.image_url || '/placeholder.svg'}
                         alt={anime.title}
-                        className="h-60 w-80 rounded object-fill md:h-90 md:w-full md:object-top"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                    
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+                    
+                    {/* Score Badge */}
                     {showBadge && anime.score && (
-                        <div className="absolute top-2 right-2 m-auto flex items-center justify-center gap-1 rounded-sm bg-yellow-500 p-1 font-semibold text-shadow-black text-shadow-md">
+                        <div className="absolute top-2 left-2 flex items-center gap-1 rounded-md bg-background/90 backdrop-blur-sm px-2 py-1 text-xs font-bold text-foreground">
+                            <Star className="size-3 fill-amber-400 text-amber-400" />
                             {anime.score.toFixed(1)}
-                            <Star className="size-3 fill-current" />
                         </div>
                     )}
-                    {showBadge && (
-                        <div className="absolute top-15 right-2 flex flex-col items-center justify-center gap-2">
-                            <AddFavoritesButton anime={anime} />
-                            <AddToListButton anime={anime} />
-                        </div>
-                    )}
+                    
+                    {/* Type Badge */}
+                    <div className="absolute bottom-2 left-2 rounded-md bg-primary/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
+                        {anime.type || 'TV'}
+                    </div>
                 </div>
+                
+                {/* Action Buttons - Overlay on hover */}
+                {showBadge && (
+                    <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" onClick={(e) => e.preventDefault()}>
+                        <AddFavoritesButton anime={anime} />
+                        <AddToListButton anime={anime} />
+                    </div>
+                )}
+
+                {/* Content */}
                 {hasFooter && (
-                    <footer className="flex h-full flex-col items-center justify-center p-2 text-balance">
-                        <h3 className="my-2 line-clamp-2 text-center leading-tight font-medium text-balance">
+                    <div className="flex flex-1 flex-col justify-between p-3">
+                        <h3 className="line-clamp-2 text-sm font-medium leading-snug text-foreground text-balance">
                             {anime.title}
                         </h3>
-                        <div className="mb-2 flex flex-row flex-wrap items-center justify-center gap-2 text-sm">
-                            <small className="flex flex-row items-center gap-1">
-                                {anime?.type?.toLocaleLowerCase() ===
-                                'movie' ? (
-                                    <>
-                                        <Film className="size-4" /> {anime.type}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Tv className="size-4" /> {anime.type}
-                                    </>
-                                )}
-                            </small>
+                        
+                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
                             {anime.episodes ? (
-                                <div className="flex flex-row items-center gap-1">
-                                    <TvMinimalPlay className="size-4" />
+                                <span className="flex items-center gap-1">
+                                    <TvMinimalPlay className="size-3" />
                                     {anime.episodes} eps
-                                </div>
+                                </span>
                             ) : (
-                                <div className="flex flex-row items-center gap-1">
-                                    <TvMinimalPlay className="size-4" />
-                                    not specified
-                                </div>
+                                <span className="flex items-center gap-1">
+                                    <TvMinimalPlay className="size-3" />
+                                    Ongoing
+                                </span>
                             )}
-                            {anime.status != 'Currently Airing' && (
-                                <small className="flex flex-row items-center gap-1">
-                                    <Calendar className="size-4" />
-                                    {anime.status}
-                                </small>
+                            
+                            {anime.status === 'Currently Airing' && (
+                                <span className="flex items-center gap-1 text-primary font-medium">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                                    </span>
+                                    Airing
+                                </span>
                             )}
                         </div>
-                    </footer>
+                    </div>
                 )}
             </Link>
         </article>

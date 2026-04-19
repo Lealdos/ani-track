@@ -1,13 +1,10 @@
 export function SkeletonCard() {
     return (
-        <article className="flex h-80 max-h-[360px] w-full max-w-[200px] animate-pulse flex-col items-center justify-between overflow-hidden rounded-lg bg-slate-800 md:h-full md:max-w-[200px]">
-            <div className="bg-muted relative aspect-[1/3] w-full rounded" />
-            <section className="w-full p-3">
-                <div className="bg-muted mb-2 h-4 w-3/4 rounded" />
-                <div className="bg-muted h-3 w-1/2 rounded" />
-            </section>
-            <div className="w-full px-3 pb-3">
-                <div className="bg-muted h-8 w-full rounded-lg" />
+        <article className="flex w-full max-w-[180px] animate-pulse flex-col overflow-hidden rounded-xl bg-card border border-border/50 md:max-w-[200px]">
+            <div className="relative aspect-[2/3] w-full bg-secondary/50" />
+            <div className="p-3 space-y-2">
+                <div className="h-4 w-3/4 rounded bg-secondary/50" />
+                <div className="h-3 w-1/2 rounded bg-secondary/50" />
             </div>
         </article>
     )

@@ -38,18 +38,17 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="bg-background">
             <body
-                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
+                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center scroll-smooth bg-background font-sans text-foreground antialiased`}
             >
-                {/* <AuthProvider> */}
                 <SpeedInsights />
                 <Header />
-
-                <ViewTransition> {children}</ViewTransition>
+                <main className="flex-1 w-full">
+                    <ViewTransition>{children}</ViewTransition>
+                </main>
                 <Toaster />
                 <Footer />
-                {/* </AuthProvider> */}
             </body>
         </html>
     )

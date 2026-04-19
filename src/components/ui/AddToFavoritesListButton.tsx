@@ -1,13 +1,15 @@
 'use client'
-import { Heart, HeartOff } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useFavorites } from '@/context/favoriteContext'
+import { cn } from '@/lib/utils'
 
 interface AddToListButtonProps {
     anime: JikanAnime
+    className?: string
 }
 
-export function AddFavoritesButton({ anime }: AddToListButtonProps) {
+export function AddFavoritesButton({ anime, className }: AddToListButtonProps) {
     const { isInFavorites, addToFavorites, removeFromFavorites } =
         useFavorites()
 
@@ -17,32 +19,28 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
         <button
             onClick={(e) => {
                 e.preventDefault()
+                e.stopPropagation()
                 if (isFavorite) {
                     removeFromFavorites(anime.mal_id)
                 } else {
                     addToFavorites(anime)
                 }
             }}
-            className="rounded bg-black/50 p-1 text-red-500 hover:bg-black/70"
-            aria-label={
-                isFavorite ? 'Remove from Favorites' : 'Add to Favorites'
-            }
-        >
-            {isFavorite ? (
-                <>
-                    <HeartOff
-                        className={`size-6 ${isFavorite && 'fill-red-500 hover:fill-transparent'}`}
-                    />
-                    <span className="sr-only">Remove from Favorites</span>
-                </>
-            ) : (
-                <>
-                    <Heart
-                        className={`size-6 ${isFavorite ? 'fill-red-600' : 'hover:fill-red-600'}`}
-                    />
-                    <span className="sr-only">Add to Favorites</span>
-                </>
+            className={cn(
+                'flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200',
+                isFavorite 
+                    ? 'bg-accent/20 text-accent hover:bg-accent/30' 
+                    : 'bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-accent hover:bg-background/90',
+                className
             )}
+            aria-label={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        >
+            <Heart
+                className={cn(
+                    'size-4 transition-all',
+                    isFavorite && 'fill-accent'
+                )}
+            />
         </button>
     )
 }

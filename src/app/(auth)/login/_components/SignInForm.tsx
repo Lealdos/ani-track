@@ -81,10 +81,10 @@ export default function SignInForm({
 
     return (
         <div className={cn('flex flex-col gap-6', className)} {...props}>
-            <Card className="border-red-900 bg-linear-to-br from-slate-900 via-purple-900 to-slate-900">
+            <Card className="border-border/50 bg-card">
                 <CardHeader className="text-center">
-                    <CardTitle className="text-xl">Welcome back</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-xl text-foreground">Welcome back</CardTitle>
+                    <CardDescription className="text-muted-foreground">
                         Login with your Google account
                     </CardDescription>
                 </CardHeader>
@@ -148,7 +148,7 @@ export default function SignInForm({
                                         </div>
                                     </div>
                                     <Button
-                                        className="w-full bg-purple-600 hover:bg-purple-700"
+                                        className="w-full bg-primary hover:bg-primary/90"
                                         disabled={isLoading}
                                         type="submit"
                                     >

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 import {
@@ -11,6 +10,7 @@ import {
 import { convertJSTToLocal } from '@/lib/utils'
 import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
+import { cn } from '@/lib/utils'
 
 const WEEKDAYS: JikanScheduleDays[] = [
     'monday',
@@ -22,16 +22,22 @@ const WEEKDAYS: JikanScheduleDays[] = [
     'sunday',
 ]
 
-export function EpisodeSchedule(): React.ReactElement {
-    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays | null>(
-        null
-    )
+const WEEKDAY_LABELS: Record<JikanScheduleDays, string> = {
+    monday: 'Mon',
+    tuesday: 'Tue',
+    wednesday: 'Wed',
+    thursday: 'Thu',
+    friday: 'Fri',
+    saturday: 'Sat',
+    sunday: 'Sun',
+}
 
+export function EpisodeSchedule(): React.ReactElement {
+    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays | null>(null)
     const [animesByDay, setAnimesByDay] = useState<JikanAnime[] | []>([])
 
     const handleDayChange = async (day: JikanScheduleDays) => {
         if (!day) return
-
         setSelectedDay(day)
         setAnimesByDay([])
         const filteredAnimesByDay = await getAiringDayAnime(day)
@@ -42,7 +48,6 @@ export function EpisodeSchedule(): React.ReactElement {
         const todayIndex = new Date().getDay()
         const defaultDayIndex = (todayIndex + 6) % 7
         const clientDefaultDay = WEEKDAYS[defaultDayIndex]
-
         handleDayChange(clientDefaultDay)
     }, [])
 
@@ -56,67 +61,89 @@ export function EpisodeSchedule(): React.ReactElement {
     }
 
     return (
-        <>
-            <h2 className="text-lg font-semibold">Emission schedule </h2>
-            <div className="mb-6 flex gap-2 overflow-x-auto py-2">
+        <div className="space-y-6">
+            {/* Day Selector */}
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
                 {WEEKDAYS.map((day) => {
+                    const isSelected = selectedDay === day
+                    const todayIndex = new Date().getDay()
+                    const dayIndex = WEEKDAYS.indexOf(day)
+                    const isToday = dayIndex === (todayIndex + 6) % 7
+                    
                     return (
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`rounded border border-purple-600 px-2 py-1 text-sm capitalize ${selectedDay === day ? 'bg-purple-700 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-purple-800 hover:text-white`}
-                            disabled={selectedDay === day}
+                            disabled={isSelected}
+                            className={cn(
+                                'relative flex flex-col items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 min-w-[64px]',
+                                isSelected
+                                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                                    : 'bg-card border border-border/50 text-muted-foreground hover:bg-secondary hover:text-foreground'
+                            )}
                         >
-                            {day}
+                            <span className="capitalize">{WEEKDAY_LABELS[day]}</span>
+                            {isToday && (
+                                <span className={cn(
+                                    'text-[10px] mt-0.5',
+                                    isSelected ? 'text-primary-foreground/80' : 'text-primary'
+                                )}>
+                                    Today
+                                </span>
+                            )}
                         </button>
                     )
                 })}
             </div>
-            {/* Anime list grid */}
 
-            <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
-                {animesByDay.map((anime) => (
-                    <article
-                        key={`last-episode-${anime.mal_id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
-                    >
-                        <Link
-                            href={`/anime/${anime.mal_id}`}
-                            className="flex h-full w-full flex-col"
+            {/* Anime Grid */}
+            {animesByDay.length > 0 ? (
+                <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    {animesByDay.map((anime) => (
+                        <article
+                            key={`last-episode-${anime.mal_id}`}
+                            className="anime-card group relative overflow-hidden rounded-xl bg-card border border-border/50"
                         >
-                            <div className="relative h-70">
-                                <img
-                                    src={
-                                        anime.images?.jpg?.image_url ||
-                                        '/placeholder.svg'
-                                    }
-                                    alt={`${anime.title} poster`}
-                                    className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
-                                />
-                                <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
-                                    {convertJSTToLocal(anime.broadcast?.string)}
-                                    ~ approx.
-                                </span>
-                                <span className="absolute bottom-3 left-3 rounded bg-slate-700 px-2 py-1 text-xs text-white">
-                                    {anime.type}
-                                </span>
-                            </div>
+                            <Link
+                                href={`/anime/${anime.mal_id}`}
+                                className="flex flex-col"
+                            >
+                                <div className="relative aspect-[2/3] w-full overflow-hidden">
+                                    <img
+                                        src={anime.images?.jpg?.image_url || '/placeholder.svg'}
+                                        alt={`${anime.title} poster`}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    
+                                    {/* Gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+                                    
+                                    {/* Time Badge */}
+                                    <div className="absolute top-2 right-2 rounded-lg bg-background/90 backdrop-blur-sm px-2 py-1 text-[10px] font-medium text-foreground">
+                                        {convertJSTToLocal(anime.broadcast?.string)}
+                                    </div>
+                                    
+                                    {/* Type Badge */}
+                                    <div className="absolute bottom-2 left-2 rounded-md bg-primary/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
+                                        {anime.type}
+                                    </div>
+                                </div>
 
-                            <h3 className="truncate p-2 text-center text-sm font-semibold text-wrap">
-                                {anime.title.length > 120
-                                    ? `${anime.title.slice(0, 60)}...`
-                                    : anime.title}
-                            </h3>
-                        </Link>
-                    </article>
-                ))}
-            </ul>
-            {(animesByDay ?? []).length === 0 && (
+                                <div className="p-3">
+                                    <h3 className="line-clamp-2 text-sm font-medium leading-snug text-foreground">
+                                        {anime.title}
+                                    </h3>
+                                </div>
+                            </Link>
+                        </article>
+                    ))}
+                </ul>
+            ) : (
                 <AnimeListSkeleton
                     sectionName="episode-schedule"
                     skeletonItemCount={5}
                 />
             )}
-        </>
+        </div>
     )
 }

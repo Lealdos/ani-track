@@ -129,31 +129,31 @@ export function AddToListButton({ anime, className }: AddToListButtonProps) {
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="secondary"
-                        size="icon-sm"
+                        size="icon"
                         className={cn(
-                            'rounded bg-black/50 text-white hover:bg-black/70',
+                            'flex items-center justify-center w-8 h-8 rounded-lg bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-primary hover:bg-background/90 transition-all duration-200',
                             className
                         )}
                     >
-                        <BookmarkPlus className="size-6" />
+                        <BookmarkPlus className="size-4" />
                         <span className="sr-only">Add to a list</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     align="end"
-                    className="bg-black/80 text-center"
+                    className="bg-card border border-border/50"
                 >
                     <DropdownMenuLabel>Your lists</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                        className="gap-2 text-center text-cyan-300"
+                        className="gap-2 cursor-pointer text-primary"
                         onSelect={(e) => {
                             e.preventDefault()
                             setDialogOpen(true)
                         }}
                     >
-                        New list
                         <ListPlus className="h-4 w-4" />
+                        New list
                     </DropdownMenuItem>
                     {isLoadingLists && (
                         <DropdownMenuItem
