@@ -1,19 +1,21 @@
 import { Suspense } from 'react'
 import { cacheLife } from 'next/cache'
 
+import { Heart } from 'lucide-react'
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
 import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
+import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/EpisodeSchedule'
 import {
     getSeasonalAnime,
     getTopAnime,
 } from '@/services/JikanAPI/jikanAnimeApi'
-import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
-import { Heart } from 'lucide-react'
 
+import { Hero } from './components/Hero/Hero'
+
+import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { FavoriteProvider } from '@/context/favoriteContext'
-import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/EpisodeSchedule'
 
 export default async function Home() {
     'use cache'
@@ -24,6 +26,7 @@ export default async function Home() {
     return (
         <FavoriteProvider>
             <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
+                <Hero />
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         Your favorites animes
