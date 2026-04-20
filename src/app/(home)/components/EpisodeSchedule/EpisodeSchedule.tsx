@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 import {
@@ -78,13 +77,13 @@ export function EpisodeSchedule(): React.ReactElement {
                 {animesByDay.map((anime) => (
                     <article
                         key={`last-episode-${anime.mal_id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
+                        className="min-w-38 duration-400 flex max-w-[200px] flex-col items-center justify-between overflow-hidden rounded-2xl transition-all hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:min-w-[220px] md:max-w-[260px]"
                     >
                         <Link
                             href={`/anime/${anime.mal_id}`}
                             className="flex h-full w-full flex-col"
                         >
-                            <div className="relative h-70">
+                            <div className="h-70 relative">
                                 <img
                                     src={
                                         anime.images?.jpg?.image_url ||
@@ -93,7 +92,7 @@ export function EpisodeSchedule(): React.ReactElement {
                                     alt={`${anime.title} poster`}
                                     className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
                                 />
-                                <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
+                                <span className="absolute right-3 top-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                                     {convertJSTToLocal(anime.broadcast?.string)}
                                     ~ approx.
                                 </span>
@@ -102,7 +101,7 @@ export function EpisodeSchedule(): React.ReactElement {
                                 </span>
                             </div>
 
-                            <h3 className="truncate p-2 text-center text-sm font-semibold text-wrap">
+                            <h3 className="truncate text-wrap p-2 text-center text-sm font-semibold">
                                 {anime.title.length > 120
                                     ? `${anime.title.slice(0, 60)}...`
                                     : anime.title}
