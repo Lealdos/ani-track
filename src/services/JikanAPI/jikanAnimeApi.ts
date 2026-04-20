@@ -106,7 +106,7 @@ export async function getAiringDayAnime(
             })
             .toSorted((a, b) => a.rank - b.rank)
 
-        return airingAnime
+        return removeDuplicates(airingAnime)
     } catch (error) {
         console.error('Error fetching airing anime:', error)
         return []
