@@ -16,6 +16,7 @@ import { Hero } from './components/Hero/Hero'
 
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import { FavoriteProvider } from '@/context/favoriteContext'
+import Link from 'next/link'
 
 export default async function Home() {
     'use cache'
@@ -26,7 +27,9 @@ export default async function Home() {
     return (
         <FavoriteProvider>
             <div className="container mx-auto min-h-screen w-full max-w-7xl px-4 py-8 text-white">
-                <Hero />
+                <Suspense fallback={null}>
+                    <Hero />
+                </Suspense>
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         Your favorites animes
@@ -35,14 +38,14 @@ export default async function Home() {
                     <FavoritesAccordion />
                 </section>
 
-                <section className="mb-12">
+                <section className="mb-12" id="schedule">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         Last episodes released:
                     </h2>
                     <EpisodeSchedule />
                 </section>
 
-                <section className="mb-12">
+                <section className="mb-12" id="season">
                     <h2 className="mb-6 text-2xl font-bold tracking-tight">
                         Current Season
                     </h2>
@@ -54,7 +57,7 @@ export default async function Home() {
                         <CurrentSeason currentSeason={seasonalAnime} />
                     </Suspense>
                 </section>
-                <section className="mb-12">
+                <section className="mb-12" id="global-top">
                     <h2 className="mb-6 text-2xl font-bold">
                         Top global Anime 🌎
                     </h2>
@@ -64,9 +67,12 @@ export default async function Home() {
                 </section>
 
                 <section className="mb-12">
-                    <h2 className="mb-6 text-2xl font-bold tracking-tight">
+                    <Link
+                        href="/anime/genres"
+                        className="mb-6 text-2xl font-bold tracking-tight"
+                    >
                         Anime by Genre
-                    </h2>
+                    </Link>
                     <Suspense
                         fallback={
                             <AnimeListSkeleton sectionName="anime-by-genre" />
