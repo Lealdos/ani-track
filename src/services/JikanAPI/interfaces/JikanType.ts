@@ -61,7 +61,8 @@ type JikanAnimeEntry = {
     name: string
     url: string
 }
-type JikanGenres = {
+
+export type JikanGenres = {
     mal_id: number
     name: string
     url: string
