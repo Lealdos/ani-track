@@ -92,10 +92,10 @@ export default function Header() {
             >
                 <header
                     className={cn(
-                        `flex h-16 w-full items-center justify-between md:h-16`,
+                        `bg-gradient-noir flex h-16 w-full items-center justify-between md:h-16`,
                         isScrolled
-                            ? 'rounded-full bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 shadow-md backdrop-blur md:px-20'
-                            : 'border-b border-b-red-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900 px-2 backdrop-blur md:px-40'
+                            ? 'rounded-full shadow-md backdrop-blur md:px-20'
+                            : 'border-b px-2 backdrop-blur md:px-40'
                     )}
                 >
                     <div
