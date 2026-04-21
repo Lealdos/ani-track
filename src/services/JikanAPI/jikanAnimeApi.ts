@@ -2,8 +2,8 @@
 import { streaming } from '@/types/anime'
 import {
     JikanAnime,
-    JikanAnimeGenres,
     JikanEpisode,
+    JikanGenres,
     JikanRecommendations,
     JikanScheduleDays,
 } from '@/services/JikanAPI/interfaces/JikanType'
@@ -59,9 +59,10 @@ export async function fetchWithJikan<T>(
     }
 }
 
-export async function FetchBrowsersAnime(query?: string, page: number = 1) {
+export async function FetchBrowsersAnime(query?: string) {
     if (query) {
         try {
+            console.log(`test: `, API_BASE_URL + `/anime?${query}&sfw`)
             const { data, pagination } = await fetchWithRateLimit<
                 JikanResponse<JikanAnime[]>
             >(`${API_BASE_URL}/anime?${query}&sfw`)
@@ -74,19 +75,20 @@ export async function FetchBrowsersAnime(query?: string, page: number = 1) {
             console.error('Error fetching animes:', error)
             throw new Error(`Error fetching animes: ${error}`)
         }
-    }
-    try {
-        const { data, pagination } = await fetchWithRateLimit<
-            JikanResponse<JikanAnime[]>
-        >(`${API_BASE_URL}/anime?page=${page}&sfw`)
-        const animeData = {
-            animes: removeDuplicates(data),
-            pagination: pagination as PaginationInfo,
+    } else {
+        try {
+            const { data, pagination } = await fetchWithRateLimit<
+                JikanResponse<JikanAnime[]>
+            >(`${API_BASE_URL}/anime?sfw`)
+            const animeData = {
+                animes: removeDuplicates(data),
+                pagination: pagination as PaginationInfo,
+            }
+            return animeData
+        } catch (error) {
+            console.error('Error fetching animes:', error)
+            throw new Error(`Error fetching animes: ${error}`)
         }
-        return animeData
-    } catch (error) {
-        console.error('Error fetching animes:', error)
-        throw new Error(`Error fetching animes: ${error}`)
     }
 }
 
@@ -230,10 +232,10 @@ export async function getAnimeRecommendations(
 
 // Get all genres
 export async function getGenres() {
-    const data = await fetchWithRateLimit<JikanResponse<JikanAnimeGenres[]>>(
+    const { data } = await fetchWithRateLimit<JikanResponse<JikanGenres[]>>(
         `${API_BASE_URL}/genres/anime`
     )
-    return data.data
+    return data
 }
 
 // Helper function to format streaming platforms
