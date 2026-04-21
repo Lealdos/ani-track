@@ -2,6 +2,77 @@
 @import 'tw-animate-css';
 @import 'tailwindcss-animated';
 
+:root {
+    /* Default = dark (sakura noir) */
+    --background: 320 18% 5%;
+    --foreground: 330 25% 94%;
+
+    --card: 320 20% 8%;
+    --card-foreground: 330 20% 94%;
+
+    --popover: 320 22% 7%;
+    --popover-foreground: 330 20% 94%;
+
+    --primary: 280 85% 60%;
+    --primary-foreground: 280 25% 7%;
+    --primary-glow: 275 90% 70%;
+
+    --secondary: 320 15% 14%;
+    --secondary-foreground: 330 20% 94%;
+
+    --muted: 320 12% 12%;
+    --muted-foreground: 325 10% 62%;
+
+    --accent: 275 75% 58%;
+    --accent-foreground: 320 25% 7%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 330 20% 96%;
+
+    --border: 320 18% 16%;
+    --input: 320 18% 14%;
+    --ring: 280 85% 60%;
+
+    --radius: 0.75rem;
+
+    /* Bespoke tokens */
+    --petal: 280 90% 78%;
+    --gold: 38 70% 70%;
+
+    --gradient-sakura: linear-gradient(
+        135deg,
+        hsl(280 85% 60%) 0%,
+        hsl(265 75% 55%) 100%
+    );
+    --gradient-noir: linear-gradient(
+        180deg,
+        hsl(280 18% 5% / 0) 0%,
+        hsl(280 18% 5% / 0.95) 90%
+    );
+    --gradient-glow: radial-gradient(
+        60% 60% at 50% 0%,
+        hsl(280 85% 60% / 0.28),
+        transparent 70%
+    );
+
+    --shadow-petal: 0 10px 40px -10px hsl(280 85% 50% / 0.5);
+    --shadow-soft:
+        0 1px 0 hsl(330 30% 100% / 0.04) inset,
+        0 20px 60px -20px hsl(320 60% 5% / 0.7);
+
+    --transition-silk: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Sidebar */
+    --sidebar-background: 320 22% 6%;
+    --sidebar-foreground: 330 15% 80%;
+    --sidebar-primary: 280 85% 60%;
+    --sidebar-primary-foreground: 280 25% 7%;
+    --sidebar-accent: 320 18% 12%;
+    --sidebar-accent-foreground: 330 20% 94%;
+    --sidebar-border: 320 18% 14%;
+    --sidebar-ring: 280 85% 60%;
+}
+
 @keyframes slide-out {
     from {
         opacity: 1;
@@ -57,6 +128,18 @@
     --font-gothic: var(--font-dela-gothic-one);
 }
 
+.fade-edges {
+    -webkit-mask-image: radial-gradient(
+        ellipse 80% 80% at center,
+        black 60%,
+        transparent 100%
+    );
+    mask-image: radial-gradient(
+        ellipse 80% 80% at center,
+        black 60%,
+        transparent 100%
+    );
+}
 .gradient-top-number {
     /* -webkit-text-stroke-width: 4px;
     -webkit-text-stroke-color: rgb(170, 59, 19); */
@@ -103,10 +186,6 @@
         background: #ff441a;
     }
 }
-body {
-    scrollbar-width: thin;
-    scrollbar-color: #8622b7 #181c2a;
-}
 
 /* HTML: <div class="loader"></div> */
 .loader {
@@ -115,7 +194,8 @@ body {
     aspect-ratio: 1.15;
     display: grid;
     color: #4b2bbd;
-    background: linear-gradient(
+    background:
+        linear-gradient(
                 to bottom left,
                 #0000 calc(50% - 1px),
                 currentColor 0 calc(50% + 1px),
@@ -148,5 +228,112 @@ body {
 @keyframes l5 {
     100% {
         transform: rotate(1turn);
+    }
+}
+
+/* 
+texto pegado del editot online
+*/
+
+* {
+    border-color: var(--border);
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-image:
+        radial-gradient(
+            1200px 600px at 80% -10%,
+            hsl(335 80% 55% / 0.1),
+            transparent 60%
+        ),
+        radial-gradient(
+            900px 500px at -10% 20%,
+            hsl(285 70% 50% / 0.08),
+            transparent 60%
+        );
+    background-attachment: fixed;
+    scrollbar-width: thin;
+    scrollbar-color: #8622b7 #181c2a;
+}
+
+@layer utilities {
+    .text-gradient-sakura {
+        background: var(--gradient-sakura);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .bg-gradient-sakura {
+        background: var(--gradient-sakura);
+    }
+    .bg-gradient-noir {
+        background: var(--gradient-noir);
+    }
+    .shadow-petal {
+        box-shadow: var(--shadow-petal);
+    }
+    .shadow-soft {
+        box-shadow: var(--shadow-soft);
+    }
+    .transition-silk {
+        transition: all 0.5s var(--transition-silk);
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: hsl(var(--border));
+        border-radius: 999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+@keyframes petal-fall {
+    0% {
+        transform: translate3d(0, -10vh, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--petal-opacity, 0.9);
+    }
+    100% {
+        transform: translate3d(var(--drift, 10vw), 110vh, 0) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.petals-overlay .petal {
+    position: absolute;
+    top: -10vh;
+    display: block;
+    border-radius: 150% 0 150% 0;
+    background: radial-gradient(
+        circle at 30% 30%,
+        hsl(var(--petal)) 0%,
+        hsl(var(--primary) / 0.85) 60%,
+        hsl(var(--accent) / 0.6) 100%
+    );
+    box-shadow: 0 0 8px hsl(var(--primary) / 0.35);
+    transform: rotate(0deg);
+    will-change: transform, opacity;
+    animation: petal-fall linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .petals-overlay {
+        display: none;
     }
 }
