@@ -109,10 +109,3 @@ export type JikanScheduleDays =
     | 'friday'
     | 'saturday'
     | 'sunday'
-
-export type jikanGenreType = {
-    mal_id: number
-    name: string
-    url: string
-    count?: number
-}
