@@ -19,7 +19,7 @@ function Hero() {
                 <div className="bg-gradient-glow absolute inset-0 opacity-80" />
                 <PetalsOverlay count={22} />
 
-                <div className="relative z-10 container flex min-h-[78vh] flex-col items-start justify-end pt-24 pb-16 md:pb-24">
+                <div className="relative container flex min-h-[78vh] flex-col items-start justify-end pt-24 pb-16 md:pb-24">
                     <p className="text-primary text-xs tracking-[0.3em] uppercase">
                         Ani Track
                     </p>
@@ -36,7 +36,7 @@ function Hero() {
                 </div>
                 {/* QUICK NAV */}
 
-                <div className="absolute z-50 container grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="absolute container grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {[
                         {
                             to: '#season',
