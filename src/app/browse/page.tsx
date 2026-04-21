@@ -8,6 +8,7 @@ import { FilterAndStringifySearchParams } from '@/lib/utils'
 import { searchParamsProps } from '@/types/SearchParamsProps'
 import Link from 'next/link'
 import { FavoriteProvider } from '@/context/favoriteContext'
+import { SectionHeader } from '@/components/shared/SectionHeader/SectionHeader'
 
 export default async function BrowseAnime({
     searchParams,
@@ -15,15 +16,15 @@ export default async function BrowseAnime({
     searchParams: Promise<searchParamsProps>
 }) {
     const rawParams = await searchParams
-    const { q, page } = rawParams
+    const { q } = rawParams
     const stringSearchParams = FilterAndStringifySearchParams(rawParams)
 
     const animeSearchParamsString = new URLSearchParams(
         stringSearchParams
     ).toString()
 
-    // If no q or page is present, fetch without params
-    if (!q && !page) {
+    // If no params at all, fetch without filters
+    if (!animeSearchParamsString) {
         const { animes, pagination } = await FetchBrowsersAnime()
         if (animes.length === 0) {
             return notFound()
@@ -31,6 +32,8 @@ export default async function BrowseAnime({
         return (
             <FavoriteProvider>
                 <main className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
+                    <SectionHeader title={'Browse animes'} />
+
                     <Suspense fallback={<AnimeListSkeleton />}>
                         <AnimeList animes={animes} showBadge />
                     </Suspense>
@@ -46,8 +49,7 @@ export default async function BrowseAnime({
 
     // If q or page is present, fetch with params
     const { animes, pagination } = await FetchBrowsersAnime(
-        animeSearchParamsString,
-        page
+        animeSearchParamsString
     )
     if (animes.length === 0) {
         return (
@@ -72,11 +74,9 @@ export default async function BrowseAnime({
     return (
         <FavoriteProvider>
             <main className="mx-auto min-h-screen w-full px-4 py-8">
-                {(q || page) && (
-                    <Suspense fallback={<AnimeListSkeleton />}>
-                        <AnimeList animes={animes} showBadge />
-                    </Suspense>
-                )}
+                <Suspense fallback={<AnimeListSkeleton />}>
+                    <AnimeList animes={animes} showBadge />
+                </Suspense>
                 <NumberedPagination
                     currentPage={pagination.current_page}
                     lastPage={pagination.last_visible_page ?? 1}
