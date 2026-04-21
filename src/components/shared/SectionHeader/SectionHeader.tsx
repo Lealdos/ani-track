@@ -17,8 +17,15 @@ export function SectionHeader({ eyebrow, title, to, cta = 'View all' }: Props) {
                         {eyebrow}
                     </p>
                 )}
-                <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-                    {title}
+                <h2 className="font-display flex items-center gap-2 text-3xl font-semibold tracking-tight md:text-4xl">
+                    {title.split(' ').map((word, i) => (
+                        <span
+                            key={`${word}-${i}`}
+                            className={`inline-block ${i % 2 === 0 ? 'text-gradient-sakura' : ''}`}
+                        >
+                            {word}
+                        </span>
+                    ))}
                 </h2>
             </div>
             {to && (
