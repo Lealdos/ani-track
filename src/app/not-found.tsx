@@ -13,7 +13,7 @@ export default function NotFound() {
                 priority
             />
 
-            <h1 className="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text p-2 text-5xl font-extrabold text-transparent drop-shadow-lg">
+            <h1 className="bg-linear-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text p-2 text-5xl font-extrabold text-transparent drop-shadow-lg">
                 Page Not Found
             </h1>
             <p className="max-w-md text-xl text-gray-300">
@@ -22,7 +22,7 @@ export default function NotFound() {
             </p>
             <Link
                 href="/"
-                className="mt-4 inline-block rounded-lg bg-gradient-to-r from-purple-700 via-pink-600 to-red-600 px-6 py-3 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:from-purple-800 hover:to-red-500 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                className="mt-4 inline-block rounded-lg bg-linear-to-r from-purple-700 via-pink-600 to-red-600 px-6 py-3 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:from-purple-800 hover:to-red-500 focus:ring-2 focus:ring-purple-400 focus:outline-none"
             >
                 Go back home
             </Link>
