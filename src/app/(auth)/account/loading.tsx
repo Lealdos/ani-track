@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AccountLoading() {
     return (
-        <div className="mx-auto my-6 max-w-2xl rounded-lg bg-gray-800 px-4 py-12 sm:px-6 md:min-w-lg lg:px-8">
+        <div className="mx-auto my-6 min-h-screen max-w-2xl rounded-lg bg-gray-800 px-4 py-12 sm:px-6 md:min-w-lg lg:px-8">
             {/* Title skeleton */}
             <Skeleton className="mx-auto mb-8 h-10 w-48 bg-gray-900" />
 
