@@ -14,12 +14,6 @@ import {
 import { PasswordInput } from '@/components/shared/forms/PasswordInput'
 
 export function PasswordForm() {
-    const [showPasswords, setShowPasswords] = useState({
-        current: false,
-        new: false,
-        confirm: false,
-    })
-
     const form = useForm<PasswordFormValuesType>({
         resolver: zodResolver(passwordFormSchema),
         defaultValues: {
@@ -58,15 +52,8 @@ export function PasswordForm() {
         }
     }
 
-    const toggleVisibility = (field: 'current' | 'new' | 'confirm') => {
-        setShowPasswords((prev) => ({
-            ...prev,
-            [field]: !prev[field],
-        }))
-    }
-
     return (
-        <Card className="min-h-80 border-gray-700 border-b-red-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900 p-8">
+        <Card className="min-h-80 border-gray-950 border-b-red-900 bg-linear-to-br from-rose-950 via-fuchsia-950 to-rose-900 p-8">
             <div className="mx-auto max-w-md">
                 <h2 className="mb-8 text-center text-2xl font-semibold text-white">
                     Change Password
@@ -120,7 +107,7 @@ export function PasswordForm() {
                         />
 
                         {/* Password Requirements */}
-                        <div className="rounded-lg bg-gray-700 p-4 text-sm text-gray-300">
+                        <div className="rounded-lg bg-gray-950/70 p-4 text-sm text-gray-300">
                             <p className="mb-2 font-semibold">
                                 Password Requirements:
                             </p>

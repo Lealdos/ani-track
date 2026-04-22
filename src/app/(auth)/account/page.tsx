@@ -13,22 +13,22 @@ export default async function UserAccountPage() {
     }
 
     return (
-        <div className="mx-auto my-6 max-w-2xl min-w-lg rounded-lg px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto my-6 max-w-2xl rounded-lg px-4 py-12 sm:px-6 md:min-w-lg lg:px-8">
             <h1 className="mb-8 text-center text-4xl font-bold text-white">
                 My Account
             </h1>
 
-            <Tabs defaultValue="information" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 border-b border-gray-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900">
+            <Tabs defaultValue="information" className="">
+                <TabsList className="grid w-full grid-cols-2 border-b border-gray-900 bg-linear-to-r from-rose-950 via-fuchsia-950 to-rose-950">
                     <TabsTrigger
                         value="information"
-                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500"
+                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-purple-600 data-[state=active]:text-red-500"
                     >
                         Information
                     </TabsTrigger>
                     <TabsTrigger
                         value="password"
-                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500"
+                        className="text-black data-[state=active]:border-b-2 data-[state=active]:border-purple-800 data-[state=active]:text-red-500"
                     >
                         Password
                     </TabsTrigger>

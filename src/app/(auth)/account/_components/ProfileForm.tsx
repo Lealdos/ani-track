@@ -76,7 +76,7 @@ export function ProfileForm({ user }: { user?: User }) {
             }
 
             // Refetch session to update client state
-            window.location.reload()
+            globalThis.location.reload()
 
             toast.success('Profile updated successfully!')
         } catch (error) {
