@@ -18,17 +18,17 @@ export default async function UserAccountPage() {
                 My Account
             </h1>
 
-            <Tabs defaultValue="information" className="">
-                <TabsList className="grid w-full grid-cols-2 border-b border-gray-900 bg-linear-to-r from-rose-950 via-fuchsia-950 to-rose-950">
+            <Tabs defaultValue="information" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 border-b border-gray-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900">
                     <TabsTrigger
                         value="information"
-                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-purple-600 data-[state=active]:text-red-500"
+                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500"
                     >
                         Information
                     </TabsTrigger>
                     <TabsTrigger
                         value="password"
-                        className="text-black data-[state=active]:border-b-2 data-[state=active]:border-purple-800 data-[state=active]:text-red-500"
+                        className="text-gray-300 data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-red-500"
                     >
                         Password
                     </TabsTrigger>
