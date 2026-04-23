@@ -1,32 +1,24 @@
-// Qv8De8d5KYpjVMhcc2SvOiQar5tYkipE
-
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { auth } from '@/lib/auth'
 import { getUserFavoriteList } from '@/app/api/_lib/userFavoriteList'
-import { headers } from 'next/headers'
+import {
+    successResponse,
+    errorResponse,
+    handleError,
+} from '@/lib/utils/apiResponse'
 
 export async function GET(request: NextRequest) {
     try {
-        const sessionInfo = await auth.api.getSession({
-            headers: await headers(),
-        })
+        const session = await auth.api.getSession({ headers: request.headers })
 
-        console.log('Session user:', sessionInfo?.user.id)
-
-        if (!sessionInfo?.user.id) {
-            return NextResponse.json(
-                { message: 'Unauthorized' },
-                { status: 401 }
-            )
+        if (!session?.user?.id) {
+            return errorResponse('Unauthorized', 401, 'UNAUTHORIZED')
         }
 
-        const lists = await getUserFavoriteList(sessionInfo?.user.id)
+        const lists = await getUserFavoriteList(session.user.id)
 
-        return NextResponse.json(
-            { success: true, data: lists },
-            { status: 200 }
-        )
+        return successResponse(lists)
     } catch (error) {
-        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+        return handleError(error)
     }
 }
