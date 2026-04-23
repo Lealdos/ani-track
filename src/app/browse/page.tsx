@@ -31,7 +31,7 @@ export default async function BrowseAnime({
         }
         return (
             <FavoriteProvider>
-                <main className="container mx-auto min-h-screen w-full px-4 py-8 text-white">
+                <main className="container mx-auto w-full px-4 py-8 text-white">
                     <SectionHeader title={'Browse animes'} />
 
                     <Suspense fallback={<AnimeListSkeleton />}>
@@ -53,7 +53,7 @@ export default async function BrowseAnime({
     )
     if (animes.length === 0) {
         return (
-            <main className="container mx-auto flex min-h-screen w-full flex-col items-center justify-between px-8 py-12">
+            <main className="container mx-auto flex w-full flex-col items-center justify-between px-8 py-12">
                 <h1 className="mt-8 text-2xl font-bold text-white">
                     No animes found with that query: {q}
                 </h1>
@@ -73,7 +73,7 @@ export default async function BrowseAnime({
 
     return (
         <FavoriteProvider>
-            <main className="mx-auto min-h-screen w-full px-4 py-8">
+            <main className="mx-auto w-full px-4 py-8">
                 <Suspense fallback={<AnimeListSkeleton />}>
                     <AnimeList animes={animes} showBadge />
                 </Suspense>

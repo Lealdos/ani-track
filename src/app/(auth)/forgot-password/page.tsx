@@ -81,14 +81,14 @@ export default function ResetPasswordPage() {
 
     if (!token && !error) {
         return (
-            <div className="flex min-h-screen items-center justify-center">
+            <div className="flex items-center justify-center">
                 <p>Loading...</p>
             </div>
         )
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4">
+        <div className="flex items-center justify-center p-4">
             <Card className="w-full max-w-3xl border-purple-800">
                 <CardHeader>
                     <CardTitle>Reset Password</CardTitle>
@@ -125,7 +125,7 @@ export default function ResetPasswordPage() {
                             />
                         </div>
                         {error && (
-                            <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
+                            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
                                 {error}
                             </div>
                         )}

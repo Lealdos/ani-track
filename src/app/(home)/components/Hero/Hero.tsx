@@ -6,13 +6,13 @@ import { SectionHeader } from '@/components/shared/SectionHeader/SectionHeader'
 
 function Hero() {
     return (
-        <section className="f-full relative -top-10 w-full">
-            <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-48" />
-            <div className="relative h-screen w-full rounded-lg p-2">
+        <section className="relative -top-10 h-full w-full">
+            <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10" />
+            <div className="relative w-full rounded-lg p-4">
                 <Image
                     src={'/hero-sakura.jpeg'}
                     alt="Lone figure under a cherry blossom tree above a glowing night city"
-                    className="fade-edges absolute inset-0 h-full w-full object-cover opacity-40"
+                    className="fade-edges absolute inset-0 w-full object-cover opacity-40"
                     width={2560}
                     height={1440}
                 />
@@ -31,7 +31,7 @@ function Hero() {
                 </div>
                 {/* QUICK NAV */}
 
-                <div className="container mt-30 flex flex-col items-center-safe justify-between gap-4 md:mt-40 md:flex-row">
+                <div className="container mt-10 flex flex-col items-center-safe justify-between gap-4 md:mt-30 md:flex-row">
                     {[
                         {
                             to: '#season',

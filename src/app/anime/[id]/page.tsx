@@ -26,11 +26,10 @@ import {
     getAnimeCharacters,
 } from '@/services/JikanAPI/jikanAnimeApi'
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
-import { formatDate } from '@/lib/utils'
+import { formatDate, convertJSTToLocal } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
-import { convertJSTToLocal } from '@/lib/utils'
 import { CharactersList } from './components/CharactersList/CharactersList'
 import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 
@@ -99,7 +98,7 @@ export default async function AnimePage({
     return (
         <FavoriteProvider>
             {/* background image in mobile view */}
-            <div className="min-h-screen bg-gray-950 text-gray-100">
+            <article className="rounded-lg bg-rose-950/10 text-gray-100 shadow-lg">
                 <div className="relative h-[300px] md:hidden md:h-[620px]">
                     <img
                         src={
@@ -153,19 +152,16 @@ export default async function AnimePage({
                                         <div className="flex flex-wrap items-center-safe gap-1">
                                             <Target className="mr-1 h-5 w-5" />
                                             Demography:{' '}
-                                            {anime.demographics &&
-                                                anime.demographics?.map(
-                                                    (demographic) => (
-                                                        <div
-                                                            key={
-                                                                demographic.mal_id
-                                                            }
-                                                            className="rounded-xl p-2 text-gray-100"
-                                                        >
-                                                            {demographic.name}
-                                                        </div>
-                                                    )
-                                                )}
+                                            {anime.demographics?.map(
+                                                (demographic) => (
+                                                    <div
+                                                        key={demographic.mal_id}
+                                                        className="rounded-xl p-2 text-gray-100"
+                                                    >
+                                                        {demographic.name}
+                                                    </div>
+                                                )
+                                            )}
                                         </div>
                                         <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                             <House className="mr-1 h-5 w-5" />
@@ -215,7 +211,7 @@ export default async function AnimePage({
                                                 Status: {anime.status}
                                             </div>
                                         )}
-                                        {anime.score && (
+                                        {!!anime?.score && (
                                             <div className="flex items-center">
                                                 <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" />
                                                 <span>{anime.score}/10</span>
@@ -268,7 +264,7 @@ export default async function AnimePage({
                                             </span>
                                         </div>
                                     )}
-                                    {anime.rank && (
+                                    {!!anime.rank && (
                                         <div className="flex items-center">
                                             <Trophy className="mr-1 h-5 w-5 text-gray-300" />
                                             <span>Rank: #{anime.rank}</span>
@@ -317,7 +313,19 @@ export default async function AnimePage({
                                         {anime.synopsis}
                                     </p>
                                 </div>
-
+                                {anime.trailer?.embed_url && (
+                                    <div className="shadow-soft mt-6 overflow-hidden rounded-xl border border-border/60">
+                                        <div className="aspect-video w-full">
+                                            <iframe
+                                                src={anime.trailer.embed_url}
+                                                title={`${anime.title} trailer`}
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                                className="h-full w-full"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
                                 {/* Anime relations (e.g. Adaptation, Prequel, Sequel) */}
 
                                 <h3 className="col-span-full mb-2 text-lg font-bold">
@@ -387,12 +395,12 @@ export default async function AnimePage({
                                     defaultValue={tabsContents[0].tabsName}
                                     className="h-80 w-full md:h-96"
                                 >
-                                    <TabsList className="grid w-full grid-cols-2 gap-2 bg-gray-900">
+                                    <TabsList className="grid h-fit w-full grid-cols-2 items-center justify-center gap-4 self-center rounded-md bg-amber-950/60 align-middle text-sm text-gray-300">
                                         {tabsContents.map(({ tabsName }) => (
                                             <TabsTrigger
                                                 key={tabsName}
                                                 value={tabsName}
-                                                className="h-full rounded-md text-white data-[state=active]:bg-purple-600 data-[state=inactive]:bg-black/60"
+                                                className="rounded-md text-base text-white data-[state=active]:bg-rose-950 data-[state=inactive]:bg-black/70"
                                             >
                                                 {tabsName}
                                             </TabsTrigger>
@@ -489,7 +497,7 @@ export default async function AnimePage({
                         </section>
                     )}
                 </main>
-            </div>
+            </article>
         </FavoriteProvider>
     )
 }

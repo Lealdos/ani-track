@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Genres() {
     return (
-        <div className="container min-h-screen py-12">
+        <div className="container py-12">
             <SectionHeader title={'Browse by Genre'} />
             <Suspense
                 fallback={

@@ -56,7 +56,7 @@ export function UserListsDashboard() {
 
     if (isPending) {
         return (
-            <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+            <div className="mx-auto w-full max-w-7xl px-4 py-8">
                 {/* Title skeleton */}
                 <div className="mb-8">
                     <Skeleton className="h-9 w-32 bg-gray-700 md:h-10 md:w-40" />
@@ -92,7 +92,7 @@ export function UserListsDashboard() {
     }
 
     return (
-        <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-white md:text-4xl">
                     My lists

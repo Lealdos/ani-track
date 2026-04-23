@@ -35,7 +35,7 @@ export function ContentAccordion({ animes, title }: ListAccordionProps) {
             <div className="grid justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {animes.map((anime: JikanAnime) => (
                     <AnimeCard
-                        showBadge
+                        showBadges
                         key={`${anime.mal_id}-${anime.title}-${title}`}
                         anime={anime}
                     />
@@ -62,7 +62,7 @@ export function AnimeListAccordions({ animes, title }: ListAccordionProps) {
                     className="w-full overflow-hidden rounded-lg border border-purple-600/80"
                 >
                     <AccordionItem value="favorite-list" className="border-0">
-                        <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 text-base transition-all">
+                        <AccordionTrigger className="px-4 py-3 text-base transition-all hover:bg-muted/50">
                             <div className="flex items-center gap-2">
                                 <span className="rounded-full px-2 py-0.5 font-medium dark:bg-purple-900/20">
                                     Animes in this list: {animes.length}

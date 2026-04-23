@@ -11,7 +11,7 @@ export default async function MyListsPage() {
     }
 
     return (
-        <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8">
             <UserListsDashboard />
         </div>
     )

@@ -115,7 +115,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                         className="block"
                         target="_blank"
                     >
-                        <div className="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-900 p-3 transition-colors hover:bg-gray-800">
+                        <div className="flex items-center justify-between rounded-lg border border-gray-800 bg-amber-950/34 p-3 transition-colors hover:bg-amber-950/50">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-purple-900">
                                     <Play className="h-4 w-4" />
@@ -135,7 +135,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                                     )}
                                 </div>
                             </div>
-                            <button className="rounded bg-purple-600 p-2 hover:bg-purple-700">
+                            <button className="rounded bg-rose-900 p-2 hover:bg-rose-700">
                                 Watch
                             </button>
                         </div>

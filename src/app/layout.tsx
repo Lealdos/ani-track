@@ -40,7 +40,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
+                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
             >
                 {/* <AuthProvider> */}
                 <SpeedInsights />

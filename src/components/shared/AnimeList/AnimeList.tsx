@@ -5,16 +5,18 @@ import { use } from 'react'
 
 interface AnimeListProps {
     animes: Promise<JikanAnime[]> | JikanAnime[]
-    showBadge?: boolean
+    showRank?: boolean
     SectionName?: string
     emptyText?: string
+    showBadge?: boolean
 }
 
 export function AnimeList({
     animes: animesPromise,
-    showBadge = false,
+    showRank = false,
     SectionName,
     emptyText = 'Nothing here yet.',
+    showBadge = true,
 }: AnimeListProps) {
     const animes =
         animesPromise instanceof Promise ? use(animesPromise) : animesPromise
@@ -24,7 +26,7 @@ export function AnimeList({
                 {Array.from({ length: 12 }).map((_, i) => (
                     <Skeleton
                         key={`skeleton-${crypto.randomUUID()}`}
-                        className="bg-muted/60 aspect-2/3 w-full rounded-lg"
+                        className="aspect-2/3 w-full rounded-lg bg-muted/60"
                     />
                 ))}
             </div>
@@ -32,7 +34,7 @@ export function AnimeList({
 
     if (!animes?.length) {
         return (
-            <p className="text-muted-foreground py-16 text-center">
+            <p className="py-16 text-center text-muted-foreground">
                 {emptyText}
             </p>
         )
@@ -48,6 +50,8 @@ export function AnimeList({
                     <AnimeCard
                         anime={animeItem}
                         key={`${animeItem.title}-${animeItem.mal_id}-${SectionName}`}
+                        showBadges={showBadge}
+                        displayAnimeRank={showRank}
                     />
                 </div>
             ))}

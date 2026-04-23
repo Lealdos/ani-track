@@ -11,7 +11,7 @@ export function CurrentSeason({
     return (
         <AnimeList
             animes={currentSeason}
-            showBadge
+            showRank={true}
             SectionName="current-season"
         />
     )

@@ -65,7 +65,7 @@ export function EpisodeSchedule(): React.ReactElement {
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`rounded border border-purple-600 px-2 py-1 text-base capitalize ${selectedDay === day ? 'bg-rose-900 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-purple-800 hover:text-white`}
+                            className={`rounded border border-purple-600 px-2 py-1 text-base capitalize ${selectedDay === day ? 'bg-rose-900 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-pink-800 hover:text-white`}
                             disabled={selectedDay === day}
                         >
                             {day}

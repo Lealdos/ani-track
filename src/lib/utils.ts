@@ -38,7 +38,7 @@ export function FilterAndStringifySearchParams(rawParams: searchParamsProps) {
             })
             .map(([key, value]) => [
                 key,
-                value !== undefined ? String(value) : '',
+                value === undefined ? '' : String(value),
             ])
     )
 }
@@ -48,13 +48,13 @@ export function convertJSTToLocal(broadcastString: string | undefined): string {
     if (!broadcastString) return 'Unknown time'
 
     // Parse the broadcast string (e.g., "Saturdays at 23:45 (JST)")
-    const match = broadcastString.match(/(\w+)s at (\d{1,2}):(\d{2})/)
+    const match = /(\w+)s at (\d{1,2}):(\d{2})/.exec(broadcastString)
     if (!match) return broadcastString
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, dayName, hourStr, minuteStr] = match
-    const hour = parseInt(hourStr, 10)
-    const minute = parseInt(minuteStr, 10)
+    const hour = Number.parseInt(hourStr, 10)
+    const minute = Number.parseInt(minuteStr, 10)
 
     // Get current date
     const now = new Date()

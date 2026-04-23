@@ -48,6 +48,11 @@ export type JikanAnime = {
     demographics: JikanAnimeEntry[]
     relations: relations[]
     producers?: { mal_id: number; name: string; url: string; type: string }[]
+    trailer?: {
+        embed_url: string
+        youtube_id: string
+        url: string
+    }
 }
 
 type relations = {

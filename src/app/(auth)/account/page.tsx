@@ -13,7 +13,7 @@ export default async function UserAccountPage() {
     }
 
     return (
-        <div className="mx-auto my-6 min-h-screen max-w-2xl rounded-lg px-4 py-12 sm:px-6 md:min-w-lg lg:px-8">
+        <div className="mx-auto my-6 max-w-2xl rounded-lg px-4 py-12 sm:px-6 md:min-w-lg lg:px-8">
             <h1 className="gradient-home-name mb-8 p-2 text-center font-gothic text-4xl font-bold text-transparent italic">
                 My Account
             </h1>

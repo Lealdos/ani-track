@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function MyListsLoading() {
     return (
-        // <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+        // <div className="mx-auto  w-full max-w-7xl px-4 py-8">
         //     {/* Header */}
         //     <div className="mb-8 space-y-4">
         //         <div className="h-10 w-64 animate-pulse rounded-lg bg-gray-900"></div>
@@ -62,7 +62,7 @@ export default function MyListsLoading() {
         //     </div>
         // </div>
 
-        <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8">
             {/* Title skeleton */}
             <div className="mb-8">
                 <Skeleton className="h-9 w-32 bg-gray-700 md:h-10 md:w-40" />
