@@ -133,8 +133,6 @@ export default function SignInForm({
                                                 render={({ field }) => (
                                                     <PasswordInput
                                                         label="Password"
-                                                        name="password"
-                                                        control={form.control}
                                                         field={field}
                                                     />
                                                 )}
@@ -173,7 +171,7 @@ export default function SignInForm({
                     </Form>
                 </CardContent>
             </Card>
-            <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+            <div className="text-center text-xs text-balance text-muted-foreground *:[a]:underline *:[a]:underline-offset-4 *:[a]:hover:text-primary">
                 By clicking continue, you agree to our{' '}
                 <Link href="#">Terms of Service</Link> and{' '}
                 <Link href="#">Privacy Policy</Link>.
