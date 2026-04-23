@@ -31,6 +31,7 @@ export function SearchBar() {
                     onChange={(searchEvent: {
                         target: { value: React.SetStateAction<string> }
                     }) => setQuery(searchEvent.target.value)}
+                    suppressHydrationWarning
                 />
                 <button
                     type="submit"
