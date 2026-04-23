@@ -15,6 +15,8 @@ function Hero() {
                     className="absolute inset-0 h-full w-full object-center opacity-40 md:object-cover"
                     width={2560}
                     height={1440}
+                    loading="eager"
+                    priority
                 />
                 <div className="absolute inset-0 bg-linear-to-b from-background/10 via-background/50 to-background" />
                 <div className="bg-gradient-glow absolute inset-0 opacity-80" />
