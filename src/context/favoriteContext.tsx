@@ -1,5 +1,5 @@
 'use client'
-import { useState, useContext, createContext, useEffect } from 'react'
+import { useState, useContext, createContext, useEffect, useMemo } from 'react'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import {
     getStoredFavoriteAnimes,
@@ -47,15 +47,18 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
         storeFavoriteAnimes(newFavorites)
     }
 
+    const contextValue = useMemo(
+        () => ({
+            favorites,
+            isInFavorites,
+            addToFavorites,
+            removeFromFavorites,
+        }),
+        [favorites]
+    )
+
     return (
-        <FavoriteContext.Provider
-            value={{
-                favorites,
-                isInFavorites,
-                addToFavorites,
-                removeFromFavorites,
-            }}
-        >
+        <FavoriteContext.Provider value={contextValue}>
             {children}
         </FavoriteContext.Provider>
     )
