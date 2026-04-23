@@ -56,14 +56,16 @@ export function EpisodeSchedule(): React.ReactElement {
 
     return (
         <>
-            <h2 className="text-lg font-semibold">Emission schedule </h2>
+            <h2 className="text-lg font-semibold md:text-2xl">
+                Emission schedule{' '}
+            </h2>
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
                 {WEEKDAYS.map((day) => {
                     return (
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`rounded border border-purple-600 px-2 py-1 text-sm capitalize ${selectedDay === day ? 'bg-purple-700 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-purple-800 hover:text-white`}
+                            className={`rounded border border-purple-600 px-2 py-1 text-base capitalize ${selectedDay === day ? 'bg-rose-900 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-purple-800 hover:text-white`}
                             disabled={selectedDay === day}
                         >
                             {day}
@@ -77,13 +79,13 @@ export function EpisodeSchedule(): React.ReactElement {
                 {animesByDay.map((anime) => (
                     <article
                         key={`last-episode-${anime.mal_id}`}
-                        className="min-w-38 duration-400 flex max-w-[200px] flex-col items-center justify-between overflow-hidden rounded-2xl transition-all hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:min-w-[220px] md:max-w-[260px]"
+                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
                     >
                         <Link
                             href={`/anime/${anime.mal_id}`}
                             className="flex h-full w-full flex-col"
                         >
-                            <div className="h-70 relative">
+                            <div className="relative h-70">
                                 <img
                                     src={
                                         anime.images?.jpg?.image_url ||
@@ -92,7 +94,7 @@ export function EpisodeSchedule(): React.ReactElement {
                                     alt={`${anime.title} poster`}
                                     className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
                                 />
-                                <span className="absolute right-3 top-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
+                                <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                                     {convertJSTToLocal(anime.broadcast?.string)}
                                     ~ approx.
                                 </span>
@@ -101,7 +103,7 @@ export function EpisodeSchedule(): React.ReactElement {
                                 </span>
                             </div>
 
-                            <h3 className="truncate text-wrap p-2 text-center text-sm font-semibold">
+                            <h3 className="truncate p-2 text-center text-sm font-semibold text-wrap">
                                 {anime.title.length > 120
                                     ? `${anime.title.slice(0, 60)}...`
                                     : anime.title}
