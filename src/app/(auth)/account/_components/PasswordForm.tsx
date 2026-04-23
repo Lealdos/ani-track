@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
@@ -53,9 +52,9 @@ export function PasswordForm() {
     }
 
     return (
-        <Card className="min-h-80 border-gray-950 border-b-red-900 bg-linear-to-br from-rose-950 via-fuchsia-950 to-rose-900 p-8">
+        <Card className="min-h-92 border-gray-950 border-b-red-900 bg-linear-to-br from-rose-950 via-fuchsia-950 to-rose-900 p-8">
             <div className="mx-auto max-w-md">
-                <h2 className="mb-8 text-center text-2xl font-semibold text-white">
+                <h2 className="mb-8 text-center text-2xl font-semibold text-cyan-400/95 md:text-3xl">
                     Change Password
                 </h2>
 
@@ -71,8 +70,6 @@ export function PasswordForm() {
                             render={({ field }) => (
                                 <PasswordInput
                                     label="Current Password"
-                                    name="currentPassword"
-                                    control={form.control}
                                     field={field}
                                 />
                             )}
@@ -85,8 +82,6 @@ export function PasswordForm() {
                             render={({ field }) => (
                                 <PasswordInput
                                     label="New Password"
-                                    name="newPassword"
-                                    control={form.control}
                                     field={field}
                                 />
                             )}
@@ -99,15 +94,13 @@ export function PasswordForm() {
                             render={({ field }) => (
                                 <PasswordInput
                                     label="Confirm New Password"
-                                    name="confirmPassword"
-                                    control={form.control}
                                     field={field}
                                 />
                             )}
                         />
 
                         {/* Password Requirements */}
-                        <div className="rounded-lg bg-gray-950/70 p-4 text-sm text-gray-300">
+                        <div className="rounded-lg bg-gray-950/70 p-4 text-sm text-gray-300 md:text-base">
                             <p className="mb-2 font-semibold">
                                 Password Requirements:
                             </p>
@@ -121,7 +114,7 @@ export function PasswordForm() {
                         <Button
                             type="submit"
                             disabled={form.formState.isSubmitting}
-                            className="w-full rounded-lg border border-red-600 bg-linear-to-br from-red-900 via-slate-900/80 to-red-900 py-2 font-semibold text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="w-full rounded-lg border border-red-600 bg-linear-to-br from-red-900 via-slate-900/80 to-red-900 py-2 font-semibold text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 md:text-base"
                         >
                             {form.formState.isSubmitting
                                 ? 'Updating...'

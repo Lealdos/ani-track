@@ -108,7 +108,7 @@ export function ProfileForm({ user }: { user?: User }) {
     }
 
     return (
-        <Card className="min-h-80 border-gray-700 border-b-red-900 bg-linear-to-r from-slate-900 via-purple-900 to-slate-900 p-8">
+        <Card className="min-h-80 border-gray-700 border-b-red-900 bg-linear-to-bl from-rose-950 via-violet-950 to-rose-950 p-8">
             <div className="space-y-8">
                 {/* Edit Profile Header */}
                 <div className="text-center">
@@ -182,7 +182,7 @@ export function ProfileForm({ user }: { user?: User }) {
                             <p className="cursor-pointer text-sm font-medium text-cyan-400 hover:text-cyan-300">
                                 Upload profile photo
                             </p>
-                            <p className="mt-1 text-xs text-gray-400">
+                            <p className="mt-1 text-xs text-gray-300">
                                 Only images, maximum 1 MB
                             </p>
                         </div>
@@ -201,13 +201,13 @@ export function ProfileForm({ user }: { user?: User }) {
                             name="userName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-gray-300">
+                                    <FormLabel className="text-lg text-gray-300">
                                         Username
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Enter username"
-                                            className="border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-red-700"
+                                            className="border-gray-600 bg-violet-950/50 text-white placeholder-gray-500 focus:ring-red-700 md:text-lg"
                                             {...field}
                                         />
                                     </FormControl>
@@ -222,13 +222,13 @@ export function ProfileForm({ user }: { user?: User }) {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-gray-300">
+                                    <FormLabel className="text-lg text-gray-300">
                                         Display Name
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Enter display name"
-                                            className="border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-red-700"
+                                            className="border-gray-600 bg-violet-950/50 text-white placeholder-gray-500 focus:ring-red-700 md:text-lg"
                                             {...field}
                                         />
                                     </FormControl>
@@ -243,7 +243,7 @@ export function ProfileForm({ user }: { user?: User }) {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-gray-300">
+                                    <FormLabel className="text-lg text-gray-300">
                                         Email Address
                                     </FormLabel>
                                     <FormControl>
@@ -251,11 +251,11 @@ export function ProfileForm({ user }: { user?: User }) {
                                             placeholder="Enter email address"
                                             type="email"
                                             disabled
-                                            className="cursor-not-allowed border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-500"
+                                            className="cursor-not-allowed border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-500 md:text-lg"
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormDescription className="text-xs text-gray-400">
+                                    <FormDescription className="text-xs text-gray-400 md:text-sm">
                                         If you change your email, you will
                                         receive a new verification email.
                                     </FormDescription>

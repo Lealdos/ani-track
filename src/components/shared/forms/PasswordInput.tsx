@@ -12,28 +12,25 @@ import { Input } from '@/components/ui/input'
 
 interface PasswordInputProps {
     label: string
-    name: string
-    control: any
     field: any
 }
 
 export function PasswordInput({
     label,
-    name,
-    control,
+
     field,
 }: PasswordInputProps) {
     const [showPassword, setShowPassword] = useState(false)
     return (
         <FormItem>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="md:text-xl">{label}</FormLabel>
             <FormControl>
                 <div className="relative">
                     <Input
                         placeholder="enter your password"
                         {...field}
                         type={showPassword ? 'text' : 'password'}
-                        className="border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-red-700"
+                        className="border-gray-600 bg-purple-950/70 text-white placeholder-white focus:ring-red-700 md:text-lg"
                     />
                     {showPassword ? (
                         <EyeOff
@@ -48,7 +45,7 @@ export function PasswordInput({
                     )}
                 </div>
             </FormControl>
-            <FormMessage className="text-red-400" />
+            <FormMessage className="text-white" />
         </FormItem>
     )
 }
