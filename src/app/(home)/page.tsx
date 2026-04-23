@@ -29,7 +29,7 @@ export default async function Home() {
             <Suspense fallback={null}>
                 <Hero />
             </Suspense>
-            <div className="container mx-auto w-full max-w-7xl px-4 py-8 text-white">
+            <div className="max-w-8xl container mx-auto w-full px-4 py-8 text-white">
                 <section className="mb-12">
                     <h2 className="flex items-center gap-2 text-2xl font-bold">
                         Your favorites animes
