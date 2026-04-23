@@ -39,9 +39,6 @@ export default async function Home() {
                 </section>
 
                 <section className="mb-12" id="schedule">
-                    <h2 className="flex items-center gap-2 text-2xl font-bold">
-                        Last episodes released:
-                    </h2>
                     <EpisodeSchedule />
                 </section>
 
