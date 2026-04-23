@@ -98,7 +98,7 @@ export default async function AnimePage({
     return (
         <FavoriteProvider>
             {/* background image in mobile view */}
-            <article className="rounded-lg bg-rose-950/10 text-gray-100 shadow-lg">
+            <article className="w-screen rounded-lg text-gray-100 shadow-lg">
                 <div className="relative h-[300px] md:hidden md:h-[620px]">
                     <img
                         src={
