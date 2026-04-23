@@ -12,10 +12,26 @@ type Route = {
     label: string
 }
 
+const animeBrowseMenu: Route[] = [
+    { href: '/browse', label: 'Browse' },
+    { href: '/browse/top', label: 'Top Anime' },
+    { href: '/anime/genres', label: 'Genres' },
+    { href: '/account/favorites', label: 'Favorites' },
+]
+
+const userMenu: Route[] = [
+    { href: '/account', label: 'My Account' },
+    { href: '/account/my-lists', label: 'My Lists' },
+]
+
+const authMenu: Route[] = [
+    { href: '/login', label: 'Login' },
+    { href: '/sign-up', label: 'Sign Up' },
+]
+
 export default function Header() {
     const router = useRouter()
 
-    const animeBrowseMenu: Route[] = [{ href: '/browse', label: 'Browse' }]
     const {
         data: session,
         refetch, //refetch the session
@@ -70,6 +86,7 @@ export default function Header() {
     }, [isMobileMenuOpen])
 
     const handleLogout = async () => {
+        setIsMobileMenuOpen(false)
         await signOut({
             fetchOptions: {
                 onSuccess: () => {
@@ -129,15 +146,15 @@ export default function Header() {
                             aria-label="Open menu"
                             type="button"
                         >
-                            {!isMobileMenuOpen ? (
-                                <>
-                                    <Menu className="h-6 w-6 text-white" />
-                                    <span className="sr-only">Open menu</span>
-                                </>
-                            ) : (
+                            {isMobileMenuOpen ? (
                                 <>
                                     <X className="h-6 w-6" />
                                     <span className="sr-only">Close menu</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Menu className="h-6 w-6 text-white" />
+                                    <span className="sr-only">Open menu</span>
                                 </>
                             )}
                         </button>
@@ -166,44 +183,42 @@ export default function Header() {
                         </h5>
                         {/* TODO: agregar separation de secciones entre elementos de la lista ↓ */}
                         <ul className="flex flex-col items-center-safe justify-center space-y-2 border-b-red-800 text-white">
-                            <li
-                                onClick={() => {
-                                    setIsMobileMenuOpen(!isMobileMenuOpen)
-                                }}
-                            >
+                            <li>
                                 {session?.user ? (
                                     <div className="flex flex-col items-center justify-center gap-2">
-                                        <button onClick={handleLogout}>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="pointer"
+                                        >
                                             Sign Out
                                         </button>
-                                        <Link
-                                            href="/account"
-                                            className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105"
-                                        >
-                                            My Account
-                                        </Link>
-                                        <Link
-                                            href="/account/my-lists"
-                                            className="rounded-lg px-3 py-1.5 text-white transition-colors hover:scale-105"
-                                        >
-                                            My lists
-                                        </Link>
+                                        {userMenu.map((route) => (
+                                            <Link
+                                                key={route.href}
+                                                href={route.href}
+                                                className="py-1.5 text-white transition-transform hover:scale-105"
+                                                onClick={() =>
+                                                    setIsMobileMenuOpen(false)
+                                                }
+                                            >
+                                                {route.label}
+                                            </Link>
+                                        ))}
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center gap-2">
-                                        <Link
-                                            href="/sign-up"
-                                            className="py-1.5 text-white transition-transform hover:scale-105"
-                                        >
-                                            Sign Up
-                                        </Link>
-
-                                        <Link
-                                            href="/login"
-                                            className="py-1.5 text-white transition-transform hover:scale-105"
-                                        >
-                                            Login
-                                        </Link>
+                                        {authMenu.map((route) => (
+                                            <Link
+                                                key={route.href}
+                                                href={route.href}
+                                                className="py-1.5 text-white transition-transform hover:scale-105"
+                                                onClick={() =>
+                                                    setIsMobileMenuOpen(false)
+                                                }
+                                            >
+                                                {route.label}
+                                            </Link>
+                                        ))}
                                     </div>
                                 )}
                             </li>
