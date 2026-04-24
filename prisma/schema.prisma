@@ -20,6 +20,7 @@ model User {
   favorites       UserFavoritesList[]
   CurrentWatching CurrentWatching[]
   FinishedList    FinishedAnimeList[]
+  PlanToWatch     PlanToWatch[]
   lists           UserLists[]
   comments        Comment[]
   email           String
@@ -84,6 +85,20 @@ model CurrentWatching {
   updatedAt DateTime @updatedAt
 
   @@map("current_watching")
+}
+
+model PlanToWatch {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  animeId   String
+  title     String
+  completed Boolean  @default(false)
+  picture   String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("plan_to_watch")
 }
 
 model FinishedAnimeList {
