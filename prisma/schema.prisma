@@ -54,6 +54,7 @@ model UserListItems {
   listId    String
   animeId   String
   title     String
+  completed Boolean   @default(false)
   picture   String    @default("")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -67,6 +68,7 @@ model UserFavoritesList {
   userId    String
   animeId   String
   title     String
+  completed Boolean  @default(false)
   picture   String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,6 +82,7 @@ model CurrentWatching {
   userId    String
   animeId   String
   title     String
+  completed Boolean  @default(false)
   picture   String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -107,6 +110,7 @@ model FinishedAnimeList {
   userId    String
   animeId   String
   title     String
+  completed Boolean  @default(true)
   picture   String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
