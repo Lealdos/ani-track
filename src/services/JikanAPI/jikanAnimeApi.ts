@@ -11,8 +11,9 @@ import { removeDuplicates } from '../../lib/utils'
 import { API_BASE_URL } from '@/config/const'
 import { PaginationInfo } from '@/types/pageInfo'
 import { JikanCharacterDataItem } from '@/types/animeCharacter'
+import { DAYS15, HOUR, MONTH, WEEK, DAY } from '@/services/JikanAPI/utils/jikan'
 
-const API_RATE_LIMIT_DELAY = 1250 // Delay in milliseconds for rate limiting (1.25 seconds)
+const API_RATE_LIMIT_DELAY = 1000 // Delay in milliseconds for rate limiting (1.25 seconds)
 
 const delay = (ms: number): Promise<void> =>
     new Promise((resolve) => setTimeout(resolve, ms))
@@ -21,19 +22,23 @@ type JikanResponse<T> = {
     data: T
     pagination?: PaginationInfo
 }
+
 // Rate limiting helper - Jikan API has a limit of 3 requests per second
-export async function fetchWithRateLimit<T>(url: string): Promise<T> {
+export async function fetchWithRateLimit<T>(
+    url: string,
+    options: RequestInit = {}
+): Promise<T> {
     try {
         const response = await fetch(url)
 
         if (response.status === 429) {
             //'Rate limit reached, waiting for 1 seconds...',
             await delay(API_RATE_LIMIT_DELAY)
-            return await fetchWithRateLimit<T>(url)
+            return await fetchWithRateLimit<T>(url, options)
         }
         if (!response.ok) {
             await delay(API_RATE_LIMIT_DELAY)
-            return await fetchWithRateLimit<T>(url)
+            return await fetchWithRateLimit<T>(url, options)
         }
 
         return await response.json()
@@ -118,7 +123,12 @@ export async function getAiringDayAnime(
 export async function getSeasonalAnime(): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
-            `${API_BASE_URL}/seasons/now?continuing&unapproved`
+            `${API_BASE_URL}/seasons/now?continuing&unapproved`,
+            {
+                next: {
+                    revalidate: DAY, // Cache for 24 hours
+                },
+            }
         )
         const seasonalAnime = data
         return removeDuplicates(seasonalAnime).filter(
@@ -133,7 +143,12 @@ export async function getSeasonalAnime(): Promise<JikanAnime[]> {
 export async function getTopAnime(): Promise<JikanAnime[]> {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
-            `${API_BASE_URL}/top/anime?sfw&limit=20`
+            `${API_BASE_URL}/top/anime?sfw&limit=20`,
+            {
+                next: {
+                    revalidate: WEEK, // Cache for 1 hour
+                },
+            }
         )
         const sortedTopAnimes = data.toSorted((a, b) => a.rank - b.rank)
         return sortedTopAnimes
@@ -146,7 +161,12 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
 export async function getAnimeByGenre(genreId: number) {
     try {
         const { data } = await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(
-            `${API_BASE_URL}/anime?genres=${genreId}&limit=10`
+            `${API_BASE_URL}/anime?genres=${genreId}&limit=10`,
+            {
+                next: {
+                    revalidate: DAYS15, // Cache for 30 days
+                },
+            }
         )
         return data
     } catch (error) {
@@ -177,7 +197,11 @@ export async function getAnimeEpisodes(id: number, page = 1) {
     try {
         const { data, pagination } = await fetchWithRateLimit<
             JikanResponse<JikanEpisode[]>
-        >(`${API_BASE_URL}/anime/${id}/episodes?page=${page}`)
+        >(`${API_BASE_URL}/anime/${id}/episodes?page=${page}`, {
+            next: {
+                revalidate: WEEK, // Cache for 30 days
+            },
+        })
         const animeEpisodes = {
             episodes: data,
             pagination: pagination as PaginationInfo,
@@ -222,7 +246,11 @@ export async function getAnimeRecommendations(
     try {
         const { data } = await fetchWithRateLimit<
             JikanResponse<JikanRecommendations[]>
-        >(`${API_BASE_URL}/anime/${id}/recommendations`)
+        >(`${API_BASE_URL}/anime/${id}/recommendations`, {
+            next: {
+                revalidate: DAYS15, // Cache for 30 days
+            },
+        })
         return data
     } catch (error) {
         console.error(`Error fetching recommendations for anime ${id}:`, error)
@@ -233,7 +261,12 @@ export async function getAnimeRecommendations(
 // Get all genres
 export async function getGenres() {
     const { data } = await fetchWithRateLimit<JikanResponse<JikanGenres[]>>(
-        `${API_BASE_URL}/genres/anime`
+        `${API_BASE_URL}/genres/anime`,
+        {
+            next: {
+                revalidate: MONTH, // Cache for 30 days
+            },
+        }
     )
     return data
 }
