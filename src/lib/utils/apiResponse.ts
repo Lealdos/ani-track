@@ -130,11 +130,15 @@ export function handleError(error: unknown): NextResponse<ApiResponse> {
     }
 
     if (error instanceof Error) {
-        // Check if it's a Prisma error
-        if (
-            'code' in error &&
-            typeof (error as { code?: string }).code === 'string'
-        ) {
+        const appErr = error as Error & { statusCode?: number; code?: string }
+
+        // AppError from @/lib/utils/errors (has statusCode set)
+        if (appErr.statusCode) {
+            return errorResponse(error.message, appErr.statusCode, appErr.code)
+        }
+
+        // Prisma error (has code but no statusCode)
+        if ('code' in error && typeof appErr.code === 'string') {
             return handlePrismaError(error)
         }
 
