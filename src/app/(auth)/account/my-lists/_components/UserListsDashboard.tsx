@@ -14,6 +14,11 @@ const LIST_STATUSES = [
         color: 'bg-slate-700/80 hover:bg-slate-700',
     },
     {
+        value: 'favorites',
+        label: 'favorites',
+        color: 'bg-slate-700/80 hover:bg-slate-700',
+    },
+    {
         value: 'plan to watch',
         label: 'plan to watch',
         color: 'bg-slate-700/80 hover:bg-slate-700',
@@ -21,16 +26,6 @@ const LIST_STATUSES = [
     {
         value: 'completed',
         label: 'completed',
-        color: 'bg-slate-700/80 hover:bg-slate-700',
-    },
-    {
-        value: 'onHold',
-        label: 'onHold',
-        color: 'bg-slate-700/80 hover:bg-slate-700',
-    },
-    {
-        value: 'dropped',
-        label: 'dropped',
         color: 'bg-slate-700/80 hover:bg-slate-700',
     },
 ] as const
