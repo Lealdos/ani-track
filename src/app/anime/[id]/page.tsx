@@ -32,6 +32,7 @@ import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
 import { FavoriteProvider } from '@/context/favoriteContext'
 import { CharactersList } from './components/CharactersList/CharactersList'
 import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
+import { imgOf } from '@/services/JikanAPI/utils/jikan'
 
 interface PageParams {
     id: number
@@ -99,17 +100,13 @@ export default async function AnimePage({
         <FavoriteProvider>
             {/* background image in mobile view */}
             <article className="w-screen rounded-lg text-gray-100 shadow-lg">
-                <div className="relative h-[300px] md:hidden md:h-[620px]">
+                <div className="relative h-[55vh] w-full overflow-hidden">
                     <img
-                        src={
-                            anime.images?.jpg?.large_image_url ||
-                            anime.images?.jpg?.image_url ||
-                            '/placeholder.svg'
-                        }
-                        alt={anime.title}
-                        className="object-cover brightness-70 md:object-fill"
-                        sizes="(max-width: 768px) 100vw, 250px"
+                        src={imgOf(anime)}
+                        alt={`${anime.title} backdrop`}
+                        className="h-full w-full scale-110 object-cover opacity-60 blur-sm"
                     />
+                    <div className="absolute inset-0 bg-linear-to-b from-background/30 via-background/70 to-background" />
                     <BackButton />
                 </div>
                 <main className="container mx-auto px-4 py-8">
@@ -313,13 +310,14 @@ export default async function AnimePage({
                                         {anime.synopsis}
                                     </p>
                                 </div>
+                                {/* trailer section */}
                                 {anime.trailer?.embed_url && (
                                     <div className="shadow-soft mt-6 overflow-hidden rounded-xl border border-border/60">
                                         <div className="aspect-video w-full">
                                             <iframe
                                                 src={anime.trailer.embed_url}
                                                 title={`${anime.title} trailer`}
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
                                                 className="h-full w-full"
                                             />
