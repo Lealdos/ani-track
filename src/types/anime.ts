@@ -1,3 +1,5 @@
+import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+
 export type AnimeType = 'tv' | 'movie' | 'ova' | 'special' | 'ona' | 'music'
 
 export type multipleLanguagesTitles = {
@@ -24,3 +26,5 @@ export type streaming = {
     name: string
     url: string
 }
+
+export type ListsAnimes = Pick<JikanAnime, 'mal_id' | 'title' | 'images'>
