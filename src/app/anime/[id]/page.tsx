@@ -4,7 +4,6 @@ import Link from 'next/link'
 import {
     Star,
     Clock,
-    BookmarkPlus,
     Video,
     House,
     Target,
