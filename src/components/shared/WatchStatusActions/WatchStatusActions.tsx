@@ -1,6 +1,5 @@
 'use client'
-import { useState } from 'react'
-import { Tv, Clock, CheckCircle2, X, ListPlus, Check } from 'lucide-react'
+import { Tv, Clock, CheckCircle2, X, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
@@ -10,9 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import { useWatchStatus, WatchStatus } from '@/hooks/useWatchStatus'
-import { useAnimeLists } from '@/hooks/useAnimeLists'
 import { FavoriteAnime } from '@/hooks/useFavorites'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
