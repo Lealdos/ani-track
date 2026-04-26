@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useAnimeLists } from '@/hooks/useAnimeLists'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
 
 type UserList = { id: string; name: string; itemCount?: number }
 
@@ -40,14 +41,17 @@ export function AddToListButton({
 }: AddToListButtonProps) {
     const [newName, setNewName] = useState('')
     const { lists, createList, addToList } = useAnimeLists()
+    const { requireAuth } = useRequireAuth()
 
     const handleAddToNew = () => {
-        const created = createList(newName)
-        if (created) {
-            addToList(created.id, anime)
-            toast.success(`Added to "${created.name}"`)
-            setNewName('')
-        }
+        requireAuth(() => {
+            const created = createList(newName)
+            if (created) {
+                addToList(created.id, anime)
+                toast.success(`Added to "${created.name}"`)
+                setNewName('')
+            }
+        })
     }
 
     return (
@@ -86,8 +90,12 @@ export function AddToListButton({
                                 key={l.id}
                                 onClick={() => {
                                     if (!has) {
-                                        addToList(l.id, anime)
-                                        toast.success(`Added to "${l.name}"`)
+                                        requireAuth(() => {
+                                            addToList(l.id, anime)
+                                            toast.success(
+                                                `Added to "${l.name}"`
+                                            )
+                                        })
                                     }
                                 }}
                                 disabled={has}
