@@ -29,10 +29,10 @@ import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate, convertJSTToLocal } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
-import { FavoriteProvider } from '@/context/favoriteContext'
 import { CharactersList } from './components/CharactersList/CharactersList'
-import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 import { imgOf } from '@/services/JikanAPI/utils/jikan'
+import { WatchStatusButton } from '@/components/shared/WatchStatusActions/WatchStatusActions'
+import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 
 interface PageParams {
     id: number
@@ -97,9 +97,9 @@ export default async function AnimePage({
     }
 
     return (
-        <FavoriteProvider>
+        <>
             {/* background image in mobile view */}
-            <article className="w-screen rounded-lg text-gray-100 shadow-lg">
+            <article className="w-full rounded-lg text-gray-100 shadow-lg">
                 <div className="relative h-[55vh] w-full overflow-hidden">
                     <img
                         src={imgOf(anime)}
@@ -268,11 +268,9 @@ export default async function AnimePage({
                                         </div>
                                     )}
                                 </div>
-                                <div className="my-2 flex flex-row items-center gap-2">
-                                    {/* TODO : add to list button COMPONENT */}
+                                <div className="my-2 flex flex-row items-center gap-4">
+                                    <WatchStatusButton anime={anime} />
                                     <AddToListButton anime={anime} />
-
-                                    {/* ADD TO FAVORITE BUTTON COMPONENT */}
                                     <AddFavoritesButton anime={anime} />
                                 </div>
 
@@ -319,6 +317,7 @@ export default async function AnimePage({
                                                 title={`${anime.title} trailer`}
                                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
+                                                loading="lazy"
                                                 className="h-full w-full"
                                             />
                                         </div>
@@ -496,6 +495,6 @@ export default async function AnimePage({
                     )}
                 </main>
             </article>
-        </FavoriteProvider>
+        </>
     )
 }
