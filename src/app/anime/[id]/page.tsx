@@ -27,7 +27,7 @@ import {
 import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
 import { formatDate, convertJSTToLocal } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
-import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
+import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
 import { CharactersList } from './components/CharactersList/CharactersList'
 import { imgOf } from '@/services/JikanAPI/utils/jikan'
 import { WatchStatusButton } from '@/components/shared/WatchStatusActions/WatchStatusActions'
@@ -269,7 +269,7 @@ export default async function AnimePage({
                                 </div>
                                 <div className="my-2 flex flex-row items-center gap-4">
                                     <WatchStatusButton anime={anime} />
-                                    <AddToListButton anime={anime} />
+                                    <AddToListButton anime={anime} showLabel />
                                     <AddFavoritesButton anime={anime} />
                                 </div>
 
@@ -309,12 +309,15 @@ export default async function AnimePage({
                                 </div>
                                 {/* trailer section */}
                                 {anime.trailer?.embed_url && (
-                                    <div className="shadow-soft mt-6 overflow-hidden rounded-xl border border-border/60">
+                                    <div className="shadow-soft my-6 overflow-hidden rounded-xl border border-border/60">
                                         <div className="aspect-video w-full">
                                             <iframe
-                                                src={anime.trailer.embed_url}
+                                                src={
+                                                    anime.trailer.embed_url +
+                                                    '?autoplay=0'
+                                                }
                                                 title={`${anime.title} trailer`}
-                                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope ;  picture-in-picture ;"
                                                 allowFullScreen
                                                 loading="lazy"
                                                 className="h-full w-full"
@@ -324,7 +327,7 @@ export default async function AnimePage({
                                 )}
                                 {/* Anime relations (e.g. Adaptation, Prequel, Sequel) */}
 
-                                <h3 className="col-span-full mb-2 text-lg font-bold">
+                                <h3 className="col-span-full my-2 text-lg font-bold">
                                     Related Anime (Adaptation, Prequel, Sequel):
                                 </h3>
                                 <div className="flex flex-row flex-wrap gap-2 overflow-auto px-2 md:grid md:grid-cols-3">
