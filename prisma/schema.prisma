@@ -73,6 +73,7 @@ model UserFavoritesList {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([userId, animeId])
   @@map("user_favorites_list")
 }
 
