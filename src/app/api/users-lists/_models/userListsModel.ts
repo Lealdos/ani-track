@@ -7,7 +7,12 @@ export class UserListsModel {
             include: {
                 listItems: {
                     orderBy: { createdAt: 'desc' },
-                    select: { mal_id: true, title: true, images: true },
+                    select: {
+                        id: true,
+                        animeId: true,
+                        title: true,
+                        picture: true,
+                    },
                 },
             },
             orderBy: { createdAt: 'desc' },
