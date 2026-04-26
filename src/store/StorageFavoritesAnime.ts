@@ -4,13 +4,13 @@ import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 const FAV_KEY = 'Favorites-Animes'
 
 export function getStoredFavoriteAnimes() {
-    if (typeof window === 'undefined') return []
+    if (globalThis.window === undefined) return []
     const FavoriteAnimeList = localStorage.getItem(FAV_KEY)
     return FavoriteAnimeList ? JSON.parse(FavoriteAnimeList) : []
 }
 
 export function storeFavoriteAnimes(favorites: JikanAnime[]) {
-    if (typeof window === 'undefined') return
+    if (globalThis.window === undefined) return
     localStorage.setItem(FAV_KEY, JSON.stringify(favorites))
 }
 
