@@ -6,6 +6,38 @@ export class FavoritesService {
         return FavoritesModel.findAllByUser(userId)
     }
 
+    static async add(
+        userId: string,
+        animeId: string,
+        title: string,
+        picture: string
+    ) {
+        const existing = await FavoritesModel.findByUserAndAnimeId(
+            userId,
+            animeId
+        )
+        if (existing) return existing
+        return FavoritesModel.create({ userId, animeId, title, picture })
+    }
+
+    static async remove(userId: string, animeId: string) {
+        const deleted = await FavoritesModel.deleteByUserAndAnimeId(
+            userId,
+            animeId
+        )
+        if (!deleted) throw createNotFoundError('Favorite')
+        return deleted
+    }
+
+    static async sync(
+        userId: string,
+        items: { animeId: string; title: string; picture: string }[]
+    ) {
+        if (items.length === 0) return []
+        await FavoritesModel.upsertMany(userId, items)
+        return FavoritesModel.findAllByUser(userId)
+    }
+
     static async updateCompleted(
         id: string,
         userId: string,
