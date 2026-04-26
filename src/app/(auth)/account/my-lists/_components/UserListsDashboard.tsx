@@ -2,9 +2,9 @@
 import { useSession } from '@/lib/Auth/auth-clients'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { TvMinimalPlay } from 'lucide-react'
-import { Suspense } from 'react'
+import { Clock, CheckCircle2, Heart, TvMinimalPlay, List } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ListsAnimes } from '@/types/anime'
 
 // List status types matching common anime tracking apps
 const LIST_STATUSES = [
@@ -12,28 +12,39 @@ const LIST_STATUSES = [
         value: 'watching',
         label: 'watching',
         color: 'bg-slate-700/80 hover:bg-slate-700',
+        icon: Clock,
     },
     {
         value: 'favorites',
         label: 'favorites',
         color: 'bg-slate-700/80 hover:bg-slate-700',
+        icon: Heart,
     },
     {
         value: 'plan to watch',
         label: 'plan to watch',
         color: 'bg-slate-700/80 hover:bg-slate-700',
+        icon: TvMinimalPlay,
     },
     {
         value: 'completed',
         label: 'completed',
         color: 'bg-slate-700/80 hover:bg-slate-700',
+        icon: CheckCircle2,
+    },
+    {
+        value: 'user lists',
+        label: 'user lists',
+        color: 'bg-slate-700/80 hover:bg-slate-700',
+        icon: List,
     },
 ] as const
 
 type ListStatus = (typeof LIST_STATUSES)[number]['value']
 
-const userLists = async (userId: string) => {
-    const lists = await fetch(`/api/users-lists`, {
+const userLists = async (listStatus: ListStatus) => {
+    if (listStatus !== 'user lists') return null
+    const lists: ListsAnimes[] = await fetch(`/api/users-lists`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -96,13 +107,15 @@ export function UserListsDashboard() {
 
             <Tabs defaultValue="watching" className="w-full">
                 <TabsList className="mb-6 flex w-full flex-wrap justify-start gap-2 bg-transparent p-0">
-                    {LIST_STATUSES.map((status) => (
+                    {LIST_STATUSES.map((listStatus) => (
                         <TabsTrigger
-                            key={status.value}
-                            value={status.value}
-                            className={`rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-all data-[state=inactive]:${status.color} capitalize data-[state=active]:bg-cyan-500 data-[state=active]:text-gray-900 data-[state=active]:shadow-lg`}
+                            key={listStatus.value}
+                            value={listStatus.value}
+                            className={`rounded-lg px-6 py-2.5 text-base font-medium text-white transition-all data-[state=inactive]:${listStatus.color} capitalize data-[state=active]:bg-cyan-500 data-[state=active]:text-gray-900 data-[state=active]:shadow-lg`}
+                            onClick={() => userLists(listStatus.value)}
                         >
-                            {status.label}
+                            <listStatus.icon className="mr-2 h-4 w-4" />
+                            {listStatus.label}
                         </TabsTrigger>
                     ))}
                 </TabsList>
