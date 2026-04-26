@@ -4,9 +4,12 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
+import { ViewTransition } from 'react'
+
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/shared/Footer/Footer'
-import { ViewTransition } from 'react'
+import Providers from '@/context/providers'
+
 const Header = dynamic(() => import('@/components/shared/Header/Header'))
 
 const inter = Inter({
@@ -42,14 +45,13 @@ export default function RootLayout({
             <body
                 className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
             >
-                {/* <AuthProvider> */}
                 <SpeedInsights />
                 <Header />
-
-                <ViewTransition> {children}</ViewTransition>
-                <Toaster />
+                <ViewTransition>
+                    <Providers>{children}</Providers>
+                    <Toaster />
+                </ViewTransition>
                 <Footer />
-                {/* </AuthProvider> */}
             </body>
         </html>
     )
