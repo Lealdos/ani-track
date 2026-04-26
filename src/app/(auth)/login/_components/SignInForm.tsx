@@ -2,7 +2,7 @@
 
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -44,6 +44,8 @@ export default function SignInForm({
     const { refetch } = useSession()
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const callbackURL = searchParams.get('callbackURL') || '/account'
     const form = useForm<UserLoginSchemaType>({
         resolver: zodResolver(userLoginSchema),
         defaultValues: {
@@ -55,7 +57,7 @@ export default function SignInForm({
     const signInWithGoogle = async () => {
         await signIn.social({
             provider: 'google',
-            callbackURL: '/',
+            callbackURL,
         })
     }
     //    console.log(form.formState.errors) <-- For debugging purposes check validation errors of react-hook-form
@@ -68,12 +70,15 @@ export default function SignInForm({
 
         if (success) {
             toast.success(
-                `${message as string} Please check your email for verification.`
+                `${message} Please check your email for verification.`
             )
             refetch()
-            router.push('/account')
+            router.push(callbackURL || '/account')
         } else {
-            toast.error(message as string)
+            toast.error(
+                message ||
+                    'Login failed. Please check your credentials and try again.'
+            )
         }
 
         setIsLoading(false)
@@ -161,7 +166,7 @@ export default function SignInForm({
                                     you don't have an account?{' '}
                                     <Link
                                         className="underline underline-offset-4"
-                                        href="/sign-up"
+                                        href={`/sign-up${callbackURL !== '/account' ? `?callbackURL=${encodeURIComponent(callbackURL)}` : ''}`}
                                     >
                                         Signup
                                     </Link>
