@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useWatchStatus, WatchStatus } from '@/hooks/useWatchStatus'
-import { FavoriteAnime } from '@/hooks/useFavorites'
+import { ListsAnimes } from '@/types/anime'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
@@ -22,7 +22,7 @@ const STATUS_OPTIONS: { value: WatchStatus; label: string; Icon: typeof Tv }[] =
     ]
 
 interface Props {
-    anime: FavoriteAnime
+    anime: ListsAnimes
 }
 
 export function WatchStatusButton({ anime }: Props) {
@@ -30,7 +30,8 @@ export function WatchStatusButton({ anime }: Props) {
     const current = getStatus(anime.mal_id)
 
     const currentLabel =
-        STATUS_OPTIONS.find((o) => o.value === current)?.label ?? 'Set status'
+        STATUS_OPTIONS.find((statusOption) => statusOption.value === current)
+            ?.label ?? 'Set status'
 
     const handleSet = (s: WatchStatus) => {
         setStatus(anime, s)
@@ -46,7 +47,7 @@ export function WatchStatusButton({ anime }: Props) {
                     <Button
                         variant={current ? 'default' : 'secondary'}
                         size="sm"
-                        className="text-base"
+                        className={`bg-violet-900 text-base ${current ? 'bg-violet-600' : ''}`}
                     >
                         {current ? (
                             <Check className="mr-2 h-4 w-4" />

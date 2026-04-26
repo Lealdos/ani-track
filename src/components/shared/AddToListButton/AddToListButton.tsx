@@ -16,11 +16,13 @@ import {
 import { Input } from '@/components/ui/input'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useAnimeLists } from '@/hooks/useAnimeLists'
+import { cn } from '@/lib/utils'
 
 type UserList = { id: string; name: string; itemCount?: number }
 
 interface AddToListButtonProps {
     anime: JikanAnime
+    showLabel?: boolean
 }
 
 const ANIME_TO_PAYLOAD = (anime: JikanAnime) => ({
@@ -33,7 +35,10 @@ const ANIME_TO_PAYLOAD = (anime: JikanAnime) => ({
         '',
 })
 
-export function AddToListButton({ anime }: AddToListButtonProps) {
+export function AddToListButton({
+    anime,
+    showLabel = false,
+}: AddToListButtonProps) {
     const [newName, setNewName] = useState('')
     const { lists, createList, addToList } = useAnimeLists()
 
@@ -49,11 +54,19 @@ export function AddToListButton({ anime }: AddToListButtonProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="sm" className="text-base">
-                    <ListPlus className="mr-2 h-4 w-4" /> Add to list
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    className={`text-base ${showLabel ? 'bg-violet-900' : 'bg-black/80 text-white hover:bg-black/70'}`}
+                >
+                    <ListPlus className={`size-6 ${showLabel ? 'mr-2' : ''}`} />
+                    {showLabel ? 'Add to list' : ''}
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64">
+            <DropdownMenuContent
+                align={`${showLabel ? 'start' : 'end'}`}
+                className="w-64"
+            >
                 <DropdownMenuLabel className="text-base">
                     Your lists
                 </DropdownMenuLabel>
