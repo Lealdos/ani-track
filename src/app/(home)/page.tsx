@@ -15,7 +15,6 @@ import {
 import { Hero } from './components/Hero/Hero'
 
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
-import { FavoriteProvider } from '@/context/favoriteContext'
 import Link from 'next/link'
 
 export default async function Home() {
@@ -25,7 +24,7 @@ export default async function Home() {
     const topAnime = getTopAnime()
 
     return (
-        <FavoriteProvider>
+        <>
             <Suspense fallback={null}>
                 <Hero />
             </Suspense>
@@ -89,6 +88,6 @@ export default async function Home() {
                     </span>
                 </section>
             </div>
-        </FavoriteProvider>
+        </>
     )
 }
