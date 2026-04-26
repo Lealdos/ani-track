@@ -4,7 +4,12 @@ export class UserListsModel {
     static async findAllByUser(userId: string) {
         return prisma.userLists.findMany({
             where: { userId },
-            include: { listItems: { orderBy: { createdAt: 'desc' } } },
+            include: {
+                listItems: {
+                    orderBy: { createdAt: 'desc' },
+                    select: { mal_id: true, title: true, images: true },
+                },
+            },
             orderBy: { createdAt: 'desc' },
         })
     }
@@ -16,14 +21,21 @@ export class UserListsModel {
         })
     }
 
-    static async create(data: { userId: string; name: string; visibility: string }) {
+    static async create(data: {
+        userId: string
+        name: string
+        visibility: string
+    }) {
         return prisma.userLists.create({
             data: data as Parameters<typeof prisma.userLists.create>[0]['data'],
             include: { listItems: true },
         })
     }
 
-    static async update(id: string, data: { name?: string; visibility?: string }) {
+    static async update(
+        id: string,
+        data: { name?: string; visibility?: string }
+    ) {
         return prisma.userLists.update({
             where: { id },
             data: data as Parameters<typeof prisma.userLists.update>[0]['data'],
