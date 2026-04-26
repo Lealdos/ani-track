@@ -10,6 +10,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useWatchStatus, WatchStatus } from '@/hooks/useWatchStatus'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
 import { ListsAnimes } from '@/types/anime'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -27,6 +28,7 @@ interface Props {
 
 export function WatchStatusButton({ anime }: Props) {
     const { getStatus, setStatus, clearStatus } = useWatchStatus()
+    const { requireAuth } = useRequireAuth()
     const current = getStatus(anime.mal_id)
 
     const currentLabel =
@@ -34,10 +36,12 @@ export function WatchStatusButton({ anime }: Props) {
             ?.label ?? 'Set status'
 
     const handleSet = (s: WatchStatus) => {
-        setStatus(anime, s)
-        toast.success(
-            `Marked as ${STATUS_OPTIONS.find((o) => o.value === s)?.label}`
-        )
+        requireAuth(() => {
+            setStatus(anime, s)
+            toast.success(
+                `Marked as ${STATUS_OPTIONS.find((o) => o.value === s)?.label}`
+            )
+        })
     }
 
     return (
@@ -82,8 +86,10 @@ export function WatchStatusButton({ anime }: Props) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={() => {
-                                    clearStatus(anime.mal_id)
-                                    toast.success('Status removed')
+                                    requireAuth(() => {
+                                        clearStatus(anime.mal_id)
+                                        toast.success('Status removed')
+                                    })
                                 }}
                                 className="text-base text-destructive focus:text-destructive"
                             >
