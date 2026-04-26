@@ -35,7 +35,7 @@ import {
 } from '@/lib/validations/userSchema'
 import { Google } from '@/components/ui/svgs/google'
 import { PasswordInput } from '@/components/shared/forms/PasswordInput'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export function SignUpForm({
     className,
@@ -45,6 +45,8 @@ export function SignUpForm({
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const callbackURL = searchParams.get('callbackURL') || '/account'
 
     const form = useForm<UserRegistrationSchemaType>({
         resolver: zodResolver(userRegistrationSchema),
@@ -59,7 +61,7 @@ export function SignUpForm({
     const signInWithGoogle = async () => {
         await signIn.social({
             provider: 'google',
-            callbackURL: '/',
+            callbackURL,
         })
     }
     //    console.log(form.formState.errors) <-- For debugging purposes check validation errors of react-hook-form
@@ -75,12 +77,12 @@ export function SignUpForm({
 
             if (success) {
                 toast.success(
-                    `${message as string} Please check your email for verification.`
+                    `${message} Please check your email for verification.`
                 )
                 refetch()
-                router.push('/account')
+                router.push(callbackURL)
             } else {
-                toast.error(message as string)
+                toast.error(message)
             }
 
             setIsLoading(false)
@@ -214,7 +216,7 @@ export function SignUpForm({
                                     Already have an account?{' '}
                                     <Link
                                         className="underline underline-offset-4"
-                                        href="/login"
+                                        href={`/login${callbackURL !== '/account' ? `?callbackURL=${encodeURIComponent(callbackURL)}` : ''}`}
                                     >
                                         Login
                                     </Link>
