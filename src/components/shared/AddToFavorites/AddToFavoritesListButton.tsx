@@ -2,6 +2,7 @@
 import { Heart, HeartOff } from 'lucide-react'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useFavorites } from '@/context/favoriteContext'
+import { Button } from '@components/ui/button'
 
 interface AddToListButtonProps {
     anime: JikanAnime
@@ -14,7 +15,7 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
     const isFavorite = isInFavorites(anime.mal_id)
 
     return (
-        <button
+        <Button
             onClick={(e) => {
                 e.preventDefault()
                 if (isFavorite) {
@@ -23,7 +24,9 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
                     addToFavorites(anime)
                 }
             }}
-            className="rounded bg-black/80 p-1 text-red-500 hover:bg-black/70"
+            variant="secondary"
+            size="sm"
+            className="bg-black/80 text-red-500 hover:bg-black/70"
             aria-label={
                 isFavorite ? 'Remove from Favorites' : 'Add to Favorites'
             }
@@ -43,6 +46,6 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
                     <span className="sr-only">Add to Favorites</span>
                 </>
             )}
-        </button>
+        </Button>
     )
 }

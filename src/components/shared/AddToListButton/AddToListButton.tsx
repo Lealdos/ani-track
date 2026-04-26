@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { useAnimeLists } from '@/hooks/useAnimeLists'
-import { cn } from '@/lib/utils'
 
 type UserList = { id: string; name: string; itemCount?: number }
 
@@ -59,7 +58,9 @@ export function AddToListButton({
                     size="sm"
                     className={`text-base ${showLabel ? 'bg-violet-900' : 'bg-black/80 text-white hover:bg-black/70'}`}
                 >
-                    <ListPlus className={`size-6 ${showLabel ? 'mr-2' : ''}`} />
+                    <ListPlus
+                        className={`size-6 md:size-7 ${showLabel ? 'mr-2' : ''}`}
+                    />
                     {showLabel ? 'Add to list' : ''}
                 </Button>
             </DropdownMenuTrigger>

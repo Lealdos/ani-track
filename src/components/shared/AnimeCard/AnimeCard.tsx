@@ -1,16 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
-import { AddFavoritesButton } from '@/components/ui/AddToFavoritesListButton'
+import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
 
-import {
-    Calendar,
-    Tv,
-    Star,
-    Film,
-    TvMinimalPlay,
-    BookmarkPlus,
-} from 'lucide-react'
+import { Tv, Star } from 'lucide-react'
 import { AddToListButton } from '../AddToListButton/AddToListButton'
 import { imgOf } from '@/services/JikanAPI/utils/jikan'
 
