@@ -1,4 +1,3 @@
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { searchParamsProps } from '@/types/SearchParamsProps'
@@ -7,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export function removeDuplicates(array: JikanAnime[]) {
+export function removeDuplicates<T>(array: T[]) {
     const uniqueSet = new Set()
 
     return array.filter((obj) => {
@@ -51,8 +50,7 @@ export function convertJSTToLocal(broadcastString: string | undefined): string {
     const match = /(\w+)s at (\d{1,2}):(\d{2})/.exec(broadcastString)
     if (!match) return broadcastString
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, dayName, hourStr, minuteStr] = match
+    const [_, , hourStr, minuteStr] = match
     const hour = Number.parseInt(hourStr, 10)
     const minute = Number.parseInt(minuteStr, 10)
 
