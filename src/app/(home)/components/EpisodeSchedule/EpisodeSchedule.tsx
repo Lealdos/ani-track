@@ -3,15 +3,13 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-import {
-    JikanAnime,
-    JikanScheduleDays,
-} from '@/services/JikanAPI/interfaces/JikanType'
+import { Anime } from '@/entities/anime/models'
+import type { ScheduleDay } from '@/entities/anime/models'
 import { convertJSTToLocal } from '@/lib/utils'
-import { getAiringDayAnime } from '@/services/JikanAPI/jikanAnimeApi'
+import { getAiringByDayAction } from '@/entities/anime/api/actions'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 
-const WEEKDAYS: JikanScheduleDays[] = [
+const WEEKDAYS: ScheduleDay[] = [
     'monday',
     'tuesday',
     'wednesday',
@@ -22,18 +20,16 @@ const WEEKDAYS: JikanScheduleDays[] = [
 ]
 
 export function EpisodeSchedule(): React.ReactElement {
-    const [selectedDay, setSelectedDay] = useState<JikanScheduleDays | null>(
-        null
-    )
+    const [selectedDay, setSelectedDay] = useState<ScheduleDay | null>(null)
 
-    const [animesByDay, setAnimesByDay] = useState<JikanAnime[] | []>([])
+    const [animesByDay, setAnimesByDay] = useState<Anime[]>([])
 
-    const handleDayChange = async (day: JikanScheduleDays) => {
+    const handleDayChange = async (day: ScheduleDay) => {
         if (!day) return
 
         setSelectedDay(day)
         setAnimesByDay([])
-        const filteredAnimesByDay = await getAiringDayAnime(day)
+        const filteredAnimesByDay = await getAiringByDayAction(day)
         setAnimesByDay(filteredAnimesByDay)
     }
 
@@ -78,17 +74,17 @@ export function EpisodeSchedule(): React.ReactElement {
             <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
                 {animesByDay.map((anime) => (
                     <article
-                        key={`last-episode-${anime.mal_id}`}
+                        key={`last-episode-${anime.id}`}
                         className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
                     >
                         <Link
-                            href={`/anime/${anime.mal_id}`}
+                            href={`/anime/${anime.id}`}
                             className="flex h-full w-full flex-col"
                         >
                             <div className="relative h-70">
                                 <img
                                     src={
-                                        anime.images?.jpg?.image_url ||
+                                        anime.images?.jpg?.imageUrl ||
                                         '/placeholder.svg'
                                     }
                                     alt={`${anime.title} poster`}

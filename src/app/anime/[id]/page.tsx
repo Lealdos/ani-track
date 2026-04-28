@@ -18,18 +18,20 @@ import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatfor
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
-import {
-    getAnimeById,
-    getAnimeRecommendations,
-    formatStreamingPlatforms,
-    getAnimeCharacters,
-} from '@/services/JikanAPI/jikanAnimeApi'
-import { JikanRecommendations } from '@/services/JikanAPI/interfaces/JikanType'
+import { animeRepository } from '@/entities/anime/api'
+import type {
+    Recommendation,
+    AnimeGenre,
+    AnimeEntry,
+    AnimeStudio,
+    AnimeProducer,
+    AnimeRelation,
+} from '@/entities/anime/models'
+import { imgOf } from '@/entities/anime/models'
 import { formatDate, convertJSTToLocal } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
 import { CharactersList } from './components/CharactersList/CharactersList'
-import { imgOf } from '@/services/JikanAPI/utils/jikan'
 import { WatchStatusButton } from '@/components/shared/WatchStatusActions/WatchStatusActions'
 import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 
@@ -43,7 +45,7 @@ export async function generateMetadata({
     params: Promise<PageParams>
 }) {
     const { id } = await params
-    const anime = await getAnimeById(id)
+    const anime = await animeRepository.findById(id)
 
     if (!anime) {
         return {
@@ -81,16 +83,18 @@ export default async function AnimePage({
     const { id } = await params
 
     // Fetch anime details from API
-    const animeData = await getAnimeById(id)
+    const animeData = await animeRepository.findById(id)
     if (!animeData) return null
 
     const { duration: episodeDuration, ...anime } = animeData
 
-    const recommendations = await getAnimeRecommendations(id)
+    const recommendations = await animeRepository.findRecommendations(id)
 
-    const streamingServices = await formatStreamingPlatforms(anime?.streaming)
+    const streamingServices = animeRepository.findStreamingPlatforms(
+        anime?.streaming ?? []
+    )
 
-    const characters = await getAnimeCharacters(id)
+    const characters = await animeRepository.findCharacters(id)
     if (!anime) {
         return notFound()
     }
@@ -113,7 +117,7 @@ export default async function AnimePage({
                         <div className="relative mx-auto -mt-16 md:mx-0 md:mt-0">
                             <img
                                 src={
-                                    anime.images?.webp?.image_url ||
+                                    anime.images?.webp?.imageUrl ||
                                     '/placeholder.svg'
                                 }
                                 alt={anime.title}
@@ -126,16 +130,16 @@ export default async function AnimePage({
                                 <h1 className="mb-2 font-gothic text-3xl italic md:text-4xl">
                                     {anime.title}
                                 </h1>
-                                {anime.title_english && (
+                                {anime.titleEnglish && (
                                     <p className="mb-4 text-gray-300">
-                                        {anime.title_english}
+                                        {anime.titleEnglish}
                                     </p>
                                 )}
 
                                 <div className="mb-4 flex flex-wrap gap-2">
-                                    {anime.genres?.map((genre) => (
+                                    {anime.genres?.map((genre: AnimeGenre) => (
                                         <div
-                                            key={genre.mal_id}
+                                            key={genre.id}
                                             className="border-gray-600"
                                         >
                                             {genre.name}
@@ -149,9 +153,9 @@ export default async function AnimePage({
                                             <Target className="mr-1 h-5 w-5" />
                                             Demography:{' '}
                                             {anime.demographics?.map(
-                                                (demographic) => (
+                                                (demographic: AnimeEntry) => (
                                                     <div
-                                                        key={demographic.mal_id}
+                                                        key={demographic.id}
                                                         className="rounded-xl p-2 text-gray-100"
                                                     >
                                                         {demographic.name}
@@ -164,15 +168,13 @@ export default async function AnimePage({
                                             Studio:
                                             <div className="flex flex-wrap items-center gap-1 rounded-xl text-gray-100">
                                                 {anime.studios?.map(
-                                                    (studio) => (
+                                                    (studio: AnimeStudio) => (
                                                         <div
-                                                            key={studio.mal_id}
+                                                            key={studio.id}
                                                             className="flex flex-wrap items-center gap-1"
                                                         >
                                                             <a
-                                                                key={
-                                                                    studio.mal_id
-                                                                }
+                                                                key={studio.id}
                                                                 className="rounded-xl p-2 text-gray-100"
                                                                 href={
                                                                     studio.url
@@ -280,17 +282,19 @@ export default async function AnimePage({
                                         Producers:
                                     </div>
                                     <div className="flex flex-wrap">
-                                        {anime.producers?.map((producer) => (
-                                            <a
-                                                key={producer.mal_id}
-                                                className="p-2 text-gray-100"
-                                                href={producer.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {producer.name}
-                                            </a>
-                                        ))}
+                                        {anime.producers?.map(
+                                            (producer: AnimeProducer) => (
+                                                <a
+                                                    key={producer.id}
+                                                    className="p-2 text-gray-100"
+                                                    href={producer.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {producer.name}
+                                                </a>
+                                            )
+                                        )}
                                         {anime.producers?.length === 0 && (
                                             <span className="p-2 text-gray-100">
                                                 Unknown
@@ -308,12 +312,12 @@ export default async function AnimePage({
                                     </p>
                                 </div>
                                 {/* trailer section */}
-                                {anime.trailer?.embed_url && (
+                                {anime.trailer?.embedUrl && (
                                     <div className="shadow-soft my-6 overflow-hidden rounded-xl border border-border/60">
                                         <div className="aspect-video w-full">
                                             <iframe
                                                 src={
-                                                    anime.trailer.embed_url +
+                                                    anime.trailer.embedUrl +
                                                     '?autoplay=0'
                                                 }
                                                 title={`${anime.title} trailer`}
@@ -336,41 +340,47 @@ export default async function AnimePage({
                                             No related anime found.
                                         </p>
                                     )}
-                                    {anime.relations.map((relation) => {
-                                        if (
-                                            relation.relation ===
-                                            relationsLabel.adaptation
-                                        ) {
-                                            return null
-                                        }
-                                        return (
-                                            <div
-                                                key={relation.relation}
-                                                className="mb-4 w-full rounded-lg border border-purple-950 p-1 text-balance"
-                                            >
-                                                <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
-                                                    {relation.relation}
-                                                </h4>
-                                                <div className="flex max-h-96 flex-col items-center-safe justify-center-safe gap-4 overflow-y-auto p-2 text-center text-gray-100">
-                                                    {relation.entry.map(
-                                                        (entry) => {
-                                                            return (
-                                                                <Link
-                                                                    key={
-                                                                        entry.mal_id
-                                                                    }
-                                                                    href={`/anime/${entry.mal_id}`}
-                                                                    className="hover:underline"
-                                                                >
-                                                                    {entry.name}
-                                                                </Link>
-                                                            )
-                                                        }
-                                                    )}
+                                    {anime.relations.map(
+                                        (relation: AnimeRelation) => {
+                                            if (
+                                                relation.relation ===
+                                                relationsLabel.adaptation
+                                            ) {
+                                                return null
+                                            }
+                                            return (
+                                                <div
+                                                    key={relation.relation}
+                                                    className="mb-4 w-full rounded-lg border border-purple-950 p-1 text-balance"
+                                                >
+                                                    <h4 className="my-2 border-b border-purple-800 pb-2 text-center text-lg font-bold">
+                                                        {relation.relation}
+                                                    </h4>
+                                                    <div className="flex max-h-96 flex-col items-center-safe justify-center-safe gap-4 overflow-y-auto p-2 text-center text-gray-100">
+                                                        {relation.entry.map(
+                                                            (
+                                                                entry: AnimeEntry
+                                                            ) => {
+                                                                return (
+                                                                    <Link
+                                                                        key={
+                                                                            entry.id
+                                                                        }
+                                                                        href={`/anime/${entry.id}`}
+                                                                        className="hover:underline"
+                                                                    >
+                                                                        {
+                                                                            entry.name
+                                                                        }
+                                                                    </Link>
+                                                                )
+                                                            }
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })}
+                                            )
+                                        }
+                                    )}
                                 </div>
                             </section>
 
@@ -426,7 +436,7 @@ export default async function AnimePage({
                                         value="Episodes"
                                         className={`my-4 h-64 overflow-y-auto`}
                                     >
-                                        <EpisodesList animeId={anime.mal_id} />
+                                        <EpisodesList animeId={anime.id} />
                                     </TabsContent>
                                 </Tabs>
                             </section>
@@ -443,45 +453,37 @@ export default async function AnimePage({
                             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
                                 {recommendations
                                     .slice(0, 6)
-                                    .map(
-                                        (
-                                            recommendedAnime: JikanRecommendations
-                                        ) => (
-                                            <Link
-                                                key={
-                                                    recommendedAnime.entry
-                                                        .mal_id
-                                                }
-                                                href={`/anime/${recommendedAnime.entry.mal_id}`}
-                                                className="group"
-                                            >
-                                                <div className="relative rounded-lg transition-transform group-hover:scale-105">
-                                                    <img
-                                                        src={
-                                                            recommendedAnime
-                                                                .entry.images
-                                                                ?.jpg
-                                                                ?.image_url ||
-                                                            '/placeholder.svg'
-                                                        }
-                                                        alt={
+                                    .map((recommendedAnime: Recommendation) => (
+                                        <Link
+                                            key={recommendedAnime.entry.id}
+                                            href={`/anime/${recommendedAnime.entry.id}`}
+                                            className="group"
+                                        >
+                                            <div className="relative rounded-lg transition-transform group-hover:scale-105">
+                                                <img
+                                                    src={
+                                                        recommendedAnime.entry
+                                                            .images?.jpg
+                                                            ?.imageUrl ||
+                                                        '/placeholder.svg'
+                                                    }
+                                                    alt={
+                                                        recommendedAnime.entry
+                                                            .title
+                                                    }
+                                                    className="aspect-2/3 w-full object-cover"
+                                                />
+                                                <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
+                                                    <h3 className="line-clamp-2 text-center text-lg font-medium text-balance">
+                                                        {
                                                             recommendedAnime
                                                                 .entry.title
                                                         }
-                                                        className="aspect-2/3 w-full object-cover"
-                                                    />
-                                                    <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 via-neutral-950/90 to-transparent p-2">
-                                                        <h3 className="line-clamp-2 text-center text-lg font-medium text-balance">
-                                                            {
-                                                                recommendedAnime
-                                                                    .entry.title
-                                                            }
-                                                        </h3>
-                                                    </div>
+                                                    </h3>
                                                 </div>
-                                            </Link>
-                                        )
-                                    )}
+                                            </div>
+                                        </Link>
+                                    ))}
                             </div>
                         </section>
                     ) : (

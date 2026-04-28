@@ -53,14 +53,14 @@ type DbList = {
 
 function dbItemToAnime(item: DbListItem): AnimeListItem {
     return {
-        mal_id: Number.parseInt(item.animeId),
+        id: Number.parseInt(item.animeId),
         title: item.title,
         images: item.picture
             ? {
                   jpg: {
-                      image_url: item.picture,
-                      large_image_url: item.picture,
-                      small_image_url: item.picture,
+                      imageUrl: item.picture,
+                      largeImageUrl: item.picture,
+                      smallImageUrl: item.picture,
                   },
               }
             : undefined,
@@ -79,10 +79,10 @@ function dbListToAnimeList(list: DbList): AnimeList {
 
 function imgOf(anime: FavoriteAnime): string {
     return (
-        anime.images?.webp?.large_image_url ||
-        anime.images?.jpg?.large_image_url ||
-        anime.images?.webp?.image_url ||
-        anime.images?.jpg?.image_url ||
+        anime.images?.webp?.largeImageUrl ||
+        anime.images?.jpg?.largeImageUrl ||
+        anime.images?.webp?.imageUrl ||
+        anime.images?.jpg?.imageUrl ||
         ''
     )
 }
@@ -193,7 +193,7 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
     const addToList = useCallback((listId: string, anime: FavoriteAnime) => {
         const tempItemId = crypto.randomUUID()
         const optimisticItem: AnimeListItem = {
-            mal_id: anime.mal_id,
+            id: anime.id,
             title: anime.title,
             images: anime.images,
             dbItemId: tempItemId,
@@ -202,7 +202,7 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
         setLists((prev) =>
             prev.map((l) => {
                 if (l.id !== listId) return l
-                if (l.items.some((i) => i.mal_id === anime.mal_id)) return l
+                if (l.items.some((i) => i.id === anime.id)) return l
                 return { ...l, items: [optimisticItem, ...l.items] }
             })
         )
@@ -212,13 +212,13 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    animeId: String(anime.mal_id),
+                    animeId: String(anime.id),
                     title: anime.title,
                     picture: imgOf(anime),
                 }),
             })
                 .then(async (res) => {
-                    if (!res.ok) throw new Error()
+                    if (!res.ok) throw new Error('Failed to add item to list')
                     const { data } = await res.json()
                     const realItemId = (data as { id: string }).id
                     setLists((prev) =>
@@ -257,10 +257,10 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
         setLists((prev) =>
             prev.map((l) => {
                 if (l.id !== listId) return l
-                removedItem = l.items.find((i) => i.mal_id === animeId)
+                removedItem = l.items.find((i) => i.id === animeId)
                 return {
                     ...l,
-                    items: l.items.filter((i) => i.mal_id !== animeId),
+                    items: l.items.filter((i) => i.id !== animeId),
                 }
             })
         )

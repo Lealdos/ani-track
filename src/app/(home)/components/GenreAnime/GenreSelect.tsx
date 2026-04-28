@@ -1,16 +1,16 @@
 'use client'
 
-import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
+import { getAnimeByGenreAction } from '@/entities/anime/api/actions'
 import { AnimeList } from '@/components/shared/AnimeList/AnimeList'
 import { useState, useEffect } from 'react'
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import { Anime } from '@/entities/anime/models'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 export function GenreSelect({ genreId }: { genreId: number }) {
-    const [animes, setAnimes] = useState<JikanAnime[]>([])
+    const [animes, setAnimes] = useState<Anime[]>([])
 
     useEffect(() => {
         const fetchAnimes = async () => {
-            const data = await getAnimeByGenre(genreId)
+            const data = await getAnimeByGenreAction(genreId)
             setAnimes(data)
         }
         fetchAnimes()

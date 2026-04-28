@@ -8,7 +8,7 @@ import {
     useCallback,
     useRef,
 } from 'react'
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Anime } from '@/entities/anime/models'
 import {
     getStoredFavoriteAnimes,
     storeFavoriteAnimes,
@@ -16,10 +16,10 @@ import {
 import { useSession } from '@/lib/Auth/auth-clients'
 
 type FavoriteContextType = {
-    favorites: JikanAnime[]
-    setFavorites?: (favorites: JikanAnime[]) => void
+    favorites: Anime[]
+    setFavorites?: (favorites: Anime[]) => void
     isInFavorites: (animeId: number) => boolean
-    addToFavorites: (anime: JikanAnime) => void
+    addToFavorites: (anime: Anime) => void
     removeFromFavorites: (animeId: number) => void
 }
 
@@ -38,30 +38,30 @@ type DbFavorite = {
     picture: string
 }
 
-function dbToJikanAnime(item: DbFavorite): JikanAnime {
+function dbToAnime(item: DbFavorite): Anime {
     return {
-        mal_id: parseInt(item.animeId),
+        id: Number.parseInt(item.animeId),
         title: item.title,
         images: {
             jpg: {
-                image_url: item.picture,
-                large_image_url: item.picture,
-                small_image_url: item.picture,
+                imageUrl: item.picture,
+                largeImageUrl: item.picture,
+                smallImageUrl: item.picture,
             },
         },
         score: 0,
         rank: 0,
         demographics: [],
         relations: [],
-    } as JikanAnime
+    }
 }
 
-function imgOf(anime: JikanAnime): string {
+function imgOf(anime: Anime): string {
     return (
-        anime.images?.webp?.large_image_url ||
-        anime.images?.jpg?.large_image_url ||
-        anime.images?.webp?.image_url ||
-        anime.images?.jpg?.image_url ||
+        anime.images?.webp?.largeImageUrl ||
+        anime.images?.jpg?.largeImageUrl ||
+        anime.images?.webp?.imageUrl ||
+        anime.images?.jpg?.imageUrl ||
         ''
     )
 }
@@ -69,7 +69,7 @@ function imgOf(anime: JikanAnime): string {
 const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: session, isPending } = useSession()
     const isAuthenticated = !!session?.user?.id
-    const [favorites, setFavorites] = useState<JikanAnime[]>([])
+    const [favorites, setFavorites] = useState<Anime[]>([])
     const prevAuthRef = useRef<boolean | null>(null)
     const syncedRef = useRef(false)
 
@@ -96,7 +96,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
 
         const init = async () => {
             if (wasAnonymous) {
-                const localFavs: JikanAnime[] = getStoredFavoriteAnimes()
+                const localFavs: Anime[] = getStoredFavoriteAnimes()
                 if (localFavs.length > 0) {
                     const items = localFavs.map((a) => ({
                         animeId: String(a.mal_id),
@@ -114,9 +114,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                         )
                         if (res.ok) {
                             const { data } = await res.json()
-                            setFavorites(
-                                (data as DbFavorite[]).map(dbToJikanAnime)
-                            )
+                            setFavorites((data as DbFavorite[]).map(dbToAnime))
                             storeFavoriteAnimes([])
                             return
                         }
@@ -131,7 +129,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                 const res = await fetch('/api/users-lists/favorites')
                 if (res.ok) {
                     const { data } = await res.json()
-                    setFavorites((data as DbFavorite[]).map(dbToJikanAnime))
+                    setFavorites((data as DbFavorite[]).map(dbToAnime))
                 }
             } catch {
                 // network error — keep empty state
@@ -151,14 +149,14 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
 
     const isInFavorites = useCallback(
         (animeId: number) => {
-            return favorites.some((anime) => anime.mal_id === animeId)
+            return favorites.some((anime) => anime.id === animeId)
         },
         [favorites]
     )
 
     const addToFavorites = useCallback(
-        (anime: JikanAnime) => {
-            if (favorites.some((f) => f.mal_id === anime.mal_id)) return
+        (anime: Anime) => {
+            if (favorites.some((f) => f.id === anime.id)) return
 
             if (isAuthenticated) {
                 const picture = imgOf(anime)
@@ -167,14 +165,14 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        animeId: String(anime.mal_id),
+                        animeId: String(anime.id),
                         title: anime.title,
                         picture,
                     }),
                 }).catch(() => {
-                    setFavorites((prev) =>
-                        prev.filter((f) => f.mal_id !== anime.mal_id)
-                    )
+                    const rollback = (prev: Anime[]) =>
+                        prev.filter((f) => f.id !== anime.id)
+                    setFavorites(rollback)
                 })
             } else {
                 const newFavorites = [...favorites, anime]
@@ -188,10 +186,8 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
     const removeFromFavorites = useCallback(
         (animeId: number) => {
             if (isAuthenticated) {
-                const removed = favorites.find((f) => f.mal_id === animeId)
-                setFavorites((prev) =>
-                    prev.filter((fav) => fav.mal_id !== animeId)
-                )
+                const removed = favorites.find((f) => f.id === animeId)
+                setFavorites((prev) => prev.filter((fav) => fav.id !== animeId))
                 fetch('/api/users-lists/favorites', {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
@@ -203,7 +199,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                 })
             } else {
                 const newFavorites = favorites.filter(
-                    (fav) => fav.mal_id !== animeId
+                    (fav) => fav.id !== animeId
                 )
                 setFavorites(newFavorites)
                 storeFavoriteAnimes(newFavorites)

@@ -1,9 +1,9 @@
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Anime } from '@/entities/anime/models'
 
-export type FavoriteAnime = Pick<JikanAnime, 'mal_id' | 'title'> &
+export type FavoriteAnime = Pick<Anime, 'id' | 'title'> &
     Partial<
         Pick<
-            JikanAnime,
-            'title_english' | 'images' | 'score' | 'type' | 'episodes' | 'year'
+            Anime,
+            'titleEnglish' | 'images' | 'score' | 'type' | 'episodes' | 'year'
         >
     >

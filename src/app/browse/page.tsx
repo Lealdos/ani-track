@@ -1,4 +1,4 @@
-import { FetchBrowsersAnime } from '@/services/JikanAPI/jikanAnimeApi'
+import { animeRepository } from '@/entities/anime/api'
 import { AnimeList } from '@/components/shared/AnimeList/AnimeList'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -25,7 +25,7 @@ export default async function BrowseAnime({
 
     // If no params at all, fetch without filters
     if (!animeSearchParamsString) {
-        const { animes, pagination } = await FetchBrowsersAnime()
+        const { animes, pagination } = await animeRepository.browse()
         if (animes.length === 0) {
             return notFound()
         }
@@ -48,7 +48,7 @@ export default async function BrowseAnime({
     }
 
     // If q or page is present, fetch with params
-    const { animes, pagination } = await FetchBrowsersAnime(
+    const { animes, pagination } = await animeRepository.browse(
         animeSearchParamsString
     )
     if (animes.length === 0) {

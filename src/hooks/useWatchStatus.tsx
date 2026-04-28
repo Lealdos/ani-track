@@ -47,24 +47,24 @@ type DbItem = {
 
 function imgOf(anime: FavoriteAnime): string {
     return (
-        anime.images?.webp?.large_image_url ||
-        anime.images?.jpg?.large_image_url ||
-        anime.images?.webp?.image_url ||
-        anime.images?.jpg?.image_url ||
+        anime.images?.webp?.largeImageUrl ||
+        anime.images?.jpg?.largeImageUrl ||
+        anime.images?.webp?.imageUrl ||
+        anime.images?.jpg?.imageUrl ||
         ''
     )
 }
 
 function dbItemToEntry(item: DbItem, status: WatchStatus): StatusEntry {
     return {
-        mal_id: Number.parseInt(item.animeId),
+        id: Number.parseInt(item.animeId),
         title: item.title,
         images: item.picture
             ? {
                   jpg: {
-                      image_url: item.picture,
-                      large_image_url: item.picture,
-                      small_image_url: item.picture,
+                      imageUrl: item.picture,
+                      largeImageUrl: item.picture,
+                      smallImageUrl: item.picture,
                   },
               }
             : undefined,
@@ -102,7 +102,7 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
             if (cancelled) return
             const merged: Store = {}
             for (const entry of [...watching, ...planned, ...finished]) {
-                merged[entry.mal_id] = entry
+                merged[entry.id] = entry
             }
             setStore(merged)
         }
@@ -129,19 +129,19 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
 
     const setStatus = useCallback(
         (anime: FavoriteAnime, status: WatchStatus) => {
-            const prev = store[anime.mal_id]
+            const prev = store[anime.id]
             const optimistic: StatusEntry = {
-                mal_id: anime.mal_id,
+                id: anime.id,
                 title: anime.title,
                 images: anime.images,
                 status,
                 updatedAt: Date.now(),
             }
 
-            setStore((s) => ({ ...s, [anime.mal_id]: optimistic }))
+            setStore((s) => ({ ...s, [anime.id]: optimistic }))
 
             const payload = {
-                animeId: String(anime.mal_id),
+                animeId: String(anime.id),
                 title: anime.title,
                 picture: imgOf(anime),
             }
@@ -162,7 +162,7 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
                 const { data } = await res.json()
                 setStore((s) => ({
                     ...s,
-                    [anime.mal_id]: {
+                    [anime.id]: {
                         ...optimistic,
                         dbId: (data as DbItem).id,
                     },
@@ -171,11 +171,11 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
 
             apply().catch(() => {
                 if (prev) {
-                    setStore((s) => ({ ...s, [anime.mal_id]: prev }))
+                    setStore((s) => ({ ...s, [anime.id]: prev }))
                 } else {
                     setStore((s) => {
                         const next = { ...s }
-                        delete next[anime.mal_id]
+                        delete next[anime.id]
                         return next
                     })
                 }

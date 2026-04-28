@@ -14,24 +14,24 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { Input } from '@/components/ui/input'
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Anime } from '@/entities/anime/models'
 import { useAnimeLists } from '@/hooks/useAnimeLists'
 import { useRequireAuth } from '@/hooks/useRequireAuth'
 
 type UserList = { id: string; name: string; itemCount?: number }
 
 interface AddToListButtonProps {
-    anime: JikanAnime
+    anime: Anime
     showLabel?: boolean
 }
 
-const ANIME_TO_PAYLOAD = (anime: JikanAnime) => ({
-    animeId: String(anime.mal_id),
+const ANIME_TO_PAYLOAD = (anime: Anime) => ({
+    animeId: String(anime.id),
     title: anime.title,
     picture:
-        anime.images?.webp?.image_url ||
-        anime.images?.jpg?.large_image_url ||
-        anime.images?.jpg?.image_url ||
+        anime.images?.webp?.imageUrl ||
+        anime.images?.jpg?.largeImageUrl ||
+        anime.images?.jpg?.imageUrl ||
         '',
 })
 
@@ -82,9 +82,7 @@ export function AddToListButton({
                     </div>
                 ) : (
                     lists.map((l) => {
-                        const has = l.items.some(
-                            (i) => i.mal_id === anime.mal_id
-                        )
+                        const has = l.items.some((i) => i.id === anime.id)
                         return (
                             <DropdownMenuItem
                                 key={l.id}

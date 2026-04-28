@@ -29,7 +29,7 @@ interface Props {
 export function WatchStatusButton({ anime }: Props) {
     const { getStatus, setStatus, clearStatus } = useWatchStatus()
     const { requireAuth } = useRequireAuth()
-    const current = getStatus(anime.mal_id)
+    const current = getStatus(anime.id)
 
     const currentLabel =
         STATUS_OPTIONS.find((statusOption) => statusOption.value === current)
@@ -87,7 +87,7 @@ export function WatchStatusButton({ anime }: Props) {
                             <DropdownMenuItem
                                 onClick={() => {
                                     requireAuth(() => {
-                                        clearStatus(anime.mal_id)
+                                        clearStatus(anime.id)
                                         toast.success('Status removed')
                                     })
                                 }}

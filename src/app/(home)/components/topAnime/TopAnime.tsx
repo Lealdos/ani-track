@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import { Anime } from '@/entities/anime/models'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 // import Image from 'next/image'
 interface TopAnimeProps {
-    topAnime: Promise<JikanAnime[]>
+    topAnime: Promise<Anime[]>
 }
 
 export async function TopAnime({ topAnime }: TopAnimeProps) {
@@ -14,8 +14,8 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
             <main className="flex items-center gap-2 overflow-hidden overflow-x-auto px-2 py-4">
                 {animes?.map((anime) => (
                     <Link
-                        href={`/anime/${anime.mal_id}`}
-                        key={anime.mal_id}
+                        href={`/anime/${anime.id}`}
+                        key={anime.id}
                         className="relative flex flex-row items-center transition-transform hover:scale-105"
                         aria-label={`top ${anime.rank} - ${anime.title}`}
                     >
@@ -42,7 +42,7 @@ export async function TopAnime({ topAnime }: TopAnimeProps) {
                             width={800}
                             height={580}
                             src={
-                                anime.images?.webp?.image_url ||
+                                anime.images?.webp?.imageUrl ||
                                 '/placeholder.svg'
                             }
                             alt={anime.title}

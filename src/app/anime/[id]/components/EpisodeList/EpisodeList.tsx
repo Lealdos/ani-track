@@ -2,18 +2,16 @@
 import { Play, Calendar } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-import { getAnimeEpisodes } from '@/services/JikanAPI/jikanAnimeApi'
+import { animeRepository } from '@/entities/anime/api'
 import { PaginationInfo } from '@/types/pageInfo'
 import { formatDate } from '@/lib/utils'
-import { JikanEpisode } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Episode } from '@/entities/anime/models'
 
 interface EpisodesListProps {
     animeId: number
 }
 export function EpisodesList({ animeId }: EpisodesListProps) {
-    const [displayedEpisodes, setDisplayedEpisodes] = useState<JikanEpisode[]>(
-        []
-    )
+    const [displayedEpisodes, setDisplayedEpisodes] = useState<Episode[]>([])
     const [page, setPage] = useState(1)
     const [pagination, setPagination] = useState<PaginationInfo>({
         current_page: 1,
@@ -28,7 +26,8 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         const fetchEpisodes = async () => {
             try {
                 setIsLoading(true)
-                const { episodes, pagination } = await getAnimeEpisodes(animeId)
+                const { episodes, pagination } =
+                    await animeRepository.findEpisodes(animeId)
                 setDisplayedEpisodes(episodes)
                 setPagination(pagination)
             } catch (error) {
@@ -53,7 +52,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                 ;(async () => {
                     setIsLoading(true)
                     const { episodes: newEpisodes, pagination: newPagination } =
-                        await getAnimeEpisodes(animeId, page + 1)
+                        await animeRepository.findEpisodes(animeId, page + 1)
 
                     setDisplayedEpisodes((prev) => [
                         ...(prev ?? []),
@@ -110,7 +109,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
             <div className="space-y-2">
                 {displayedEpisodes?.map((episode) => (
                     <a
-                        key={episode.mal_id}
+                        key={episode.id}
                         href={episode.url}
                         className="block"
                         target="_blank"
@@ -122,8 +121,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
                                 </div>
                                 <div>
                                     <div className="line-clamp-1 font-medium">
-                                        Episodio {episode.mal_id}:{' '}
-                                        {episode.title}
+                                        Episodio {episode.id}: {episode.title}
                                     </div>
                                     {episode.aired && (
                                         <div className="mt-1 flex items-center text-xs text-gray-300">

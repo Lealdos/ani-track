@@ -1,12 +1,12 @@
 'use client'
 import { Heart, HeartOff } from 'lucide-react'
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Anime } from '@/entities/anime/models'
 import { useFavorites } from '@/context/favoriteContext'
 import { useRequireAuth } from '@/hooks/useRequireAuth'
 import { Button } from '@components/ui/button'
 
 interface AddToListButtonProps {
-    anime: JikanAnime
+    anime: Anime
 }
 
 export function AddFavoritesButton({ anime }: AddToListButtonProps) {
@@ -14,7 +14,7 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
         useFavorites()
     const { requireAuth } = useRequireAuth()
 
-    const isFavorite = isInFavorites(anime.mal_id)
+    const isFavorite = isInFavorites(anime.id)
 
     return (
         <Button
@@ -22,7 +22,7 @@ export function AddFavoritesButton({ anime }: AddToListButtonProps) {
                 e.preventDefault()
                 requireAuth(() => {
                     if (isFavorite) {
-                        removeFromFavorites(anime.mal_id)
+                        removeFromFavorites(anime.id)
                     } else {
                         addToFavorites(anime)
                     }
