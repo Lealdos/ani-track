@@ -9,12 +9,12 @@ import {
 } from '@/components/ui/accordion'
 import { SkeletonCard } from '@/components/shared/SkeletonCard/skeletonCard'
 
-import { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import { Anime } from '@/entities/anime/models'
 import { AnimeCard } from '../shared/AnimeCard/AnimeCard'
 
 interface ListAccordionProps {
     title: string
-    animes: JikanAnime[]
+    animes: Anime[]
 }
 
 export function ContentAccordion({ animes, title }: ListAccordionProps) {
@@ -33,10 +33,10 @@ export function ContentAccordion({ animes, title }: ListAccordionProps) {
     if (animes.length > 0) {
         return (
             <div className="grid justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {animes.map((anime: JikanAnime) => (
+                {animes.map((anime: Anime) => (
                     <AnimeCard
                         showBadges
-                        key={`${anime.mal_id}-${anime.title}-${title}`}
+                        key={`${anime.id}-${anime.title}-${title}`}
                         anime={anime}
                     />
                 ))}

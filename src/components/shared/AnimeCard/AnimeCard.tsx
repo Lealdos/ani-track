@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import type { JikanAnime } from '@/services/JikanAPI/interfaces/JikanType'
+import type { Anime } from '@/entities/anime/models'
 import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
 
 import { Tv, Star } from 'lucide-react'
 import { AddToListButton } from '../AddToListButton/AddToListButton'
-import { imgOf } from '@/services/JikanAPI/utils/jikan'
+import { imgOf } from '@/entities/anime/models'
 
 interface AnimeCardProps {
-    anime: JikanAnime
+    anime: Anime
     showBadges?: boolean
     displayAnimeRank?: boolean
 }
@@ -18,10 +18,10 @@ export function AnimeCard({
     displayAnimeRank = false,
     showBadges = false,
 }: AnimeCardProps) {
-    const title = anime.title_english || anime.title
+    const title = anime.titleEnglish || anime.title
     return (
         <Link
-            href={`/anime/${anime.mal_id}`}
+            href={`/anime/${anime.id}`}
             className="group shadow-soft transition-silk relative block overflow-hidden rounded-lg bg-card hover:-translate-y-1 hover:shadow-petal"
         >
             <div className="relative aspect-2/3 overflow-hidden bg-muted">
