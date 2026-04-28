@@ -7,10 +7,7 @@ import { TopAnime } from '@/app/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/EpisodeSchedule'
-import {
-    getSeasonalAnime,
-    getTopAnime,
-} from '@/services/JikanAPI/jikanAnimeApi'
+import { animeRepository } from '@/entities/anime/api'
 
 import { Hero } from './components/Hero/Hero'
 
@@ -20,8 +17,8 @@ import Link from 'next/link'
 export default async function Home() {
     'use cache'
     cacheLife('weeks') // Cache this page for 2 week
-    const seasonalAnime = getSeasonalAnime()
-    const topAnime = getTopAnime()
+    const seasonalAnime = animeRepository.findSeasonal()
+    const topAnime = animeRepository.findTop()
 
     return (
         <>

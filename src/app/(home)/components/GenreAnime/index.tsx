@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { AnimeList } from '@/components/shared/AnimeList/AnimeList'
-import { getAnimeByGenre } from '@/services/JikanAPI/jikanAnimeApi'
+import { getAnimeByGenreAction } from '@/entities/anime/api/actions'
 import { GenreSelect } from './GenreSelect'
 
 export function AnimeByGenre() {
@@ -14,7 +14,7 @@ export function AnimeByGenre() {
     ]
 
     // Fetch anime for the first genre to show by default
-    const defaultGenreAnimes = getAnimeByGenre(genres[0].id)
+    const defaultGenreAnimes = getAnimeByGenreAction(genres[0].id)
 
     return (
         <Tabs defaultValue={genres[0].id.toString()} className="space-y-8">
