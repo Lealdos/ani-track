@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useWatchStatus, WatchStatus } from '@/hooks/useWatchStatus'
 import { useRequireAuth } from '@/hooks/useRequireAuth'
-import { ListsAnimes } from '@/types/anime'
+import type { ListsAnimes } from '@/entities/anime/models'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 

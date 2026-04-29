@@ -4,7 +4,7 @@ import { useSession } from '@/lib/Auth/auth-clients'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Clock, CheckCircle2, Heart, TvMinimalPlay, List } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ListsAnimes } from '@/types/anime'
+import type { ListsAnimes } from '@/entities/anime/models'
 
 // List status types matching common anime tracking apps
 const LIST_STATUSES = [

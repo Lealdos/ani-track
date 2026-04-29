@@ -99,7 +99,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                 const localFavs: Anime[] = getStoredFavoriteAnimes()
                 if (localFavs.length > 0) {
                     const items = localFavs.map((a) => ({
-                        animeId: String(a.mal_id),
+                        animeId: String(a.id),
                         title: a.title,
                         picture: imgOf(a),
                     }))
