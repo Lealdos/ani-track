@@ -82,3 +82,5 @@ export type Anime = {
     producers?: AnimeProducer[]
     trailer?: AnimeTrailer
 }
+
+export type ListsAnimes = Pick<Anime, 'id' | 'title' | 'images'>
