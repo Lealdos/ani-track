@@ -9,6 +9,7 @@ export type {
     AnimeProducer,
     AnimeBroadcast,
     AnimeTrailer,
+    ListsAnimes,
 } from './Anime'
 export type { Episode } from './Episode'
 export type { Genre } from './Genre'
