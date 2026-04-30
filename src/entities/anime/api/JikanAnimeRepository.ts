@@ -5,7 +5,6 @@ import type {
     Genre,
     AnimeCharacter,
     Recommendation,
-    StreamingPlatform,
     ScheduleDay,
 } from '../models'
 import type { PaginationInfo } from '@/types/pageInfo'
@@ -22,12 +21,12 @@ import {
     toGenre,
     toRecommendation,
     toCharacter,
-    toStreamingPlatform,
 } from './mappers'
 import { DAY, WEEK, DAYS15, MONTH } from './utils'
 import { API_BASE_URL } from '@/config/const'
 
 const RATE_LIMIT_DELAY = 1000
+const MAX_RETRIES = 3
 
 type JikanResponse<T> = { data: T; pagination?: PaginationInfo }
 
@@ -37,24 +36,28 @@ async function delay(ms: number): Promise<void> {
 
 async function fetchWithRateLimit<T>(
     url: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    retries = 0
 ): Promise<T> {
     const response = await fetch(url, options)
     if (response.status === 429) {
         await delay(RATE_LIMIT_DELAY)
-        return fetchWithRateLimit<T>(url, options)
+        return fetchWithRateLimit<T>(url, options, retries)
+    }
+    if (response.status >= 500 && retries < MAX_RETRIES) {
+        await delay(RATE_LIMIT_DELAY)
+        return fetchWithRateLimit<T>(url, options, retries + 1)
     }
     if (!response.ok) {
-        await delay(RATE_LIMIT_DELAY)
-        return fetchWithRateLimit<T>(url, options)
+        throw new Error(`Jikan API error: ${response.status} ${response.statusText}`)
     }
     return response.json()
 }
 
-function deduplicateRaw<T>(array: T[]): T[] {
+function deduplicateById(animes: JikanAnime[]): JikanAnime[] {
     const seen = new Set<string>()
-    return array.filter((item) => {
-        const key = JSON.stringify(item)
+    return animes.filter((a) => {
+        const key = String(a.mal_id)
         if (seen.has(key)) return false
         seen.add(key)
         return true
@@ -73,7 +76,7 @@ class JikanAnimeRepository implements IAnimeRepository {
         const { data, pagination } =
             await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(url)
         return {
-            animes: deduplicateRaw(data).map(toAnime),
+            animes: deduplicateById(data).map(toAnime),
             pagination: pagination ?? { current_page: 1, has_next_page: false },
         }
     }
@@ -113,7 +116,7 @@ class JikanAnimeRepository implements IAnimeRepository {
             >(`${this.baseUrl}/seasons/now?continuing&unapproved`, {
                 next: { revalidate: DAY },
             } as RequestInit)
-            return deduplicateRaw(data)
+            return deduplicateById(data)
                 .filter((a) => a.status === 'Currently Airing')
                 .map(toAnime)
         } catch (error) {
@@ -141,7 +144,7 @@ class JikanAnimeRepository implements IAnimeRepository {
             const { data } = await fetchWithRateLimit<
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/schedules?filter=${day}&sfw`)
-            return deduplicateRaw(
+            return deduplicateById(
                 data
                     .filter(
                         (a) =>
@@ -229,12 +232,6 @@ class JikanAnimeRepository implements IAnimeRepository {
         }
     }
 
-    findStreamingPlatforms(
-        streaming: { name: string; url: string }[]
-    ): StreamingPlatform[] {
-        if (!streaming || streaming.length === 0) return []
-        return streaming.map(toStreamingPlatform)
-    }
 }
 
 export const animeRepository: IAnimeRepository = new JikanAnimeRepository()

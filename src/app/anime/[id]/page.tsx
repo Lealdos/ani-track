@@ -18,7 +18,7 @@ import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatfor
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
-import { animeRepository } from '@/entities/anime/api'
+import { animeRepository, toStreamingPlatform } from '@/entities/anime/api'
 import type {
     Recommendation,
     AnimeGenre,
@@ -90,9 +90,7 @@ export default async function AnimePage({
 
     const recommendations = await animeRepository.findRecommendations(id)
 
-    const streamingServices = animeRepository.findStreamingPlatforms(
-        anime?.streaming ?? []
-    )
+    const streamingServices = (anime?.streaming ?? []).map(toStreamingPlatform)
 
     const characters = await animeRepository.findCharacters(id)
     if (!anime) {

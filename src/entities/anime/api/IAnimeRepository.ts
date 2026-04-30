@@ -4,7 +4,6 @@ import type {
     Genre,
     AnimeCharacter,
     Recommendation,
-    StreamingPlatform,
     ScheduleDay,
 } from '../models'
 import type { PaginationInfo } from '@/types/pageInfo'
@@ -25,7 +24,4 @@ export interface IAnimeRepository {
     findCharacters(id: number): Promise<AnimeCharacter[]>
     findRecommendations(id: number): Promise<Recommendation[]>
     findGenres(): Promise<Genre[]>
-    findStreamingPlatforms(
-        streaming: { name: string; url: string }[]
-    ): StreamingPlatform[]
 }
