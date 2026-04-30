@@ -70,6 +70,9 @@
     "tailwindcss-animated": "^2.0.0",
     "typescript": "^5"
   },
+  "overrides": {
+    "baseline-browser-mapping": "^2.10.24"
+  },
   "pnpm": {
     "overrides": {
       "@types/react": "19.1.2",
