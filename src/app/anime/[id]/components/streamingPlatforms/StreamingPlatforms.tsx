@@ -31,14 +31,9 @@ export function StreamingPlatforms({
                         >
                             {platform.logo}
                         </div>
-                        <div>
-                            <h3 className="text-base font-medium">
-                                Watch {animeTitle} on {platform.name}
-                            </h3>
-                            <div className="text-sm text-gray-400">
-                                {platform.subscription} • {platform.price}
-                            </div>
-                        </div>
+                        <h3 className="text-base font-medium">
+                            Watch {animeTitle} on {platform.name}
+                        </h3>
                     </div>
                     <button className="flex items-center justify-center gap-2 truncate rounded-lg bg-rose-950 p-2 text-base hover:bg-gray-700">
                         <a
