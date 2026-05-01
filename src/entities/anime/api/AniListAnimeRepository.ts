@@ -15,6 +15,7 @@ import type {
     AniListRecommendationNode,
     AniListStreamingEpisode,
     AniListAiringSchedule,
+    HomeDataResult,
 } from './anilistTypes'
 import {
     toAnimeFromAniList,
@@ -26,10 +27,12 @@ import {
     getCurrentSeason,
     getDayBounds,
 } from './anilistMappers'
-import { DAY, WEEK, DAYS15, MONTH } from './utils'
+import { HOUR, DAY, WEEK, DAYS15, MONTH } from './utils'
 import {
     BROWSE_QUERY,
     FIND_BY_ID_QUERY,
+    ANIME_DETAIL_QUERY,
+    GET_HOME_DATA_QUERY,
     TOP_ANIME_QUERY,
     SEASONAL_QUERY,
     BY_GENRE_QUERY,
@@ -397,3 +400,57 @@ class AniListAnimeRepository implements IAnimeRepository {
 
 export const anilistAnimeRepository: IAnimeRepository =
     new AniListAnimeRepository()
+
+export async function getHomeData(tag = 'Seinen'): Promise<HomeDataResult> {
+    const { season, year } = getCurrentSeason()
+    const now = new Date()
+    const startOfDay = Math.floor(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) /
+            1000
+    )
+    const endOfDay = startOfDay + 86400
+
+    try {
+        return await anilistFetch<HomeDataResult>(
+            GET_HOME_DATA_QUERY,
+            { season, seasonYear: year, startOfDay, endOfDay, tag },
+            { revalidate: HOUR }
+        )
+    } catch (error) {
+        console.error('Error fetching home data:', error)
+        return {
+            currentSeason: { media: [] },
+            airingToday: { airingSchedules: [] },
+            topAnime: { media: [] },
+            tagAnime: { media: [] },
+        }
+    }
+}
+
+export async function getAnimeDetail(id: number): Promise<{
+    anime: Anime | null
+    characters: AnimeCharacter[]
+    recommendations: Recommendation[]
+} | null> {
+    try {
+        const result = await anilistFetch<{ Media: AniListMedia }>(
+            ANIME_DETAIL_QUERY,
+            { id },
+            { revalidate: DAY }
+        )
+
+        const media = result.Media
+        return {
+            anime: toAnimeFromAniList(media),
+            characters: (media.characters?.edges ?? []).map(
+                toCharacterFromAniList
+            ),
+            recommendations: (media.recommendations?.nodes ?? [])
+                .map(toRecommendationFromAniList)
+                .filter((r): r is Recommendation => r !== null),
+        }
+    } catch (error) {
+        console.error(`Error fetching anime detail ${id}:`, error)
+        return null
+    }
+}

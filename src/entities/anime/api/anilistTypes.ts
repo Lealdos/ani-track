@@ -245,3 +245,37 @@ export type AniListStreamingEpisodesResponse = {
         }
     }
 }
+
+export type HomeMediaCard = {
+    id: number
+    title: { romaji: string; english: string | null }
+    coverImage: { extraLarge: string | null; large: string | null }
+    format: AniListMediaFormat | null
+    episodes: number | null
+    status: AniListMediaStatus | null
+    averageScore: number | null
+    genres: string[]
+    nextAiringEpisode?: AniListNextAiringEpisode | null
+}
+
+export type HomeAiringScheduleEntry = {
+    id: number
+    airingAt: number
+    timeUntilAiring: number
+    episode: number
+    media: {
+        id: number
+        title: { romaji: string; english: string | null }
+        coverImage: { extraLarge: string | null; large: string | null }
+        format: AniListMediaFormat | null
+        episodes: number | null
+        status: AniListMediaStatus | null
+    }
+}
+
+export type HomeDataResult = {
+    currentSeason: { media: HomeMediaCard[] }
+    airingToday: { airingSchedules: HomeAiringScheduleEntry[] }
+    topAnime: { media: HomeMediaCard[] }
+    tagAnime: { media: HomeMediaCard[] }
+}

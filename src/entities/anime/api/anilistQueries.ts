@@ -1,75 +1,74 @@
 export const GET_HOME_DATA_QUERY = `
 query GetHomeData(
-  $season: MediaSeason, 
-  $seasonYear: Int, 
-  $startOfDay: Int, 
+  $season: MediaSeason
+  $seasonYear: Int
+  $startOfDay: Int
   $endOfDay: Int
+  $tag: String
 ) {
-  # 1. Animes de la temporada actual (ordenados por popularidad)
-  currentSeason: Page(page: 1) {
-    media(season: $season, seasonYear: $seasonYear, type: ANIME, sort: POPULARITY_DESC) {
+  currentSeason: Page(page: 1, perPage: 20) {
+    media(
+      season: $season
+      seasonYear: $seasonYear
+      type: ANIME
+      sort: POPULARITY_DESC
+      isAdult: false
+    ) {
       id
-      title {
-        romaji
-        english
-      }
-      coverImage {
-        large
-      }
+      title { romaji english }
+      coverImage { extraLarge large }
+      format
       episodes
       status
+      averageScore
+      genres
+      nextAiringEpisode { airingAt timeUntilAiring episode }
     }
   }
 
-  # 2. Animes en emisión hoy (filtrados por timestamp de inicio y fin del día)
-  airingToday: Page(page: 1, perPage: 15) {
-    airingSchedules(airingAt_greater: $startOfDay, airingAt_lesser: $endOfDay, sort: TIME) {
+  airingToday: Page(page: 1, perPage: 20) {
+    airingSchedules(
+      airingAt_greater: $startOfDay
+      airingAt_lesser: $endOfDay
+      sort: TIME
+    ) {
       id
-      airingAt           # Timestamp de la hora exacta de emisión
-      timeUntilAiring    # Segundos faltantes para el episodio
-      episode            # Número de episodio que se estrena
+      airingAt
+      timeUntilAiring
+      episode
       media {
         id
-        title {
-          romaji
-        }
-        coverImage {
-          medium
-        }
+        title { romaji english }
+        coverImage { extraLarge large }
+        format
+        episodes
+        status
       }
     }
   }
 
-  # 3. Top 10 Animes histórico (ordenados por puntaje)
   topAnime: Page(page: 1, perPage: 10) {
-    media(type: ANIME, sort: SCORE_DESC) {
+    media(type: ANIME, sort: SCORE_DESC, isAdult: false) {
       id
-      title {
-        romaji
-      }
+      title { romaji english }
+      coverImage { extraLarge large }
+      format
+      episodes
+      status
       averageScore
-      coverImage {
-        large
-      }
+      genres
     }
   }
 
-  # 4. Animes según categoría (Ej. Seinen)
-  # IMPORTANTE: En AniList "Action" o "Romance" son "genres", 
-  # pero demografías como "Seinen" o "Shounen" son "tags".
-  seinenAnime: Page(page: 1, perPage: 10) {
-    media(type: ANIME, tag: "Seinen", sort: POPULARITY_DESC) {
+  tagAnime: Page(page: 1, perPage: 10) {
+    media(type: ANIME, tag: $tag, sort: POPULARITY_DESC, isAdult: false) {
       id
-      title {
-        romaji
-      }
+      title { romaji english }
+      coverImage { extraLarge large }
+      format
+      episodes
+      averageScore
       genres
-      tags {
-        name
-      }
-      coverImage {
-        large
-      }
     }
   }
 }`
@@ -175,6 +174,83 @@ query ($id: Int) {
           title { romaji english }
           type
           format
+          siteUrl
+        }
+      }
+    }
+  }
+}
+`
+
+export const ANIME_DETAIL_QUERY = `
+query ($id: Int) {
+  Media(id: $id, type: ANIME) {
+    id
+    idMal
+    title { romaji english native }
+    synonyms
+    format
+    status
+    episodes
+    duration
+    season
+    seasonYear
+    averageScore
+    meanScore
+    popularity
+    coverImage { extraLarge large medium color }
+    bannerImage
+    description(asHtml: false)
+    genres
+    studios {
+      nodes { id name siteUrl isAnimationStudio }
+    }
+    startDate { year month day }
+    endDate { year month day }
+    nextAiringEpisode { airingAt timeUntilAiring episode }
+    trailer { id site thumbnail }
+    externalLinks { id url site type }
+    streamingEpisodes { title thumbnail url site }
+    rankings { id rank type format year season allTime context }
+    relations {
+      edges {
+        id
+        relationType
+        node {
+          id
+          title { romaji english }
+          type
+          format
+          siteUrl
+        }
+      }
+    }
+    characters(sort: [ROLE, RELEVANCE, ID], perPage: 25) {
+      edges {
+        id
+        role
+        node {
+          id
+          name { full native userPreferred }
+          image { large medium }
+          siteUrl
+        }
+        voiceActors(language: JAPANESE) {
+          id
+          name { full native userPreferred }
+          image { large medium }
+          language
+          siteUrl
+        }
+      }
+    }
+    recommendations(perPage: 25, sort: RATING_DESC) {
+      nodes {
+        id
+        mediaRecommendation {
+          id
+          title { romaji english }
+          coverImage { extraLarge large medium }
           siteUrl
         }
       }
