@@ -282,7 +282,7 @@
 }
 
 /* 
-texto pegado del editot online
+texto pegado del editor online
 */
 
 * {
@@ -385,5 +385,24 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .petals-overlay {
         display: none;
+    }
+}
+section {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range-start: 10%;
+    animation-range-end: 25%;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0.5;
+        transform: translateY(80px) scale(0.9);
+        filter: blur(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }
