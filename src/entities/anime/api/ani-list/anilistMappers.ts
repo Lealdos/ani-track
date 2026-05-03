@@ -13,8 +13,8 @@ import type {
     AnimeCharacter,
     Recommendation,
     ScheduleDay,
-} from '../models'
-import type { AnimeType } from '../models/Anime'
+} from '../../models'
+import type { AnimeType } from '../../models/Anime'
 
 const ANILIST_GENRES = [
     'Action',
@@ -196,8 +196,7 @@ export function toCharacterFromAniList(
                     smallImageUrl: edge.node.image.medium ?? undefined,
                 },
             },
-            name:
-                edge.node.name.userPreferred ?? edge.node.name.full ?? '',
+            name: edge.node.name.userPreferred ?? edge.node.name.full ?? '',
         },
         role: edge.role,
         voiceActors: edge.voiceActors.map((va) => ({

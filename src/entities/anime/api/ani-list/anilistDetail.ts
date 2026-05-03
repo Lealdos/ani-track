@@ -4,8 +4,8 @@ import type {
     AnimeCharacter,
     AnimeRelation,
     Recommendation,
-} from '../models'
-import { DAY } from './utils'
+} from '../../models'
+import { DAY } from '../utils'
 
 const ANILIST_API = 'https://graphql.anilist.co'
 
@@ -108,7 +108,7 @@ type AniListDate = {
     year: number | null
     month: number | null
     day: number | null
-}
+} | null
 
 type AniListMedia = {
     id: number
@@ -143,7 +143,7 @@ type AniListMedia = {
         }>
     }
     startDate: AniListDate
-    endDate: AniListDate
+    endDate?: AniListDate 
     trailer: { id: string; site: string } | null
     externalLinks: Array<{ url: string; site: string; type: string }>
     relations: {
@@ -232,7 +232,8 @@ const RELATION_MAP: Record<string, string> = {
 }
 
 function toDate(d: AniListDate): Date | null {
-    if (!d.year) return null
+
+    if (!d?.year) return null
     return new Date(d.year, (d.month ?? 1) - 1, d.day ?? 1)
 }
 
@@ -300,7 +301,7 @@ function mapAnime(media: AniListMedia): Anime {
         .map((l) => ({ name: l.site, url: l.url }))
 
     const startDate = toDate(media.startDate)
-    const endDate = toDate(media.endDate)
+    const endDate = toDate(media.endDate ?? null)
 
     return {
         id: media.idMal ?? media.id,
@@ -326,7 +327,10 @@ function mapAnime(media: AniListMedia): Anime {
         bannerImage: media.bannerImage ?? undefined,
         synopsis: media.description ?? undefined,
         genres: media.genres.map((g, i) => ({ id: i, name: g })),
-        aired: startDate ? { from: startDate, to: endDate! } : undefined,
+        aired:
+            startDate && endDate
+                ? { from: startDate, to: endDate }
+                : undefined,
         studios: media.studios.edges
             .filter((e) => e.isMain)
             .map((e) => ({
@@ -357,15 +361,21 @@ function mapAnime(media: AniListMedia): Anime {
 
 function mapRecommendations(media: AniListMedia): Recommendation[] {
     return media.recommendations.nodes
-        .filter((n) => n.mediaRecommendation != null)
+        .filter(
+            (
+                n
+            ): n is {
+                mediaRecommendation: Exclude<typeof n.mediaRecommendation, null>
+            } => n.mediaRecommendation != null
+        )
         .map((n) => {
-            const rec = n.mediaRecommendation!
-            const img = imgUrl(rec.coverImage)
-            const small = rec.coverImage?.medium ?? img
+            const animeRecommendation = n.mediaRecommendation
+            const img = imgUrl(animeRecommendation.coverImage)
+            const small = animeRecommendation.coverImage?.medium ?? img
             return {
                 entry: {
-                    id: rec.idMal ?? rec.id,
-                    url: `/anime/${rec.idMal ?? rec.id}`,
+                    id: animeRecommendation.idMal ?? animeRecommendation.id,
+                    url: `/anime/${animeRecommendation.idMal ?? animeRecommendation.id}`,
                     images: {
                         jpg: {
                             imageUrl: img,
@@ -373,7 +383,9 @@ function mapRecommendations(media: AniListMedia): Recommendation[] {
                             smallImageUrl: small,
                         },
                     },
-                    title: rec.title.english ?? rec.title.romaji,
+                    title:
+                        animeRecommendation.title.romaji ??
+                        animeRecommendation.title.english,
                 },
             }
         })

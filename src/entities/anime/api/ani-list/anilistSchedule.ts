@@ -1,4 +1,4 @@
-import type { Anime, ScheduleDay } from '../models'
+import type { Anime, ScheduleDay } from '../../models'
 
 export type AiringAnime = Anime & {
     airingAt: number
