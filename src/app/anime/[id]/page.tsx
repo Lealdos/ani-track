@@ -18,7 +18,8 @@ import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatfor
 import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
-import { animeRepository, toStreamingPlatform } from '@/entities/anime/api'
+import { toStreamingPlatform } from '@/entities/anime/api'
+import { fetchAnimeDetailByMalId } from '@/entities/anime/api/anilistDetail'
 import type {
     Recommendation,
     AnimeGenre,
@@ -45,17 +46,17 @@ export async function generateMetadata({
     params: Promise<PageParams>
 }) {
     const { id } = await params
-    const anime = await animeRepository.findById(id)
+    const result = await fetchAnimeDetailByMalId(id)
 
-    if (!anime) {
+    if (!result) {
         return {
             title: 'Anime Not Found',
         }
     }
 
     return {
-        title: `AniTrack | ${anime.title}`,
-        description: anime.synopsis,
+        title: `AniTrack | ${result.anime.title}`,
+        description: result.anime.synopsis,
     }
 }
 
@@ -82,20 +83,14 @@ export default async function AnimePage({
     ]
     const { id } = await params
 
-    // Fetch anime details from API
-    const animeData = await animeRepository.findById(id)
-    if (!animeData) return null
+    const result = await fetchAnimeDetailByMalId(id)
+    if (!result) return notFound()
 
-    const { duration: episodeDuration, ...anime } = animeData
-
-    const recommendations = await animeRepository.findRecommendations(id)
+    const { duration: episodeDuration, ...anime } = result.anime
+    const recommendations = result.recommendations
+    const characters = result.characters
 
     const streamingServices = (anime?.streaming ?? []).map(toStreamingPlatform)
-
-    const characters = await animeRepository.findCharacters(id)
-    if (!anime) {
-        return notFound()
-    }
 
     return (
         <>
@@ -103,9 +98,9 @@ export default async function AnimePage({
             <article className="w-full rounded-lg text-gray-100 shadow-lg">
                 <div className="relative h-[55vh] w-full overflow-hidden">
                     <img
-                        src={imgOf(anime)}
+                        src={anime.bannerImage || imgOf(anime)}
                         alt={`${anime.title} backdrop`}
-                        className="h-full w-full scale-110 object-cover opacity-60 blur-sm"
+                        className="h-full w-full scale-110 object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-linear-to-b from-background/30 via-background/70 to-background" />
                     <BackButton />
@@ -114,10 +109,7 @@ export default async function AnimePage({
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_1fr]">
                         <div className="relative mx-auto -mt-16 md:mx-0 md:mt-0">
                             <img
-                                src={
-                                    anime.images?.webp?.imageUrl ||
-                                    '/placeholder.svg'
-                                }
+                                src={imgOf(anime)}
                                 alt={anime.title}
                                 className="aspect-2/3 rounded-lg object-cover shadow-xl"
                             />
@@ -126,7 +118,7 @@ export default async function AnimePage({
                             {/* ANIME INFORMATION */}
                             <section>
                                 <h1 className="mb-2 font-gothic text-3xl italic md:text-4xl">
-                                    {anime.title}
+                                    {anime.titleRomaji}
                                 </h1>
                                 {anime.titleEnglish && (
                                     <p className="mb-4 text-gray-300">
@@ -147,7 +139,7 @@ export default async function AnimePage({
 
                                 <div className="mb-6 flex flex-wrap items-center gap-6 text-lg">
                                     <div className="flex flex-col flex-wrap items-start gap-2 md:flex-row md:items-center">
-                                        <div className="flex flex-wrap items-center-safe gap-1">
+                                        {/* <div className="flex flex-wrap items-center-safe gap-1">
                                             <Target className="mr-1 h-5 w-5" />
                                             Demography:{' '}
                                             {anime.demographics?.map(
@@ -160,7 +152,7 @@ export default async function AnimePage({
                                                     </div>
                                                 )
                                             )}
-                                        </div>
+                                        </div> */}
                                         <div className="flex items-center gap-1 rounded-xl text-gray-100">
                                             <House className="mr-1 h-5 w-5" />
                                             Studio:
