@@ -95,12 +95,12 @@
     }
 }
 
-::view-transition-old() {
+::view-transition-old(root) {
     opacity: 1;
     animation: slide-out 0.5s ease-out forwards;
 }
 
-::view-transition-new() {
+::view-transition-new(root) {
     opacity: 0;
     animation: slide-in 0.5s ease-out forwards;
     animation-delay: 400ms;
