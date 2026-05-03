@@ -25,7 +25,7 @@ export function AnimeList({
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {Array.from({ length: 12 }).map((_, i) => (
                     <Skeleton
-                        key={`skeleton-${crypto.randomUUID()}`}
+                        key={`skeleton-${i}-${SectionName}`}
                         className="aspect-2/3 w-full rounded-lg bg-muted/60"
                     />
                 ))}
@@ -42,18 +42,12 @@ export function AnimeList({
     return (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {animes.map((animeItem, i) => (
-                <div
-                    key={animeItem.id}
-                    className="animate-fade-up"
-                    style={{ animationDelay: `${i * 30}ms` }}
-                >
-                    <AnimeCard
-                        anime={animeItem}
-                        key={`${animeItem.title}-${animeItem.id}-${SectionName}`}
-                        showBadges={showBadge}
-                        displayAnimeRank={showRank}
-                    />
-                </div>
+                <AnimeCard
+                    anime={animeItem}
+                    key={`${animeItem.title}-${animeItem.id}-${SectionName}`}
+                    showBadges={showBadge}
+                    displayAnimeRank={showRank}
+                />
             ))}
         </div>
     )
