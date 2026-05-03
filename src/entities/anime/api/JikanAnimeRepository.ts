@@ -39,7 +39,10 @@ async function fetchWithRateLimit<T>(
     options: RequestInit = {},
     retries = 0
 ): Promise<T> {
-    const response = await fetch(url, options)
+    const response = await fetch(url, {
+        ...options,
+        headers: { 'User-Agent': 'AniTrack', ...options.headers },
+    })
     if (response.status === 429) {
         await delay(RATE_LIMIT_DELAY)
         return fetchWithRateLimit<T>(url, options, retries)
