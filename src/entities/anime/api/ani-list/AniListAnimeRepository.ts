@@ -1,4 +1,4 @@
-import type { IAnimeRepository } from './IAnimeRepository'
+import type { IAnimeRepository } from '../Jikan/IAnimeRepository'
 import type {
     Anime,
     Episode,
@@ -6,7 +6,7 @@ import type {
     AnimeCharacter,
     Recommendation,
     ScheduleDay,
-} from '../models'
+} from '@/entities/anime/models'
 import type { PaginationInfo } from '@/types/pageInfo'
 import type {
     AniListMedia,
@@ -16,7 +16,7 @@ import type {
     AniListStreamingEpisode,
     AniListAiringSchedule,
     HomeDataResult,
-} from './ani-list/anilistTypes'
+} from './anilistTypes'
 import {
     toAnimeFromAniList,
     toCharacterFromAniList,
@@ -26,8 +26,8 @@ import {
     genreIdToName,
     getCurrentSeason,
     getDayBounds,
-} from './ani-list/anilistMappers'
-import { HOUR, DAY, WEEK, DAYS15, MONTH } from './utils'
+} from './anilistMappers'
+import { HOUR, DAY, WEEK, DAYS15, MONTH } from '../utils'
 import {
     BROWSE_QUERY,
     FIND_BY_ID_QUERY,
@@ -41,7 +41,7 @@ import {
     RECOMMENDATIONS_QUERY,
     STREAMING_EPISODES_QUERY,
     GENRES_QUERY,
-} from './ani-list/anilistQueries'
+} from './anilistQueries'
 
 const ANILIST_API_URL = 'https://graphql.anilist.co'
 const RATE_LIMIT_DELAY = 1000
