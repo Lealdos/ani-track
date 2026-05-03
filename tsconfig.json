@@ -28,7 +28,8 @@
             "@context/*": ["./src/context/*"],
             "@utils/*": ["./src/utils/*"],
             "@types/*": ["./src/types/*"],
-            "@api/*": ["./src/app/api/*"]
+            "@api/*": ["./src/app/api/*"],
+            "@entities/*": ["./src/entities/*"]
         }
     },
     "include": [
