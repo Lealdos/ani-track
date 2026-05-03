@@ -192,7 +192,7 @@ export function toStreamingPlatform(link: {
         color = 'bg-purple-600'
         logo = 'F'
     } else {
-        color = 'bg-blue-800'
+        color = 'bg-violet-800'
     }
 
     return {
