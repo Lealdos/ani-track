@@ -1,13 +1,12 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-import { Anime } from '@/entities/anime/models'
+import type { AiringAnime } from '@/entities/anime/api/anilistSchedule'
 import type { ScheduleDay } from '@/entities/anime/models'
-import { convertJSTToLocal } from '@/lib/utils'
 import { getAiringByDayAction } from '@/entities/anime/api/actions'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
+import { ScheduleAnimeCard } from './ScheduleAnimeCard'
 
 const WEEKDAYS: ScheduleDay[] = [
     'monday',
@@ -21,8 +20,7 @@ const WEEKDAYS: ScheduleDay[] = [
 
 export function EpisodeSchedule(): React.ReactElement {
     const [selectedDay, setSelectedDay] = useState<ScheduleDay | null>(null)
-
-    const [animesByDay, setAnimesByDay] = useState<Anime[]>([])
+    const [animesByDay, setAnimesByDay] = useState<AiringAnime[]>([])
 
     const handleDayChange = async (day: ScheduleDay) => {
         if (!day) return
@@ -69,43 +67,12 @@ export function EpisodeSchedule(): React.ReactElement {
                     )
                 })}
             </div>
-            {/* Anime list grid */}
 
             <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
                 {animesByDay.map((anime) => (
-                    <article
-                        key={`last-episode-${anime.id}`}
-                        className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]"
-                    >
-                        <Link
-                            href={`/anime/${anime.id}`}
-                            className="flex h-full w-full flex-col"
-                        >
-                            <div className="relative h-70">
-                                <img
-                                    src={
-                                        anime.images?.jpg?.imageUrl ||
-                                        '/placeholder.svg'
-                                    }
-                                    alt={`${anime.title} poster`}
-                                    className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
-                                />
-                                <span className="absolute top-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
-                                    {convertJSTToLocal(anime.broadcast?.string)}
-                                    ~ approx.
-                                </span>
-                                <span className="absolute bottom-3 left-3 rounded bg-slate-700 px-2 py-1 text-xs text-white">
-                                    {anime.type}
-                                </span>
-                            </div>
-
-                            <h3 className="truncate p-2 text-center text-sm font-semibold text-wrap">
-                                {anime.title.length > 120
-                                    ? `${anime.title.slice(0, 60)}...`
-                                    : anime.title}
-                            </h3>
-                        </Link>
-                    </article>
+                    <li key={`schedule-${anime.id}-ep${anime.nextEpisode}`}>
+                        <ScheduleAnimeCard anime={anime} />
+                    </li>
                 ))}
             </ul>
             {(animesByDay ?? []).length === 0 && (
