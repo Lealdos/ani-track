@@ -65,6 +65,7 @@ export type Anime = {
     status?: string
     score: number
     images?: AnimeImages
+    bannerImage?: string
     synopsis?: string
     genres?: AnimeGenre[]
     aired?: { from: Date; to: Date }
