@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-import type { AiringAnime } from '@/entities/anime/api/anilistSchedule'
+import type { AiringAnime } from '@/entities/anime/api/ani-list/anilistSchedule'
 import type { ScheduleDay } from '@/entities/anime/models'
 import { getAiringByDayAction } from '@/entities/anime/api/actions'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
