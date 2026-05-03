@@ -19,7 +19,7 @@ import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeLis
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 import { toStreamingPlatform } from '@/entities/anime/api'
-import { fetchAnimeDetailByMalId } from '@/entities/anime/api/anilistDetail'
+import { fetchAnimeDetailByMalId } from '@/entities/anime/api/ani-list/anilistDetail'
 import type {
     Recommendation,
     AnimeGenre,
