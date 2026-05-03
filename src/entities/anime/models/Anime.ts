@@ -60,6 +60,7 @@ export type Anime = {
     titleEnglish?: string
     titleJapanese?: string
     titleSynonyms?: string[]
+    titleRomaji?: string
     type?: AnimeType
     episodes?: number
     status?: string
