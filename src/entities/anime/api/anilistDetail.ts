@@ -19,7 +19,6 @@ query ($idMal: Int) {
       english
       native
     }
-    synonyms
     format
     episodes
     status
@@ -119,7 +118,7 @@ type AniListMedia = {
         english: string | null
         native: string | null
     }
-    synonyms: string[]
+
     format: string | null
     episodes: number | null
     status: string | null
@@ -312,7 +311,7 @@ function mapAnime(media: AniListMedia): Anime {
             '',
         titleEnglish: media.title.english ?? undefined,
         titleJapanese: media.title.native ?? undefined,
-        titleSynonyms: media.synonyms,
+        titleRomaji: media.title.romaji ?? undefined,
         type: FORMAT_MAP[media.format ?? ''] ?? undefined,
         episodes: media.episodes ?? undefined,
         status: STATUS_MAP[media.status ?? ''] ?? media.status ?? undefined,
