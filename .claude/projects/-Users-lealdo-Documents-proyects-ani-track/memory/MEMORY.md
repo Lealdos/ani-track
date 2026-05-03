@@ -1,0 +1,1 @@
+- [Clean render logic](feedback_clean_render.md) — No inline logic inside .map(); extract to helpers or components
