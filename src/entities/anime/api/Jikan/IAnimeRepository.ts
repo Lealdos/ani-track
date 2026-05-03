@@ -5,7 +5,7 @@ import type {
     AnimeCharacter,
     Recommendation,
     ScheduleDay,
-} from '../models'
+} from '../../models'
 import type { PaginationInfo } from '@/types/pageInfo'
 
 export interface IAnimeRepository {

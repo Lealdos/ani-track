@@ -1,6 +1,6 @@
 // Internal raw types from Jikan API v4 — not exported outside this folder
 
-import type { AnimeType } from '../models/Anime'
+import type { AnimeType } from '@/entities/anime/models'
 
 type JikanAnimeImagesType = {
     jpg: {

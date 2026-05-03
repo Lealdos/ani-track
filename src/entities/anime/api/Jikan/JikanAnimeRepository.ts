@@ -6,7 +6,7 @@ import type {
     AnimeCharacter,
     Recommendation,
     ScheduleDay,
-} from '../models'
+} from '../../models'
 import type { PaginationInfo } from '@/types/pageInfo'
 import type {
     JikanAnime,
@@ -21,8 +21,8 @@ import {
     toGenre,
     toRecommendation,
     toCharacter,
-} from './mappers'
-import { DAY, WEEK, DAYS15, MONTH } from './utils'
+} from './jikanMappers'
+import { DAY, WEEK, DAYS15, MONTH } from '../utils'
 import { API_BASE_URL } from '@/config/const'
 
 const RATE_LIMIT_DELAY = 1000
@@ -52,7 +52,9 @@ async function fetchWithRateLimit<T>(
         return fetchWithRateLimit<T>(url, options, retries + 1)
     }
     if (!response.ok) {
-        throw new Error(`Jikan API error: ${response.status} ${response.statusText}`)
+        throw new Error(
+            `Jikan API error: ${response.status} ${response.statusText}`
+        )
     }
     return response.json()
 }
@@ -234,7 +236,6 @@ class JikanAnimeRepository implements IAnimeRepository {
             return []
         }
     }
-
 }
 
 export const animeRepository: IAnimeRepository = new JikanAnimeRepository()

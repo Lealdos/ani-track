@@ -12,7 +12,7 @@ import type {
     Recommendation,
     AnimeCharacter,
     StreamingPlatform,
-} from '../models'
+} from '../../models'
 
 export function toAnime(raw: JikanAnime): Anime {
     return {
