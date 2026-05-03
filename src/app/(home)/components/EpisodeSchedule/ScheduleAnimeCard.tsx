@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import type { AiringAnime } from '@/entities/anime/api/anilistSchedule'
+import type { AiringAnime } from '@/entities/anime/api/ani-list/anilistSchedule'
 
 function formatLocalTime(airingAt: number): string {
     const date = new Date(airingAt)
