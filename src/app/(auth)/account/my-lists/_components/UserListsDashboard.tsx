@@ -81,7 +81,7 @@ export function UserListsDashboard() {
 
                     {/* Tab content skeleton - Empty state */}
                     <div className="mt-6">
-                        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 p-12">
+                        <div className="flex min-h-100 flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 p-12">
                             <Skeleton className="mb-4 h-24 w-24 rounded-full bg-gray-800" />
                             <Skeleton className="h-7 w-32 bg-gray-700" />
                             <Skeleton className="mt-2 h-5 w-48 bg-gray-700" />
@@ -136,7 +136,7 @@ export function UserListsDashboard() {
 
 function EmptyState({ status }: { status: string }) {
     return (
-        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 p-12">
+        <div className="flex min-h-100 flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 p-12">
             <div className="mb-4 rounded-full bg-slate-700/50 p-6">
                 <TvMinimalPlay className="h-12 w-12 text-slate-400" />
             </div>
