@@ -145,20 +145,34 @@ export function UserListsDashboard() {
                         value={status.value}
                         className="mt-6"
                     >
-                        {loading ? (
-                            <ItemsGridSkeleton />
-                        ) : status.value === 'user lists' ? (
-                            <UserListsContent lists={userLists} />
-                        ) : items.length === 0 ? (
-                            <EmptyState />
-                        ) : (
-                            <AnimeItemsGrid items={items} />
-                        )}
+                        <TabContentBody
+                            loading={loading}
+                            status={status.value}
+                            items={items}
+                            userLists={userLists}
+                        />
                     </TabsContent>
                 ))}
             </Tabs>
         </div>
     )
+}
+
+function TabContentBody({
+    loading,
+    status,
+    items,
+    userLists,
+}: {
+    loading: boolean
+    status: ListStatus
+    items: AnimeItem[]
+    userLists: UserList[]
+}) {
+    if (loading) return <ItemsGridSkeleton />
+    if (status === 'user lists') return <UserListsContent lists={userLists} />
+    if (items.length === 0) return <EmptyState />
+    return <AnimeItemsGrid items={items} />
 }
 
 function AnimeItemsGrid({ items }: { items: AnimeItem[] }) {
@@ -219,7 +233,7 @@ function UserListsContent({ lists }: { lists: UserList[] }) {
                             <List className="h-3 w-3" />
                             {list.listItems.length} anime
                         </span>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs capitalize text-slate-400">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs text-slate-400 capitalize">
                             {list.visibility === 'PUBLIC' ? (
                                 <Globe className="h-3 w-3" />
                             ) : (
@@ -253,7 +267,7 @@ function ItemsGridSkeleton() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {Array.from({ length: 12 }).map((_, i) => (
                 <Skeleton
-                    key={i}
+                    key={`skeleton-${i + 1}-anime-item`}
                     className="aspect-2/3 w-full rounded-lg bg-gray-700"
                 />
             ))}
