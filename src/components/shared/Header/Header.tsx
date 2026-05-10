@@ -5,7 +5,6 @@ import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
 import { useSession, signOut } from '@/lib/Auth/auth-clients'
-import { useRouter } from 'next/navigation'
 
 type Route = {
     href: string
@@ -30,13 +29,7 @@ const authMenu: Route[] = [
 ]
 
 export default function Header() {
-    const router = useRouter()
-
-    const {
-        data: session,
-        refetch, //refetch the session
-        isRefetching,
-    } = useSession()
+    const { data: session } = useSession()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -87,14 +80,8 @@ export default function Header() {
 
     const handleLogout = async () => {
         setIsMobileMenuOpen(false)
-        await signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    router.push('/')
-                },
-            },
-        })
-        refetch()
+        await signOut()
+        globalThis.location.href = '/'
     }
 
     return (
@@ -167,7 +154,7 @@ export default function Header() {
                         ref={mobileMenuRef}
                         id="mobile-menu"
                         className={cn(
-                            `top-64 left-1/2 my-20 mt-4 w-[360px] -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
+                            `top-64 left-1/2 my-20 mt-4 w-90 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
                             isMobileMenuOpen
                                 ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
                                 : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-300 animate-reverse'
@@ -190,7 +177,7 @@ export default function Header() {
                                             onClick={handleLogout}
                                             className="pointer"
                                         >
-                                            Sign Out
+                                            Logout
                                         </button>
                                         {userMenu.map((route) => (
                                             <Link
