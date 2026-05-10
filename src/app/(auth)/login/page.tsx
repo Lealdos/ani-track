@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { headers } from 'next/headers'
-import SignInForm from './_components/SignInForm'
-import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import { auth } from '@/lib/auth'
+import SignInForm from './_components/SignInForm'
 
 export default async function LoginPage() {
     const session = await auth.api.getSession({ headers: await headers() })

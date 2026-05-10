@@ -48,8 +48,11 @@ export default function RootLayout({
                 <SpeedInsights />
                 <Header />
                 <ViewTransition>
-                    <Providers>{children}</Providers>
-                    <Toaster />
+                    <Providers>
+                        {children}
+
+                        <Toaster />
+                    </Providers>
                 </ViewTransition>
                 <Footer />
             </body>
