@@ -6,15 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-    ArrowLeft,
-    Save,
-    Trash2,
-    Globe,
-    Lock,
-    Loader2,
-    X,
-} from 'lucide-react'
+import { ArrowLeft, Save, Trash2, Globe, Lock, Loader2, X } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
@@ -385,8 +377,8 @@ function EditListSkeleton() {
                 <Skeleton className="h-6 w-32 bg-gray-700" />
                 {Array.from({ length: 4 }).map((_, i) => (
                     <Skeleton
-                        key={i}
-                        className="h-[76px] w-full rounded-lg bg-gray-700"
+                        key={`item-skeleton-${i + 1}`}
+                        className="h-19 w-full rounded-lg bg-gray-700"
                     />
                 ))}
             </div>
