@@ -13,7 +13,6 @@ type ShareButtonProps = {
     text?: string
     url?: string
     label?: string
-    className?: string
 } & VariantProps<typeof buttonVariants> &
     Omit<ComponentProps<'button'>, 'onClick'>
 
@@ -22,7 +21,6 @@ export function ShareButton({
     text,
     url,
     label = 'Share',
-    variant = 'outline',
     size = 'default',
     className,
     ...props
@@ -53,10 +51,12 @@ export function ShareButton({
     return (
         <Button
             type="button"
-            variant={variant}
             size={size}
             onClick={handleShare}
-            className={cn(className)}
+            className={cn(
+                'bg-violet-900 text-base text-white hover:bg-violet-800 dark:bg-violet-900 dark:hover:bg-violet-800',
+                className
+            )}
             aria-label={label}
             {...props}
         >

@@ -6,7 +6,6 @@ import {
     Clock,
     Video,
     House,
-    Target,
     CalendarSearch,
     Hourglass,
     CalendarCheck,
