@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
 
 type AnimeItem = {
     id: string
@@ -191,6 +192,12 @@ export function EditUserList({ listId }: { listId: string }) {
                 <h1 className="text-2xl font-bold text-white md:text-3xl">
                     Edit list
                 </h1>
+                <ShareButton
+                    title={`${list.name} | AniTrack`}
+                    text={`Check out my anime list: ${list.name}`}
+                    label="Share list"
+                    className="ml-auto"
+                />
             </div>
 
             <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-6">

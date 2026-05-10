@@ -16,6 +16,8 @@ import {
 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
+import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
+import { redirect } from 'next/navigation'
 
 const LIST_STATUSES = [
     {
@@ -110,7 +112,7 @@ export function UserListsDashboard() {
     }
 
     if (!session?.user) {
-        return null
+        return redirect('/login')
     }
 
     return (
@@ -217,32 +219,46 @@ function UserListsContent({ lists }: { lists: UserList[] }) {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {lists.map((list) => (
-                <Link
+                <div
                     key={list.id}
-                    href={`/account/my-lists/${list.id}`}
                     className="group flex flex-col gap-3 rounded-xl border border-slate-700/50 bg-slate-800/30 p-5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60"
                 >
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-white group-hover:text-cyan-400">
-                            {list.name}
-                        </h2>
-                        <ChevronRight className="h-5 w-5 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
+                    <Link
+                        href={`/account/my-lists/${list.id}`}
+                        className="flex flex-col gap-3"
+                    >
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-white group-hover:text-cyan-400">
+                                {list.name}
+                            </h2>
+                            <ChevronRight className="h-5 w-5 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs text-slate-300">
+                                <List className="h-3 w-3" />
+                                {list.listItems.length} anime
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs text-slate-400 capitalize">
+                                {list.visibility === 'PUBLIC' ? (
+                                    <Globe className="h-3 w-3" />
+                                ) : (
+                                    <Lock className="h-3 w-3" />
+                                )}
+                                {list.visibility.toLowerCase()}
+                            </span>
+                        </div>
+                    </Link>
+                    <div className="flex justify-end">
+                        <ShareButton
+                            title={`${list.name} | AniTrack`}
+                            text={`Check out my anime list: ${list.name}`}
+                            url={`${globalThis.location?.origin ?? ''}/account/my-lists/${list.id}`}
+                            size="sm"
+                            variant="ghost"
+                            label="Share list"
+                        />
                     </div>
-                    <div className="flex items-center gap-3">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs text-slate-300">
-                            <List className="h-3 w-3" />
-                            {list.listItems.length} anime
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-700/60 px-2.5 py-1 text-xs text-slate-400 capitalize">
-                            {list.visibility === 'PUBLIC' ? (
-                                <Globe className="h-3 w-3" />
-                            ) : (
-                                <Lock className="h-3 w-3" />
-                            )}
-                            {list.visibility.toLowerCase()}
-                        </span>
-                    </div>
-                </Link>
+                </div>
             ))}
         </div>
     )

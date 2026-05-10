@@ -35,6 +35,7 @@ import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavo
 import { CharactersList } from './components/CharactersList/CharactersList'
 import { WatchStatusButton } from '@/components/shared/WatchStatusActions/WatchStatusActions'
 import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
+import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
 
 interface PageParams {
     id: number
@@ -259,10 +260,14 @@ export default async function AnimePage({
                                         </div>
                                     )}
                                 </div>
-                                <div className="my-2 flex flex-row items-center gap-4">
+                                <div className="my-2 flex flex-row flex-wrap items-center gap-4">
                                     <WatchStatusButton anime={anime} />
                                     <AddToListButton anime={anime} showLabel />
                                     <AddFavoritesButton anime={anime} />
+                                    <ShareButton
+                                        title={`${anime.title} | AniTrack`}
+                                        text={anime.synopsis ?? undefined}
+                                    />
                                 </div>
 
                                 {/* producers section */}
