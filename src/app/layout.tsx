@@ -46,14 +46,11 @@ export default function RootLayout({
                 className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
             >
                 <SpeedInsights />
+                <Toaster position="bottom-center" className="z-50" />
                 <Header />
-                <ViewTransition>
-                    <Providers>
-                        {children}
-
-                        <Toaster />
-                    </Providers>
-                </ViewTransition>
+                <Providers>
+                    <ViewTransition>{children}</ViewTransition>
+                </Providers>
                 <Footer />
             </body>
         </html>
