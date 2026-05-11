@@ -387,7 +387,7 @@ body {
         display: none;
     }
 }
-section {
+section:not(:has([data-sonner-toaster])) {
     animation: reveal linear both;
     animation-timeline: view();
     animation-range-start: 10%;
