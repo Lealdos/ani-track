@@ -9,6 +9,7 @@ import {
     useState,
     ReactNode,
 } from 'react'
+import { toast } from 'sonner'
 import { FavoriteAnime } from './useFavorites'
 import { useSession } from '@/lib/Auth/auth-clients'
 
@@ -148,7 +149,7 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
             })
             .catch(() => {
                 setLists((prev) => prev.filter((l) => l.id !== tempId))
-                throw new Error('Failed to create list')
+                toast.error("Couldn't create the list. Please try again.")
             })
             .finally(() => {
                 pendingIds.current.delete(tempId)
@@ -246,6 +247,9 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
                                 ),
                             }
                         })
+                    )
+                    toast.error(
+                        "Couldn't add the anime to your list. Please try again."
                     )
                 })
         })

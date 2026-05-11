@@ -8,6 +8,7 @@ import {
     useCallback,
     useRef,
 } from 'react'
+import { toast } from 'sonner'
 import type { Anime } from '@/entities/anime/models'
 import {
     getStoredFavoriteAnimes,
@@ -161,6 +162,7 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
             if (isAuthenticated) {
                 const picture = imgOf(anime)
                 setFavorites((prev) => [...prev, anime])
+                toast.success('Added to favorites')
                 fetch('/api/users-lists/favorites', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -169,15 +171,23 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
                         title: anime.title,
                         picture,
                     }),
-                }).catch(() => {
-                    const rollback = (prev: Anime[]) =>
-                        prev.filter((f) => f.id !== anime.id)
-                    setFavorites(rollback)
                 })
+                    .then((res) => {
+                        if (!res.ok) throw new Error('Failed')
+                    })
+                    .catch(() => {
+                        const rollback = (prev: Anime[]) =>
+                            prev.filter((f) => f.id !== anime.id)
+                        setFavorites(rollback)
+                        toast.error(
+                            "Couldn't update your favorites. Please try again."
+                        )
+                    })
             } else {
                 const newFavorites = [...favorites, anime]
                 setFavorites(newFavorites)
                 storeFavoriteAnimes(newFavorites)
+                toast.success('Added to favorites')
             }
         },
         [favorites, isAuthenticated]
@@ -188,21 +198,30 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
             if (isAuthenticated) {
                 const removed = favorites.find((f) => f.id === animeId)
                 setFavorites((prev) => prev.filter((fav) => fav.id !== animeId))
+                toast.success('Removed from favorites')
                 fetch('/api/users-lists/favorites', {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ animeId: String(animeId) }),
-                }).catch(() => {
-                    if (removed) {
-                        setFavorites((prev) => [...prev, removed])
-                    }
                 })
+                    .then((res) => {
+                        if (!res.ok) throw new Error('Failed')
+                    })
+                    .catch(() => {
+                        if (removed) {
+                            setFavorites((prev) => [...prev, removed])
+                        }
+                        toast.error(
+                            "Couldn't update your favorites. Please try again."
+                        )
+                    })
             } else {
                 const newFavorites = favorites.filter(
                     (fav) => fav.id !== animeId
                 )
                 setFavorites(newFavorites)
                 storeFavoriteAnimes(newFavorites)
+                toast.success('Removed from favorites')
             }
         },
         [favorites, isAuthenticated]

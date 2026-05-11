@@ -8,6 +8,7 @@ import {
     useState,
     ReactNode,
 } from 'react'
+import { toast } from 'sonner'
 import { FavoriteAnime } from './useFavorites'
 import { useSession } from '@/lib/Auth/auth-clients'
 
@@ -179,6 +180,9 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
                         return next
                     })
                 }
+                toast.error(
+                    "Couldn't update your watch status. Please try again."
+                )
             })
         },
         [store]
@@ -200,6 +204,9 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
                     method: 'DELETE',
                 }).catch(() => {
                     setStore((s) => ({ ...s, [id]: prev }))
+                    toast.error(
+                        "Couldn't update your watch status. Please try again."
+                    )
                 })
             }
         },
