@@ -175,7 +175,7 @@ export default function Header() {
                                     <div className="flex flex-col items-center justify-center gap-2">
                                         <button
                                             onClick={handleLogout}
-                                            className="pointer"
+                                            className="cursor-pointer py-1.5 text-white transition-transform hover:scale-105"
                                         >
                                             Logout
                                         </button>
