@@ -54,9 +54,37 @@ export async function generateMetadata({
         }
     }
 
+    const { anime } = result
+    const title = `AniTrack | ${anime.title}`
+    const description =
+        anime.synopsis ??
+        `Discover ${anime.title} on AniTrack — episodes, streaming platforms, characters, and recommendations.`
+    const image = anime.bannerImage || imgOf(anime)
+
     return {
-        title: `AniTrack | ${result.anime.title}`,
-        description: result.anime.synopsis,
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            url: `/anime/${id}`,
+            siteName: 'AniTrack',
+            type: 'video.tv_show',
+            images: image
+                ? [
+                      {
+                          url: image,
+                          alt: `${anime.title} cover`,
+                      },
+                  ]
+                : undefined,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: image ? [image] : undefined,
+        },
     }
 }
 

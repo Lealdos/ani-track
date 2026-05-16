@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import type { Metadata } from 'next'
 import { cacheLife } from 'next/cache'
 
 import { Heart } from 'lucide-react'
@@ -13,6 +14,36 @@ import { Hero } from './components/Hero/Hero'
 
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import Link from 'next/link'
+
+const siteDescription =
+    'Discover seasonal, top, and genre-based anime. Track favorites, episode schedules, and what you are currently watching with AniTrack.'
+
+export const metadata: Metadata = {
+    title: 'AniTrack | Anime Discovery & Tracking',
+    description: siteDescription,
+    openGraph: {
+        title: 'AniTrack | Anime Discovery & Tracking',
+        description: siteDescription,
+        url: '/',
+        siteName: 'AniTrack',
+        images: [
+            {
+                url: '/hero-sakura.jpeg',
+                width: 1200,
+                height: 630,
+                alt: 'AniTrack — Anime Discovery & Tracking',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'AniTrack | Anime Discovery & Tracking',
+        description: siteDescription,
+        images: ['/hero-sakura.jpeg'],
+    },
+}
 
 export default async function Home() {
     'use cache'
