@@ -147,9 +147,10 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
                 )
                 return real.id
             })
-            .catch(() => {
+            .catch((err) => {
                 setLists((prev) => prev.filter((l) => l.id !== tempId))
                 toast.error("Couldn't create the list. Please try again.")
+                throw err
             })
             .finally(() => {
                 pendingIds.current.delete(tempId)
