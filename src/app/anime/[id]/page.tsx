@@ -13,8 +13,8 @@ import {
     Trophy,
     Warehouse,
 } from 'lucide-react'
-import { StreamingPlatforms } from '@/app/anime/[id]/components/streamingPlatforms/StreamingPlatforms'
-import { EpisodesList } from '@/app/anime/[id]/components/EpisodeList/EpisodeList'
+import { StreamingPlatforms } from '@/app/anime/[id]/_components/streamingPlatforms/StreamingPlatforms'
+import { EpisodesList } from '@/app/anime/[id]/_components/EpisodeList/EpisodeList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 import { toStreamingPlatform } from '@/entities/anime/api'
@@ -31,7 +31,8 @@ import { imgOf } from '@/entities/anime/models'
 import { formatDate, convertJSTToLocal } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
-import { CharactersList } from './components/CharactersList/CharactersList'
+import { CharactersList } from './_components/CharactersList/CharactersList'
+import { FreePage } from './_components/FreePage/FreePage'
 import { WatchStatusButton } from '@/components/shared/WatchStatusActions/WatchStatusActions'
 import { AddToListButton } from '@/components/shared/AddToListButton/AddToListButton'
 import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
@@ -105,7 +106,7 @@ export default async function AnimePage({
 }) {
     const tabsContents = [
         {
-            tabsName: 'Where to watch',
+            tabsName: 'Streaming Platforms',
         },
         { tabsName: 'Episodes' },
     ]
@@ -406,19 +407,6 @@ export default async function AnimePage({
                                 </div>
                             </section>
 
-                            {/* Characters SECTION */}
-                            <section className="mt-8 md:min-w-max lg:min-w-3xl">
-                                <h2 className="mb-4 text-2xl font-bold">
-                                    Anime Characters:
-                                </h2>
-                                {characters.length === 0 && (
-                                    <p className="text-center text-gray-400">
-                                        No characters found for this anime.
-                                    </p>
-                                )}
-                                <CharactersList characters={characters} />
-                            </section>
-
                             {/* STREAMING PLATFORMS & EPISODES TABS */}
 
                             <section className="mt-8 md:min-w-max lg:min-w-3xl">
@@ -439,7 +427,7 @@ export default async function AnimePage({
                                     </TabsList>
 
                                     <TabsContent
-                                        value={'Where to watch'}
+                                        value={tabsContents[0].tabsName}
                                         className={`my-4 h-64 overflow-y-auto`}
                                     >
                                         {streamingServices.length > 0 ? (
@@ -455,12 +443,31 @@ export default async function AnimePage({
                                         )}
                                     </TabsContent>
                                     <TabsContent
-                                        value="Episodes"
+                                        value={tabsContents[1].tabsName}
                                         className={`my-4 h-64 overflow-y-auto`}
                                     >
                                         <EpisodesList animeId={anime.id} />
                                     </TabsContent>
                                 </Tabs>
+                            </section>
+
+                            <FreePage
+                                animeTitleRomaji={
+                                    anime.titleRomaji ?? anime.title
+                                }
+                            />
+
+                            {/* Characters SECTION */}
+                            <section className="mt-8 md:min-w-max lg:min-w-3xl">
+                                <h2 className="mb-4 text-2xl font-bold">
+                                    Anime Characters:
+                                </h2>
+                                {characters.length === 0 && (
+                                    <p className="text-center text-gray-400">
+                                        No characters found for this anime.
+                                    </p>
+                                )}
+                                <CharactersList characters={characters} />
                             </section>
                         </div>
                     </div>
