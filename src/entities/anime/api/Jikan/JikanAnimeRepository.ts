@@ -105,7 +105,7 @@ class JikanAnimeRepository implements IAnimeRepository {
             const { data } = await fetchWithRateLimit<
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/top/anime?sfw&limit=20`, {
-                next: { revalidate: WEEK },
+                next: { revalidate: DAY },
             } as RequestInit)
             return data.toSorted((a, b) => a.rank - b.rank).map(toAnime)
         } catch (error) {
@@ -119,7 +119,7 @@ class JikanAnimeRepository implements IAnimeRepository {
             const { data } = await fetchWithRateLimit<
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/seasons/now?continuing&unapproved`, {
-                next: { revalidate: DAY },
+                next: { revalidate: WEEK },
             } as RequestInit)
             return deduplicateById(data)
                 .filter((a) => a.status === 'Currently Airing')
@@ -135,7 +135,7 @@ class JikanAnimeRepository implements IAnimeRepository {
             const { data } = await fetchWithRateLimit<
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/anime?genres=${genreId}&limit=10`, {
-                next: { revalidate: DAYS15 },
+                next: { revalidate: WEEK },
             } as RequestInit)
             return data.map(toAnime)
         } catch (error) {

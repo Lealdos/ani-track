@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { cacheLife } from 'next/cache'
 
 import { Heart } from 'lucide-react'
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
@@ -11,6 +10,7 @@ import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/Episode
 import { animeRepository } from '@/entities/anime/api'
 
 import { Hero } from './components/Hero/Hero'
+import { HeroSkeleton } from './components/Hero/HeroSkeleton'
 
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import Link from 'next/link'
@@ -46,14 +46,12 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-    'use cache'
-    cacheLife('weeks') // Cache this page for 2 week
     const seasonalAnime = animeRepository.findSeasonal()
     const topAnime = animeRepository.findTop()
 
     return (
         <>
-            <Suspense fallback={null}>
+            <Suspense fallback={<HeroSkeleton />}>
                 <Hero />
             </Suspense>
             <div className="max-w-8xl container mx-auto w-full px-4 py-8 text-white">

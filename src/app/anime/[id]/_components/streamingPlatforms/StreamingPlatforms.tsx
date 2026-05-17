@@ -19,7 +19,7 @@ export function StreamingPlatforms({
     animeTitle,
 }: StreamingPlatformsProps) {
     return (
-        <div className="my-2 space-y-4">
+        <section className="mx-auto my-2 space-y-4 md:min-w-max lg:min-w-3xl">
             {platforms.map((platform, index) => (
                 <div
                     key={index + platform.name}
@@ -48,6 +48,6 @@ export function StreamingPlatforms({
                     </button>
                 </div>
             ))}
-        </div>
+        </section>
     )
 }
