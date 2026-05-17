@@ -18,15 +18,18 @@ const WEEKDAYS: ScheduleDay[] = [
     'sunday',
 ]
 
+const SCHEDULE_GRID =
+    'grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5'
+
 export function EpisodeSchedule(): React.ReactElement {
     const [selectedDay, setSelectedDay] = useState<ScheduleDay | null>(null)
-    const [animesByDay, setAnimesByDay] = useState<AiringAnime[]>([])
+    const [animesByDay, setAnimesByDay] = useState<AiringAnime[] | null>(null)
 
     const handleDayChange = async (day: ScheduleDay) => {
         if (!day) return
 
         setSelectedDay(day)
-        setAnimesByDay([])
+        setAnimesByDay(null)
         const filteredAnimesByDay = await getAiringByDayAction(day)
         setAnimesByDay(filteredAnimesByDay)
     }
@@ -39,14 +42,7 @@ export function EpisodeSchedule(): React.ReactElement {
         handleDayChange(clientDefaultDay)
     }, [])
 
-    if (selectedDay === null) {
-        return (
-            <AnimeListSkeleton
-                sectionName="episode-schedule"
-                skeletonItemCount={5}
-            />
-        )
-    }
+    const isLoading = animesByDay === null
 
     return (
         <>
@@ -55,12 +51,13 @@ export function EpisodeSchedule(): React.ReactElement {
             </h2>
             <div className="mb-6 flex gap-2 overflow-x-auto py-2">
                 {WEEKDAYS.map((day) => {
+                    const isActive = selectedDay === day
                     return (
                         <button
                             key={day}
                             onClick={() => handleDayChange(day)}
-                            className={`rounded border border-purple-600 px-2 py-1 text-base capitalize ${selectedDay === day ? 'bg-rose-900 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-pink-800 hover:text-white`}
-                            disabled={selectedDay === day}
+                            className={`rounded border border-purple-600 px-2 py-1 text-base capitalize ${isActive ? 'bg-rose-900 text-white shadow-md shadow-purple-600/70' : 'bg-transparent text-white opacity-70'} hover:bg-pink-800 hover:text-white`}
+                            disabled={isActive}
                         >
                             {day}
                         </button>
@@ -68,18 +65,22 @@ export function EpisodeSchedule(): React.ReactElement {
                 })}
             </div>
 
-            <ul className="grid grid-cols-2 justify-items-center gap-4 px-4 py-4 sm:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
-                {animesByDay.map((anime) => (
-                    <li key={`schedule-${anime.id}-ep${anime.nextEpisode}`}>
-                        <ScheduleAnimeCard anime={anime} />
-                    </li>
-                ))}
-            </ul>
-            {(animesByDay ?? []).length === 0 && (
+            {isLoading ? (
                 <AnimeListSkeleton
                     sectionName="episode-schedule"
-                    skeletonItemCount={5}
+                    skeletonItemCount={10}
+                    gridClassName={SCHEDULE_GRID}
                 />
+            ) : (
+                <ul className={SCHEDULE_GRID}>
+                    {animesByDay.map((anime) => (
+                        <li
+                            key={`schedule-${anime.id}-ep${anime.nextEpisode}`}
+                        >
+                            <ScheduleAnimeCard anime={anime} />
+                        </li>
+                    ))}
+                </ul>
             )}
         </>
     )
