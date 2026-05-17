@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { cacheLife } from 'next/cache'
 
 import { Heart } from 'lucide-react'
 import { CurrentSeason } from '@/app/(home)/components/CurrentSeason/CurrentSeason'
@@ -47,8 +46,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-    'use cache'
-    cacheLife('weeks') // Cache this page for 2 week
     const seasonalAnime = animeRepository.findSeasonal()
     const topAnime = animeRepository.findTop()
 
