@@ -11,6 +11,7 @@ import { EpisodeSchedule } from '@/app/(home)/components/EpisodeSchedule/Episode
 import { animeRepository } from '@/entities/anime/api'
 
 import { Hero } from './components/Hero/Hero'
+import { HeroSkeleton } from './components/Hero/HeroSkeleton'
 
 import { FavoritesAccordion } from '@/components/ui/FavoritesAccordion'
 import Link from 'next/link'
@@ -53,7 +54,7 @@ export default async function Home() {
 
     return (
         <>
-            <Suspense fallback={null}>
+            <Suspense fallback={<HeroSkeleton />}>
                 <Hero />
             </Suspense>
             <div className="max-w-8xl container mx-auto w-full px-4 py-8 text-white">
