@@ -10,7 +10,7 @@ function Hero() {
             <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10" />
             <div className="relative flex h-screen w-full flex-col items-center justify-evenly rounded-lg p-4">
                 <Image
-                    src={'/hero-sakura.jpeg'}
+                    src={'/hero-sakura.webp'}
                     alt="Lone figure under a cherry blossom tree above a glowing night city"
                     className="absolute inset-0 h-full w-full object-center opacity-40 md:object-cover"
                     width={2560}
