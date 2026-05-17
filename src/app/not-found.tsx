@@ -5,7 +5,7 @@ export default function NotFound() {
     return (
         <div className="animate-fade-in flex flex-col items-center justify-center gap-6 text-center">
             <Image
-                src="/404.png"
+                src="/404.webp"
                 alt="AniTrack 404 Page Not Found"
                 className="h-80 w-auto md:h-96"
                 width={408}
