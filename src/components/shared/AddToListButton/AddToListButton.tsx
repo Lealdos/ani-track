@@ -65,7 +65,9 @@ export function AddToListButton({
                     <ListPlus
                         className={`size-6 md:size-7 ${showLabel ? 'mr-2' : ''}`}
                     />
-                    {showLabel ? 'Add to list' : ''}
+                    <span className={showLabel ? '' : 'sr-only'}>
+                        Add to list
+                    </span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
