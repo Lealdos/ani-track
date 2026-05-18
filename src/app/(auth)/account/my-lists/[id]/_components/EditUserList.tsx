@@ -189,6 +189,7 @@ export function EditUserList({ listId }: { listId: string }) {
                     text={`Check out my anime list: ${list.name}`}
                     label="Share list"
                     className="ml-auto"
+                    url={`${globalThis.location?.origin ?? ''}/anime/lists/${list.id}`}
                 />
             </div>
 
