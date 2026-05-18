@@ -26,6 +26,26 @@ export class UserListsModel {
         })
     }
 
+    static async findPublicById(id: string) {
+        return prisma.userLists.findUnique({
+            where: { id },
+            include: {
+                listItems: {
+                    orderBy: { createdAt: 'desc' },
+                    select: {
+                        id: true,
+                        animeId: true,
+                        title: true,
+                        picture: true,
+                    },
+                },
+                user: {
+                    select: { name: true, userName: true, image: true },
+                },
+            },
+        })
+    }
+
     static async create(data: {
         userId: string
         name: string

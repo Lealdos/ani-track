@@ -4,6 +4,15 @@ import {
 } from '@/lib/utils/errors'
 import { UserListsModel } from '../_models/userListsModel'
 
+type PublicList = NonNullable<
+    Awaited<ReturnType<typeof UserListsModel.findPublicById>>
+>
+
+export type PublicListResult =
+    | { status: 'not-found' }
+    | { status: 'private' }
+    | { status: 'public'; list: PublicList }
+
 export class UserListsService {
     static async getAll(userId: string) {
         return UserListsModel.findAllByUser(userId)
@@ -17,6 +26,13 @@ export class UserListsService {
                 'You do not have access to this list'
             )
         return list
+    }
+
+    static async getPublicById(id: string): Promise<PublicListResult> {
+        const list = await UserListsModel.findPublicById(id)
+        if (!list) return { status: 'not-found' }
+        if (list.visibility !== 'PUBLIC') return { status: 'private' }
+        return { status: 'public', list }
     }
 
     static async create(

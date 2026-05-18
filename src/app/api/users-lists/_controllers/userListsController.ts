@@ -60,6 +60,24 @@ export class UserListsController {
         }
     }
 
+    static async getPublicById(_request: NextRequest, { params }: Params) {
+        try {
+            const { id } = await params
+            const result = await UserListsService.getPublicById(id)
+            if (result.status === 'not-found')
+                return errorResponse('List not found', 404, 'NOT_FOUND')
+            if (result.status === 'private')
+                return errorResponse(
+                    'This list is private',
+                    403,
+                    'LIST_PRIVATE'
+                )
+            return successResponse(result.list)
+        } catch (error) {
+            return handleError(error)
+        }
+    }
+
     static async updateList(request: NextRequest, { params }: Params) {
         try {
             const { id } = await params
