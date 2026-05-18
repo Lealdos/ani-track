@@ -29,11 +29,13 @@ const delaGothicOne = Dela_Gothic_One({
     subsets: ['latin', 'latin-ext'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000'
+let siteUrl = 'http://localhost:3000'
+
+if (process.env.NEXT_PUBLIC_SITE_URL) {
+    siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+} else if (process.env.VERCEL_URL) {
+    siteUrl = `https://${process.env.VERCEL_URL}`
+}
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
