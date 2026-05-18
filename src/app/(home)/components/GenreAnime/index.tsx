@@ -23,7 +23,7 @@ export function AnimeByGenre() {
                     <TabsTrigger
                         key={genre.id}
                         value={genre.id.toString()}
-                        className="my-1.5 rounded-full py-2 text-white data-[state=active]:bg-purple-600 data-[state=inactive]:bg-black/60"
+                        className="my-1.5 rounded-full py-2 text-white data-[state=active]:bg-black data-[state=inactive]:bg-black/55"
                     >
                         {genre.name}
                     </TabsTrigger>

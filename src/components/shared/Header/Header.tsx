@@ -130,101 +130,95 @@ export default function Header() {
                                 setIsMobileMenuOpen(!isMobileMenuOpen)
                             }
                             aria-controls="mobile-menu"
-                            aria-label="Open menu"
+                            aria-expanded={isMobileMenuOpen}
+                            aria-label={
+                                isMobileMenuOpen ? 'Close menu' : 'Open menu'
+                            }
                             type="button"
                         >
                             {isMobileMenuOpen ? (
-                                <>
-                                    <X className="h-6 w-6" />
-                                    <span className="sr-only">Close menu</span>
-                                </>
+                                <X className="h-6 w-6" />
                             ) : (
-                                <>
-                                    <Menu className="h-6 w-6 text-white" />
-                                    <span className="sr-only">Open menu</span>
-                                </>
+                                <Menu className="h-6 w-6 text-white" />
                             )}
                         </button>
                     </div>
                 </header>
 
                 {/*  menu MODAL ↓*/}
-                {isMobileMenuVisible && (
-                    <nav
-                        ref={mobileMenuRef}
-                        id="mobile-menu"
-                        className={cn(
-                            `top-64 left-1/2 my-20 mt-4 w-90 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
-                            isMobileMenuOpen
-                                ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
-                                : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-300 animate-reverse'
-                        )}
-                        tabIndex={-1}
-                        aria-labelledby="mobile-menu-label"
+                <nav
+                    ref={mobileMenuRef}
+                    id="mobile-menu"
+                    hidden={!isMobileMenuVisible}
+                    className={cn(
+                        `top-64 left-1/2 my-20 mt-4 w-90 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
+                        isMobileMenuOpen
+                            ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
+                            : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-300 animate-reverse'
+                    )}
+                    tabIndex={-1}
+                    aria-labelledby="drawer-right-label"
+                >
+                    <h5
+                        id="drawer-right-label"
+                        className="mb-4 flex w-full items-center justify-center border-b border-b-red-900 pb-2 text-base font-semibold text-white"
                     >
-                        <h5
-                            id="drawer-right-label"
-                            className="mb-4 flex w-full items-center justify-center border-b border-b-red-900 pb-2 text-base font-semibold text-white"
-                        >
-                            Menu
-                        </h5>
-                        {/* TODO: agregar separation de secciones entre elementos de la lista ↓ */}
-                        <ul className="flex flex-col items-center-safe justify-center space-y-2 border-b-red-800 text-white">
-                            <li>
-                                {session?.user ? (
-                                    <div className="flex flex-col items-center justify-center gap-2">
-                                        <button
-                                            onClick={handleLogout}
-                                            className="cursor-pointer py-1.5 text-white transition-transform hover:scale-105"
-                                        >
-                                            Logout
-                                        </button>
-                                        {userMenu.map((route) => (
-                                            <Link
-                                                key={route.href}
-                                                href={route.href}
-                                                className="py-1.5 text-white transition-transform hover:scale-105"
-                                                onClick={() =>
-                                                    setIsMobileMenuOpen(false)
-                                                }
-                                            >
-                                                {route.label}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center gap-2">
-                                        {authMenu.map((route) => (
-                                            <Link
-                                                key={route.href}
-                                                href={route.href}
-                                                className="py-1.5 text-white transition-transform hover:scale-105"
-                                                onClick={() =>
-                                                    setIsMobileMenuOpen(false)
-                                                }
-                                            >
-                                                {route.label}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
-                            </li>
-                            {animeBrowseMenu.map((route) => (
-                                <li key={route.href}>
-                                    <Link
-                                        href={route.href}
-                                        className="flex items-center rounded-lg hover:scale-105 hover:text-white"
-                                        onClick={() =>
-                                            setIsMobileMenuOpen(false)
-                                        }
+                        Menu
+                    </h5>
+                    <ul className="flex flex-col items-center-safe justify-center space-y-2 text-white">
+                        <li className="w-lg border-b border-b-red-900 pb-2 text-center">
+                            {session?.user ? (
+                                <div className="flex flex-col items-center justify-center gap-2">
+                                    <button
+                                        onClick={handleLogout}
+                                        className="cursor-pointer py-1.5 text-white transition-transform hover:scale-105"
                                     >
-                                        <span>{route.label}</span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                )}
+                                        Logout
+                                    </button>
+                                    {userMenu.map((route) => (
+                                        <Link
+                                            key={route.href}
+                                            href={route.href}
+                                            className="py-1.5 text-white transition-transform hover:scale-105"
+                                            onClick={() =>
+                                                setIsMobileMenuOpen(false)
+                                            }
+                                        >
+                                            {route.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center gap-2">
+                                    {authMenu.map((route) => (
+                                        <Link
+                                            key={route.href}
+                                            href={route.href}
+                                            className="py-1.5 text-white transition-transform hover:scale-105"
+                                            onClick={() =>
+                                                setIsMobileMenuOpen(false)
+                                            }
+                                        >
+                                            {route.label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </li>
+
+                        {animeBrowseMenu.map((route) => (
+                            <li key={route.href}>
+                                <Link
+                                    href={route.href}
+                                    className="flex items-center rounded-lg hover:scale-105 hover:text-white"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    <span>{route.label}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             </div>
             {isMobileMenuOpen && (
                 <div

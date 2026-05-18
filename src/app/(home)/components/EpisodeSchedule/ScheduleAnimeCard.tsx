@@ -19,7 +19,7 @@ export function ScheduleAnimeCard({ anime }: { anime: AiringAnime }) {
     const aired = hasAired(anime.timeUntilAiring)
 
     return (
-        <article className="flex max-w-[200px] min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-[260px] md:min-w-[220px]">
+        <article className="flex max-w-50 min-w-38 flex-col items-center justify-between overflow-hidden rounded-2xl transition-all duration-400 hover:shadow-lg hover:shadow-indigo-600/50 md:h-full md:max-w-65 md:min-w-55">
             <Link
                 href={`/anime/${anime.id}`}
                 className="flex h-full w-full flex-col"
@@ -37,7 +37,7 @@ export function ScheduleAnimeCard({ anime }: { anime: AiringAnime }) {
                         Ep {anime.nextEpisode}
                     </span>
                     <div className="absolute right-0 bottom-3 left-0 flex items-center justify-between px-3">
-                        <span className="rounded bg-slate-700 px-2 py-1 text-xs text-white">
+                        <span className="rounded bg-violet-900/90 px-2 py-1 text-xs text-white">
                             {anime.type}
                         </span>
                         <span
