@@ -61,9 +61,9 @@ function Hero() {
                         >
                             <div className="bg-gradient-sakura absolute -top-10 -right-10 h-32 w-32 rounded-full opacity-10 blur-2xl transition-opacity group-hover:opacity-25" />
                             <c.icon className="h-5 w-5 text-primary" />
-                            <h3 className="font-display mt-3 text-2xl">
+                            <h2 className="font-display mt-3 text-2xl">
                                 {c.title}
-                            </h3>
+                            </h2>
                             <p className="mt-1 text-sm text-muted-foreground">
                                 {c.desc}
                             </p>
