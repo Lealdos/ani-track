@@ -10,7 +10,8 @@
     "lint": "next lint",
     "pretty": "prettier --write ./src",
     "postinstall": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "DATABASE_URL=\"$DATABASE_URL_DEV\" prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
     "setupDB": "docker-compose -f docker-compose.yml up -d --renew-anon-volumes",
     "dockerStart": "docker start anitrack-db",
     "teardownDb": "docker-compose -f docker-compose.yml down"
