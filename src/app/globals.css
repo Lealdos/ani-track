@@ -387,7 +387,7 @@ body {
         display: none;
     }
 }
-section {
+section:not([aria-label^='Notifications']) {
     animation: reveal linear both;
     animation-timeline: view();
     animation-range-start: 10%;
