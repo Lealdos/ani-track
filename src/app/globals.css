@@ -191,8 +191,6 @@
     );
 }
 .gradient-top-number {
-    /* -webkit-text-stroke-width: 4px;
-    -webkit-text-stroke-color: rgb(170, 59, 19); */
     background: -webkit-linear-gradient(
         -75deg,
         #8622b7 10%,
@@ -206,8 +204,6 @@
 }
 
 .gradient-home-name {
-    /* -webkit-text-stroke-width: 4px;
-    -webkit-text-stroke-color: rgb(170, 59, 19); */
     background: -webkit-linear-gradient(
         -60deg,
         #cc3ef8 10%,
