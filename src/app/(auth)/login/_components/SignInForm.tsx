@@ -69,9 +69,7 @@ export default function SignInForm({
         )
 
         if (success) {
-            toast.success(
-                `${message} Please check your email for verification.`
-            )
+            toast.success(`${message} Redirecting...`)
             refetch()
             router.push(callbackURL || '/account')
         } else {
