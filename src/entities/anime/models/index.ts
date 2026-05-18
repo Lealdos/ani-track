@@ -30,3 +30,33 @@ export function imgOf(anime: Anime): string {
         '/placeholder.svg'
     )
 }
+
+/** Minimal stored shape persisted in user lists (favorites, custom lists, etc.). */
+export type StoredAnimeListItem = {
+    animeId: string
+    title: string
+    picture: string
+}
+
+/**
+ * Projects a stored list item back into the {@link Anime} entity so it can be
+ * rendered by components that expect the full Anime shape (e.g. AnimeCard).
+ */
+export function animeFromListItem(item: StoredAnimeListItem): Anime {
+    const picture = item.picture || '/placeholder.svg'
+    return {
+        id: Number(item.animeId),
+        title: item.title,
+        score: 0,
+        rank: 0,
+        demographics: [],
+        relations: [],
+        images: {
+            jpg: {
+                imageUrl: picture,
+                largeImageUrl: picture,
+                smallImageUrl: picture,
+            },
+        },
+    }
+}
