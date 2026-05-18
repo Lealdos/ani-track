@@ -249,14 +249,16 @@ function UserListsContent({ lists }: { lists: UserList[] }) {
                         </div>
                     </Link>
                     <div className="flex justify-end">
-                        <ShareButton
-                            title={`${list.name} | AniTrack`}
-                            text={`Check out my anime list: ${list.name}`}
-                            url={`${globalThis.location?.origin ?? ''}/account/my-lists/${list.id}`}
-                            size="sm"
-                            variant="ghost"
-                            label="Share list"
-                        />
+                        {list.visibility === 'PUBLIC' && (
+                            <ShareButton
+                                title={`${list.name} | AniTrack`}
+                                text={`Check out my anime list: ${list.name}`}
+                                url={`${globalThis.location?.origin ?? ''}/anime/lists/${list.id}`}
+                                size="sm"
+                                variant="ghost"
+                                label="Share list"
+                            />
+                        )}
                     </div>
                 </div>
             ))}
