@@ -13,6 +13,7 @@ import {
     ChevronRight,
     Globe,
     Lock,
+    Trash2,
 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
@@ -107,6 +108,35 @@ export function UserListsDashboard() {
         }
     }, [activeTab, session?.user, fetchData])
 
+    const removeItem = useCallback(
+        async (item: AnimeItem) => {
+            const status = LIST_STATUSES.find((s) => s.value === activeTab)
+            if (!status || activeTab === 'user lists') return
+
+            const previousItems = items
+            setItems((prev) => prev.filter((i) => i.id !== item.id))
+
+            try {
+                const res =
+                    activeTab === 'favorites'
+                        ? await fetch(status.endpoint, {
+                              method: 'DELETE',
+                              credentials: 'include',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ animeId: item.animeId }),
+                          })
+                        : await fetch(`${status.endpoint}/${item.id}`, {
+                              method: 'DELETE',
+                              credentials: 'include',
+                          })
+                if (!res.ok) throw new Error('Failed to delete')
+            } catch {
+                setItems(previousItems)
+            }
+        },
+        [activeTab, items]
+    )
+
     if (isPending) {
         return <DashboardSkeleton />
     }
@@ -152,6 +182,7 @@ export function UserListsDashboard() {
                             status={status.value}
                             items={items}
                             userLists={userLists}
+                            onRemoveItem={removeItem}
                         />
                     </TabsContent>
                 ))}
@@ -165,49 +196,74 @@ function TabContentBody({
     status,
     items,
     userLists,
+    onRemoveItem,
 }: {
     loading: boolean
     status: ListStatus
     items: AnimeItem[]
     userLists: UserList[]
+    onRemoveItem: (item: AnimeItem) => void
 }) {
     if (loading) return <ItemsGridSkeleton />
     if (status === 'user lists') return <UserListsContent lists={userLists} />
     if (items.length === 0) return <EmptyState />
-    return <AnimeItemsGrid items={items} />
+    return <AnimeItemsGrid items={items} onRemoveItem={onRemoveItem} />
 }
 
-function AnimeItemsGrid({ items }: { items: AnimeItem[] }) {
+function AnimeItemsGrid({
+    items,
+    onRemoveItem,
+}: {
+    items: AnimeItem[]
+    onRemoveItem: (item: AnimeItem) => void
+}) {
     return (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {items.map((item) => (
-                <AnimeItemCard key={item.id} item={item} />
+                <AnimeItemCard
+                    key={item.id}
+                    item={item}
+                    onRemove={onRemoveItem}
+                />
             ))}
         </div>
     )
 }
 
-function AnimeItemCard({ item }: { item: AnimeItem }) {
+function AnimeItemCard({
+    item,
+    onRemove,
+}: {
+    item: AnimeItem
+    onRemove: (item: AnimeItem) => void
+}) {
     return (
-        <Link
-            href={`/anime/${item.animeId}`}
-            className="shadow-soft transition-silk group relative block overflow-hidden rounded-lg bg-card hover:-translate-y-1 hover:shadow-petal"
-        >
-            <div className="relative aspect-2/3 overflow-hidden bg-muted">
-                <img
-                    src={item.picture || '/placeholder.svg'}
-                    alt={`${item.title} poster`}
-                    loading="lazy"
-                    className="transition-silk h-full w-full object-cover group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent opacity-90" />
-            </div>
-            <div className="absolute inset-x-0 bottom-0 p-3">
-                <h3 className="font-display line-clamp-2 text-base leading-tight text-foreground transition-colors group-hover:text-primary md:text-lg">
-                    {item.title}
-                </h3>
-            </div>
-        </Link>
+        <div className="shadow-soft transition-silk group relative overflow-hidden rounded-lg bg-card hover:-translate-y-1 hover:shadow-petal">
+            <Link href={`/anime/${item.animeId}`} className="relative block">
+                <div className="relative aspect-2/3 overflow-hidden bg-muted">
+                    <img
+                        src={item.picture || '/placeholder.svg'}
+                        alt={`${item.title} poster`}
+                        loading="lazy"
+                        className="transition-silk h-full w-full object-cover group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent opacity-90" />
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-3">
+                    <h3 className="font-display line-clamp-2 text-base leading-tight text-foreground transition-colors group-hover:text-primary md:text-lg">
+                        {item.title}
+                    </h3>
+                </div>
+            </Link>
+            <button
+                type="button"
+                onClick={() => onRemove(item)}
+                aria-label={`Remove ${item.title}`}
+                className="absolute top-2 right-2 z-10 cursor-pointer rounded-full bg-slate-900/80 p-1.5 text-white opacity-0 backdrop-blur transition-all group-hover:opacity-100 hover:bg-red-600 focus:opacity-100"
+            >
+                <Trash2 className="h-4 w-4" />
+            </button>
+        </div>
     )
 }
 
@@ -284,28 +340,37 @@ function ItemsGridSkeleton() {
     return (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {Array.from({ length: 12 }).map((_, i) => (
-                <Skeleton
+                <div
                     key={`skeleton-${i + 1}-anime-item`}
-                    className="aspect-2/3 w-full rounded-lg bg-gray-700"
-                />
+                    className="relative overflow-hidden rounded-lg bg-card"
+                >
+                    <Skeleton className="aspect-2/3 w-full rounded-none bg-slate-700/60" />
+                    <div className="absolute inset-x-0 bottom-0 space-y-2 p-3">
+                        <Skeleton className="h-4 w-3/4 bg-slate-600/70" />
+                        <Skeleton className="h-4 w-1/2 bg-slate-600/70" />
+                    </div>
+                </div>
             ))}
         </div>
     )
 }
 
-function DashboardSkeleton() {
+export function DashboardSkeleton() {
+    const tabWidths = ['w-32', 'w-32', 'w-40', 'w-36', 'w-36'] as const
+
     return (
         <div className="mx-auto w-full max-w-7xl px-4 py-8">
             <div className="mb-8">
-                <Skeleton className="h-9 w-32 bg-gray-700 md:h-10 md:w-40" />
+                <Skeleton className="h-9 w-40 bg-slate-700/80 md:h-10 md:w-48" />
             </div>
             <div className="w-full">
                 <div className="mb-6 flex w-full flex-wrap justify-start gap-2">
-                    <Skeleton className="h-10 w-28 rounded-lg bg-gray-700" />
-                    <Skeleton className="h-10 w-36 rounded-lg bg-gray-700" />
-                    <Skeleton className="h-10 w-32 rounded-lg bg-gray-700" />
-                    <Skeleton className="h-10 w-24 rounded-lg bg-gray-700" />
-                    <Skeleton className="h-10 w-28 rounded-lg bg-gray-700" />
+                    {tabWidths.map((width, i) => (
+                        <Skeleton
+                            key={`skeleton-tab-${i + 1}`}
+                            className={`h-11 ${width} rounded-lg bg-slate-700/80`}
+                        />
+                    ))}
                 </div>
                 <div className="mt-6">
                     <ItemsGridSkeleton />
