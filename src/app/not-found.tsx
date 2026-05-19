@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function NotFound() {
     return (
-        <div className="animate-fade-in flex flex-col items-center justify-center gap-6 text-center">
+        <div className="animate-fade-in mx-auto my-8 flex flex-col items-center justify-center gap-6 text-center">
             <Image
                 src="/404.webp"
                 alt="AniTrack 404 Page Not Found"
