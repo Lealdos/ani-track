@@ -10,10 +10,10 @@ interface Props {
 
 export function SectionHeader({ eyebrow, title, to, cta = 'View all' }: Props) {
     return (
-        <div className="mb-6 flex items-end justify-between gap-4">
+        <div className="mx-6 mb-6 flex items-end justify-between gap-4">
             <div>
                 {eyebrow && (
-                    <p className="text-primary/80 mb-1 text-xs tracking-[0.2em] uppercase">
+                    <p className="mb-1 text-xs tracking-[0.2em] text-primary/80 uppercase">
                         {eyebrow}
                     </p>
                 )}
@@ -31,7 +31,7 @@ export function SectionHeader({ eyebrow, title, to, cta = 'View all' }: Props) {
             {to && (
                 <Link
                     href={to}
-                    className="text-muted-foreground hover:text-primary inline-flex shrink-0 items-center gap-1 text-sm transition-colors"
+                    className="inline-flex shrink-0 items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                     {cta} <ArrowRight className="h-4 w-4" />
                 </Link>
