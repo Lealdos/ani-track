@@ -14,11 +14,24 @@ import {
     Globe,
     Lock,
     Trash2,
+    Plus,
+    Loader2,
 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
 import { redirect } from 'next/navigation'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog'
 
 const LIST_STATUSES = [
     {
@@ -108,6 +121,10 @@ export function UserListsDashboard() {
         }
     }, [activeTab, session?.user, fetchData])
 
+    const addUserList = useCallback((list: UserList) => {
+        setUserLists((prev) => [list, ...prev])
+    }, [])
+
     const removeItem = useCallback(
         async (item: AnimeItem) => {
             const status = LIST_STATUSES.find((s) => s.value === activeTab)
@@ -159,16 +176,18 @@ export function UserListsDashboard() {
                 className="w-full"
             >
                 <TabsList className="mb-6 flex w-full flex-wrap justify-start gap-2 bg-transparent p-0">
-                    {LIST_STATUSES.map((listStatus) => (
-                        <TabsTrigger
-                            key={listStatus.value}
-                            value={listStatus.value}
-                            className="rounded-lg bg-slate-700/80 px-6 py-2.5 text-base font-medium text-white capitalize transition-all hover:bg-slate-700 data-[state=active]:bg-cyan-500 data-[state=active]:text-gray-900 data-[state=active]:shadow-lg"
-                        >
-                            <listStatus.icon className="mr-2 h-4 w-4" />
-                            {listStatus.label}
-                        </TabsTrigger>
-                    ))}
+                    <div className="mb-6 flex gap-2 overflow-x-auto py-2">
+                        {LIST_STATUSES.map((listStatus) => (
+                            <TabsTrigger
+                                key={listStatus.value}
+                                value={listStatus.value}
+                                className="rounded-lg bg-slate-700/80 px-6 py-2.5 text-base font-medium text-white capitalize transition-all hover:bg-slate-700 data-[state=active]:bg-cyan-500 data-[state=active]:text-gray-900 data-[state=active]:shadow-lg"
+                            >
+                                <listStatus.icon className="mr-2 h-4 w-4" />
+                                {listStatus.label}
+                            </TabsTrigger>
+                        ))}
+                    </div>
                 </TabsList>
 
                 {LIST_STATUSES.map((status) => (
@@ -183,6 +202,7 @@ export function UserListsDashboard() {
                             items={items}
                             userLists={userLists}
                             onRemoveItem={removeItem}
+                            onListCreated={addUserList}
                         />
                     </TabsContent>
                 ))}
@@ -197,15 +217,20 @@ function TabContentBody({
     items,
     userLists,
     onRemoveItem,
+    onListCreated,
 }: {
     loading: boolean
     status: ListStatus
     items: AnimeItem[]
     userLists: UserList[]
     onRemoveItem: (item: AnimeItem) => void
+    onListCreated: (list: UserList) => void
 }) {
     if (loading) return <ItemsGridSkeleton />
-    if (status === 'user lists') return <UserListsContent lists={userLists} />
+    if (status === 'user lists')
+        return (
+            <UserListsContent lists={userLists} onListCreated={onListCreated} />
+        )
     if (items.length === 0) return <EmptyState />
     return <AnimeItemsGrid items={items} onRemoveItem={onRemoveItem} />
 }
@@ -267,11 +292,28 @@ function AnimeItemCard({
     )
 }
 
-function UserListsContent({ lists }: { lists: UserList[] }) {
-    if (lists.length === 0) {
-        return <EmptyState />
-    }
+function UserListsContent({
+    lists,
+    onListCreated,
+}: {
+    lists: UserList[]
+    onListCreated: (list: UserList) => void
+}) {
+    return (
+        <div className="space-y-4">
+            <div className="flex justify-end">
+                <CreateListDialog onListCreated={onListCreated} />
+            </div>
+            {lists.length === 0 ? (
+                <EmptyState />
+            ) : (
+                <UserListsGrid lists={lists} />
+            )}
+        </div>
+    )
+}
 
+function UserListsGrid({ lists }: { lists: UserList[] }) {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {lists.map((list) => (
@@ -322,6 +364,165 @@ function UserListsContent({ lists }: { lists: UserList[] }) {
     )
 }
 
+function CreateListDialog({
+    onListCreated,
+}: {
+    onListCreated: (list: UserList) => void
+}) {
+    const [open, setOpen] = useState(false)
+    const [name, setName] = useState('')
+    const [visibility, setVisibility] = useState<'PUBLIC' | 'PRIVATE'>(
+        'PRIVATE'
+    )
+    const [submitting, setSubmitting] = useState(false)
+
+    function reset() {
+        setName('')
+        setVisibility('PRIVATE')
+    }
+
+    async function handleSubmit() {
+        const trimmed = name.trim()
+        if (!trimmed || submitting) return
+
+        setSubmitting(true)
+        try {
+            const res = await fetch('/api/users-lists', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: trimmed, visibility }),
+            })
+            const json = await res.json()
+            if (json.success && json.data) {
+                const created: UserList = {
+                    id: json.data.id,
+                    name: json.data.name,
+                    visibility: json.data.visibility,
+                    listItems: json.data.listItems ?? [],
+                }
+                onListCreated(created)
+                toast.success('List created successfully')
+                reset()
+                setOpen(false)
+            } else {
+                toast.error(
+                    json.error?.message ??
+                        'Could not create the list, please try again'
+                )
+            }
+        } catch {
+            toast.error('Could not create the list, please try again')
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+    return (
+        <Dialog
+            open={open}
+            onOpenChange={(next) => {
+                if (submitting) return
+                setOpen(next)
+                if (!next) reset()
+            }}
+        >
+            <Button
+                onClick={() => setOpen(true)}
+                className="bg-cyan-600 text-white hover:bg-cyan-700"
+            >
+                <Plus className="h-4 w-4" />
+                Create new list
+            </Button>
+            <DialogContent className="border-slate-700 bg-slate-900 text-white sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Create new list</DialogTitle>
+                    <DialogDescription className="text-slate-400">
+                        Give your list a name and choose who can see it.
+                    </DialogDescription>
+                </DialogHeader>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        handleSubmit()
+                    }}
+                    className="space-y-4"
+                >
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="new-list-name"
+                            className="text-sm font-medium text-slate-300"
+                        >
+                            List name
+                        </label>
+                        <Input
+                            id="new-list-name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="e.g. Best of 2025"
+                            maxLength={100}
+                            autoFocus
+                            required
+                            className="border-slate-600 bg-slate-800/60 text-white"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="new-list-visibility"
+                            className="text-sm font-medium text-slate-300"
+                        >
+                            Visibility
+                        </label>
+                        <div className="relative">
+                            <select
+                                id="new-list-visibility"
+                                value={visibility}
+                                onChange={(e) =>
+                                    setVisibility(
+                                        e.target.value as 'PUBLIC' | 'PRIVATE'
+                                    )
+                                }
+                                className="h-9 w-full appearance-none rounded-md border border-slate-600 bg-slate-800/60 px-3 pr-8 text-sm text-white outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            >
+                                <option value="PRIVATE">Private</option>
+                                <option value="PUBLIC">Public</option>
+                            </select>
+                            {visibility === 'PUBLIC' ? (
+                                <Globe className="pointer-events-none absolute top-1/2 right-2.5 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                            ) : (
+                                <Lock className="pointer-events-none absolute top-1/2 right-2.5 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                            )}
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => setOpen(false)}
+                            disabled={submitting}
+                            className="text-slate-300 hover:bg-slate-800 hover:text-white"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            disabled={submitting || name.trim().length === 0}
+                            className="bg-cyan-600 text-white hover:bg-cyan-700"
+                        >
+                            {submitting ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <Plus className="h-4 w-4" />
+                            )}
+                            Create list
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 function EmptyState() {
     return (
         <div className="flex min-h-100 flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 p-12">
@@ -359,7 +560,7 @@ export function DashboardSkeleton() {
     const tabWidths = ['w-32', 'w-32', 'w-40', 'w-36', 'w-36'] as const
 
     return (
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+        <div className="mx-auto w-full max-w-5xl px-4 py-8">
             <div className="mb-8">
                 <Skeleton className="h-9 w-40 bg-slate-700/80 md:h-10 md:w-48" />
             </div>
