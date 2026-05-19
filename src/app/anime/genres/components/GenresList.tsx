@@ -8,7 +8,7 @@ export default async function GenresList() {
             {genres?.map((g) => (
                 <Link
                     key={g.id}
-                    href={`/browse?genre=${g.id}`}
+                    href={`/browse?genres=${g.id}`}
                     className="group transition-silk relative overflow-hidden rounded-lg border border-border/70 bg-card/60 p-4 text-left hover:-translate-y-0.5 hover:border-primary/60"
                 >
                     <div className="bg-gradient-sakura absolute inset-0 opacity-0 transition-opacity group-hover:opacity-10" />
