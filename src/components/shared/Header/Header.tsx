@@ -88,10 +88,10 @@ export default function Header() {
         <>
             <div
                 className={cn(
-                    `top-0 z-20 items-center justify-center rounded-full transition-all transition-discrete duration-1000 ease-out`,
+                    `fixed top-0 left-1/2 z-20 -translate-x-1/2 items-center justify-center rounded-full transition-all duration-1000 ease-out`,
                     isScrolled
-                        ? 'fixed w-93 max-w-md translate-y-6 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
-                        : 'sticky w-full max-w-full'
+                        ? 'w-93 max-w-md translate-y-6 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
+                        : 'w-full max-w-full'
                 )}
             >
                 <header
@@ -220,6 +220,7 @@ export default function Header() {
                     </ul>
                 </nav>
             </div>
+            <div aria-hidden="true" className="h-16 w-full" />
             {isMobileMenuOpen && (
                 <div
                     className="bg-opacity-50 fixed inset-0 z-10 bg-slate-900/85 backdrop-blur-sm transition-opacity duration-300"
