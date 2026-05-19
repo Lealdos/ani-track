@@ -122,7 +122,7 @@ export async function PublicListContent({
 
 export function PublicListSkeleton() {
     return (
-        <div className="space-y-8">
+        <div className="m-auto flex w-full max-w-5xl flex-col gap-8 space-y-8 px-4 py-12">
             <div className="flex items-center gap-3">
                 <Skeleton className="h-9 w-9 rounded-lg bg-gray-700" />
                 <div className="flex-1 space-y-2">
