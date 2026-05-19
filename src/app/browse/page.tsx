@@ -53,15 +53,17 @@ export default async function BrowseAnime({
     )
     if (animes.length === 0) {
         return (
-            <main className="container mx-auto flex w-full flex-col items-center justify-between px-8 py-12">
-                <h1 className="mt-8 text-2xl font-bold text-white">
-                    No animes found with that query: {q}
-                </h1>
-                <Link href="/browse">
-                    <button className="ml-4 rounded-md bg-red-800 px-4 py-2 text-white">
-                        Browse Animes
-                    </button>
-                </Link>
+            <main className="container mx-auto flex h-screen w-full flex-col items-center justify-between px-8 py-6">
+                <div className="my-auto flex flex-col gap-6 text-center">
+                    <h1 className="mt-8 text-2xl font-bold text-white">
+                        No animes found with that query: {q}
+                    </h1>
+                    <Link href="/browse">
+                        <button className="ml-4 rounded-md bg-red-800 px-4 py-2 text-white">
+                            Browse Animes
+                        </button>
+                    </Link>
+                </div>
                 <NumberedPagination
                     currentPage={pagination.current_page}
                     lastPage={pagination.last_visible_page ?? 1}
