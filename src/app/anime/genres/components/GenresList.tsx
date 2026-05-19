@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default async function GenresList() {
     const genres = await animeRepository.findGenres()
     return (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <main className="container mx-auto grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {genres?.map((g) => (
                 <Link
                     key={g.id}
@@ -20,6 +20,6 @@ export default async function GenresList() {
                     )}
                 </Link>
             ))}
-        </div>
+        </main>
     )
 }
