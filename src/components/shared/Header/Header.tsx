@@ -13,9 +13,9 @@ type Route = {
 
 const animeBrowseMenu: Route[] = [
     { href: '/browse', label: 'Browse' },
-    { href: '/browse/top', label: 'Top Anime' },
+    // { href: '/browse/top', label: 'Top Anime' },
     { href: '/anime/genres', label: 'Genres' },
-    { href: '/account/favorites', label: 'Favorites' },
+    // { href: '/account/favorites', label: 'Favorites' },
 ]
 
 const userMenu: Route[] = [
