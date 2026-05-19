@@ -21,11 +21,11 @@ export async function PublicListContent({
 
     if (result.status === 'private') {
         return (
-            <div className="flex flex-col items-center gap-4 rounded-xl border border-slate-700/50 bg-slate-800/30 p-10 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-700/60">
-                    <Lock className="h-6 w-6 text-slate-300" />
+            <div className="container m-auto flex max-w-md flex-col items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/30 p-8 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700/60">
+                    <Lock className="h-5 w-5 text-slate-300" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">
+                <h1 className="text-lg font-semibold text-white">
                     This list is private
                 </h1>
                 <p className="text-sm text-slate-400">
@@ -47,20 +47,20 @@ export async function PublicListContent({
     const ownerHandle = list.user.userName || list.user.name
 
     return (
-        <div className="space-y-8">
-            <div className="flex items-center gap-3">
+        <div className="m-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-12">
+            <div className="flex flex-row items-center gap-3">
                 <Link
                     href="/"
                     aria-label="Back to home"
-                    className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-800 hover:text-white"
+                    className="rounded-lg bg-slate-900/30 p-2 text-slate-400 transition-colors hover:bg-slate-800 hover:text-white"
                 >
-                    <ArrowLeft className="h-5 w-5" />
+                    <ArrowLeft className="h-6 w-6" />
                 </Link>
+                <h1 className="text-xl font-bold text-white capitalize">
+                    List name: {list.name}
+                </h1>
                 <div className="min-w-0 flex-1">
-                    <h1 className="truncate text-2xl font-bold text-white md:text-3xl">
-                        {list.name}
-                    </h1>
-                    <p className="mt-1 text-xs text-slate-400">
+                    <p className="mt-1 text-xs text-white">
                         {list.listItems.length}{' '}
                         {list.listItems.length === 1 ? 'anime' : 'animes'}
                     </p>

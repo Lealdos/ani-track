@@ -37,10 +37,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default function PublicListPage({ params }: Props) {
     return (
-        <div className="container mx-auto w-full max-w-7xl px-4">
-            <Suspense fallback={<PublicListSkeleton />}>
-                <PublicListContent params={params} />
-            </Suspense>
-        </div>
+        <Suspense fallback={<PublicListSkeleton />}>
+            <PublicListContent params={params} />
+        </Suspense>
     )
 }
