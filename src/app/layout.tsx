@@ -52,13 +52,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center-safe justify-between scroll-smooth bg-gray-950 font-sans text-white antialiased`}
+                className={`${inter.variable} ${roboto_mono.variable} ${delaGothicOne.variable} flex min-h-screen w-full flex-col items-center-safe scroll-smooth bg-gray-950 font-sans text-white antialiased`}
             >
                 <SpeedInsights />
                 <Toaster position="bottom-center" className="z-50" />
                 <Header />
                 <Providers>
-                    <ViewTransition>{children}</ViewTransition>
+                    <main className="flex w-full flex-1 flex-col">
+                        <ViewTransition>{children}</ViewTransition>
+                    </main>
                 </Providers>
                 <Footer />
             </body>
