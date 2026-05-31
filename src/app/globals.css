@@ -402,3 +402,24 @@ section:not([aria-label^='Notifications']) {
         filter: blur(0);
     }
 }
+
+@keyframes reveal-mobile {
+    from {
+        opacity: 0.6;
+        transform: translateY(24px) scale(0.98);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@media (max-width: 768px) {
+    section:not([aria-label^='Notifications']) {
+        animation-name: reveal-mobile;
+        animation-range-start: entry 0%;
+        animation-range-end: entry 60%;
+    }
+}
