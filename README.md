@@ -4,6 +4,13 @@
 
 **AniTrack** is a full-stack anime discovery and tracking platform that lets users explore thousands of anime titles, organize their own watch lists, and follow weekly airing schedules. The project was designed and implemented end-to-end — UI, REST API, GraphQL integration, authentication, relational data model, and deployment — and showcases experience building production-grade web apps on the latest React/Next.js stack while integrating multiple third-party data sources behind a unified domain layer.
 
+### Design Pattern: Adapter
+
+The whole data layer — both the **two external APIs** (Jikan REST and AniList GraphQL) and the **internal REST API** (users, lists, favorites, currently watching, plan to watch, finished, comments) — is built around the **Adapter pattern**, so the rest of the app only ever talks to clean, app-owned shapes.
+
+- **External APIs.** A single domain contract (`IAnimeRepository`) defines what the app needs from any anime data source. Two concrete adapters — `JikanAnimeRepository` (REST) and `AniListAnimeRepository` (GraphQL) — translate each provider's response into the internal models (`Anime`, `Episode`, `Character`, `ScheduleDay`, …) through dedicated mappers (`jikanMappers.ts`, `anilistMappers.ts`). Server Components, Server Actions, and the UI depend only on the domain models — never on Jikan or AniList types — so a provider can be swapped or extended without touching the rest of the codebase.
+- **Internal API.** Each route handler under `src/app/api/users-lists/*` is split into **Model → Service → Controller** layers, where the **Model** acts as a thin adapter over Prisma. Controllers and services consume small, intent-revealing methods (`findAllByUser`, `deleteByUserAndAnimeId`, `upsertMany`, …) instead of raw Prisma calls, isolating the rest of the backend from the ORM. The result is a uniform `{ success, data?, error? }` response shape regardless of which underlying table or query is involved, and Prisma could be replaced by another persistence layer without rewriting the API surface.
+
 ### Frontend
 
 Built with **Next.js 16 (App Router)** and **React 19** using **Server Components** and **Server Actions** to push data fetching to the server and minimize client-side JavaScript. Styled with **Tailwind CSS 4** and **shadcn/ui** (Radix UI primitives) for an accessible, responsive interface; forms are handled with **react-hook-form** and validated with **Zod** schemas shared between client and server. Skeleton states, suspense boundaries, and route-level loading UIs are used to deliver a smooth, progressive user experience.
