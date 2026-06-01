@@ -1,4 +1,5 @@
-import type { IAnimeRepository } from '../Jikan/IAnimeRepository'
+import type { IAnimeRepository } from '../IAnimeRepository'
+
 import type {
     Anime,
     Episode,
@@ -107,8 +108,12 @@ function toPaginationInfo(pageInfo: AniListPageInfo): PaginationInfo {
     }
 }
 
-class AniListAnimeRepository implements IAnimeRepository {
-    async browse(
+/* 
+
+funcion para parsear query params de browse, soporta:
+- q o query: string de busqueda
+
+async browse(
         query?: string
     ): Promise<{ animes: Anime[]; pagination: PaginationInfo }> {
         const variables: Record<string, unknown> = {
@@ -198,6 +203,9 @@ class AniListAnimeRepository implements IAnimeRepository {
         }
     }
 
+
+*/
+class AniListAnimeRepository implements IAnimeRepository {
     async findById(id: number): Promise<Anime | null> {
         try {
             const result = await anilistFetch<{ Media: AniListMedia }>(

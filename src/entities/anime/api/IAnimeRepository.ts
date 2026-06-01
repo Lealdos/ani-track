@@ -5,11 +5,11 @@ import type {
     AnimeCharacter,
     Recommendation,
     ScheduleDay,
-} from '../../models'
+} from '../models'
 import type { PaginationInfo } from '@/types/pageInfo'
 
 export interface IAnimeRepository {
-    browse(
+    browse?(
         query?: string
     ): Promise<{ animes: Anime[]; pagination: PaginationInfo }>
     findById(id: number): Promise<Anime | null>

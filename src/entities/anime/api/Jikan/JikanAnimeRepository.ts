@@ -1,4 +1,4 @@
-import type { IAnimeRepository } from './IAnimeRepository'
+import type { IAnimeRepository } from '../IAnimeRepository'
 import type {
     Anime,
     Episode,
