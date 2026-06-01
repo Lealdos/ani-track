@@ -112,13 +112,6 @@ export default async function Home({
                         <AnimeByGenre />
                     </Suspense>
                 </section>
-
-                <section className="mb-12">
-                    <h2 className="mb-6 text-2xl font-bold tracking-tight">
-                        {t('watchLater')}
-                    </h2>
-                    <span>{t('watchLaterDescription')}</span>
-                </section>
             </div>
         </>
     )
