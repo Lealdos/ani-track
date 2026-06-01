@@ -436,7 +436,7 @@ export const fetchAnimeDetailByMalId = cache(
                     variables: { idMal: malId },
                 }),
                 next: { revalidate: DAY },
-            } as RequestInit)
+            })
 
             if (!response.ok) {
                 console.error(`AniList API error: ${response.status}`)

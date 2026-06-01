@@ -23,7 +23,7 @@ import {
     toCharacter,
 } from './jikanMappers'
 import { DAY, WEEK, DAYS15, MONTH } from '../utils'
-import { API_BASE_URL } from '@/config/const'
+import { JIKAN_API_BASE_URL } from '@/config/const'
 
 const RATE_LIMIT_DELAY = 1000
 const MAX_RETRIES = 3
@@ -70,7 +70,7 @@ function deduplicateById(animes: JikanAnime[]): JikanAnime[] {
 }
 
 class JikanAnimeRepository implements IAnimeRepository {
-    private readonly baseUrl = API_BASE_URL
+    private readonly baseUrl = JIKAN_API_BASE_URL
 
     async browse(
         query?: string
@@ -92,7 +92,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanAnime>
             >(`${this.baseUrl}/anime/${id}/full`, {
                 next: { revalidate: DAY },
-            } as RequestInit)
+            })
             return toAnime(data)
         } catch (error) {
             console.error(`Error fetching anime ${id}:`, error)
@@ -106,7 +106,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/top/anime?sfw&limit=20`, {
                 next: { revalidate: DAY },
-            } as RequestInit)
+            })
             return data.toSorted((a, b) => a.rank - b.rank).map(toAnime)
         } catch (error) {
             console.error('Error fetching top anime:', error)
@@ -120,7 +120,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/seasons/now?continuing&unapproved`, {
                 next: { revalidate: WEEK },
-            } as RequestInit)
+            })
             return deduplicateById(data)
                 .filter((a) => a.status === 'Currently Airing')
                 .map(toAnime)
@@ -136,7 +136,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanAnime[]>
             >(`${this.baseUrl}/anime?genres=${genreId}&limit=10`, {
                 next: { revalidate: WEEK },
-            } as RequestInit)
+            })
             return data.map(toAnime)
         } catch (error) {
             console.error(`Error fetching anime for genre ${genreId}:`, error)
@@ -173,7 +173,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanEpisode[]>
             >(`${this.baseUrl}/anime/${id}/episodes?page=${page}`, {
                 next: { revalidate: WEEK },
-            } as RequestInit)
+            })
             return {
                 episodes: data.map(toEpisode),
                 pagination: pagination ?? {
@@ -212,7 +212,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanRecommendation[]>
             >(`${this.baseUrl}/anime/${id}/recommendations`, {
                 next: { revalidate: DAYS15 },
-            } as RequestInit)
+            })
             return data.map(toRecommendation)
         } catch (error) {
             console.error(
@@ -229,7 +229,7 @@ class JikanAnimeRepository implements IAnimeRepository {
                 JikanResponse<JikanGenre[]>
             >(`${this.baseUrl}/genres/anime`, {
                 next: { revalidate: MONTH },
-            } as RequestInit)
+            })
             return data.map(toGenre)
         } catch (error) {
             console.error('Error fetching genres:', error)
