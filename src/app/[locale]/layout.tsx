@@ -77,13 +77,11 @@ export default async function RootLayout({
                     <Toaster position="bottom-center" className="z-50" />
                     <Suspense>
                         <Header />
-                    </Suspense>
-                    <Providers>
-                        <main className="flex w-full flex-1 flex-col">
-                            <ViewTransition>{children}</ViewTransition>
-                        </main>
-                    </Providers>
-                    <Suspense>
+                        <Providers>
+                            <main className="flex w-full flex-1 flex-col">
+                                <ViewTransition>{children}</ViewTransition>
+                            </main>
+                        </Providers>
                         <Footer />
                     </Suspense>
                 </NextIntlClientProvider>
