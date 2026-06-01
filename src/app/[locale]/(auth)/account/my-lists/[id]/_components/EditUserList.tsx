@@ -3,12 +3,11 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ArrowLeft, Save, Trash2, Globe, Lock, Loader2, X } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import { toast } from 'sonner'
 import { ShareButton } from '@/components/shared/ShareButton/ShareButton'
 

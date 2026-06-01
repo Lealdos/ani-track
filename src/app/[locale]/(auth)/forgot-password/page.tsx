@@ -10,19 +10,18 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { resetPassword, signIn } from '@/lib/Auth/auth-clients'
+import { resetPassword } from '@/lib/Auth/auth-clients'
 import { Link } from '@/i18n/navigation'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
-import { useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 
 export default function ResetPasswordPage() {
     const t = useTranslations('Auth')
     const tc = useTranslations('Common')
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
@@ -39,7 +38,7 @@ export default function ResetPasswordPage() {
         }
     }, [searchParams])
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
 

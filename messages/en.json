@@ -32,7 +32,7 @@
         "es": "Español"
     },
     "Footer": {
-        "builtWith": "Built with Next.js and Tailwind CSS. Powered by Jikan API."
+        "builtWith": "Built with Next.js and Tailwind CSS. Powered by Jikan API and Anilist."
     },
     "Home": {
         "yourFavorites": "Your favorite animes",

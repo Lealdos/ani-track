@@ -32,7 +32,7 @@
         "es": "Español"
     },
     "Footer": {
-        "builtWith": "Hecho con Next.js y Tailwind CSS. Con tecnología de Jikan API."
+        "builtWith": "Hecho con Next.js y Tailwind CSS. Con tecnología de Jikan API y Anilist. "
     },
     "Home": {
         "yourFavorites": "Tus animes favoritos",
@@ -45,7 +45,7 @@
     "Hero": {
         "welcome": "Bienvenido a AniTrack",
         "tagline": "Donde cada <season>temporada</season> florece un nuevo anime.",
-        "thisSeason": "Esta temporada",
+        "thisSeason": "Temporada actual",
         "thisSeasonDesc": "Éxitos en emisión y joyas ocultas del momento.",
         "airingNow": "En emisión",
         "airingNowDesc": "El calendario de emisión de hoy.",
