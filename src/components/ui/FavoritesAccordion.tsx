@@ -30,7 +30,7 @@ export function FavoritesAccordion() {
                             </span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
+                    <AccordionContent className="max-h-[720px] overflow-auto px-4 pb-4 pt-2">
                         <div className="space-y-4">
                             <ContentAccordion
                                 animes={favorites}

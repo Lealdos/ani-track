@@ -9,7 +9,12 @@ export class UserListItemsModel {
         return prisma.userListItems.findFirst({ where: { id, listId } })
     }
 
-    static async create(data: { listId: string; animeId: string; title: string; picture: string }) {
+    static async create(data: {
+        listId: string
+        animeId: string
+        title: string
+        picture: string
+    }) {
         return prisma.userListItems.create({ data })
     }
 

@@ -10,7 +10,9 @@ export class FavoritesModel {
     }
 
     static async findByUserAndAnimeId(userId: string, animeId: string) {
-        return prisma.userFavoritesList.findFirst({ where: { userId, animeId } })
+        return prisma.userFavoritesList.findFirst({
+            where: { userId, animeId },
+        })
     }
 
     static async create(data: {

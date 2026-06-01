@@ -3,6 +3,7 @@
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { FC } from 'react'
+import { useTranslations } from 'next-intl'
 import { ArrowRight, ArrowLeft } from 'lucide-react'
 
 interface NumberedPaginationProps {
@@ -53,6 +54,7 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const { push } = useRouter()
+    const t = useTranslations('Pagination')
 
     const handlePageClick = (page: number) => {
         if (page < 1 || page > lastPage || page === currentPage) return
@@ -68,15 +70,15 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
     const pageNumbers = getPageNumbers(currentPage, lastPage, maxPagesToShow)
 
     return (
-        <nav className="mt-4 flex flex-row flex-wrap items-center justify-center-safe gap-2 select-none">
+        <nav className="justify-center-safe mt-4 flex select-none flex-row flex-wrap items-center gap-2">
             <button
                 className={`rounded-lg bg-purple-700 px-4 py-2 text-sm font-medium text-white transition-colors ${currentPage <= 1 ? 'opacity-50' : 'hover:bg-purple-800/90'}`}
                 disabled={currentPage <= 1}
                 onClick={() => handlePageClick(currentPage - 1)}
-                aria-label="Previous page"
+                aria-label={t('previousPage')}
             >
                 <ArrowLeft className="h-5 w-4" />
-                <span className="sr-only">Previous page</span>
+                <span className="sr-only">{t('previousPage')}</span>
             </button>
             {pageNumbers.map((pageNumbers, pageIndex) =>
                 typeof pageNumbers === 'number' ? (
@@ -103,10 +105,10 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
                 className={`rounded-lg bg-purple-700 px-4 py-2 text-sm font-medium text-white transition-colors ${!hasNextPage || currentPage >= lastPage ? 'opacity-50' : 'hover:bg-purple-800/90'}`}
                 disabled={!hasNextPage || currentPage >= lastPage}
                 onClick={() => handlePageClick(currentPage + 1)}
-                aria-label="Next page"
+                aria-label={t('nextPage')}
             >
                 <ArrowRight className="h-5 w-4" />
-                <span className="sr-only">Next page</span>
+                <span className="sr-only">{t('nextPage')}</span>
             </button>
         </nav>
     )

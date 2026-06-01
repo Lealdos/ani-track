@@ -62,14 +62,14 @@ export function AnimeListAccordions({ animes, title }: ListAccordionProps) {
                     className="w-full overflow-hidden rounded-lg border border-purple-600/80"
                 >
                     <AccordionItem value="favorite-list" className="border-0">
-                        <AccordionTrigger className="px-4 py-3 text-base transition-all hover:bg-muted/50">
+                        <AccordionTrigger className="hover:bg-muted/50 px-4 py-3 text-base transition-all">
                             <div className="flex items-center gap-2">
                                 <span className="rounded-full px-2 py-0.5 font-medium dark:bg-purple-900/20">
                                     Animes in this list: {animes.length}
                                 </span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="max-h-[720px] overflow-auto px-4 pt-2 pb-4">
+                        <AccordionContent className="max-h-[720px] overflow-auto px-4 pb-4 pt-2">
                             <div className="space-y-4">
                                 <ContentAccordion
                                     animes={animes}

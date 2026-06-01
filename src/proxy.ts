@@ -1,22 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
+import createMiddleware from 'next-intl/middleware'
+import { routing } from '@/i18n/routing'
 
-export async function proxy(request: NextRequest) {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    })
-
-    // THIS IS NOT SECURE!
-    // This is the recommended approach to optimistically redirect users
-    // We recommend handling auth checks in each page/route
-    if (session === null) {
-        return NextResponse.redirect(new URL('/login', request.url))
-    }
-
-    return NextResponse.next()
-}
+// next-intl handles locale detection, the `[locale]` prefix and redirects.
+// Auth is enforced per page/route (see the account layout and `useRequireAuth`),
+// which is the approach recommended by Better-auth over middleware checks.
+export const proxy = createMiddleware(routing)
 
 export const config = {
-    matcher: ['/profile'], // Specify the routes the middleware applies to
+    // Match all pathnames except for
+    // - API routes (`/api`, including the Better-auth handlers)
+    // - Next.js internals (`/_next`, `/_vercel`)
+    // - Files with an extension (e.g. `favicon.ico`, images)
+    matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 }

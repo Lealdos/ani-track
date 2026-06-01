@@ -1,34 +1,37 @@
 'use client'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
+import { LocaleSwitcher } from '@/components/shared/LocaleSwitcher/LocaleSwitcher'
 import { useSession, signOut } from '@/lib/Auth/auth-clients'
 
 type Route = {
     href: string
-    label: string
+    labelKey: 'browse' | 'genres' | 'myAccount' | 'myLists' | 'login' | 'signUp'
 }
 
 const animeBrowseMenu: Route[] = [
-    { href: '/browse', label: 'Browse' },
-    // { href: '/browse/top', label: 'Top Anime' },
-    { href: '/anime/genres', label: 'Genres' },
-    // { href: '/account/favorites', label: 'Favorites' },
+    { href: '/browse', labelKey: 'browse' },
+    // { href: '/browse/top', labelKey: 'topAnime' },
+    { href: '/anime/genres', labelKey: 'genres' },
+    // { href: '/account/favorites', labelKey: 'favorites' },
 ]
 
 const userMenu: Route[] = [
-    { href: '/account', label: 'My Account' },
-    { href: '/account/my-lists', label: 'My Lists' },
+    { href: '/account', labelKey: 'myAccount' },
+    { href: '/account/my-lists', labelKey: 'myLists' },
 ]
 
 const authMenu: Route[] = [
-    { href: '/login', label: 'Login' },
-    { href: '/sign-up', label: 'Sign Up' },
+    { href: '/login', labelKey: 'login' },
+    { href: '/sign-up', labelKey: 'signUp' },
 ]
 
 export default function Header() {
+    const t = useTranslations('Header')
     const { data: session } = useSession()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
@@ -88,9 +91,9 @@ export default function Header() {
         <>
             <div
                 className={cn(
-                    `fixed top-0 left-1/2 z-20 -translate-x-1/2 items-center justify-center rounded-full transition-all duration-1000 ease-out`,
+                    `fixed left-1/2 top-0 z-20 -translate-x-1/2 items-center justify-center rounded-full transition-all duration-1000 ease-out`,
                     isScrolled
-                        ? 'w-93 max-w-md translate-y-6 animate-rotate-border bg-conic/[from_var(--border-angle)] from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
+                        ? 'w-93 animate-rotate-border bg-conic/[from_var(--border-angle)] max-w-md translate-y-6 from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
                         : 'w-full max-w-full'
                 )}
             >
@@ -110,10 +113,10 @@ export default function Header() {
                     >
                         <div className="flex items-center gap-8">
                             <Link href="/" className="flex items-center">
-                                <span className="gradient-home-name p-2 font-gothic text-base font-bold text-transparent italic md:text-2xl">
+                                <span className="gradient-home-name font-gothic p-2 text-base font-bold italic text-transparent md:text-2xl">
                                     ANI TRACK
                                 </span>
-                                <span className="sr-only">Home</span>
+                                <span className="sr-only">{t('home')}</span>
                             </Link>
                         </div>
 
@@ -132,7 +135,9 @@ export default function Header() {
                             aria-controls="mobile-menu"
                             aria-expanded={isMobileMenuOpen}
                             aria-label={
-                                isMobileMenuOpen ? 'Close menu' : 'Open menu'
+                                isMobileMenuOpen
+                                    ? t('closeMenu')
+                                    : t('openMenu')
                             }
                             type="button"
                         >
@@ -151,10 +156,10 @@ export default function Header() {
                     id="mobile-menu"
                     hidden={!isMobileMenuVisible}
                     className={cn(
-                        `top-64 left-1/2 my-20 mt-4 w-90 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 bg-linear-to-r from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out md:w-md`,
+                        `w-90 bg-linear-to-r md:w-md left-1/2 top-64 my-20 mt-4 -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-purple-900 from-slate-900/90 via-red-900 to-slate-900/90 p-4 px-2 shadow-md backdrop-blur transition-transform duration-300 ease-in-out`,
                         isMobileMenuOpen
-                            ? 'absolute flex animate-flip-down flex-col items-center justify-center animate-duration-300 animate-ease-linear animate-once'
-                            : 'absolute flex animate-fade-down flex-col items-center opacity-0 animate-duration-300 animate-reverse'
+                            ? 'animate-flip-down animate-duration-300 animate-ease-linear animate-once absolute flex flex-col items-center justify-center'
+                            : 'animate-fade-down animate-duration-300 animate-reverse absolute flex flex-col items-center opacity-0'
                     )}
                     tabIndex={-1}
                     aria-labelledby="drawer-right-label"
@@ -163,9 +168,9 @@ export default function Header() {
                         id="drawer-right-label"
                         className="mb-4 flex w-full items-center justify-center border-b border-b-red-900 pb-2 text-base font-semibold text-white"
                     >
-                        Menu
+                        {t('menu')}
                     </h5>
-                    <ul className="flex flex-col items-center-safe justify-center space-y-2 text-white">
+                    <ul className="items-center-safe flex flex-col justify-center space-y-2 text-white">
                         <li className="w-lg border-b border-b-red-900 pb-2 text-center">
                             {session?.user ? (
                                 <div className="flex flex-col items-center justify-center gap-2">
@@ -173,7 +178,7 @@ export default function Header() {
                                         onClick={handleLogout}
                                         className="cursor-pointer py-1.5 text-white transition-transform hover:scale-105"
                                     >
-                                        Logout
+                                        {t('logout')}
                                     </button>
                                     {userMenu.map((route) => (
                                         <Link
@@ -184,7 +189,7 @@ export default function Header() {
                                                 setIsMobileMenuOpen(false)
                                             }
                                         >
-                                            {route.label}
+                                            {t(route.labelKey)}
                                         </Link>
                                     ))}
                                 </div>
@@ -199,7 +204,7 @@ export default function Header() {
                                                 setIsMobileMenuOpen(false)
                                             }
                                         >
-                                            {route.label}
+                                            {t(route.labelKey)}
                                         </Link>
                                     ))}
                                 </div>
@@ -213,17 +218,21 @@ export default function Header() {
                                     className="flex items-center rounded-lg hover:scale-105 hover:text-white"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    <span>{route.label}</span>
+                                    <span>{t(route.labelKey)}</span>
                                 </Link>
                             </li>
                         ))}
+
+                        <li className="mt-2 border-t border-t-red-900 pt-3">
+                            <LocaleSwitcher />
+                        </li>
                     </ul>
                 </nav>
             </div>
             <div aria-hidden="true" className="h-16 w-full" />
             {isMobileMenuOpen && (
                 <div
-                    className="bg-opacity-50 fixed inset-0 z-10 bg-slate-900/85 backdrop-blur-sm transition-opacity duration-300"
+                    className="fixed inset-0 z-10 bg-slate-900/85 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-hidden="true"
                 />

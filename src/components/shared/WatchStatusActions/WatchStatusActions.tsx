@@ -1,5 +1,6 @@
 'use client'
 import { Tv, Clock, CheckCircle2, X, Check } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
@@ -15,31 +16,39 @@ import type { ListsAnimes } from '@/entities/anime/models'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
-const STATUS_OPTIONS: { value: WatchStatus; label: string; Icon: typeof Tv }[] =
-    [
-        { value: 'watching', label: 'Watching', Icon: Tv },
-        { value: 'plan_to_watch', label: 'Plan to Watch', Icon: Clock },
-        { value: 'completed', label: 'Completed', Icon: CheckCircle2 },
-    ]
+const STATUS_OPTIONS: {
+    value: WatchStatus
+    labelKey: 'watching' | 'planToWatch' | 'completed'
+    Icon: typeof Tv
+}[] = [
+    { value: 'watching', labelKey: 'watching', Icon: Tv },
+    { value: 'plan_to_watch', labelKey: 'planToWatch', Icon: Clock },
+    { value: 'completed', labelKey: 'completed', Icon: CheckCircle2 },
+]
 
 interface Props {
     anime: ListsAnimes
 }
 
 export function WatchStatusButton({ anime }: Props) {
+    const t = useTranslations('WatchStatus')
     const { getStatus, setStatus, clearStatus } = useWatchStatus()
     const { requireAuth } = useRequireAuth()
     const current = getStatus(anime.id)
 
-    const currentLabel =
-        STATUS_OPTIONS.find((statusOption) => statusOption.value === current)
-            ?.label ?? 'Set status'
+    const currentOption = STATUS_OPTIONS.find(
+        (statusOption) => statusOption.value === current
+    )
+    const currentLabel = currentOption
+        ? t(currentOption.labelKey)
+        : t('setStatus')
 
     const handleSet = (s: WatchStatus) => {
         requireAuth(() => {
             setStatus(anime, s)
+            const option = STATUS_OPTIONS.find((o) => o.value === s)
             toast.success(
-                `Marked as ${STATUS_OPTIONS.find((o) => o.value === s)?.label}`
+                t('markedAs', { status: option ? t(option.labelKey) : '' })
             )
         })
     }
@@ -63,7 +72,7 @@ export function WatchStatusButton({ anime }: Props) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
                     <DropdownMenuLabel className="text-md font-medium md:text-base">
-                        Watch status
+                        {t('watchStatus')}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {STATUS_OPTIONS.map((statusOption) => (
@@ -75,7 +84,7 @@ export function WatchStatusButton({ anime }: Props) {
                             )}
                         >
                             <statusOption.Icon className="mr-2 h-4 w-4" />
-                            {statusOption.label}
+                            {t(statusOption.labelKey)}
                             {current === statusOption.value && (
                                 <Check className="ml-auto h-4 w-4" />
                             )}
@@ -88,12 +97,13 @@ export function WatchStatusButton({ anime }: Props) {
                                 onClick={() => {
                                     requireAuth(() => {
                                         clearStatus(anime.id)
-                                        toast.success('Status removed')
+                                        toast.success(t('statusRemoved'))
                                     })
                                 }}
-                                className="text-base text-destructive focus:text-destructive"
+                                className="text-destructive focus:text-destructive text-base"
                             >
-                                <X className="mr-2 h-4 w-4" /> Remove status
+                                <X className="mr-2 h-4 w-4" />{' '}
+                                {t('removeStatus')}
                             </DropdownMenuItem>
                         </>
                     )}

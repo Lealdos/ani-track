@@ -26,7 +26,7 @@ export function AnimeList({
                 {Array.from({ length: 12 }).map((_, i) => (
                     <Skeleton
                         key={`skeleton-${i}-${SectionName}`}
-                        className="aspect-2/3 w-full rounded-lg bg-muted/60"
+                        className="aspect-2/3 bg-muted/60 w-full rounded-lg"
                     />
                 ))}
             </div>
@@ -34,7 +34,7 @@ export function AnimeList({
 
     if (!animes?.length) {
         return (
-            <p className="py-16 text-center text-muted-foreground">
+            <p className="text-muted-foreground py-16 text-center">
                 {emptyText}
             </p>
         )

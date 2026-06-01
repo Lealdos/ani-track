@@ -14,9 +14,12 @@ export const updateListSchema = z
             .optional(),
         visibility: z.enum(['PRIVATE', 'PUBLIC']).optional(),
     })
-    .refine((data) => data.name !== undefined || data.visibility !== undefined, {
-        message: 'At least one field (name or visibility) must be provided',
-    })
+    .refine(
+        (data) => data.name !== undefined || data.visibility !== undefined,
+        {
+            message: 'At least one field (name or visibility) must be provided',
+        }
+    )
 
 export const addListItemSchema = z.object({
     animeId: z.string().min(1, 'Anime ID is required'),

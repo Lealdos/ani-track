@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { ListPlus, Check } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -39,6 +40,7 @@ export function AddToListButton({
     anime,
     showLabel = false,
 }: AddToListButtonProps) {
+    const t = useTranslations('AddToList')
     const [newName, setNewName] = useState('')
     const { lists, createList, addToList } = useAnimeLists()
     const { requireAuth } = useRequireAuth()
@@ -48,7 +50,7 @@ export function AddToListButton({
             const created = createList(newName)
             if (created) {
                 addToList(created.id, anime)
-                toast.success(`Added to "${created.name}"`)
+                toast.success(t('addedTo', { name: created.name }))
                 setNewName('')
             }
         })
@@ -66,7 +68,7 @@ export function AddToListButton({
                         className={`size-6 md:size-7 ${showLabel ? 'mr-2' : ''}`}
                     />
                     <span className={showLabel ? '' : 'sr-only'}>
-                        Add to list
+                        {t('addToList')}
                     </span>
                 </Button>
             </DropdownMenuTrigger>
@@ -75,12 +77,12 @@ export function AddToListButton({
                 className="w-64"
             >
                 <DropdownMenuLabel className="text-base">
-                    Your lists
+                    {t('yourLists')}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {lists.length === 0 ? (
-                    <div className="px-2 py-1.5 text-base text-muted-foreground">
-                        No lists yet.
+                    <div className="text-muted-foreground px-2 py-1.5 text-base">
+                        {t('noListsYet')}
                     </div>
                 ) : (
                     lists.map((l) => {
@@ -93,7 +95,7 @@ export function AddToListButton({
                                         requireAuth(() => {
                                             addToList(l.id, anime)
                                             toast.success(
-                                                `Added to "${l.name}"`
+                                                t('addedTo', { name: l.name })
                                             )
                                         })
                                     }
@@ -103,7 +105,7 @@ export function AddToListButton({
                             >
                                 {l.name}
                                 {has && (
-                                    <Check className="ml-auto h-4 w-4 text-primary" />
+                                    <Check className="text-primary ml-auto h-4 w-4" />
                                 )}
                             </DropdownMenuItem>
                         )
@@ -120,7 +122,7 @@ export function AddToListButton({
                                 handleAddToNew()
                             }
                         }}
-                        placeholder="New list…"
+                        placeholder={t('newListPlaceholder')}
                         className="h-8"
                     />
                     <Button
@@ -128,7 +130,7 @@ export function AddToListButton({
                         onClick={handleAddToNew}
                         disabled={!newName.trim()}
                     >
-                        Add
+                        {t('add')}
                     </Button>
                 </div>
             </DropdownMenuContent>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Eye, EyeOff } from 'lucide-react'
 import {
     FormControl,
@@ -20,6 +21,7 @@ export function PasswordInput({
 
     field,
 }: PasswordInputProps) {
+    const t = useTranslations('Forms')
     const [showPassword, setShowPassword] = useState(false)
     return (
         <FormItem>
@@ -27,19 +29,19 @@ export function PasswordInput({
             <FormControl>
                 <div className="relative">
                     <Input
-                        placeholder="enter your password"
+                        placeholder={t('passwordPlaceholder')}
                         {...field}
                         type={showPassword ? 'text' : 'password'}
                         className="border-gray-600 bg-purple-950/70 text-white placeholder-white focus:ring-red-700 md:text-lg"
                     />
                     {showPassword ? (
                         <EyeOff
-                            className="text-muted-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer"
+                            className="text-muted-foreground absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer"
                             onClick={() => setShowPassword(false)}
                         />
                     ) : (
                         <Eye
-                            className="text-muted-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer"
+                            className="text-muted-foreground absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer"
                             onClick={() => setShowPassword(true)}
                         />
                     )}

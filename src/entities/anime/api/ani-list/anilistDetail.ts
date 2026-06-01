@@ -143,7 +143,7 @@ type AniListMedia = {
         }>
     }
     startDate: AniListDate
-    endDate?: AniListDate 
+    endDate?: AniListDate
     trailer: { id: string; site: string } | null
     externalLinks: Array<{ url: string; site: string; type: string }>
     relations: {
@@ -232,7 +232,6 @@ const RELATION_MAP: Record<string, string> = {
 }
 
 function toDate(d: AniListDate): Date | null {
-
     if (!d?.year) return null
     return new Date(d.year, (d.month ?? 1) - 1, d.day ?? 1)
 }
@@ -328,9 +327,7 @@ function mapAnime(media: AniListMedia): Anime {
         synopsis: media.description ?? undefined,
         genres: media.genres.map((g, i) => ({ id: i, name: g })),
         aired:
-            startDate && endDate
-                ? { from: startDate, to: endDate }
-                : undefined,
+            startDate && endDate ? { from: startDate, to: endDate } : undefined,
         studios: media.studios.edges
             .filter((e) => e.isMain)
             .map((e) => ({

@@ -2,6 +2,7 @@
 
 import { Share2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -20,11 +21,13 @@ export function ShareButton({
     title,
     text,
     url,
-    label = 'Share',
+    label,
     size = 'default',
     className,
     ...props
 }: ShareButtonProps) {
+    const t = useTranslations('Share')
+    const resolvedLabel = label ?? t('share')
     const handleShare = async () => {
         const shareUrl = url ?? globalThis.location.href
 
@@ -41,10 +44,10 @@ export function ShareButton({
             }
 
             await navigator.clipboard.writeText(shareUrl)
-            toast.success('Link copied to clipboard')
+            toast.success(t('linkCopied'))
         } catch (error) {
             console.error('Share failed:', error)
-            toast.error('Sharing is not supported on this device')
+            toast.error(t('notSupported'))
         }
     }
 
@@ -57,12 +60,12 @@ export function ShareButton({
                 'bg-violet-900 text-base text-white hover:bg-violet-800 dark:bg-violet-900 dark:hover:bg-violet-800',
                 className
             )}
-            aria-label={label}
+            aria-label={resolvedLabel}
             {...props}
         >
             <Share2 className="h-4 w-4" />
             {size !== 'icon' && size !== 'icon-sm' && size !== 'icon-lg' && (
-                <span>{label}</span>
+                <span>{resolvedLabel}</span>
             )}
         </Button>
     )
