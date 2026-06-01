@@ -29,6 +29,11 @@ export default async function BrowseAnime({
         stringSearchParams
     ).toString()
 
+    // Ensure repository method exists
+    if (!animeRepository?.browse) {
+        return notFound()
+    }
+
     // If no params at all, fetch without filters
     if (!animeSearchParamsString) {
         const { animes, pagination } = await animeRepository.browse()
