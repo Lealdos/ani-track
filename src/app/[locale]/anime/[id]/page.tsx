@@ -20,6 +20,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 import { toStreamingPlatform } from '@/entities/anime/api'
 import { fetchAnimeDetailByMalId } from '@/entities/anime/api/ani-list/anilistDetail'
+
+import { jikanAnimeRepo } from '@/entities/anime/api/Jikan/JikanAnimeRepository'
+
 import type {
     Recommendation,
     AnimeGenre,
@@ -58,6 +61,7 @@ export async function generateMetadata({
     }
 
     const { anime } = result
+
     const title = `AniTrack | ${anime.title}`
     const description =
         anime.synopsis ??
@@ -116,9 +120,13 @@ export default async function AnimePage({
     ]
 
     const result = await fetchAnimeDetailByMalId(id)
+    const animeDetail = await jikanAnimeRepo.findById(id)
+
+    console.log('Result from Jikan API:', animeDetail)
     if (!result) return notFound()
 
     const { duration: episodeDuration, ...anime } = result.anime
+
     const recommendations = result.recommendations
     const characters = result.characters
 
