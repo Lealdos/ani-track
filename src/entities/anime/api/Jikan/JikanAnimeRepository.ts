@@ -238,4 +238,4 @@ class JikanAnimeRepository implements IAnimeRepository {
     }
 }
 
-export const animeRepository: IAnimeRepository = new JikanAnimeRepository()
+export const jikanAnimeRepo: IAnimeRepository = new JikanAnimeRepository()
