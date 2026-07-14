@@ -22,11 +22,12 @@ import {
     toRecommendation,
     toCharacter,
 } from './jikanMappers'
-import { DAY, WEEK, DAYS15, MONTH } from '../utils'
+import { HOUR, DAY, WEEK, DAYS15, MONTH } from '../utils'
 import { JIKAN_API_BASE_URL } from '@/config/const'
 
 const RATE_LIMIT_DELAY = 1000
 const MAX_RETRIES = 3
+const REQUEST_TIMEOUT = 10_000
 
 type JikanResponse<T> = { data: T; pagination?: PaginationInfo }
 
@@ -39,16 +40,25 @@ async function fetchWithRateLimit<T>(
     options: RequestInit = {},
     retries = 0
 ): Promise<T> {
-    const response = await fetch(url, {
-        ...options,
-        headers: { 'User-Agent': 'AniTrack', ...options.headers },
-    })
-    if (response.status === 429) {
-        await delay(RATE_LIMIT_DELAY)
-        return fetchWithRateLimit<T>(url, options, retries)
+    const canRetry = retries < MAX_RETRIES
+    // Exponential backoff: Jikan's gateway needs room to recover from 5xx/429
+    const backoff = RATE_LIMIT_DELAY * 2 ** retries
+
+    let response: Response
+    try {
+        response = await fetch(url, {
+            ...options,
+            signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+            headers: { 'User-Agent': 'AniTrack', ...options.headers },
+        })
+    } catch (error) {
+        if (!canRetry) throw error
+        await delay(backoff)
+        return fetchWithRateLimit<T>(url, options, retries + 1)
     }
-    if (response.status >= 500 && retries < MAX_RETRIES) {
-        await delay(RATE_LIMIT_DELAY)
+
+    if ((response.status === 429 || response.status >= 500) && canRetry) {
+        await delay(backoff)
         return fetchWithRateLimit<T>(url, options, retries + 1)
     }
     if (!response.ok) {
@@ -78,11 +88,27 @@ class JikanAnimeRepository implements IAnimeRepository {
         const url = query
             ? `${this.baseUrl}/anime?${query}&sfw`
             : `${this.baseUrl}/anime?sfw`
-        const { data, pagination } =
-            await fetchWithRateLimit<JikanResponse<JikanAnime[]>>(url)
-        return {
-            animes: deduplicateById(data).map(toAnime),
-            pagination: pagination ?? { current_page: 1, has_next_page: false },
+        try {
+            const { data, pagination } = await fetchWithRateLimit<
+                JikanResponse<JikanAnime[]>
+            >(url, { next: { revalidate: HOUR } })
+            return {
+                animes: deduplicateById(data).map(toAnime),
+                pagination: pagination ?? {
+                    current_page: 1,
+                    has_next_page: false,
+                },
+            }
+        } catch (error) {
+            console.error('Error browsing anime:', error)
+            return {
+                animes: [],
+                pagination: {
+                    current_page: 1,
+                    last_visible_page: 0,
+                    has_next_page: false,
+                },
+            }
         }
     }
 
