@@ -6,7 +6,12 @@
       "Bash(npx tsc *)",
       "Bash(touch src/app/globals.css)",
       "Bash(curl -s 'http://localhost:3000/')",
-      "Bash(curl -s 'http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0360_rm._.css')"
+      "Bash(curl -s 'http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0360_rm._.css')",
+      "Bash(curl -s -w \"\\\\nHTTP %{http_code}\\\\n\" -X POST https://ani-track-nine.vercel.app/api/auth/sign-in/social -H 'Content-Type: application/json' -d '{\"provider\":\"google\",\"callbackURL\":\"/\"}')",
+      "Bash(curl -s https://ani-track-nine.vercel.app/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://ani-track-nine.vercel.app/api/auth/sign-in/social -H 'Content-Type: application/json' -d '{\"provider\":\"google\",\"callbackURL\":\"/\"}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://ani-track-nine.vercel.app/api/auth/sign-in/social -H 'Content-Type: application/json' -d '{\"provider\":\"github\",\"callbackURL\":\"/\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/sign-in/social -H 'Content-Type: application/json' -d '{\"provider\":\"google\",\"callbackURL\":\"/\"}' -w \"\\\\nHTTP %{http_code}\\\\n\")"
     ]
   }
 }
