@@ -143,7 +143,6 @@ export type AniListMediaStatus =
 
 export type AniListMedia = {
     id: number
-    idMal: number | null
     title: AniListTitle
     type: string
     format: AniListMediaFormat | null

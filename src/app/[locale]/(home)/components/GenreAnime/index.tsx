@@ -6,14 +6,14 @@ import { GenreSelect } from './GenreSelect'
 
 export function AnimeByGenre() {
     const t = useTranslations('Genres.names')
-    // Popular genres — `id` is the API genre id and must stay numeric; only the
-    // displayed label is translated.
+    // Popular genres — `id` indexes ANILIST_GENRES (1-based, see anilistMappers.ts);
+    // only the displayed label is translated.
     const genres = [
         { id: 1, labelKey: 'action' },
         { id: 2, labelKey: 'adventure' },
-        { id: 4, labelKey: 'comedy' },
-        { id: 8, labelKey: 'drama' },
-        { id: 10, labelKey: 'fantasy' },
+        { id: 3, labelKey: 'comedy' },
+        { id: 4, labelKey: 'drama' },
+        { id: 6, labelKey: 'fantasy' },
     ] as const
 
     // Fetch anime for the first genre to show by default

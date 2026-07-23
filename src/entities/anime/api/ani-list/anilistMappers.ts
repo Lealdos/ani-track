@@ -64,8 +64,8 @@ const STATUS_MAP: Record<string, string> = {
     HIATUS: 'On Hiatus',
 }
 
-function toDate(date: AniListDate): Date {
-    if (!date.year) return new Date()
+function toDate(date: AniListDate): Date | null {
+    if (!date.year) return null
     return new Date(date.year, (date.month ?? 1) - 1, date.day ?? 1)
 }
 
@@ -106,6 +106,8 @@ function stripHtml(html: string): string {
 
 export function toAnimeFromAniList(raw: AniListMedia): Anime {
     const coverImage = raw.coverImage
+    const airedFrom = toDate(raw.startDate)
+    const airedTo = toDate(raw.endDate)
     const ratedRank =
         raw.rankings?.find((r) => r.type === 'RATED' && r.allTime)?.rank ?? 0
     const popularityRank = raw.rankings?.find(
@@ -134,10 +136,8 @@ export function toAnimeFromAniList(raw: AniListMedia): Anime {
             : undefined,
         synopsis: raw.description ? stripHtml(raw.description) : undefined,
         genres: raw.genres?.map((g) => ({ id: genreNameToId(g), name: g })),
-        aired: {
-            from: toDate(raw.startDate),
-            to: toDate(raw.endDate),
-        },
+        aired:
+            airedFrom && airedTo ? { from: airedFrom, to: airedTo } : undefined,
         studios: raw.studios?.nodes
             ?.filter((s) => s.isAnimationStudio)
             .map((s) => ({ id: s.id, name: s.name, url: s.siteUrl })),

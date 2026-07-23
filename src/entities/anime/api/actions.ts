@@ -1,10 +1,10 @@
 'use server'
-import { jikanAnimeRepo } from './Jikan/JikanAnimeRepository'
+import { anilistAnimeRepository } from './ani-list/AniListAnimeRepository'
 import { fetchAiringByDay, type AiringAnime } from './ani-list/anilistSchedule'
 import type { ScheduleDay } from '../models'
 
 export async function getAnimeByGenreAction(genreId: number) {
-    return jikanAnimeRepo.findByGenre(genreId)
+    return anilistAnimeRepository.findByGenre(genreId)
 }
 
 export async function getAiringByDayAction(
