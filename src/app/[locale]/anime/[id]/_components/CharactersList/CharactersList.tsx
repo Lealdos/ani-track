@@ -19,7 +19,7 @@ export function CharactersList({
                         <img
                             src={
                                 character.character.images.jpg.imageUrl ||
-                                '/images/placeholder_avatar.png'
+                                '/placeholder_avatar.png'
                             }
                             alt={character.character.name}
                             className="h-26 max-h-26 w-26 max-w-26 rounded-2xl object-scale-down"
