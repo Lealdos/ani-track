@@ -6,7 +6,9 @@
       "Bash(npx tsc *)",
       "Bash(touch src/app/globals.css)",
       "Bash(curl -s 'http://localhost:3000/')",
-      "Bash(curl -s 'http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0360_rm._.css')"
+      "Bash(curl -s 'http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0360_rm._.css')",
+      "Bash(curl *)",
+      "Bash(bunx eslint *)"
     ]
   }
 }
