@@ -15,28 +15,17 @@ import { Link } from '@/i18n/navigation'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 
 export default function ResetPasswordPage() {
     const t = useTranslations('Auth')
-    const tc = useTranslations('Common')
     const router = useRouter()
     const searchParams = useSearchParams()
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
-    const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [token, setToken] = useState<string | null>(null)
-
-    useEffect(() => {
-        const tokenParam = searchParams.get('token')
-        if (!tokenParam) {
-            setError(t('invalidToken'))
-        } else {
-            setToken(tokenParam)
-        }
-    }, [searchParams])
+    const token = searchParams.get('token')
 
     const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -68,7 +57,6 @@ export default function ResetPasswordPage() {
             if (result.error) {
                 setError(result.error.message || t('failedReset'))
             } else {
-                setSuccess(true)
                 setTimeout(() => {
                     router.push('/login')
                 }, 2000)
@@ -79,14 +67,6 @@ export default function ResetPasswordPage() {
         } finally {
             setLoading(false)
         }
-    }
-
-    if (!token && !error) {
-        return (
-            <div className="flex items-center justify-center">
-                <p>{tc('loading')}</p>
-            </div>
-        )
     }
 
     return (
@@ -126,9 +106,9 @@ export default function ResetPasswordPage() {
                                 disabled={!token}
                             />
                         </div>
-                        {error && (
+                        {(error || !token) && (
                             <div className="bg-destructive/10 text-destructive rounded-md p-3 text-sm">
-                                {error}
+                                {error || t('invalidToken')}
                             </div>
                         )}
                         <Button
