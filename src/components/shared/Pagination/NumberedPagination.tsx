@@ -94,7 +94,7 @@ export const NumberedPagination: FC<NumberedPaginationProps> = ({
                     </button>
                 ) : (
                     <span
-                        key={`ellipsis-${pageIndex}`}
+                        key={`ellipsis-${pageIndex}-${pageNumbers}`}
                         className="px-2 text-gray-400"
                     >
                         {pageNumbers}
