@@ -1,4 +1,3 @@
-// @ts-ignore
 import type { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import dynamic from 'next/dynamic'

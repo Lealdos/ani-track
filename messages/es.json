@@ -87,6 +87,12 @@
         "description": "¡Vaya! La página que buscas no existe o ha sido movida.",
         "goHome": "Volver al inicio"
     },
+    "ErrorState": {
+        "title": "Algo salió mal",
+        "upstreamDescription": "No pudimos conectar con la base de datos de animes. Suele ser temporal — inténtalo de nuevo en un momento.",
+        "retry": "Reintentar",
+        "goHome": "Volver al inicio"
+    },
     "Auth": {
         "welcomeBack": "Bienvenido de nuevo",
         "loginWithGoogleDesc": "Inicia sesión con tu cuenta de Google",

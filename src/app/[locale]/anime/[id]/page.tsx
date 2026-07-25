@@ -19,9 +19,7 @@ import { EpisodesList } from '@/app/[locale]/anime/[id]/_components/EpisodeList/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 import { toStreamingPlatform } from '@/entities/anime/api'
-import { fetchAnimeDetailByMalId } from '@/entities/anime/api/ani-list/anilistDetail'
-
-import { jikanAnimeRepo } from '@/entities/anime/api/Jikan/JikanAnimeRepository'
+import { fetchAnimeDetailById } from '@/entities/anime/api/ani-list/anilistDetail'
 
 import type {
     Recommendation,
@@ -51,7 +49,7 @@ export async function generateMetadata({
     params: Promise<PageParams>
 }) {
     const { id } = await params
-    const result = await fetchAnimeDetailByMalId(id)
+    const result = await fetchAnimeDetailById(id)
 
     if (!result) {
         const t = await getTranslations('AnimeDetail')
@@ -119,10 +117,8 @@ export default async function AnimePage({
         { tabsName: t('tabEpisodes') },
     ]
 
-    const result = await fetchAnimeDetailByMalId(id)
-    const animeDetail = await jikanAnimeRepo.findById(id)
+    const result = await fetchAnimeDetailById(id)
 
-    console.log('Result from Jikan API:', animeDetail)
     if (!result) return notFound()
 
     const { duration: episodeDuration, ...anime } = result.anime

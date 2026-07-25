@@ -38,10 +38,15 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const mobileMenuRef = useRef<HTMLDivElement | null>(null)
 
+    const toggleMobileMenu = () => {
+        const nextOpen = !isMobileMenuOpen
+        setIsMobileMenuOpen(nextOpen)
+        // Keep the menu mounted while the close animation plays; it is
+        // unmounted on `animationend` (see effect below).
+        if (nextOpen) setIsMobileMenuVisible(true)
+    }
+
     useEffect(() => {
-        if (isMobileMenuOpen) {
-            setIsMobileMenuVisible(true)
-        }
         const menu = mobileMenuRef.current
         if (!menu) return
         const handleAnimationEnd = () => {
@@ -129,9 +134,7 @@ export default function Header() {
                         <button
                             id="menu-button"
                             className="flex items-center justify-center rounded-md"
-                            onClick={() =>
-                                setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
+                            onClick={toggleMobileMenu}
                             aria-controls="mobile-menu"
                             aria-expanded={isMobileMenuOpen}
                             aria-label={

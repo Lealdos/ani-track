@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -39,27 +39,31 @@ export function EditUserList({ listId }: { listId: string }) {
     const [removingItemId, setRemovingItemId] = useState<string | null>(null)
     const [confirmDelete, setConfirmDelete] = useState(false)
 
-    const fetchList = useCallback(async () => {
-        try {
-            const res = await fetch(`/api/users-lists/${listId}`, {
-                credentials: 'include',
-            })
-            const json = await res.json()
-            if (json.success && json.data) {
-                setList(json.data)
-                setName(json.data.name)
-                setVisibility(json.data.visibility)
+    useEffect(() => {
+        let cancelled = false
+        const load = async () => {
+            try {
+                const res = await fetch(`/api/users-lists/${listId}`, {
+                    credentials: 'include',
+                })
+                const json = await res.json()
+                if (cancelled) return
+                if (json.success && json.data) {
+                    setList(json.data)
+                    setName(json.data.name)
+                    setVisibility(json.data.visibility)
+                }
+            } catch {
+                if (!cancelled) setList(null)
+            } finally {
+                if (!cancelled) setLoading(false)
             }
-        } catch {
-            setList(null)
-        } finally {
-            setLoading(false)
+        }
+        load()
+        return () => {
+            cancelled = true
         }
     }, [listId])
-
-    useEffect(() => {
-        fetchList()
-    }, [fetchList])
 
     const hasChanges =
         list && (name !== list.name || visibility !== list.visibility)

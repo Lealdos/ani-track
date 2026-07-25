@@ -3,8 +3,9 @@ export type searchParamsProps = {
     type?: string
     status?: string
     rating?: string
-    genre?: string
+    genres?: string
     order_by?: string
+    sort?: string
     page?: number
     limit?: number
     sfw?: boolean

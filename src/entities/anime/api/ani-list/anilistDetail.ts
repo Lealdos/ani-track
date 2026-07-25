@@ -10,10 +10,9 @@ import { DAY } from '../utils'
 const ANILIST_API = 'https://graphql.anilist.co'
 
 const ANIME_DETAIL_QUERY = `
-query ($idMal: Int) {
-  Media(idMal: $idMal, type: ANIME) {
+query ($id: Int) {
+  Media(id: $id, type: ANIME) {
     id
-    idMal
     title {
       romaji
       english
@@ -63,7 +62,6 @@ query ($idMal: Int) {
         relationType
         node {
           id
-          idMal
           title { romaji english }
           format
           type
@@ -74,7 +72,6 @@ query ($idMal: Int) {
       nodes {
         mediaRecommendation {
           id
-          idMal
           title { romaji english }
           coverImage { extraLarge large medium }
         }
@@ -112,7 +109,6 @@ type AniListDate = {
 
 type AniListMedia = {
     id: number
-    idMal: number | null
     title: {
         romaji: string
         english: string | null
@@ -151,7 +147,6 @@ type AniListMedia = {
             relationType: string
             node: {
                 id: number
-                idMal: number | null
                 title: { romaji: string; english: string | null }
                 format: string | null
                 type: string
@@ -162,7 +157,6 @@ type AniListMedia = {
         nodes: Array<{
             mediaRecommendation: {
                 id: number
-                idMal: number | null
                 title: { romaji: string; english: string | null }
                 coverImage: {
                     extraLarge: string | null
@@ -280,7 +274,7 @@ function mapAnime(media: AniListMedia): Anime {
     const relationsMap = new Map<string, AnimeRelation>()
     for (const edge of media.relations.edges) {
         const label = RELATION_MAP[edge.relationType] ?? edge.relationType
-        const entryId = edge.node.idMal ?? edge.node.id
+        const entryId = edge.node.id
         const entry = {
             id: entryId,
             type: edge.node.type?.toLowerCase() ?? 'anime',
@@ -303,7 +297,7 @@ function mapAnime(media: AniListMedia): Anime {
     const endDate = toDate(media.endDate ?? null)
 
     return {
-        id: media.idMal ?? media.id,
+        id: media.id,
         title:
             media.title.english ??
             media.title.romaji ??
@@ -371,8 +365,8 @@ function mapRecommendations(media: AniListMedia): Recommendation[] {
             const small = animeRecommendation.coverImage?.medium ?? img
             return {
                 entry: {
-                    id: animeRecommendation.idMal ?? animeRecommendation.id,
-                    url: `/anime/${animeRecommendation.idMal ?? animeRecommendation.id}`,
+                    id: animeRecommendation.id,
+                    url: `/anime/${animeRecommendation.id}`,
                     images: {
                         jpg: {
                             imageUrl: img,
@@ -425,15 +419,15 @@ function mapCharacters(media: AniListMedia): AnimeCharacter[] {
     }))
 }
 
-export const fetchAnimeDetailByMalId = cache(
-    async (malId: number): Promise<AnimeDetailResult | null> => {
+export const fetchAnimeDetailById = cache(
+    async (id: number): Promise<AnimeDetailResult | null> => {
         try {
             const response = await fetch(ANILIST_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     query: ANIME_DETAIL_QUERY,
-                    variables: { idMal: malId },
+                    variables: { id },
                 }),
                 next: { revalidate: DAY },
             })
@@ -454,7 +448,7 @@ export const fetchAnimeDetailByMalId = cache(
             }
         } catch (error) {
             console.error(
-                `Error fetching anime from AniList (malId: ${malId}):`,
+                `Error fetching anime from AniList (id: ${id}):`,
                 error
             )
             return null

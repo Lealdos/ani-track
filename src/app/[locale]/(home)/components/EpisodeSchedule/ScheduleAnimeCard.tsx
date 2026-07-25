@@ -3,13 +3,17 @@ import { useTranslations } from 'next-intl'
 
 import type { AiringAnime } from '@/entities/anime/api/ani-list/anilistSchedule'
 
+// AniList returns `airingAt` as a Unix timestamp in seconds.
 function formatLocalTime(airingAt: number): string {
-    const date = new Date(airingAt)
+    const date = new Date(airingAt * 1000)
+    // Runs client-side, so it renders in the visitor's browser timezone.
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-function hasAired(timeUntilAiring: number): boolean {
-    return timeUntilAiring <= 0
+// Computed live against the current time instead of the API's fetch-time
+// snapshot, so the badge stays correct as the browser tab stays open.
+function hasAired(airingAt: number): boolean {
+    return airingAt * 1000 <= Date.now()
 }
 
 function truncateTitle(title: string, max = 120): string {
@@ -18,7 +22,7 @@ function truncateTitle(title: string, max = 120): string {
 
 export function ScheduleAnimeCard({ anime }: { anime: AiringAnime }) {
     const t = useTranslations('Schedule')
-    const aired = hasAired(anime.timeUntilAiring)
+    const aired = hasAired(anime.airingAt)
 
     return (
         <article className="max-w-50 min-w-38 duration-400 md:max-w-65 md:min-w-55 flex flex-col items-center justify-between overflow-hidden rounded-2xl transition-all hover:shadow-lg hover:shadow-indigo-600/50 md:h-full">

@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { connection } from 'next/server'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { Heart } from 'lucide-react'
@@ -55,7 +56,11 @@ export default async function Home({
     setRequestLocale(locale)
     const t = await getTranslations('Home')
 
-    const seasonalAnime = animeRepository.findSeasonal()
+    // findSeasonal derives the current season from `new Date()`, which Cache
+    // Components forbids during static prerender — wait for a request first.
+    const seasonalAnime = connection().then(() =>
+        animeRepository.findSeasonal()
+    )
     const topAnime = animeRepository.findTop()
 
     return (

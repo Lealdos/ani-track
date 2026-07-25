@@ -108,31 +108,37 @@ function toPaginationInfo(pageInfo: AniListPageInfo): PaginationInfo {
     }
 }
 
-/* 
-
-funcion para parsear query params de browse, soporta:
-- q o query: string de busqueda
-
-async browse(
+class AniListAnimeRepository implements IAnimeRepository {
+    async browse(
         query?: string
     ): Promise<{ animes: Anime[]; pagination: PaginationInfo }> {
         const variables: Record<string, unknown> = {
             page: 1,
             perPage: 25,
             isAdult: false,
+            sort: ['POPULARITY_DESC'],
         }
 
         if (query) {
             const params = new URLSearchParams(query)
 
             const search = params.get('q') ?? params.get('query')
-            if (search) variables.search = search
+            if (search) {
+                variables.search = search
+                // Let AniList rank by relevance when the user searches by text.
+                variables.sort = ['SEARCH_MATCH']
+            }
 
             const page = params.get('page')
             if (page) variables.page = Number.parseInt(page)
 
             const limit = params.get('limit')
-            if (limit) variables.perPage = Number.parseInt(limit)
+            // AniList caps perPage at 50; anything higher returns a GraphQL error.
+            if (limit)
+                variables.perPage = Math.min(
+                    50,
+                    Math.max(1, Number.parseInt(limit))
+                )
 
             const genres = params.get('genres')
             if (genres) {
@@ -203,9 +209,6 @@ async browse(
         }
     }
 
-
-*/
-class AniListAnimeRepository implements IAnimeRepository {
     async findById(id: number): Promise<Anime | null> {
         try {
             const result = await anilistFetch<{ Media: AniListMedia }>(

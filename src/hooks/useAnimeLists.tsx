@@ -95,12 +95,19 @@ export function AnimeListsProvider({ children }: { children: ReactNode }) {
     const pendingIds = useRef(new Map<string, Promise<string>>())
 
     useEffect(() => {
+        let cancelled = false
+
         if (isPending || !isAuthenticated) {
-            setLists([])
-            return
+            // Deferred so the reset happens outside the effect's synchronous
+            // execution (react-hooks/set-state-in-effect).
+            Promise.resolve().then(() => {
+                if (!cancelled) setLists([])
+            })
+            return () => {
+                cancelled = true
+            }
         }
 
-        let cancelled = false
         const load = async () => {
             const res = await fetch(BASE)
             if (!res.ok) return

@@ -10,17 +10,24 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import type {
+    ControllerRenderProps,
+    FieldPath,
+    FieldValues,
+} from 'react-hook-form'
 
-interface PasswordInputProps {
+interface PasswordInputProps<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> {
     label: string
-    field: any
+    field: ControllerRenderProps<TFieldValues, TName>
 }
 
-export function PasswordInput({
-    label,
-
-    field,
-}: PasswordInputProps) {
+export function PasswordInput<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ label, field }: PasswordInputProps<TFieldValues, TName>) {
     const t = useTranslations('Forms')
     const [showPassword, setShowPassword] = useState(false)
     return (

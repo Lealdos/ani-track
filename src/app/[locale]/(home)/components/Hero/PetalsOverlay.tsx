@@ -20,17 +20,26 @@ export function PetalsOverlay({ count = 18 }: { count?: number }) {
     const [petals, setPetals] = useState<Petal[]>([])
 
     useEffect(() => {
-        setPetals(
-            Array.from({ length: count }).map((_, i) => ({
-                i,
-                left: Math.random() * 100,
-                delay: Math.random() * 12,
-                duration: 10 + Math.random() * 10,
-                size: 10 + Math.random() * 14,
-                drift: (Math.random() * 20 - 10).toFixed(1),
-                opacity: 0.5 + Math.random() * 0.4,
-            }))
-        )
+        let cancelled = false
+        // Deferred so the state update happens outside the effect's
+        // synchronous execution (react-hooks/set-state-in-effect).
+        Promise.resolve().then(() => {
+            if (cancelled) return
+            setPetals(
+                Array.from({ length: count }).map((_, i) => ({
+                    i,
+                    left: Math.random() * 100,
+                    delay: Math.random() * 12,
+                    duration: 10 + Math.random() * 10,
+                    size: 10 + Math.random() * 14,
+                    drift: (Math.random() * 20 - 10).toFixed(1),
+                    opacity: 0.5 + Math.random() * 0.4,
+                }))
+            )
+        })
+        return () => {
+            cancelled = true
+        }
     }, [count])
 
     return (

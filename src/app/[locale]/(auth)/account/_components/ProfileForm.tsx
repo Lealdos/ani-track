@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSession } from '@/lib/Auth/auth-clients'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -47,6 +47,8 @@ export function ProfileForm({ user }: { user?: User }) {
         },
     })
 
+    const watchedImage = useWatch({ control: form.control, name: 'image' })
+
     useEffect(() => {
         form.reset({
             name: session?.user?.name || user?.name || '',
@@ -54,7 +56,7 @@ export function ProfileForm({ user }: { user?: User }) {
             email: session?.user?.email || user?.email || '',
             image: (session?.user?.image as string) || user?.image || undefined,
         })
-    }, [session])
+    }, [session, form, user?.name, user?.userName, user?.email, user?.image])
     const onSubmit = async (values: ProfileFormValuesType) => {
         const preview = form.getValues('image')
 
@@ -122,10 +124,10 @@ export function ProfileForm({ user }: { user?: User }) {
                     <div className="mb-8 flex flex-col items-center gap-4">
                         <div className="relative h-32 w-32">
                             <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-2 border-gray-600 bg-gray-700">
-                                {form.watch('image') || session?.user?.image ? (
+                                {watchedImage || session?.user?.image ? (
                                     <Image
                                         src={
-                                            (form.watch('image') as string) ||
+                                            (watchedImage as string) ||
                                             (session?.user?.image as string)
                                         }
                                         alt="Profile"

@@ -87,6 +87,12 @@
         "description": "Oops! The page you are looking for does not exist or has been moved.",
         "goHome": "Go back home"
     },
+    "ErrorState": {
+        "title": "Something went wrong",
+        "upstreamDescription": "We could not reach the anime database. This is usually temporary — please try again in a moment.",
+        "retry": "Try again",
+        "goHome": "Go back home"
+    },
     "Auth": {
         "welcomeBack": "Welcome back",
         "loginWithGoogleDesc": "Login with your Google account",

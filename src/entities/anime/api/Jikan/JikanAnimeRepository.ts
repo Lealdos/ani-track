@@ -88,27 +88,18 @@ class JikanAnimeRepository implements IAnimeRepository {
         const url = query
             ? `${this.baseUrl}/anime?${query}&sfw`
             : `${this.baseUrl}/anime?sfw`
-        try {
-            const { data, pagination } = await fetchWithRateLimit<
-                JikanResponse<JikanAnime[]>
-            >(url, { next: { revalidate: HOUR } })
-            return {
-                animes: deduplicateById(data).map(toAnime),
-                pagination: pagination ?? {
-                    current_page: 1,
-                    has_next_page: false,
-                },
-            }
-        } catch (error) {
-            console.error('Error browsing anime:', error)
-            return {
-                animes: [],
-                pagination: {
-                    current_page: 1,
-                    last_visible_page: 0,
-                    has_next_page: false,
-                },
-            }
+        // Deliberately not caught: an empty result means "no matches", so a
+        // failed upstream call must reach the route's error boundary instead
+        // of masquerading as zero search results.
+        const { data, pagination } = await fetchWithRateLimit<
+            JikanResponse<JikanAnime[]>
+        >(url, { next: { revalidate: HOUR } })
+        return {
+            animes: deduplicateById(data).map(toAnime),
+            pagination: pagination ?? {
+                current_page: 1,
+                has_next_page: false,
+            },
         }
     }
 

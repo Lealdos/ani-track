@@ -41,7 +41,7 @@ export function EpisodesList({ animeId }: EpisodesListProps) {
         }
 
         fetchEpisodes()
-    }, [animeId])
+    }, [animeId, t])
 
     useEffect(() => {
         const currentLoader = loader.current

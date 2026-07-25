@@ -76,7 +76,6 @@ query GetHomeData(
 const MEDIA_LIST_FIELDS = `
 fragment MediaListFields on Media {
   id
-  idMal
   title { romaji english native }
   synonyms
   format
@@ -139,7 +138,6 @@ export const FIND_BY_ID_QUERY = `
 query ($id: Int) {
   Media(id: $id, type: ANIME) {
     id
-    idMal
     title { romaji english native }
     synonyms
     format
@@ -186,7 +184,6 @@ export const ANIME_DETAIL_QUERY = `
 query ($id: Int) {
   Media(id: $id, type: ANIME) {
     id
-    idMal
     title { romaji english native }
     synonyms
     format

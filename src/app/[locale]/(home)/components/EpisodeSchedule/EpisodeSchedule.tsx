@@ -41,7 +41,18 @@ export function EpisodeSchedule(): React.ReactElement {
         const defaultDayIndex = (todayIndex + 6) % 7
         const clientDefaultDay = WEEKDAYS[defaultDayIndex]
 
-        handleDayChange(clientDefaultDay)
+        let cancelled = false
+        const load = async () => {
+            const filteredAnimesByDay =
+                await getAiringByDayAction(clientDefaultDay)
+            if (cancelled) return
+            setSelectedDay(clientDefaultDay)
+            setAnimesByDay(filteredAnimesByDay)
+        }
+        load()
+        return () => {
+            cancelled = true
+        }
     }, [])
 
     const isLoading = animesByDay === null

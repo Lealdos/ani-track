@@ -76,10 +76,16 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
 
     // --- Anonymous mode: load from localStorage ---
     useEffect(() => {
-        if (isPending) return
-        if (!isAuthenticated) {
-            setFavorites(getStoredFavoriteAnimes())
-            syncedRef.current = false
+        if (isPending || isAuthenticated) return
+        syncedRef.current = false
+        let cancelled = false
+        // Deferred so the state update happens outside the effect's
+        // synchronous execution (react-hooks/set-state-in-effect).
+        Promise.resolve().then(() => {
+            if (!cancelled) setFavorites(getStoredFavoriteAnimes())
+        })
+        return () => {
+            cancelled = true
         }
     }, [isPending, isAuthenticated])
 
@@ -143,8 +149,13 @@ const FavoriteProvider = ({ children }: { children: React.ReactNode }) => {
     // --- On logout: clear in-memory state ---
     useEffect(() => {
         if (isPending) return
-        if (prevAuthRef.current === true && !isAuthenticated) {
-            setFavorites([])
+        if (prevAuthRef.current !== true || isAuthenticated) return
+        let cancelled = false
+        Promise.resolve().then(() => {
+            if (!cancelled) setFavorites([])
+        })
+        return () => {
+            cancelled = true
         }
     }, [isPending, isAuthenticated])
 

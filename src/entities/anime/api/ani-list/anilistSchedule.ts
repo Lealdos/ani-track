@@ -19,9 +19,9 @@ query ($airingAtGreater: Int, $airingAtLesser: Int, $page: Int) {
       airingAt
       timeUntilAiring
       episode
-      media {   
+      media {
+        id
         isAdult
-        idMal
         title {
           romaji
           english
@@ -48,7 +48,7 @@ query ($airingAtGreater: Int, $airingAtLesser: Int, $page: Int) {
 `
 
 type AniListMedia = {
-    idMal: number | null
+    id: number
     isAdult: boolean
     title: { romaji: string; english: string | null; native: string | null }
     format: string | null
@@ -128,7 +128,7 @@ function toAnimeFromAniList(
     schedule: AniListAiringSchedule
 ): AiringAnime | null {
     const media = schedule.media
-    if (!media.idMal || media.isAdult) return null
+    if (media.isAdult) return null
 
     const airingDate = new Date(schedule.airingAt * 1000)
     const days = [
@@ -156,7 +156,7 @@ function toAnimeFromAniList(
         ''
 
     return {
-        id: media.idMal,
+        id: media.id,
         title: media.title.english ?? media.title.romaji ?? '',
         titleEnglish: media.title.english ?? undefined,
         titleJapanese: media.title.native ?? undefined,

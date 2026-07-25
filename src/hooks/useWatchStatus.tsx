@@ -88,12 +88,19 @@ export function WatchStatusProvider({ children }: { children: ReactNode }) {
     const [store, setStore] = useState<Store>({})
 
     useEffect(() => {
+        let cancelled = false
+
         if (isPending || !isAuthenticated) {
-            setStore({})
-            return
+            // Deferred so the reset happens outside the effect's synchronous
+            // execution (react-hooks/set-state-in-effect).
+            Promise.resolve().then(() => {
+                if (!cancelled) setStore({})
+            })
+            return () => {
+                cancelled = true
+            }
         }
 
-        let cancelled = false
         const load = async () => {
             const [watching, planned, finished] = await Promise.all([
                 fetchStatus('watching'),

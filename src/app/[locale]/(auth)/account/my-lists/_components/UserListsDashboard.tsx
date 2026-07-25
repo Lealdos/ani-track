@@ -89,39 +89,43 @@ export function UserListsDashboard() {
     const [activeTab, setActiveTab] = useState<ListStatus>('watching')
     const [items, setItems] = useState<AnimeItem[]>([])
     const [userLists, setUserLists] = useState<UserList[]>([])
-    const [loading, setLoading] = useState(true)
-
-    const fetchData = useCallback(async (tab: ListStatus) => {
-        setLoading(true)
-        const status = LIST_STATUSES.find((s) => s.value === tab)
-        if (!status) return
-
-        try {
-            const res = await fetch(status.endpoint, {
-                credentials: 'include',
-            })
-            const json = await res.json()
-
-            if (tab === 'user lists') {
-                setUserLists(json.data ?? [])
-                setItems([])
-            } else {
-                setItems(json.data ?? [])
-                setUserLists([])
-            }
-        } catch {
-            setItems([])
-            setUserLists([])
-        } finally {
-            setLoading(false)
-        }
-    }, [])
+    const [loadedTab, setLoadedTab] = useState<ListStatus | null>(null)
+    const loading = loadedTab !== activeTab
 
     useEffect(() => {
-        if (session?.user) {
-            fetchData(activeTab)
+        if (!session?.user) return
+        const status = LIST_STATUSES.find((s) => s.value === activeTab)
+        if (!status) return
+
+        let cancelled = false
+        const load = async () => {
+            try {
+                const res = await fetch(status.endpoint, {
+                    credentials: 'include',
+                })
+                const json = await res.json()
+                if (cancelled) return
+
+                if (activeTab === 'user lists') {
+                    setUserLists(json.data ?? [])
+                    setItems([])
+                } else {
+                    setItems(json.data ?? [])
+                    setUserLists([])
+                }
+            } catch {
+                if (cancelled) return
+                setItems([])
+                setUserLists([])
+            } finally {
+                if (!cancelled) setLoadedTab(activeTab)
+            }
         }
-    }, [activeTab, session?.user, fetchData])
+        load()
+        return () => {
+            cancelled = true
+        }
+    }, [activeTab, session?.user])
 
     const addUserList = useCallback((list: UserList) => {
         setUserLists((prev) => [list, ...prev])
