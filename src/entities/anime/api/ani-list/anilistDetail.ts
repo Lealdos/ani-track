@@ -39,7 +39,7 @@ query ($id: Int) {
     season
     seasonYear
     duration
-    studios(sort: FAVOURITES_DESC) {
+    studios(sort: FAVORITES_DESC) {
       edges {
         isMain
         node {
@@ -77,7 +77,7 @@ query ($id: Int) {
         }
       }
     }
-    characters(sort: [ROLE, FAVOURITES_DESC], perPage: 25) {
+    characters(sort: [ROLE, FAVORITES_DESC], perPage: 25) {
       edges {
         role
         node {
