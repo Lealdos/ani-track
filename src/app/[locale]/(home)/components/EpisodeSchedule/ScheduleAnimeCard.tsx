@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 
@@ -30,7 +31,7 @@ export function ScheduleAnimeCard({ anime }: { anime: AiringAnime }) {
                 href={`/anime/${anime.id}`}
                 className="flex h-full w-full flex-col"
             >
-                <div className="h-70 md:h-72 relative w-full overflow-hidden rounded">
+                <div className="h-70 relative w-full overflow-hidden rounded md:h-72">
                     <img
                         src={anime.images?.jpg?.imageUrl || '/placeholder.svg'}
                         alt={`${anime.title} poster`}
