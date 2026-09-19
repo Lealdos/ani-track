@@ -29,7 +29,7 @@ export function AnimeCard({
                     src={imgOf(anime)}
                     alt={`${title} poster`}
                     loading="lazy"
-                    className="transition-silk h-full w-full object-cover group-hover:scale-105"
+                    className="transition-silk absolute inset-0 h-full min-h-full w-full min-w-full object-cover object-center group-hover:scale-105"
                 />
                 <div className="bg-linear-to-t from-background via-background/30 absolute inset-0 to-transparent opacity-90" />
                 {displayAnimeRank && (

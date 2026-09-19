@@ -30,11 +30,11 @@ export function ScheduleAnimeCard({ anime }: { anime: AiringAnime }) {
                 href={`/anime/${anime.id}`}
                 className="flex h-full w-full flex-col"
             >
-                <div className="h-70 relative">
+                <div className="h-70 md:h-72 relative w-full overflow-hidden rounded">
                     <img
                         src={anime.images?.jpg?.imageUrl || '/placeholder.svg'}
                         alt={`${anime.title} poster`}
-                        className="object-fit h-50 max-h-90 rounded md:h-72 md:w-full md:object-center"
+                        className="h-full min-h-full w-full min-w-full object-cover object-center"
                     />
                     <span className="absolute right-3 top-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                         {formatLocalTime(anime.airingAt)}
