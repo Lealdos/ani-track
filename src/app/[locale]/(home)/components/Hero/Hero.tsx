@@ -39,7 +39,7 @@ function Hero() {
                 </div>
                 {/* QUICK NAV */}
 
-                <div className="items-center-safe container flex flex-col flex-wrap justify-between gap-4 md:mt-40 md:flex-row md:justify-start">
+                <div className="container flex flex-col items-stretch justify-between gap-4 md:mt-40 md:flex-row md:justify-start">
                     {[
                         {
                             to: '#season',
