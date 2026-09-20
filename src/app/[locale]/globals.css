@@ -287,6 +287,9 @@ texto pegado del editor online
 
 html {
     color-scheme: dark;
+    /* Reserve the 12px scrollbar channel permanently, so the viewport width
+       never changes underneath the fixed, `left-1/2`-centred header. */
+    scrollbar-gutter: stable;
 }
 
 body {
@@ -386,13 +389,13 @@ body {
 section:not([aria-label^='Notifications']) {
     animation: reveal linear both;
     animation-timeline: view();
-    animation-range-start: 10%;
-    animation-range-end: 25%;
+    animation-range-start: 4%;
+    animation-range-end: 18%;
 }
 
 @keyframes reveal {
     from {
-        opacity: 0.5;
+        opacity: 0.4;
         transform: translateY(80px) scale(0.9);
         filter: blur(12px);
     }
