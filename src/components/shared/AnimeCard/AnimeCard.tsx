@@ -26,12 +26,12 @@ export function AnimeCard({
             className="shadow-soft transition-silk bg-card hover:shadow-petal group relative block overflow-hidden rounded-lg hover:-translate-y-1"
         >
             <div className="aspect-2/3 bg-muted relative overflow-hidden">
-                <ViewTransition  name={`anime-card-${anime.id}`}>
+                <ViewTransition name={`anime-card-${anime.id}`}>
                     <img
-                    src={imgOf(anime)}
-                    alt={`${title} poster`}
-                    loading="lazy"
-                    className="transition-silk absolute inset-0 h-full min-h-full w-full min-w-full object-cover object-center group-hover:scale-105"
+                        src={imgOf(anime)}
+                        alt={`${title} poster`}
+                        loading="lazy"
+                        className="transition-silk absolute inset-0 h-full min-h-full w-full min-w-full object-cover object-center group-hover:scale-105"
                     />
                 </ViewTransition>
                 <div className="bg-linear-to-t from-background via-background/30 absolute inset-0 to-transparent opacity-90" />

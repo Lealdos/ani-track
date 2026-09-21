@@ -25,8 +25,7 @@ export const barInner = 'mx-auto flex w-full items-center justify-between gap-4'
 export const logo =
     'gradient-home-name font-gothic p-2 text-base font-bold italic text-transparent md:text-2xl'
 
-export const searchWrap =
-    'relative flex w-full items-center justify-center'
+export const searchWrap = 'relative flex w-full items-center justify-center'
 
 export const searchIcon =
     'absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-200'
