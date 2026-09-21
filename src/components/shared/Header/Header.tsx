@@ -1,10 +1,11 @@
 'use client'
 import { Link } from '@/i18n/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SearchBar } from './SearchBar'
+import * as styles from './headerClasses'
 import { LocaleSwitcher } from '@/components/shared/LocaleSwitcher/LocaleSwitcher'
 import { useSession, signOut } from '@/lib/Auth/auth-clients'
 
@@ -36,6 +37,7 @@ export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+    const [areTransitionsEnabled, setAreTransitionsEnabled] = useState(false)
     const mobileMenuRef = useRef<HTMLDivElement | null>(null)
 
     const toggleMobileMenu = () => {
@@ -60,11 +62,41 @@ export default function Header() {
         }
     }, [isMobileMenuOpen])
 
+    // Seeded from the real offset on mount: the server always renders the
+    // unscrolled variant, so a reload at a restored scroll position (or a jump
+    // to one of the home page's `#section` anchors) would otherwise leave the
+    // header stuck in the wrong variant until the first scroll event.
     useEffect(() => {
-        const handleScroll = () => {
+        const syncScrolled = () => {
             setIsScrolled(window.scrollY > 10)
         }
 
+        syncScrolled()
+        window.addEventListener('scroll', syncScrolled, { passive: true })
+
+        return () => {
+            window.removeEventListener('scroll', syncScrolled)
+        }
+    }, [])
+
+    // That first sync can flip the header a whole state, so hold the 1s
+    // transition back until the correction has painted. Without this the
+    // header visibly morphs on arrival instead of rendering already-correct.
+    useEffect(() => {
+        let innerFrame = 0
+        const outerFrame = requestAnimationFrame(() => {
+            innerFrame = requestAnimationFrame(() => {
+                setAreTransitionsEnabled(true)
+            })
+        })
+
+        return () => {
+            cancelAnimationFrame(outerFrame)
+            cancelAnimationFrame(innerFrame)
+        }
+    }, [])
+
+    useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const mobileMenu = document.getElementById('mobile-menu')
 
@@ -77,11 +109,9 @@ export default function Header() {
             }
         }
 
-        window.addEventListener('scroll', handleScroll)
         document.addEventListener('mousedown', handleClickOutside)
 
         return () => {
-            window.removeEventListener('scroll', handleScroll)
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [isMobileMenuOpen])
@@ -92,35 +122,35 @@ export default function Header() {
         globalThis.location.href = '/'
     }
 
+    const transitionClasses = areTransitionsEnabled
+        ? 'transition-all duration-500 ease-out'
+        : ''
+
     return (
         <>
             <div
                 className={cn(
-                    `fixed left-1/2 top-0 z-20 -translate-x-1/2 items-center justify-center rounded-full transition-all duration-1000 ease-out`,
-                    isScrolled
-                        ? 'w-93 animate-rotate-border bg-conic/[from_var(--border-angle)] max-w-md translate-y-6 from-purple-800 from-80% via-red-600 via-90% to-purple-500 to-100% p-[2.5px] md:w-full md:max-w-3xl xl:max-w-6xl'
-                        : 'w-full max-w-full'
+                    styles.wrapperBase,
+                    transitionClasses,
+                    isScrolled ? styles.wrapperScrolled : styles.wrapperAtTop
                 )}
             >
                 <header
                     className={cn(
-                        `bg-gradient-noir flex h-16 w-full items-center justify-between md:h-16`,
-                        isScrolled
-                            ? 'rounded-full shadow-md backdrop-blur md:px-20'
-                            : 'border-b px-2 backdrop-blur md:px-40'
+                        styles.barBase,
+                        transitionClasses,
+                        isScrolled ? styles.barScrolled : styles.barAtTop
                     )}
                 >
                     <div
                         className={cn(
-                            'mx-auto flex w-full items-center justify-between gap-4',
+                            styles.barInner,
                             isScrolled ? 'px-4' : ''
                         )}
                     >
                         <div className="flex items-center gap-8">
                             <Link href="/" className="flex items-center">
-                                <span className="gradient-home-name font-gothic p-2 text-base font-bold italic text-transparent md:text-2xl">
-                                    ANI TRACK
-                                </span>
+                                <span className={styles.logo}>ANI TRACK</span>
                                 <span className="sr-only">{t('home')}</span>
                             </Link>
                         </div>
@@ -227,12 +257,18 @@ export default function Header() {
                         ))}
 
                         <li className="mt-2 border-t border-t-red-900 pt-3">
-                            <LocaleSwitcher />
+                            {/* Reads the locale uncached on routes that skip
+                                `setRequestLocale`, so it needs its own
+                                boundary. Deferring just this keeps the rest of
+                                the header in the initial shell. */}
+                            <Suspense fallback={null}>
+                                <LocaleSwitcher />
+                            </Suspense>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div aria-hidden="true" className="h-16 w-full" />
+            <div aria-hidden="true" className={styles.spacer} />
             {isMobileMenuOpen && (
                 <div
                     className="fixed inset-0 z-10 bg-slate-900/85 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"

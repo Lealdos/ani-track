@@ -106,6 +106,31 @@
     animation-delay: 400ms;
 }
 
+/* The header and footer are chrome: they have to stay put across a page
+   transition. Without a view-transition-name of their own they belong to the
+   root snapshot, so the rule above fades them out and back in together with
+   the page — including on the initial Suspense reveal, where there is no
+   outgoing page and the 400ms delay is simply a blank screen. Naming them
+   lifts them out of root; the pseudo-elements below then opt out of any
+   animation so the chrome never blinks. */
+.site-header-shell {
+    view-transition-name: site-header;
+}
+
+footer {
+    view-transition-name: site-footer;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(site-footer),
+::view-transition-old(site-header),
+::view-transition-new(site-header),
+::view-transition-old(site-footer),
+::view-transition-new(site-footer) {
+    animation: none;
+    opacity: 1;
+}
+
 @property --border-angle {
     syntax: '<angle>';
     inherits: false;

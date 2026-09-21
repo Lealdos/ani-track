@@ -7,6 +7,8 @@ import { useRouter } from '@/i18n/navigation'
 
 import { Search } from 'lucide-react'
 
+import * as styles from './headerClasses'
+
 export function SearchBar() {
     const t = useTranslations('SearchBar')
     const [query, setQuery] = useState('')
@@ -24,12 +26,12 @@ export function SearchBar() {
 
     return (
         <form onSubmit={handleSearch} className="w-full">
-            <div className="relative flex w-full items-center justify-center">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-200" />
+            <div className={styles.searchWrap}>
+                <Search className={styles.searchIcon} />
                 <input
                     type="search"
                     placeholder={t('placeholder')}
-                    className="h-10 w-full rounded-lg border border-b-red-500 border-l-red-500 border-r-red-700 border-t-red-700 bg-black/40 p-2 pl-10 pr-10 text-sm text-white placeholder:text-gray-400"
+                    className={styles.searchField}
                     value={query}
                     onChange={(searchEvent: {
                         target: { value: React.SetStateAction<string> }
