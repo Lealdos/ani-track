@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import dynamic from 'next/dynamic'
 import { Inter, Roboto_Mono, Dela_Gothic_One } from 'next/font/google'
 import './globals.css'
 import { ViewTransition, Suspense } from 'react'
@@ -11,9 +10,9 @@ import { setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { Toaster } from '@/components/ui/Sonner'
 import Footer from '@/components/shared/Footer/Footer'
+import Header from '@/components/shared/Header/Header'
+import { HeaderFallback } from '@/components/shared/Header/HeaderFallback'
 import Providers from '@/context/providers'
-
-const Header = dynamic(() => import('@/components/shared/Header/Header'))
 
 const inter = Inter({
     subsets: ['latin'],
@@ -74,15 +73,24 @@ export default async function RootLayout({
                 <NextIntlClientProvider>
                     <SpeedInsights />
                     <Toaster position="bottom-center" className="z-50" />
-                    <Suspense>
+                    <Suspense fallback={<HeaderFallback />}>
                         <Header />
-                        <Providers>
-                            <main className="flex w-full flex-1 flex-col">
-                                <ViewTransition>{children}</ViewTransition>
-                            </main>
-                        </Providers>
-                        <Footer />
                     </Suspense>
+                    <Providers>
+                        <main className="flex w-full flex-1 flex-col">
+                            <Suspense
+                                fallback={
+                                    <div
+                                        aria-hidden="true"
+                                        className="w-full flex-1"
+                                    />
+                                }
+                            >
+                                <ViewTransition>{children}</ViewTransition>
+                            </Suspense>
+                        </main>
+                    </Providers>
+                    <Footer />
                 </NextIntlClientProvider>
             </body>
         </html>
