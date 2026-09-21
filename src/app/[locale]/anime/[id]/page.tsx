@@ -13,6 +13,7 @@ import {
     CalendarDays,
     Trophy,
     Warehouse,
+    LetterTextIcon,
 } from 'lucide-react'
 import { StreamingPlatforms } from '@/app/[locale]/anime/[id]/_components/streamingPlatforms/StreamingPlatforms'
 import { EpisodesList } from '@/app/[locale]/anime/[id]/_components/EpisodeList/EpisodeList'
@@ -30,7 +31,7 @@ import type {
     AnimeRelation,
 } from '@/entities/anime/models'
 import { imgOf } from '@/entities/anime/models'
-import { formatDate, convertJSTToLocal } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 import { BackButton } from '@/components/shared/BackButton/BackButton'
 import { AddFavoritesButton } from '@/components/shared/AddToFavorites/AddToFavoritesListButton'
 import { CharactersList } from './_components/CharactersList/CharactersList'
@@ -255,12 +256,7 @@ export default async function AnimePage({
                                         <div className="flex flex-wrap items-center">
                                             <Clock className="mr-1 h-5 w-5 text-gray-300" />
                                             {t('broadcast')}{' '}
-                                            <span>
-                                                {anime.broadcast.string} /{' '}
-                                                {convertJSTToLocal(
-                                                    anime.broadcast.string
-                                                )}
-                                            </span>
+                                            {anime.broadcast.string}
                                         </div>
                                     )}
 
