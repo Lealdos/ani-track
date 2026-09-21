@@ -42,8 +42,13 @@ export function FilterAndStringifySearchParams(rawParams: searchParamsProps) {
     )
 }
 
-// Add this function at the top of the file, after imports
-export function convertJSTToLocal(broadcastString: string | undefined): string {
+// `now` is passed in on purpose: reading the clock here makes the value
+// unstable during prerendering, and the result depends on the viewer's
+// timezone, so it can only be computed on the client after mount.
+export function convertJSTToLocal(
+    broadcastString: string | undefined,
+    now: Date
+): string {
     if (!broadcastString) return 'Unknown time'
 
     // Parse the broadcast string (e.g., "Saturdays at 23:45 (JST)")
@@ -53,9 +58,6 @@ export function convertJSTToLocal(broadcastString: string | undefined): string {
     const [_, , hourStr, minuteStr] = match
     const hour = Number.parseInt(hourStr, 10)
     const minute = Number.parseInt(minuteStr, 10)
-
-    // Get current date
-    const now = new Date()
 
     // Create a date string in JST timezone (UTC+9)
     const jstDateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00+09:00`
