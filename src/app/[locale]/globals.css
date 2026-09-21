@@ -106,6 +106,14 @@
     animation-delay: 400ms;
 }
 
+/* The 400ms above exists to let the outgoing page slide out first. On the
+   very first load there is no outgoing page, so the new snapshot is the only
+   child of its image pair — and that wait is just a black screen. Start it
+   immediately in that case; the slide-in itself is unchanged. */
+::view-transition-new(root):only-child {
+    animation-delay: 0s;
+}
+
 /* The header and footer are chrome: they have to stay put across a page
    transition. Without a view-transition-name of their own they belong to the
    root snapshot, so the rule above fades them out and back in together with
@@ -122,13 +130,28 @@ footer {
 }
 
 ::view-transition-group(site-header),
-::view-transition-group(site-footer),
+::view-transition-group(site-footer) {
+    animation: none;
+}
+
+/* The image pair cross-fades by default, which needs both snapshots painted.
+   Drop the outgoing one instead: keeping it visible stacked the old pill on
+   top of the new bar whenever navigation reset the scroll position. */
+::view-transition-image-pair(site-header),
+::view-transition-image-pair(site-footer) {
+    isolation: auto;
+}
+
 ::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+    display: none;
+}
+
 ::view-transition-new(site-header),
-::view-transition-old(site-footer),
 ::view-transition-new(site-footer) {
     animation: none;
     opacity: 1;
+    mix-blend-mode: normal;
 }
 
 @property --border-angle {
