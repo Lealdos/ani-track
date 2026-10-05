@@ -67,6 +67,12 @@
             "sunday": "Sunday"
         }
     },
+    "RecentEpisodes": {
+        "title": "Latest Episodes",
+        "episodeShort": "Ep {number}",
+        "source": "via {name}",
+        "error": "Couldn't load the latest episodes"
+    },
     "Browse": {
         "title": "Browse animes",
         "noResults": "No animes found with that query: {query}"

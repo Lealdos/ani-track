@@ -67,6 +67,12 @@
             "sunday": "Domingo"
         }
     },
+    "RecentEpisodes": {
+        "title": "Episodios recientes",
+        "episodeShort": "Ep {number}",
+        "source": "vía {name}",
+        "error": "No se pudieron cargar los episodios recientes"
+    },
     "Browse": {
         "title": "Explorar animes",
         "noResults": "No se encontraron animes con esa búsqueda: {query}"
