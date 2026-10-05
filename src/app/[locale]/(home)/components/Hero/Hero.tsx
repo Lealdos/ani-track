@@ -8,7 +8,7 @@ import { SectionHeader } from '@/components/shared/SectionHeader/SectionHeader'
 function Hero() {
     const t = useTranslations('Hero')
     return (
-        <section className="f-full relative -top-10 w-full">
+        <section className="f-full relative w-full">
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10" />
             <div className="relative flex h-screen w-full flex-col items-center justify-evenly rounded-lg p-4">
                 <Image
