@@ -9,6 +9,7 @@ import { TopAnime } from '@/app/[locale]/(home)/components/topAnime/TopAnime'
 import { AnimeByGenre } from '@/app/[locale]/(home)/components/GenreAnime'
 import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 import { EpisodeSchedule } from '@/app/[locale]/(home)/components/EpisodeSchedule/EpisodeSchedule'
+import { RecentEpisodes } from '@/app/[locale]/(home)/components/RecentEpisodes/RecentEpisodes'
 import { animeRepository } from '@/entities/anime/api'
 
 import { Hero } from './components/Hero/Hero'
@@ -75,6 +76,10 @@ export default async function Home({
                         <Heart className="h-6 w-6 fill-red-600 text-red-600" />
                     </h2>
                     <FavoritesAccordion />
+                </section>
+
+                <section className="mb-12" id="recent-episodes">
+                    <RecentEpisodes />
                 </section>
 
                 <section className="mb-12" id="schedule">
