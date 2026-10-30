@@ -9,9 +9,8 @@ import {
     getRecentEpisodesSource,
     type RecentEpisode,
 } from '@/entities/recent-episodes/models'
+import { AnimeListSkeleton } from '@/components/shared/SkeletonCard/AnimeSkeletonList'
 import { RecentEpisodeCard } from './RecentEpisodeCard'
-import { RecentEpisodesSkeleton } from './RecentEpisodesSkeleton'
-import { RECENT_EPISODES_GRID } from './recentEpisodesGrid'
 
 // Keyed by locale so switching language shows the skeleton again without
 // having to reset state inside the effect.
@@ -65,14 +64,14 @@ export function RecentEpisodes(): React.ReactElement {
             </div>
 
             {isLoading ? (
-                <RecentEpisodesSkeleton
-                    imageAspect={source.imageAspect}
+                <AnimeListSkeleton
+                    sectionName="recent-episodes"
                     skeletonItemCount={source.pageSize}
                 />
             ) : result.episodes === null ? (
                 <p className="text-muted-foreground text-sm">{t('error')}</p>
             ) : (
-                <ul className={RECENT_EPISODES_GRID[source.imageAspect]}>
+                <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                     {result.episodes.map((episode) => (
                         <li key={episode.id}>
                             <RecentEpisodeCard episode={episode} now={now} />

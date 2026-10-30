@@ -51,9 +51,8 @@ function toRecentEpisode(episode: AnimeAv1Episode): RecentEpisode {
         titleAlt: null,
         episode: episode.number,
         url: `${ANIMEAV1_BASE_URL}/media/${episode.media.slug}/${episode.number}`,
-        // The site builds the thumbnail from the media id, the payload has no image field.
-        image: `${ANIMEAV1_CDN_URL}/thumbnails/${episode.media.id}.jpg`,
-        imageAspect: 'landscape',
+        // The site builds the poster from the media id, the payload has no image field.
+        image: `${ANIMEAV1_CDN_URL}/covers/${episode.media.id}.jpg`,
         publishedAt: toIsoDate(episode.publishedAt),
         type: null,
     }

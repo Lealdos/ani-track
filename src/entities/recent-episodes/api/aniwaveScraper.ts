@@ -61,7 +61,6 @@ export async function fetchAniwaveLatestEpisodes(
             episode,
             url: episode ? `${seriesUrl}/ep-${episode}` : seriesUrl,
             image: item.find('.poster img').attr('src') || '/placeholder.svg',
-            imageAspect: 'portrait',
             publishedAt: null,
             type:
                 item.find('.poster .meta .right').first().text().trim() || null,

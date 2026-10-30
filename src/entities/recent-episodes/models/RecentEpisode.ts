@@ -12,9 +12,8 @@ export interface RecentEpisode {
     episode: number | null
     /** Absolute URL to the episode on the source site. */
     url: string
+    /** Portrait poster, both sources share the same card layout. */
     image: string
-    /** AnimeAV1 thumbnails are 16:9 backdrops, AniWave uses portrait posters. */
-    imageAspect: 'landscape' | 'portrait'
     /** ISO date, AnimeAV1 only. */
     publishedAt: string | null
     /** TV / ONA / ..., AniWave only. */
@@ -23,13 +22,12 @@ export interface RecentEpisode {
 
 /** Display info per source, safe to use on the client. */
 export const RECENT_EPISODES_SOURCES = {
-    animeav1: { name: 'AnimeAV1', imageAspect: 'landscape', pageSize: 20 },
-    aniwave: { name: 'AniWave', imageAspect: 'portrait', pageSize: 12 },
+    animeav1: { name: 'AnimeAV1', pageSize: 20 },
+    aniwave: { name: 'AniWave', pageSize: 12 },
 } as const satisfies Record<
     RecentEpisodeSource,
     {
         name: string
-        imageAspect: RecentEpisode['imageAspect']
         pageSize: number
     }
 >
